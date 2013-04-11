@@ -6,6 +6,7 @@
   <meta name="viewport"
         content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
   <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.3.0.css"/>
+  <link rel="stylesheet" type="text/css" href="css/jqm-icon-pack-3.0.0-fa.css"/>
   <title>Semantic Search</title>
   <style>
     .wrapper {
@@ -99,12 +100,18 @@
 
 <div id="homepage" data-role="page">
 
+  <div data-role="panel" id="mypanel" data-position="left" data-display="reveal">
+    Panel text
+  </div>
+
   <div data-role="header" class="ui-bar-b" data-position="fixed" data-tap-toggle="false">
-    <a href="#popupMenu" data-rel="popup" data-role="button" data-inline="true"
-      data-transition="fade" data-icon="gear">Actions</a>
+    <a href="#mypanel" data-role="button" data-inline="true"
+      data-icon="reorder" data-iconpos="notext"></a>
 
     <h1>Semantica</h1>
-    <a href="#upload">Upload</a>
+    <a href="#upload" data-icon="cloud-upload" data-iconpos="left" data-mini="true"
+      data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true"
+      data-wrapperels="span">Upload</a>
   </div>
 
   <div data-role="popup" id="popupMenu" data-theme="d">
@@ -169,10 +176,10 @@
   <div data-role="footer" data-id="files" data-position="fixed" data-tap-toggle="false">
     <div data-role="navbar">
       <ul>
-        <li><a href="#homepage" class="ui-btn-active" data-icon="search" data-transition="slide"></a></li>
-        <li><a href="#" data-icon="grid"></a></li>
-        <li><a href="#" data-icon="star"></a></li>
-        <li><a href="#" data-icon="gear"></a></li>
+        <li><a href="#homepage" class="ui-btn-active" data-icon="file-alt" data-transition="slide">Files</a></li>
+        <li><a href="#" data-icon="fasearch">Search</a></li>
+        <li><a href="#" data-icon="fastar">Starred</a></li>
+        <li><a href="#" data-icon="cog">Settings</a></li>
       </ul>
     </div>
   </div>

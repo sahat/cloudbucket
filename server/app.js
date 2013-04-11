@@ -30,7 +30,7 @@ var schema = require('./schema');
 
 
 // save.pre handlers
-
+// update elasticsearch index
 
 // TODO: ElasticSearch hosting and mongolab create a database
 
@@ -72,7 +72,7 @@ app.get('/search', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-
+  // get post data
 });
 
 app.post('/signup', function(req, res) {
@@ -82,29 +82,32 @@ app.post('/signup', function(req, res) {
 
 // Create a new file for a specified user
 app.post('/:user/files', function(req, res) {
-
+  var user = req.params.user;
 
 });
 
 // Delete all files for a specified user
 // Useful when a user is no longer active or has been banned
 app.del('/:user/files', function(req, res) {
-
+  var user = req.params.user;
 });
 
 // Update all files for a specified user
 app.put('/:user/files', function(req, res) {
+  var user = req.params.user;
 
 });
 
 // Update a given file for specified user
 app.put('/:user/files/:id', function(req, res) {
-
+  var user = req.params.user;
+  var fileId = req.params.id;
 });
 
-app.del('/file/:id', function(req, res) {
+// Delete a given file for a specified user
+app.del('/:user/files/:id', function(req, res) {
+  var user = req.params.user;
   var fileId = req.params.id;
-
 
 
 });
