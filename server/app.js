@@ -14,6 +14,7 @@ var mongoose = require('mongoose');
 var mongoosastic = require('mongoosastic');
 var request = require('request');
 var async = require('async');
+var passport = require('passport');
 // dropbox api
 // zeromq
 // hadoop mapreduce
@@ -108,7 +109,6 @@ app.put('/:user/files/:id', function(req, res) {
 app.del('/:user/files/:id', function(req, res) {
   var user = req.params.user;
   var fileId = req.params.id;
-
 
 });
 
