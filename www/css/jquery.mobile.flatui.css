@@ -143,8 +143,14 @@
 .ui-btn-down-a{border:1px solid #4e6d8d;background:#4e6d8d;font-weight:bold;color:#fff;}
 .ui-btn-down-a:visited,.ui-btn-down-a:hover,.ui-btn-down-a a.ui-link-inherit{color:#fff}
 .ui-btn-up-a,.ui-btn-hover-a,.ui-btn-down-a{font-family:Lato,sans-serif;text-decoration:none}
-.ui-bar-a .ui-btn-up-a,.ui-bar-a .ui-btn-down-a,.ui-bar-a .ui-btn-hover-a{background-color:#2c3e50;border:1px solid #2c3e50}
-
+.ui-bar-a .ui-btn-up-a,.ui-bar-a, .ui-bar-a {
+  background-color:#2c3e50;
+  border:1px solid #2c3e50
+}
+.ui-btn-down-a, .ui-btn-hover-a {
+  border:1px solid #4e6d8d;
+  background:#4e6d8d;
+}
 .ui-bar-b{border:1px solid #16a085;background:#16a085;color:#fff;font-weight:bold;font-family:Lato,sans-serif;}
 .ui-bar-b .ui-link-inherit{color:#3e3e3e}
 .ui-bar-b a.ui-link{color:#7cc4e7;font-weight:bold;}
@@ -292,8 +298,8 @@
 /* Active class used as the "on" state across all themes
 -----------------------------------------------------------------------------------------------------------*/
 .ui-btn-active {
-	border: 1px solid 		#1abc9c /*{global-active-border}*/;
-	background: 			#1abc9c /*{global-active-background-color}*/;
+	border: 1px solid 		#4e6d8d /*{global-active-border}*/;
+	background: 			#4e6d8d /*{global-active-background-color}*/;
 	font-weight: bold;
 	color: 					#ffffff /*{global-active-color}*/;
 	cursor: pointer;

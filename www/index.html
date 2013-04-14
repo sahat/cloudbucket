@@ -59,6 +59,10 @@
       padding-left: 60px;
     }
 
+    #left-panel {
+      background: #2c3e50;
+    }
+
   </style>
 </head>
 <body>
@@ -98,16 +102,14 @@
 </div>
 
 <div id="homepage" data-role="page">
-  <div data-role="panel" id="mypanel" data-position="left" data-display="reveal">
-    <ul data-role="listview" data-theme="a">
-      <li><a href="#newfolder">New Folder</a></li>
-      <li><a href="#newfile">New File</a></li>
-      <li><a href="#edit">Edit</a></li>
-      <li><a href="#delete">Delete</a></li>
-    </ul>
+  <div data-role="panel" id="left-panel" data-position="left" data-display="reveal">
+    <a href="#" data-role="button" data-theme="b">New File</a>
+    <a href="#" data-role="button" data-theme="d">Remove File</a>
+    <a href="#" data-role="button" data-theme="f">Upload from Dropbox</a>
+    <a href="#login" data-role="button" data-theme="c">Logout</a>
   </div>
   <div data-role="header" data-id="header" data-position="fixed" data-tap-toggle="false">
-    <a href="#mypanel" data-role="button" data-inline="true"
+    <a href="#left-panel" data-role="button" data-inline="true"
       data-icon="flat-menu" data-iconpos="notext"></a>
     <h1>Semantica</h1>
     <a href="#upload" data-role="button" data-icon="flat-plus" data-iconpos="notext"></a>
@@ -164,10 +166,10 @@
   <div data-role="footer" data-id="footer" data-position="fixed" data-tap-toggle="false">
     <div data-role="navbar">
       <ul>
-        <li><a href="#homepage" class="ui-btn-active ui-state-persist" data-icon="flat-calendar">Files</a></li>
-        <li><a href="#" data-icon="flat-eye">Search</a></li>
-        <li><a href="#" data-icon="flat-heart">Starred</a></li>
-        <li><a href="#settings" class="ui-btn-active ui-state-persist" data-icon="flat-settings">Settings</a></li>
+        <li><a href="#homepage" class="ui-state-persist" data-transition="none" data-icon="flat-calendar">Files</a></li>
+        <li><a href="#search" class="ui-state-persist" data-icon="flat-eye">Search</a></li>
+        <li><a href="#starred" class="ui-state-persist" data-icon="flat-heart">Starred</a></li>
+        <li><a href="#settings" class="ui-state-persist" data-transition="none" data-icon="flat-settings">Settings</a></li>
       </ul>
     </div>
   </div>
@@ -182,29 +184,24 @@
 </div>
 
 <div id="settings" data-role="page">
-   <div data-role="header" class="ui-bar-a" data-position="fixed" data-tap-toggle="false">
-        <a href="#mypanel" data-role="button" data-inline="true"
-            data-icon="flat-menu" data-iconpos="notext"></a>
-
-        <h1>Semantica</h1>
-        <a href="#upload" data-role="button" data-icon="flat-plus" data-mini="true"
-            data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true"
-            data-wrapperels="span">Upload</a>
+ <div data-role="header" data-id="header" data-position="fixed" data-tap-toggle="false">
+    <a href="#mypanel" data-role="button" data-inline="true"
+        data-icon="flat-menu" data-iconpos="notext"></a>
+    <h1>Semantica</h1>
+    <a href="#upload" data-role="button" data-icon="flat-plus" data-mini="true"
+        data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true"
+        data-wrapperels="span">Upload</a>
+  </div>
+  <div data-role="footer" data-id="footer" data-position="fixed" data-tap-toggle="false">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#homepage" class="ui-state-persist" data-transition="none" data-icon="flat-calendar">Files</a></li>
+        <li><a href="#search" data-icon="flat-eye">Search</a></li>
+        <li><a href="#starred" data-icon="flat-heart">Starred</a></li>
+        <li><a href="#settings" class="ui-state-persist" data-icon="flat-settings">Settings</a></li>
+      </ul>
     </div>
-
-
-    <div data-role="footer" data-id="footer" data-position="fixed" data-tap-toggle="false">
-        <div data-role="navbar">
-            <ul>
-                <li><a href="#homepage" data-icon="file-alt" data-transition="slide">Files</a></li>
-                <li><a href="#search" data-icon="fasearch">Search</a></li>
-                <li><a href="#starred" data-icon="fastar">Starred</a></li>
-                <li><a href="#settings" class="ui-btn-active"
-                    data-icon="cog">Settings</a></li>
-            </ul>
-        </div>
-    </div>
-
+  </div>
   <p>Settings</p>
 </div>
 <script type="text/javascript" src="cordova-2.6.0.js"></script>

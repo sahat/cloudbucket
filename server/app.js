@@ -16,9 +16,7 @@ var request = require('request');
 var async = require('async');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-// dropbox api
-// zeromq
-// hadoop mapreduce
+var dropbox = require('dropbox');
 var emailjs = require('emailjs');
 
 /**
@@ -36,7 +34,8 @@ var schema = require('./schema');
 
 // TODO: ElasticSearch hosting and mongolab create a database
 
-mongoose.connect('localhost');
+// MongoLab Free Tier (0.5 GB) Instance
+mongoose.connect('mongodb://sahat:sahat@ds051437.mongolab.com:51437/semanticweb');
 
 
 var User = mongoose.model('User', schema.user);
@@ -95,9 +94,24 @@ app.post('/:user/files', function(req, res) {
   // express post file transfer
   // mongo save to gridfs
   var file = new File({
+    name: req.body.name,
+    filetype: req.body.filetype,
+    size: req.body.size,
+    path: req.body.path,
+    lastAccessed: req.body.lastAccessed,
+    lastModified: req.body.lastModified
+  });
+
+  // NLP analysis on file to generate keywords
+  var myArr = [];
+  file.keywords.push(myArr);
+
+  // nltk analysis to generate summary
+  file.summary = '';
+
+  file.save(function(err) {
 
   });
-  // 
 });
 
 // Delete all files for a specified user

@@ -8,7 +8,7 @@ exports.file = new mongoose.Schema({
   name: String,
   filetype: String,
   size: Number,
-  location: String,
+  path: String,
   lastAccessed: Date,
   lastModified: Date,
   keywords: [String],
