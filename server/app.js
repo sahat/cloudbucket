@@ -15,6 +15,7 @@ var mongoosastic = require('mongoosastic');
 var request = require('request');
 var async = require('async');
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 // dropbox api
 // zeromq
 // hadoop mapreduce
@@ -53,6 +54,7 @@ app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
+app.use(passport.initialize());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -72,9 +74,15 @@ app.get('/search', function(req, res) {
   });
 });
 
-app.post('/login', function(req, res) {
-  // get post data
-});
+app.post('/login',
+  passport.authenticate('local', {
+    session: false,
+    successRedirect: '/',
+    failureRedirect: '/login',
+    successFlash: 'Welcome!',
+    failureFlash: true
+  })
+);
 
 app.post('/signup', function(req, res) {
 
@@ -84,7 +92,12 @@ app.post('/signup', function(req, res) {
 // Create a new file for a specified user
 app.post('/:user/files', function(req, res) {
   var user = req.params.user;
+  // express post file transfer
+  // mongo save to gridfs
+  var file = new File({
 
+  });
+  // 
 });
 
 // Delete all files for a specified user

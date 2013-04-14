@@ -6198,7 +6198,7 @@ $.widget( "mobile.listview", $.mobile.widget, {
 		theme: null,
 		countTheme: "c",
 		headerTheme: "b",
-		dividerTheme: "b",
+		dividerTheme: "f",
 		icon: "arrow-r",
 		splitIcon: "arrow-r",
 		splitTheme: "b",

@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 // file schema
 exports.file = new mongoose.Schema({
   name: String,
-  type: String,
+  filetype: String,
   size: Number,
   location: String,
   lastAccessed: Date,

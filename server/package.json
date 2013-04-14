@@ -12,6 +12,7 @@
     "mongoosastic": "*",
     "async": "*",
     "request": "*",
-    "emailjs": "*"
+    "emailjs": "*",
+    "passport": "*"
   }
 }
