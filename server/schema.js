@@ -2,8 +2,9 @@
  * Mongoose Schema for MongoDB
  */
 var mongoose = require('mongoose');
+var mongoosastic = require('mongoosastic');
 
-// file schema
+// File schema
 exports.file = new mongoose.Schema({
   name: String,
   filetype: String,
@@ -13,15 +14,12 @@ exports.file = new mongoose.Schema({
   lastModified: Date,
   keywords: [String],
   summary: String
-});
+}).plugin(mongoosastic);
 
-// user schema
+// User schema
 exports.user = new mongoose.Schema({
-  userName: { type: String, required: true, index: { unique: true } },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  fullName: { type: String, required: true },
   email: { type: String, required: true },
-  joinedOn: { type: Date, default: Date.now() },
-  publicKey: String
+  password: { type: String, required: true },
+  joinedOn: { type: Date, default: Date.now() }
 });
-

@@ -7,6 +7,7 @@
 
 // Node & NPM Module Dependencies
 var express = require('express');
+var flash = require('connect-flash');
 var http = require('http');
 var path = require('path');
 var fs = require('fs'); // python scripts
@@ -26,7 +27,6 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var schema = require('./schema');
 
-// google+ oauth
 
 
 // save.pre handlers
@@ -41,8 +41,20 @@ mongoose.connect('mongodb://sahat:sahat@ds051437.mongolab.com:51437/semanticweb'
 var User = mongoose.model('User', schema.user);
 var File = mongoose.model('File', schema.file);
 
-// All fields of File model will be indexed by elasticsearch
-File.plugin(mongoosastic);
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 var app = express();
 
@@ -53,6 +65,9 @@ app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
+app.use(express.cookieParser('keyboard cat'));
+app.use(express.session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 app.use(passport.initialize());
 app.use(express.methodOverride());
 app.use(app.router);
@@ -63,7 +78,17 @@ if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+
+
+app.get('/flash', function(req, res){
+  req.flash('info', 'Flash is back!')
+  res.redirect('/');
+});
+
+app.get('/', function(req, res){
+  res.render('index', { messages: req.flash('info') });
+});
+
 app.get('/users', user.list);
 app.get('/search', function(req, res) {
   request('localhost:9200', function(error, response, body) {
@@ -75,15 +100,23 @@ app.get('/search', function(req, res) {
 
 app.post('/login',
   passport.authenticate('local', {
-    session: false,
-    successRedirect: '/',
+    successRedirect: '/#homepage',
     failureRedirect: '/login',
-    successFlash: 'Welcome!',
     failureFlash: true
   })
 );
 
 app.post('/signup', function(req, res) {
+  var user = new User({
+    fullName: req.body.name,
+    email: req.body.email,
+    password: req.body.password
+  });
+
+  user.save(function (err) {
+    if (err) // ...
+      console.log('meow');
+  });
 
 });
 

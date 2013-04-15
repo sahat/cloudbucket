@@ -70,11 +70,13 @@
 <div id="login" data-role="page">
   <div class="wrapper">
     <h1 class="title">Semantica</h1>
-    <input type="text" name="email" id="email" placeholder="Email">
-    <input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
-    <fieldset class="ui-grid-solo">
-      <div><a href="#homepage" data-role="button" data-transition="slide">Log In</a></div>
-    </fieldset>
+
+    <form action="http://localhost:3000/login" method="POST">
+      <input type="email" name="email" id="email" placeholder="Email" required>
+      <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required>
+      <input type="submit" data-role="button" data-transition="none" value="Login">
+    </form>
+
     <div data-position="fixed">
       <div class="signup text-center"><span class="muted"> Don't have an account?</span> <strong><a href="#signup">Sign up now.</a></strong></div>
     </div>
@@ -88,7 +90,7 @@
     <h1>Sign Up</h1>
   </div>
   <div data-role="content">
-    <form>
+    <form action="http://localhost:3000/login" method="POST">
       <div class="ui-grid-solo">
         <div class="ui-block-a"><input type="text" name="name" id="name" placeholder="Full Name" /></div>
         <div class="ui-block-a"><input type="email" name="signup-email" id="signup-email" placeholder="Email" /></div>
