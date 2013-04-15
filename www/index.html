@@ -64,6 +64,7 @@
     }
 
   </style>
+
 </head>
 <body>
 
@@ -90,12 +91,12 @@
     <h1>Sign Up</h1>
   </div>
   <div data-role="content">
-    <form action="http://localhost:3000/login" method="POST">
+    <form>
       <div class="ui-grid-solo">
-        <div class="ui-block-a"><input type="text" name="name" id="name" placeholder="Full Name" /></div>
-        <div class="ui-block-a"><input type="email" name="signup-email" id="signup-email" placeholder="Email" /></div>
-        <div class="ui-block-a"><input type="password" name="signup-password" id="signup-password" placeholder="Password" /></div>
-        <div class="ui-block-a"><a href="#homepage" data-role="button" data-theme="b" data-transition="flip">Sign Up</a></div>
+        <div class="ui-block-a"><input type="text" name="signup_name" id="signup_name" placeholder="Full Name" required></div>
+        <div class="ui-block-a"><input type="email" name="signup_email" id="signup_email" placeholder="Email" required></div>
+        <div class="ui-block-a"><input type="password" name="signup_password" id="signup_password" placeholder="Password" required></div>
+        <div class="ui-block-a"><button id="signup-btn" data-theme="b" data-transition="none" value="Sign Up"></button></div>
         <div class="ui-block-a">By tapping "Sign Up" above, you are agreeing to the <strong>Terms of Service</strong> and <strong>Privacy Policy</strong>.</div>
       </div>
     </form>
@@ -212,6 +213,25 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
   app.initialize();
+</script>
+<script type="text/javascript">
+  $.support.cors = true;
+  $(function() {
+    $('#signup-btn').click(function(event) {
+      $.ajax({
+        type: 'POST',
+        url: 'http://semanticweb.aws.af.cm/signup',
+        data: {
+          name: $('#signup_name').val(),
+          email: $('#signup_email').val(),
+          password: $('#signup_password').val()
+        },
+        success: function(data, status){
+          $.mobile.navigate("#homepage");
+        }
+      });
+    });
+  });
 </script>
 </body>
 </html>

@@ -41,6 +41,20 @@ mongoose.connect('mongodb://sahat:sahat@ds051437.mongolab.com:51437/semanticweb'
 var User = mongoose.model('User', schema.user);
 var File = mongoose.model('File', schema.file);
 
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+  // intercept OPTIONS method
+  if ('OPTIONS' == req.method) {
+    res.send(200);
+  }
+  else {
+    next();
+  }
+};
+
 passport.use(new LocalStrategy(
   function(username, password, done) {
     User.findOne({ username: username }, function (err, user) {
@@ -62,6 +76,7 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.use(allowCrossDomain);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -114,10 +129,14 @@ app.post('/signup', function(req, res) {
   });
 
   user.save(function (err) {
-    if (err) // ...
-      console.log('meow');
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('User has been successfully created')
+    }
   });
 
+  res.end();
 });
 
 

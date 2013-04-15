@@ -15,7 +15,8 @@ bindEvents: function() {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
 onDeviceReady: function() {
-    app.receivedEvent('deviceready');
+  app.receivedEvent('deviceready');
+
 },
     // Update DOM on a Received Event
 receivedEvent: function(id) {
@@ -29,3 +30,5 @@ receivedEvent: function(id) {
     console.log('Received Event: ' + id);
 }
 };
+
+
