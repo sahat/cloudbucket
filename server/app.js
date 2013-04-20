@@ -27,7 +27,7 @@ mongoose.connect('mongodb://sahat:sahat@ds051437.mongolab.com:51437/semanticweb'
 var User = mongoose.model('User', schema.user);
 var File = mongoose.model('File', schema.file);
 
-/*
+
 var allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -40,7 +40,7 @@ var allowCrossDomain = function(req, res, next) {
     next();
   }
 };
-*/
+
 var app = express();
 
 
