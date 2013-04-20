@@ -16,6 +16,12 @@ bindEvents: function() {
     // function, we must explicity call 'app.receivedEvent(...);'
 onDeviceReady: function() {
   app.receivedEvent('deviceready');
+    var ref = window.open('http://apache.org', '_blank', 'location=yes');
+    ref.addEventListener('loadstart', function() { alert('start: ' + event.url); });
+    ref.addEventListener('loadstop', function() { alert('stop: ' + event.url); });
+    ref.addEventListener('exit', function() { alert(event.type); });
+}
+
 
 },
     // Update DOM on a Received Event

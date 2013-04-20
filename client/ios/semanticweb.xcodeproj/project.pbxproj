@@ -473,6 +473,13 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/../../../Downloads/facebook-ios-sdk-sdk-version-3.1.1/build\"",
+					"\"$(SRCROOT)/../../../.Trash\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -481,8 +488,24 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "semanticweb/semanticweb-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-weak_framework",
+					CoreFoundation,
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak-lSystem",
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = semanticweb;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -494,14 +517,37 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/../../../Downloads/facebook-ios-sdk-sdk-version-3.1.1/build\"",
+					"\"$(SRCROOT)/../../../.Trash\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "semanticweb/semanticweb-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "semanticweb/semanticweb-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-weak_framework",
+					CoreFoundation,
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak-lSystem",
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = semanticweb;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -527,6 +573,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
 					"-weak_framework",
 					CoreFoundation,
 					"-weak_framework",
@@ -567,6 +615,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
+					"-lsqlite3.0",
+					"-ObjC",
 					"-weak_framework",
 					CoreFoundation,
 					"-weak_framework",

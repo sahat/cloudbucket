@@ -1,0 +1,69 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'everyauth' ]
+2 info using npm@1.2.18
+3 info using node@v0.10.4
+4 verbose read json /Users/sahat/semanticweb/server/package.json
+5 warn package.json semantica@0.1.0 No README.md file found!
+6 verbose read json /Users/sahat/semanticweb/server/node_modules/async/package.json
+7 verbose read json /Users/sahat/semanticweb/server/node_modules/connect-flash/package.json
+8 verbose read json /Users/sahat/semanticweb/server/node_modules/dropbox/package.json
+9 verbose read json /Users/sahat/semanticweb/server/node_modules/emailjs/package.json
+10 verbose read json /Users/sahat/semanticweb/server/node_modules/everyauth/package.json
+11 verbose read json /Users/sahat/semanticweb/server/node_modules/express/package.json
+12 verbose read json /Users/sahat/semanticweb/server/node_modules/jade/package.json
+13 verbose read json /Users/sahat/semanticweb/server/node_modules/mongoosastic/package.json
+14 verbose read json /Users/sahat/semanticweb/server/node_modules/mongoose/package.json
+15 verbose read json /Users/sahat/semanticweb/server/node_modules/passport/package.json
+16 verbose read json /Users/sahat/semanticweb/server/node_modules/passport-facebook/package.json
+17 verbose read json /Users/sahat/semanticweb/server/node_modules/passport-local/package.json
+18 verbose read json /Users/sahat/semanticweb/server/node_modules/request/package.json
+19 verbose from cache /Users/sahat/semanticweb/server/package.json
+20 verbose readDependencies using package.json deps
+21 verbose cache add [ 'everyauth@*', null ]
+22 verbose cache add name=undefined spec="everyauth@*" args=["everyauth@*",null]
+23 verbose parsed url { protocol: null,
+23 verbose parsed url   slashes: null,
+23 verbose parsed url   auth: null,
+23 verbose parsed url   host: null,
+23 verbose parsed url   port: null,
+23 verbose parsed url   hostname: null,
+23 verbose parsed url   hash: null,
+23 verbose parsed url   search: null,
+23 verbose parsed url   query: null,
+23 verbose parsed url   pathname: 'everyauth@*',
+23 verbose parsed url   path: 'everyauth@*',
+23 verbose parsed url   href: 'everyauth@*' }
+24 verbose cache add name="everyauth" spec="*" args=["everyauth","*"]
+25 verbose parsed url { protocol: null,
+25 verbose parsed url   slashes: null,
+25 verbose parsed url   auth: null,
+25 verbose parsed url   host: null,
+25 verbose parsed url   port: null,
+25 verbose parsed url   hostname: null,
+25 verbose parsed url   hash: null,
+25 verbose parsed url   search: null,
+25 verbose parsed url   query: null,
+25 verbose parsed url   pathname: '*',
+25 verbose parsed url   path: '*',
+25 verbose parsed url   href: '*' }
+26 verbose addNamed [ 'everyauth', '*' ]
+27 verbose addNamed [ null, '' ]
+28 silly lockFile e7bf6ab6-everyauth everyauth@*
+29 verbose lock everyauth@* /Users/sahat/.npm/e7bf6ab6-everyauth.lock
+30 silly lockFile e7bf6ab6-everyauth everyauth@*
+31 error Error: EACCES, open '/Users/sahat/.npm/e7bf6ab6-everyauth.lock'
+31 error  { [Error: EACCES, open '/Users/sahat/.npm/e7bf6ab6-everyauth.lock']
+31 error   errno: 3,
+31 error   code: 'EACCES',
+31 error   path: '/Users/sahat/.npm/e7bf6ab6-everyauth.lock' }
+32 error Please try running this command again as root/Administrator.
+33 error System Darwin 12.3.0
+34 error command "node" "/usr/local/bin/npm" "install" "everyauth"
+35 error cwd /Users/sahat/semanticweb/server
+36 error node -v v0.10.4
+37 error npm -v 1.2.18
+38 error path /Users/sahat/.npm/e7bf6ab6-everyauth.lock
+39 error code EACCES
+40 error errno 3
+41 error stack Error: EACCES, open '/Users/sahat/.npm/e7bf6ab6-everyauth.lock'
+42 verbose exit [ 3, true ]

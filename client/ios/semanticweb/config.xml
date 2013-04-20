@@ -60,5 +60,5 @@
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
     </plugins>
 
-    <access origin="semanticweb.aws.af.cm" />
+    <access origin="*" />
 </widget>
