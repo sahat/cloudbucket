@@ -1,6 +1,6 @@
 {
   "name": "semantica",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -15,6 +15,7 @@
     "emailjs": "*",
     "passport": "*",
     "passport-local": "*",
-    "connect-flash": "*"
+    "connect-flash": "*",
+    "dropbox": "*"
   }
 }

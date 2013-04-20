@@ -18,12 +18,9 @@ var async = require('async'),
     path = require('path'),
     request = require('request');
 
-/**
- * My Modules
- */
-var routes = require('./routes');
-var user = require('./routes/user');
-var schema = require('./schema');
+var routes = require('./routes'),
+    schema = require('./schema'),
+    user = require('./routes/user');
 
 
 
