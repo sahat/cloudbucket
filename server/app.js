@@ -4,21 +4,19 @@
  * @contributors: Emilie Chen, Hannah PyCon
  * @date May 5, 2013
  */
-
-// Node & NPM Module Dependencies
-var express = require('express');
-var flash = require('connect-flash');
-var http = require('http');
-var path = require('path');
-var fs = require('fs'); // python scripts
-var mongoose = require('mongoose');
-var mongoosastic = require('mongoosastic');
-var request = require('request');
-var async = require('async');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var dropbox = require('dropbox');
-var emailjs = require('emailjs');
+var async = require('async'),
+    email = require('emailjs'),
+    express = require('express'),
+    Dropbox = require('dropbox'),
+    http = require('http'),
+    flash = require('connect-flash'),
+    fs = require('fs'),
+    LocalStrategy = require('passport-local').Strategy,
+    mongoose = require('mongoose'),
+    mongoosastic = require('mongoosastic'),
+    passport = require('passport'),
+    path = require('path'),
+    request = require('request');
 
 /**
  * My Modules
@@ -140,7 +138,11 @@ app.post('/signup', function(req, res) {
 });
 
 
-// Create a new file for a specified user
+/**
+ * Creates a new file object for a given user
+ * @param Username
+ * @return 200 OK
+ */
 app.post('/:user/files', function(req, res) {
   var user = req.params.user;
   // express post file transfer
@@ -166,12 +168,6 @@ app.post('/:user/files', function(req, res) {
   });
 });
 
-// Delete all files for a specified user
-// Useful when a user is no longer active or has been banned
-app.del('/:user/files', function(req, res) {
-  var user = req.params.user;
-});
-
 // Update all files for a specified user
 app.put('/:user/files', function(req, res) {
   var user = req.params.user;
@@ -184,7 +180,12 @@ app.put('/:user/files/:id', function(req, res) {
   var fileId = req.params.id;
 });
 
-// Delete a given file for a specified user
+/**
+ * Deletes a file object for a given user
+ * @param Username
+ * @param File ID
+ * @return 200 OK
+ */
 app.del('/:user/files/:id', function(req, res) {
   var user = req.params.user;
   var fileId = req.params.id;
