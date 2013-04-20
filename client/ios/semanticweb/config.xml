@@ -58,7 +58,8 @@
         <plugin name="Battery" value="CDVBattery" />
         <plugin name="Globalization" value="CDVGlobalization" />
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
+        <plugin name="org.apache.cordova.facebook.Connect" value="FacebookConnectPlugin" />
     </plugins>
 
-    <access origin="semanticweb.aws.af.cm" />
+    <access origin="*" />
 </widget>
