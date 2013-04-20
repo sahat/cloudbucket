@@ -6,14 +6,12 @@
  */
 var async = require('async'),
     email = require('emailjs'),
+    everyauth = require('everyauth'),
     express = require('express'),
     Dropbox = require('dropbox'),
     http = require('http'),
-    flash = require('connect-flash'),
     fs = require('fs'),
-    LocalStrategy = require('passport-local').Strategy,
     mongoose = require('mongoose'),
-    passport = require('passport'),
     path = require('path'),
     request = require('request');
 
@@ -22,65 +20,110 @@ var routes = require('./routes'),
     user = require('./routes/user');
 
 
-
-// save.pre handlers
-// update elasticsearch index
-
-// TODO: ElasticSearch hosting and mongolab create a database
-
-// MongoLab Free Tier (0.5 GB) Instance
+// Connect to MongoLab database
+// Mongoose keeps connections open throughout the lifetime of the app
 mongoose.connect('mongodb://sahat:sahat@ds051437.mongolab.com:51437/semanticweb');
-
 
 var User = mongoose.model('User', schema.user);
 var File = mongoose.model('File', schema.file);
 
+/*
 var allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
 
   // intercept OPTIONS method
-  if ('OPTIONS' == req.method) {
+  if ('OPTIONS' === req.method) {
     res.send(200);
-  }
-  else {
+  } else {
     next();
   }
 };
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
-
+*/
 var app = express();
 
+
+/**
+ * The everyauth configuration for getting a current user
+ * You may access a user object via req.user inside a route function
+ * E.g. req.user.name.first - return user's first name
+ * For more information refer User schema in schema.js file
+ */
+everyauth.everymodule.findUserById(function(userId, callback) {
+  User.findById(userId, callback);
+});
+
+
+/**
+ * Facebook Login Authentication
+ * Here are the routes provided automatically by everyauth:
+ * http://example.com/login - user sign in OR create a new account
+ * http://example.com/logout - user sign out
+ */
+everyauth.facebook
+  .appId('441524382606862')
+  .appSecret('a6d6825b48aaadc0522fd7a66ebaefa8')
+  .entryPath('/login')
+  .redirectPath('/')
+  .mobile(true)
+  .findOrCreateUser(function(session, accessToken, accessTokExtra, fbUserMetadata) {
+    var promise = this.Promise();
+
+    // Query MongoDB to check whether current user exists in the database
+    User.findOne({ 'id': fbUserMetadata.id }, function(err, foundUser) {
+
+      // This error refers to MongoDB error, not whether user has been found
+      if (err) return promise.fail(err);
+
+      // If user is already in database - pass it on and skip the creation process
+      if (foundUser) return promise.fulfill(foundUser);
+
+      console.log(fbUserMetadata);
+      // Create a new user object
+      var newUser = new User({
+        fbId: fbUserMetadata.id,
+        accessToken: accessToken,
+        name: {
+          full: fbUserMetadata.name,
+          first: fbUserMetadata.first_name,
+          last: fbUserMetadata.last_name
+        },
+        username: fbUserMetadata.username,
+        link: fbUserMetadata.link,
+        gender: fbUserMetadata.gender,
+        email: fbUserMetadata.email,
+        timezone: fbUserMetadata.timezone,
+        locale: fbUserMetadata.locale,
+        verified: fbUserMetadata.verified,
+        updatedTime: fbUserMetadata.updated_time
+      });
+
+      // Persist changes to database
+      newUser.save(function (err) {
+        if (err) return promise.fail(err);
+        return promise.fulfill(newUser);
+      });
+    });
+    return promise;
+  });
+
+
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 2000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(allowCrossDomain);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
-app.use(express.cookieParser('keyboard cat'));
-app.use(express.session({ cookie: { maxAge: 60000 }}));
-app.use(flash());
-app.use(passport.initialize());
+app.use(express.cookieParser());
+app.use(express.session({ secret: 'Cat' }));
+app.use(everyauth.middleware());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // development only
 if ('development' === app.get('env')) {
@@ -88,36 +131,34 @@ if ('development' === app.get('env')) {
 }
 
 
-
-app.get('/flash', function(req, res){
-  req.flash('info', 'Flash is back!')
-  res.redirect('/');
+app.get('/', function(req, res) {
+  console.log(req.user);
+  res.render('index');
 });
 
-app.get('/', function(req, res){
-  res.render('index', { messages: req.flash('info') });
-});
 
 app.get('/users', user.list);
 app.get('/search', function(req, res) {
   request('localhost:9200', function(error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode === 200) {
       console.log(body);
     }
   });
 });
 
-app.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/#homepage',
-    failureRedirect: '/login',
-    failureFlash: true
-  })
-);
 
+/**
+ * Creates a new user account
+ * @param Full Name
+ * @param Username
+ * @param Email
+ * @param Password
+ * @return 200 OK
+ */
 app.post('/signup', function(req, res) {
   var user = new User({
     fullName: req.body.name,
+    // TODO: username
     email: req.body.email,
     password: req.body.password
   });
@@ -126,7 +167,7 @@ app.post('/signup', function(req, res) {
     if (err) {
       console.log(err);
     } else {
-      console.log('User has been successfully created')
+      console.log('User has been successfully created');
     }
   });
 
@@ -185,7 +226,6 @@ app.put('/:user/files/:id', function(req, res) {
 app.del('/:user/files/:id', function(req, res) {
   var user = req.params.user;
   var fileId = req.params.id;
-
 });
 
 

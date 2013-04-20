@@ -18,27 +18,22 @@ exports.file = new mongoose.Schema({
 
 // User schema
 exports.user = new mongoose.Schema({
-  fullName: {
+  fbId: {
     type: String,
-    required: true
+    index: true
   },
-  username: {
-    type: String,
-    required: true
+  accessToken: String,
+  name: {
+    full: String,
+    first: String,
+    last: String
   },
-  email: {
-    type: String,
-    required: true,
-    index: {
-      unique: true
-    }
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  joinedOn: {
-    type: Date,
-    default: Date.now()
-  }
+  link: String,
+  username: String,
+  gender: String,
+  email: String,
+  timezone: String,
+  locale: String,
+  verified: Boolean,
+  updatedTime: String
 });

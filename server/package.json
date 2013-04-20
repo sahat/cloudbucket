@@ -13,9 +13,7 @@
     "async": "*",
     "request": "*",
     "emailjs": "*",
-    "passport": "*",
-    "passport-local": "*",
-    "connect-flash": "*",
-    "dropbox": "*"
+    "dropbox": "*",
+    "everyauth": "*"
   }
 }
