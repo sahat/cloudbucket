@@ -18,8 +18,27 @@ exports.file = new mongoose.Schema({
 
 // User schema
 exports.user = new mongoose.Schema({
-  fullName: { type: String, required: true },
-  email: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true },
-  joinedOn: { type: Date, default: Date.now() }
+  fullName: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    index: {
+      unique: true
+    }
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  joinedOn: {
+    type: Date,
+    default: Date.now()
+  }
 });

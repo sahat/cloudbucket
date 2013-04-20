@@ -13,7 +13,6 @@ var async = require('async'),
     fs = require('fs'),
     LocalStrategy = require('passport-local').Strategy,
     mongoose = require('mongoose'),
-    mongoosastic = require('mongoosastic'),
     passport = require('passport'),
     path = require('path'),
     request = require('request');
