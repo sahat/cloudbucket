@@ -1,157 +1,240 @@
 <!DOCTYPE html>
-<html>
-	<head>
-    </head>
-	<body>
-		<button onclick="login()">Login</button>
-		<button onclick="me()">Me</button>
-		<!--<button onclick="getSession()">Get session</button>-->
-		<button onclick="getLoginStatus()">Get login</button>
-		<button onclick="logout()">Logout</button>
-		<button onclick="facebookWallPost()">facebookWallPost</button>
-		<button onclick="publishStoryFriend()">friendstory</button>
-        
-        <div id="data">loading ...</div>
-        
-        <!--<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>-->
-        <div id="fb-root"></div>
-        <!-- cordova -->
-		<script src="cordova-2.5.0.js"></script>
-	    <!-- cordova facebook plugin -->
-		<script src="cdv-plugin-fb-connect.js"></script>
-	    <!-- facebook js sdk -->
-		<script src="facebook_js_sdk.js"></script>
-        
-		<script>
-            
-            if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
-            if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
-            if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
-            
-            FB.Event.subscribe('auth.login', function(response) {
-                               alert('auth.login event');
-                               });
-            
-            FB.Event.subscribe('auth.logout', function(response) {
-                               alert('auth.logout event');
-                               });
-            
-            FB.Event.subscribe('auth.sessionChange', function(response) {
-                               alert('auth.sessionChange event');
-                               });
-            
-            FB.Event.subscribe('auth.statusChange', function(response) {
-                               alert('auth.statusChange event');
-                               });
-            
-            /*function getSession() {
-                alert("session: " + JSON.stringify(FB.getSession()));
-            }
-            */
-            function getLoginStatus() {
-                FB.getLoginStatus(function(response) {
-                                  if (response.status == 'connected') {
-                                  alert('logged in');
-                                  } else {
-                                  alert('not logged in');
-                                  }
-                                  });
-            }
-            var friendIDs = [];
-			var fdata;
-            function me() {
-                FB.api('/me/friends', { fields: 'id, name, picture' },  function(response) {
-                       if (response.error) {
-                       alert(JSON.stringify(response.error));
-                       } else {
-                       var data = document.getElementById('data');
-					   fdata=response.data;
-					   console.log("fdata: "+fdata);
-                       response.data.forEach(function(item) {
-                                             var d = document.createElement('div');
-                                             d.innerHTML = "<img src="+item.picture+"/>"+item.name;
-                                             data.appendChild(d);
-                                             });
-                       }
-					var friends = response.data;
-					console.log(friends.length); 
-					for (var k = 0; k < friends.length && k < 200; k++) {
-				        var friend = friends[k];
-				        var index = 1;
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.css"/>
+  <title>Semantic Search</title>
+  <style>
+    .wrapper {
+      margin: 10px;
+    }
+    .spacer {
+      margin-bottom: 50px;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .muted {
+      color: #fff;
+    }
+    #login {
+      background: -webkit-radial-gradient(center, circle cover, #6B87C4 0%, #506BA3 50%, #344e83 100%);
+    }
+    #login header {
+      margin-bottom: 150px;
+    }
+    .title {
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 0.4em;
+      text-shadow: 2px 2px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .signup {
+      color: #fff;
+      text-shadow: none;
+      margin: 10px;
+    }
+    .signup .ui-link,
+    .signup .ui-link:active,
+    .signup .ui-link:hover,
+    .signup .ui-link:visited {
+      color: #fff;
+    }
+    .ui-li-thumb {
+      margin-left: 5px;
+      max-height: 48px;
+      max-width: 48px;
+    }
+    .ui-li .ui-btn-inner a.ui-link-inherit {
+      padding: 0;
+    }
 
-				        friendIDs[k] = friend.id;
-				        //friendsInfo[k] = friend;
-					}
-					console.log("friendId's: "+friendIDs);
-                       });
-            }
-            
-            function logout() {
-                FB.logout(function(response) {
-                          alert('logged out');
-                          });
-            }
-            
-            function login() {
-                FB.login(
-                         function(response) {
-                         if (response.session) {
-                         alert('logged in');
-                         } else {
-                         alert('not logged in');
-                         }
-                         },
-                         { scope: "email" }
-                         );
-            }
-			
-			
-			function facebookWallPost() {
-			    console.log('Debug 1');
-				var params = {
-				    method: 'feed',
-				    name: 'Facebook Dialogs',
-				    link: 'https://developers.facebook.com/docs/reference/dialogs/',
-				    picture: 'http://fbrell.com/f8.jpg',
-				    caption: 'Reference Documentation',
-				    description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
-				  };
-				console.log(params);
-			    FB.ui(params, function(obj) { console.log(obj);});
-			}
-            
-			function publishStoryFriend() {
-				randNum = Math.floor ( Math.random() * friendIDs.length ); 
+    .ui-li-has-thumb .ui-btn-inner a.ui-link-inherit {
+      min-height: 0;
+      padding-left: 60px;
+    }
 
-				var friendID = friendIDs[randNum];
-				if (friendID == undefined){
-					alert('please click the me button to get a list of friends first');
-				}else{
-			    	console.log("friend id: " + friendID );
-			        console.log('Opening a dialog for friendID: ', friendID);
-			        var params = {
-			        	method: 'feed',
-			            to: friendID.toString(),
-			            name: 'Facebook Dialogs',
-			            link: 'https://developers.facebook.com/docs/reference/dialogs/',
-			            picture: 'http://fbrell.com/f8.jpg',
-			            caption: 'Reference Documentation',
-			            description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
-			     	};
-					FB.ui(params, function(obj) { console.log(obj);});
-			    }
-			}
-            
-            document.addEventListener('deviceready', function() {
-                                      try {
-                                      alert('Device is ready! Make sure you set your app_id below this alert.');
-                                      FB.init({ appId: "appid", nativeInterface: CDV.FB, useCachedDialogs: false });
-                                      document.getElementById('data').innerHTML = "";
-                                      } catch (e) {
-                                      alert(e);
-                                      }
-                                      }, false);
-            </script>
-        <div id="log"></div>
-	</body>
+    #left-panel {
+      background: #2c3e50;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<div id="login" data-role="page">
+  <div class="wrapper">
+    <h1 class="title">Semantica</h1>
+
+    <form action="http://localhost:3000/login" method="POST">
+      <input type="email" name="email" id="email" placeholder="Email" required>
+      <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required>
+      <input type="submit" data-role="button" data-transition="none" value="Login">
+    </form>
+
+    <div data-position="fixed">
+      <div class="signup text-center"><span class="muted"> Don't have an account?</span> <strong><a href="#signup">Sign up now.</a></strong></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="signup" data-role="page">
+  <div data-role="header" class="ui-bar-b" data-position="fixed">
+    <a href="#login">Cancel</a>
+    <h1>Sign Up</h1>
+  </div>
+  <div data-role="content">
+    <form>
+      <div class="ui-grid-solo">
+        <div class="ui-block-a"><input type="text" name="signup_name" id="signup_name" placeholder="Full Name" required></div>
+        <div class="ui-block-a"><input type="email" name="signup_email" id="signup_email" placeholder="Email" required></div>
+        <div class="ui-block-a"><input type="password" name="signup_password" id="signup_password" placeholder="Password" required></div>
+        <div class="ui-block-a"><button id="signup-btn" data-theme="b" data-transition="none" value="Sign Up"></button></div>
+        <div class="ui-block-a">By tapping "Sign Up" above, you are agreeing to the <strong>Terms of Service</strong> and <strong>Privacy Policy</strong>.</div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<div id="homepage" data-role="page">
+  <div data-role="panel" id="left-panel" data-position="left" data-display="reveal">
+    <a href="#" data-role="button" data-theme="b">New File</a>
+    <a href="#" data-role="button" data-theme="d">Remove File</a>
+    <a href="#" data-role="button" data-theme="f">Upload from Dropbox</a>
+    <a href="#login" data-role="button" data-theme="c">Logout</a>
+  </div>
+  <div data-role="header" data-id="header" data-position="fixed" data-tap-toggle="false">
+    <a href="#left-panel" data-role="button" data-inline="true"
+      data-icon="flat-menu" data-iconpos="notext"></a>
+    <h1>Semantica</h1>
+    <a href="#upload" data-role="button" data-icon="flat-plus" data-iconpos="notext"></a>
+  </div>
+  <div data-role="content">
+      <ul data-role="listview" data-autodividers="true" data-filter="true">
+      <li><a href="#">
+        <img src="img/png/ApplicationsFolderIcon.png">
+        <h2>Flight itineraries</h2>
+        <p>My itinerary documents</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/ApplicationsFolderIcon.png">
+        <h2>Fall 2012</h2>
+        <p>Documents from previous school year</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/ApplicationsFolderIcon.png">
+        <h2>DE Solutions</h2>
+        <p>MATH391 solution manual</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/ApplicationsFolderIcon.png">
+        <h2>Wallpapers</h2>
+        <p>Random collection of wallpapers</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/ApplicationsFolderIcon.png">
+        <h2>Fonts</h2>
+        <p>Lots of cool fonts</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/pdf.png">
+        <h2>Greyhound.pdf</h2>
+        <p>Bus ticket document</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/Preview.png">
+        <h2>Screen Shot 2013-03-24 at 3.01.18 AM.png</h2>
+        <p>Desktop screenshot</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/Edit.png">
+        <h2>Chem acid base data sheet.docx</h2>
+        <p>Chemistry lab data sheet</p></a>
+      </li>
+      <li><a href="#">
+        <img src="img/png/iTunes-mp3.png">
+        <h2>The Beatles.mp3</h2>
+        <p>Song by the Beatles</p></a>
+      </li>
+    </ul>
+  </div>
+  <div data-role="footer" data-id="footer" data-position="fixed" data-tap-toggle="false">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#homepage" class="ui-state-persist" data-transition="none" data-icon="flat-calendar">Files</a></li>
+        <li><a href="#search" class="ui-state-persist" data-icon="flat-eye">Search</a></li>
+        <li><a href="#starred" class="ui-state-persist" data-icon="flat-heart">Starred</a></li>
+        <li><a href="#settings" class="ui-state-persist" data-transition="none" data-icon="flat-settings">Settings</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="details" data-role="page">
+  <div>Text: Display text content</div>
+  <div>Audio: Display Mp3 player</div>
+  <div>Video: Display video player</div>
+  <div>Pictures: Display image</div>
+
+</div>
+
+<div id="settings" data-role="page">
+ <div data-role="header" data-id="header" data-position="fixed" data-tap-toggle="false">
+    <a href="#mypanel" data-role="button" data-inline="true"
+        data-icon="flat-menu" data-iconpos="notext"></a>
+    <h1>Semantica</h1>
+    <a href="#upload" data-role="button" data-icon="flat-plus" data-mini="true"
+        data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true"
+        data-wrapperels="span">Upload</a>
+  </div>
+  <div data-role="footer" data-id="footer" data-position="fixed" data-tap-toggle="false">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#homepage" class="ui-state-persist" data-transition="none" data-icon="flat-calendar">Files</a></li>
+        <li><a href="#search" data-icon="flat-eye">Search</a></li>
+        <li><a href="#starred" data-icon="flat-heart">Starred</a></li>
+        <li><a href="#settings" class="ui-state-persist" data-icon="flat-settings">Settings</a></li>
+      </ul>
+    </div>
+  </div>
+  <p>Settings</p>
+</div>
+<script type="text/javascript" src="cordova-2.6.0.js"></script>
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery.mobile-1.3.0.js"></script>
+<script type="text/javascript">
+  document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        var ref = window.open('http://semantica.com:2000/login', '_blank', 'location=no');
+
+    }
+</script>
+<script type="text/javascript">
+  $.support.cors = true;
+  $(function() {
+    $('#signup-btn').click(function(event) {
+      $.ajax({
+        type: 'POST',
+        url: 'http://semanticweb.aws.af.cm/signup',
+        data: {
+          name: $('#signup_name').val(),
+          email: $('#signup_email').val(),
+          password: $('#signup_password').val()
+        },
+        success: function(data, status){
+          $.mobile.navigate("#homepage");
+        }
+      });
+    });
+  });
+</script>
+</body>
 </html>
