@@ -1,6 +1,6 @@
 {
   "name": "semantica",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "3.x",
     "jade": "*",
+    "connect-mongo": "*",
     "mongoose": "*",
     "mongoosastic": "*",
     "async": "*",
@@ -16,6 +17,7 @@
     "dropbox": "*",
     "everyauth": "*",
     "underscore": "*",
-
+    "consolidate": "*",
+    "handlebars": "*"
   }
 }

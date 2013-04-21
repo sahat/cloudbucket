@@ -5,6 +5,7 @@
  * @date May 5, 2013
  */
 var async = require('async'),
+    cons = require('consolidate'),
     email = require('emailjs'),
     everyauth = require('everyauth'),
     express = require('express'),
@@ -12,34 +13,19 @@ var async = require('async'),
     http = require('http'),
     fs = require('fs'),
     mongoose = require('mongoose'),
+    MongoStore = require('connect-mongo')(express),
     path = require('path'),
     request = require('request');
 
 var config = require('./config'),
     routes = require('./routes'),
-    schema = require('./schema'),
-    user = require('./routes/user');
+    User = require('./schema').User,
+    File = require('./schema').File;
 
 
 // Connect to MongoLab
 mongoose.connect(config.mongoDb);
 
-var User = mongoose.model('User', schema.user);
-var File = mongoose.model('File', schema.file);
-
-
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-
-  // intercept OPTIONS method
-  if ('OPTIONS' === req.method) {
-    res.send(200);
-  } else {
-    next();
-  }
-};
 
 var app = express();
 
@@ -109,35 +95,57 @@ everyauth.facebook
   });
 
 
-// all environments
-app.set('port', process.env.PORT || 2000);
+// Express Configuration
+app.engine('html', cons.handlebars);
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.use(allowCrossDomain);
+app.set('view engine', 'html');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({ secret: 'Cat' }));
+app.use(express.session({
+  secret: config.sessionSecret,
+  store: new MongoStore({ url: config.mongoDb })
+}));
 app.use(everyauth.middleware());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.enable('jsonp callback');
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  next();
+});
 
 
-// development only
+// Express development configuration
 if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
-
+/**
+ * Home page
+ */
 app.get('/', function(req, res) {
-  console.log(req.user);
-  res.render('index');
+  var ua = req.headers['user-agent'];
+
+  // Display different web pages depending on a browser (mobile vs desktop)
+  if (ua.match(/(Android|iPhone|iPod|iPad|BlackBerry|Playbook|Silk|Kindle)/)) {
+
+    // Using sendfile method instead of render, because render only works on HTML
+    // files located inside views folder. Sencha app is in public folder.
+    res.sendfile('./public/app.html');
+  } else {
+    res.render('index', {
+      name: "Handlebars"
+    });
+  }
 });
 
 
-app.get('/users', user.list);
 app.get('/search', function(req, res) {
   request('localhost:9200', function(error, response, body) {
     if (!error && response.statusCode === 200) {

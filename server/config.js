@@ -1,4 +1,4 @@
-exports.config = {
+module.exports = {
 
   // Reserved for later
   redirect_uri:  '',

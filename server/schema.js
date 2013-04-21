@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var mongoosastic = require('mongoosastic');
 
 // File schema
-exports.file = new mongoose.Schema({
+exports.File = mongoose.model('File', new mongoose.Schema({
   name: String,
   filetype: String,
   size: Number,
@@ -14,10 +14,10 @@ exports.file = new mongoose.Schema({
   lastModified: Date,
   keywords: [String],
   summary: String
-}).plugin(mongoosastic);
+}).plugin(mongoosastic));
 
 // User schema
-exports.user = new mongoose.Schema({
+exports.User = mongoose.model('User', new mongoose.Schema({
   fbId: {
     type: String,
     index: true
@@ -36,4 +36,4 @@ exports.user = new mongoose.Schema({
   locale: String,
   verified: Boolean,
   updatedTime: String
-});
+}));
