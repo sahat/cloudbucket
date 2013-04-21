@@ -9,7 +9,6 @@ var async = require('async'),
     email = require('emailjs'),
     everyauth = require('everyauth'),
     express = require('express'),
-    fb = require('./facebook'),
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
@@ -19,6 +18,7 @@ var async = require('async'),
     request = require('request');
 
 var config = require('./config'),
+    fb = require('./facebook'),
     routes = require('./routes'),
     User = require('./schema').User,
     File = require('./schema').File;
@@ -120,14 +120,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-function authenticate (req, res, next) {
-  if (req.session.auth) {
-    next();
-  } else {
-    res.send(403, { error: 'You are not authorized to make requests to this server.' });
-  }
-}
-
 
 // Express development configuration
 if ('development' === app.get('env')) {
@@ -150,7 +142,7 @@ app.get('/', function(req, res) {
   }
 });
 
-app.get('/app', function(req, res) {
+app.get('/app', fb.authenticate, function(req, res) {
   console.log(req.session.auth.facebook.accessToken);
   res.send('./public/app.html');
 });
