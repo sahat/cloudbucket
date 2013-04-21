@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.1.1",
+    "express": "3.x",
     "jade": "*",
     "mongoose": "*",
     "mongoosastic": "*",
@@ -14,6 +14,8 @@
     "request": "*",
     "emailjs": "*",
     "dropbox": "*",
-    "everyauth": "*"
+    "everyauth": "*",
+    "underscore": "*",
+
   }
 }

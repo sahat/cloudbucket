@@ -15,14 +15,14 @@ var async = require('async'),
     path = require('path'),
     request = require('request');
 
-var routes = require('./routes'),
+var config = require('./config'),
+    routes = require('./routes'),
     schema = require('./schema'),
     user = require('./routes/user');
 
 
-// Connect to MongoLab database
-// Mongoose keeps connections open throughout the lifetime of the app
-mongoose.connect('mongodb://sahat:sahat@ds051437.mongolab.com:51437/semanticweb');
+// Connect to MongoLab
+mongoose.connect(config.mongoDb);
 
 var User = mongoose.model('User', schema.user);
 var File = mongoose.model('File', schema.file);
