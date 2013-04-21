@@ -149,10 +149,7 @@ app.get('/search', function(req, res) {
 
 /**
  * Creates a new user account
- * @param Full Name
- * @param Username
- * @param Email
- * @param Password
+ * @param Full Name, Username, Email, Password
  * @return 200 OK
  */
 app.post('/signup', function(req, res) {
