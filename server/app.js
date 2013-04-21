@@ -144,7 +144,7 @@ app.get('/', function(req, res) {
 
 app.get('/app', fb.authenticate, function(req, res) {
   console.log(req.session.auth.facebook.accessToken);
-  res.send('./public/app.html');
+  res.sendfile('./public/app.html');
 });
 app.post('/', function(req, res) {
 
