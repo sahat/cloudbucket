@@ -9,6 +9,7 @@ var async = require('async'),
     email = require('emailjs'),
     everyauth = require('everyauth'),
     express = require('express'),
+    fb = require('./facebook'),
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
@@ -65,7 +66,6 @@ everyauth.facebook
       // If user is already in database - pass it on and skip the creation process
       if (foundUser) return promise.fulfill(foundUser);
 
-      console.log(fbUserMetadata);
       // Create a new user object
       var newUser = new User({
         fbId: fbUserMetadata.id,
@@ -120,6 +120,14 @@ app.use(function (req, res, next) {
   next();
 });
 
+function authenticate (req, res, next) {
+  if (req.session.auth) {
+    next();
+  } else {
+    res.send(403, { error: 'You are not authorized to make requests to this server.' });
+  }
+}
+
 
 // Express development configuration
 if ('development' === app.get('env')) {
@@ -131,28 +139,47 @@ if ('development' === app.get('env')) {
  */
 app.get('/', function(req, res) {
   var ua = req.headers['user-agent'];
+  var user = req.user && req.user.name.full;
 
-  // Display different web pages depending on a browser (mobile vs desktop)
   if (ua.match(/(Android|iPhone|iPod|iPad|BlackBerry|Playbook|Silk|Kindle)/)) {
-
-    // Using sendfile method instead of render, because render only works on HTML
-    // files located inside views folder. Sencha app is in public folder.
-    res.sendfile('./public/app.html');
+    res.send('./public/app.html');
   } else {
     res.render('index', {
-      name: "Handlebars"
+      name: user || 'Guest'
     });
   }
 });
 
-
-app.get('/search', function(req, res) {
-  request('localhost:9200', function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      console.log(body);
-    }
-  });
+app.get('/app', function(req, res) {
+  console.log(req.session.auth.facebook.accessToken);
+  res.send('./public/app.html');
 });
+app.post('/', function(req, res) {
+
+  // Handle facebook post request
+});
+//
+//app.get('/search', fb.checkSession, fb.getFriendIds, fb.getUserDetails, function(req, res, next) {
+//
+//  rest.get(
+//      "http://api.rottentomatoes.com/api/public/v1.0/movies/" + req.query.rottenId + "?apikey=" + config.rottenTomatoesApiKey + "&page_limit=10&q=" + req.query.q
+//    ).on('complete', function(data) {
+//
+//      var response = util.parseMovieResults(data);
+//      util.addViewingData(req, res, next, response.cache, response.idx)
+//
+//    }).on('error', function(err) {
+//      console.log('Error getting movies', err);
+//    });
+//});
+
+//app.get('/search', function(req, res) {
+//  request('localhost:9200', function(error, response, body) {
+//    if (!error && response.statusCode === 200) {
+//      console.log(body);
+//    }
+//  });
+//});
 
 
 /**
