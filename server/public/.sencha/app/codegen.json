@@ -24,7 +24,7 @@
         "appName": "Semantica",
         "frameworkPath": "touch",
         "appModels": "",
-        "appControllers": "",
+        "appControllers": "Facebook,Files",
         "appStores": "",
         "appViews": "Main"
       }
