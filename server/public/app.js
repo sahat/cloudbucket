@@ -62,7 +62,7 @@ Ext.application({
 
   launch: function() {
     // Destroy the #appLoadingIndicator element
-    Ext.fly('appLoadingIndicator').destroy();
+    Ext.fly('loading').destroy();
 
     // Initialize Facebook with our app ID
     Semantica.Facebook.initialize('441524382606862');
