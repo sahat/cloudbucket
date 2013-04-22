@@ -58,7 +58,7 @@ everyauth.facebook
     var promise = this.Promise();
 
     // Query MongoDB to check whether current user exists in the database
-    User.findOne({ 'id': fbUserMetadata.id }, function(err, foundUser) {
+    User.findOne({ 'fbId': fbUserMetadata.id }, function(err, foundUser) {
 
       // This error refers to MongoDB error, not whether user has been found
       if (err) return promise.fail(err);
@@ -110,7 +110,7 @@ app.use(express.session({
 }));
 app.use(everyauth.middleware());
 app.use(function(req, res, next) {
-  res.locals.session = req.session;
+  res.locals.user = req.user;
   next();
 });
 app.use(express.methodOverride());
@@ -132,7 +132,9 @@ if ('development' === app.get('env')) {
 
 
 /**
- * Home page
+ * @route Home Page
+ * Redirects to Sencha app if user is visiting from a mobile device,
+ * otherwise displays a desktop site
  */
 app.get('/', function(req, res) {
   var ua = req.headers['user-agent'];
@@ -141,9 +143,8 @@ app.get('/', function(req, res) {
   if (ua.match(/(Android|iPhone|iPod|iPad|BlackBerry|Playbook|Silk|Kindle)/)) {
     res.send('./public/app.html');
   } else {
-    res.render('index', {
-      name: user || 'Guest'
-    });
+    console.log(req.user);
+    res.render('index');
   }
 });
 

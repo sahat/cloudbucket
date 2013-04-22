@@ -20,7 +20,9 @@ exports.File = mongoose.model('File', new mongoose.Schema({
 exports.User = mongoose.model('User', new mongoose.Schema({
   fbId: {
     type: String,
-    index: true
+    index: {
+      unique: true
+    }
   },
   accessToken: String,
   name: {
