@@ -15,66 +15,83 @@
 
 //<debug>
 Ext.Loader.setPath({
-    'Ext': 'touch/src',
-    'Semantica': 'app'
+  'Ext': 'touch/src',
+  'Semantica': 'app'
 });
 //</debug>
 
 Ext.application({
-    name: 'Semantica',
+  name: 'Semantica',
 
-    requires: [
-        'Ext.MessageBox'
-    ],
+  requires: [
+    'Ext.MessageBox'
+  ],
 
-    models:[
-        'File'
-    ],
+  models:[
+    'File'
+  ],
 
-    views: [
-        'Main'
-    ],
+  views: [
+    'Main'
+  ],
 
-    controllers: [
-        'Facebook',
-        'Files'
-    ],
+  controllers: [
+    'Facebook',
+    'Files'
+  ],
 
-    icon: {
-        '57': 'resources/icons/Icon.png',
-        '72': 'resources/icons/Icon~ipad.png',
-        '114': 'resources/icons/Icon@2x.png',
-        '144': 'resources/icons/Icon~ipad@2x.png'
-    },
+  icon: {
+    '57': 'resources/icons/Icon.png',
+    '72': 'resources/icons/Icon~ipad.png',
+    '114': 'resources/icons/Icon@2x.png',
+    '144': 'resources/icons/Icon~ipad@2x.png'
+  },
 
-    isIconPrecomposed: true,
+  isIconPrecomposed: true,
 
-    startupImage: {
-        '320x460': 'resources/startup/320x460.jpg',
-        '640x920': 'resources/startup/640x920.png',
-        '768x1004': 'resources/startup/768x1004.png',
-        '748x1024': 'resources/startup/748x1024.png',
-        '1536x2008': 'resources/startup/1536x2008.png',
-        '1496x2048': 'resources/startup/1496x2048.png'
-    },
+  startupImage: {
+    '320x460': 'resources/startup/320x460.jpg',
+    '640x920': 'resources/startup/640x920.png',
+    '768x1004': 'resources/startup/768x1004.png',
+    '748x1024': 'resources/startup/748x1024.png',
+    '1536x2008': 'resources/startup/1536x2008.png',
+    '1496x2048': 'resources/startup/1496x2048.png'
+  },
 
-    launch: function() {
-        // Destroy the #appLoadingIndicator element
-        Ext.fly('appLoadingIndicator').destroy();
+  launch: function() {
+    // Destroy the #appLoadingIndicator element
+    Ext.fly('appLoadingIndicator').destroy();
 
-        // Initialize the main view
-        Ext.Viewport.add(Ext.create('Semantica.view.Main'));
-    },
+    // Initialize Facebook with our app ID
+    Semantica.Facebook.initialize('441524382606862');
 
-    onUpdated: function() {
-        Ext.Msg.confirm(
-            "Application Update",
-            "This application has just successfully been updated to the latest version. Reload now?",
-            function(buttonId) {
-                if (buttonId === 'yes') {
-                    window.location.reload();
-                }
-            }
-        );
+    if (window.localStorage && window.localStorage.Semantica) {
+      var parsed = JSON.parse(window.localStorage.Semantica);
+      this.fireEvent('localStorageData', parsed);
     }
+
+    // Initialize the main view
+    Ext.Viewport.add(Ext.create('Semantica.view.Main'));
+  },
+
+  /**
+   * Convenience function for updating the URL location hash
+   */
+  updateUrl: function(url) {
+    this.getHistory().add(Ext.create('Ext.app.Action', {
+      url: url
+    }));
+  },
+
+  onUpdated: function() {
+    Ext.Msg.confirm(
+      "Application Update",
+      "This application has just successfully been updated to the latest version. Reload now?",
+      function(buttonId) {
+        if (buttonId === 'yes') {
+          window.location.reload();
+        }
+      }
+    );
+  }
 });

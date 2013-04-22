@@ -206,13 +206,16 @@ app.post('/signup', function(req, res) {
   res.end();
 });
 
+app.get('/files', function(req, res) {
+
+});
 
 /**
  * Creates a new file object for a given user
  * @param Username
  * @return 200 OK
  */
-app.post('/:user/files', function(req, res) {
+app.post('/files', function(req, res) {
   var user = req.params.user;
   // express post file transfer
   // mongo save to gridfs
@@ -238,13 +241,13 @@ app.post('/:user/files', function(req, res) {
 });
 
 // Update all files for a specified user
-app.put('/:user/files', function(req, res) {
+app.put('/files', function(req, res) {
   var user = req.params.user;
 
 });
 
 // Update a given file for specified user
-app.put('/:user/files/:id', function(req, res) {
+app.put('/files/:id', function(req, res) {
   var user = req.params.user;
   var fileId = req.params.id;
 });
@@ -255,7 +258,7 @@ app.put('/:user/files/:id', function(req, res) {
  * @param File ID
  * @return 200 OK
  */
-app.del('/:user/files/:id', function(req, res) {
+app.del('/files/:id', function(req, res) {
   var user = req.params.user;
   var fileId = req.params.id;
 });

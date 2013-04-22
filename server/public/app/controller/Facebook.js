@@ -1,6 +1,8 @@
 Ext.define('Semantica.controller.Facebook', {
   extend: 'Ext.app.Controller',
 
+  requires: ['Semantica.Facebook'],
+
   config: {
     control: {
       '#fbLogin': {
