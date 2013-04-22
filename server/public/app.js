@@ -27,6 +27,10 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
+    models:[
+        'File'
+    ],
+
     views: [
         'Main'
     ],

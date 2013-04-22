@@ -14,6 +14,9 @@
     },
     "config.rb.tpl.merge": {
       "e254e92dd21bc9ecb27f3b8251d67dfbc79fa1af": "eJxlkMFOwzAMhu95Cqs7bEiQB0DaCTGEtAPiBSIrddtAG5c4ASrEu+N00kDjYtl/7O+PvYEHypAHgjYk8pnTohVWKQh4jl3oS8IcOEIXRgL6DJIFQjQ6AHs4qGg1jTjRzrnD4/HeuStjNnBkbFeyUPQD3mQufoAuaeMHp1fAknlSssdxXKwZa/tKe+EQd4q8hq2123P8Oo8+YR6+q5RIuCRPUgu1mjRbve94mlEuFhAjqrlZp/XjamD8b3nh3FjbaNSGZgU+01vRAwHGBbBtQ+XhqPyTzzyWPkSBgRJZEybsSdyfA/0Dn1qUzSXPJTvJix53D7eVqGsJtYbie0gcJ4q5vsyJ2+KrsfkBl52Ucw\u003d\u003d"
+    },
+    "{modelFileName}.js.tpl.merge": {
+      "17c0f1ae988d0df2763772a85174ff56426f1138": "eJxtUctuwyAQvOcrVpEibMWi6dWP9FD12h+wfKAxTpAIRgZHrhD/3sU0bqxmDyzs7AzD8jFZ2vJOKJ4Qx7T+ZFfu6bVvuaROhQPJwG0Ag0+WqzYH4r6Y4e+SGYPgDM3LqVedOOe/3SE6wWVrcqjdbqmFuDE5ckMjDBUk3ahOVvQKd3MtfRBZxPoBkhsbYOAWOXWTgWaDDfxIokZLYROSkTQDgeVDgamMXVRydbaXAvZ78Uw92hqgQ95MqEVzF8xJWjwloBOqR3NJHIRR5dDVB7Rlv/W8f23AP2H6zb8SCo2DCqlYgz5NVsN6kNv50moZxlJtI7g9rrh3U2T5x2iMuJA9Ae/qSaiWT1BVMJ36UVl4A0IAezLS+PIFL/jTbDbRPb7pB9azla0\u003d"
     }
   },
   "targets": {
@@ -23,7 +26,7 @@
       "parameters": {
         "appName": "Semantica",
         "frameworkPath": "touch",
-        "appModels": "",
+        "appModels": "File",
         "appControllers": "Facebook,Files",
         "appStores": "",
         "appViews": "Main"
@@ -95,6 +98,17 @@
         "appStores": "",
         "appViews": "",
         "uniqueId": "2233955c-ed57-41db-981e-1bc3995d2a28"
+      }
+    },
+    "app/model/File.js": {
+      "source": "{modelFileName}.js.tpl.merge",
+      "version": "17c0f1ae988d0df2763772a85174ff56426f1138",
+      "parameters": {
+        "appName": "Semantica",
+        "baseClass": "Ext.data.Model",
+        "modelFileName": "File",
+        "name": "File",
+        "fields": "name:auto:null,modified:auto:null,id:auto:null"
       }
     }
   }

@@ -109,6 +109,10 @@ app.use(express.session({
   store: new MongoStore({ url: config.mongoDb })
 }));
 app.use(everyauth.middleware());
+app.use(function(req, res, next) {
+  res.locals.session = req.session;
+  next();
+});
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -126,6 +130,7 @@ if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
 /**
  * Home page
  */
@@ -142,10 +147,12 @@ app.get('/', function(req, res) {
   }
 });
 
+
 app.get('/app', fb.authenticate, function(req, res) {
-  console.log(req.session.auth.facebook.accessToken);
   res.sendfile('./public/app.html');
 });
+
+
 app.post('/', function(req, res) {
 
   // Handle facebook post request

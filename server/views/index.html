@@ -1,1 +1,17 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
 Welcome {{ name }}
+{{session.auth.facebook.accessToken}}
+{{#if session.auth}}
+<h1><a href="/logout">Logout</a></h1>
+{{else}}
+<h1><a href="/login">Login</a></h1>
+
+{{/if}}
+</body>
+</html>
