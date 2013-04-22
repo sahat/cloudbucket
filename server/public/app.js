@@ -32,7 +32,9 @@ Ext.application({
   ],
 
   views: [
-    'Main'
+    'Main',
+    'Dialog',
+    'LoggedOut'
   ],
 
   controllers: [
