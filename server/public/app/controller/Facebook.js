@@ -22,7 +22,7 @@ Ext.define('Semantica.controller.Facebook', {
     });
   },
 
-  // Redirect to Facebook when the user taps the Facebook Login button
+  // Redirect to Facebook.com when the user taps the Facebook Login button
   onFacebookLogin: function() {
     window.top.location = Semantica.Facebook.redirectUrl();
   }

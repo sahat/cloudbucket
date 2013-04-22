@@ -31,15 +31,17 @@ Ext.application({
     'File'
   ],
 
+
   views: [
-    'Main',
-    'Dialog',
-    'LoggedOut'
+      'Dialog',
+      'LoggedOut',
+      'Main'
   ],
 
   controllers: [
-    'Facebook',
-    'Files'
+      'Facebook',
+      'Files',
+      'Home'
   ],
 
   icon: {
