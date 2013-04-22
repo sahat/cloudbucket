@@ -5,6 +5,18 @@
 @import 'sencha-touch/default/all';
 
 // Custom code goes here..
+.fbProfilePic {
+  margin-right: 8px;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+  }
+}
 // Examples of using the icon mixin:
 // @include icon('user');
