@@ -3,6 +3,7 @@ Ext.define('Semantica.view.Dialog', {
   extend: 'Ext.Sheet',
 
   config: {
+
     layout: 'vbox',
     cls: 'dialog',
 
