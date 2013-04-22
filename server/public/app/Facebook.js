@@ -9,7 +9,7 @@
  * - `logout`       Fired when the user logs out fo Facebook
  * - `exception`    Fired when there is a Facebook excpetion (such as a timeout)
  */
-Ext.define('WL.Facebook', {
+Ext.define('Semantica.Facebook', {
 
   mixins: ['Ext.mixin.Observable'],
 
@@ -145,7 +145,7 @@ Ext.define('WL.Facebook', {
             "<p>Click 'Get Timeline' on the bottom of the Facebook page, then come back here.</p>"
           ].join('');
 
-          Ext.create('WL.view.Dialog', {
+          Ext.create('Semantica.view.Dialog', {
             msg: errMsg,
             buttons: [
               {
@@ -174,14 +174,14 @@ Ext.define('WL.Facebook', {
             "<p>Go to Facebook and grant permission?</p>"
           ].join('');
 
-          Ext.create('WL.view.Dialog', {
+          Ext.create('Semantica.view.Dialog', {
             msg: errMsg,
             buttons: [
               {
                 ui: 'green',
                 text: 'Grant permissions.',
                 handler: function() {
-                  window.top.location = WL.Facebook.redirectUrl();
+                  window.top.location = Semantica.Facebook.redirectUrl();
                 }
               },
               {
@@ -201,7 +201,7 @@ Ext.define('WL.Facebook', {
       }
     }
 
-    Ext.create('WL.view.Dialog', { msg: errMsg }).show();
+    Ext.create('Semantica.view.Dialog', { msg: errMsg }).show();
   }
 
 });
