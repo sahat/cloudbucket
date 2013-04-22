@@ -1,8 +1,8 @@
 /**
  * Mongoose Schema for MongoDB
  */
-var mongoose = require('mongoose');
-var mongoosastic = require('mongoosastic');
+var mongoosastic = require('mongoosastic'),
+    mongoose = require('mongoose');
 
 // File schema
 exports.File = mongoose.model('File', new mongoose.Schema({
