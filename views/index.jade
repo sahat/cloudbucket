@@ -1,23 +1,34 @@
 extends layout
 
 block content
-  header.bar-title
-      h1.title Ratchet
+  if !user
+    header.bar-title
+      h1.title CloudBucket
     .content
       .content-padded
-        p.welcome
-          | Thanks for downloading Ratchet. This is an example HTML page that's linked up to compiled Ratchet CSS and JS, has the proper meta tags and the HTML structure. Need some more help before you start filling this with your own content? Check out some Ratchet resources:
-      if !user
-        ul.list.inset
-          li
-            a(href='/login') Login
-          li
-            a(href='/') Home
-      else
-        ul.list.inset
-          li
-            a(href='/logout') Logout
-          li
-            a(href='/account') Account
-          li
-            a(href='/') Home
+        p Welcome to CloudBucket - online cloud storage with semantic search capability
+        br
+        img(src='/icons/Globe.png')
+        a.button.button-positive.button-block(href='/auth/google', data-ignore='push') Login with Google
+  else
+    header.bar-title
+      h1.title CloudBucket
+    nav.bar-tab
+      ul.tab-inner
+        li.tab-item.active
+          a(href='#')
+            img.tab-icon(src='/icons/44-shoebox@2x.png')
+            .tab-label Files
+        li.tab-item
+          a(href='#')
+            img.tab-icon(src='/icons/73-radar@2x.png')
+            .tab-label Search
+        li.tab-item
+          a(href='#')
+            img.tab-icon(src='/icons/19-gear@2x.png')
+            .tab-label Settings
+    .content
+      .content-padded
+        a.button(href='/logout', data-ignore='push') Logout
+        a.button(href='/home', data-ignore='push') Home
+        a.button(href='/account', data-ignore='push') Account

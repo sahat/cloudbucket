@@ -1,4 +1,10 @@
 extends layout
 
 block content
-  a(href='/auth/google') Login with Google
+  header.bar-title
+    a.button-prev(href='/', data-transition='slide-out') Back
+    h1.title Title
+  .content
+    .content-padded
+      p.welcome
+        a.button() Login with Google
