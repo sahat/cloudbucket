@@ -1,7 +1,16 @@
 doctype 5
 html
   head
-    title= 'sahat'
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset='utf-8')
+    title Ratchet template page
+    meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(name='apple-mobile-web-app-title', content='Semantica')
+    link(rel='apple-touch-icon-precomposed', sizes='114x114', href='touch-icons/apple-touch-icon-114x114.png')
+    link(rel='apple-touch-icon-precomposed', sizes='72x72', href='touch-icons/apple-touch-icon-72x72.png')
+    link(rel='apple-touch-icon-precomposed', sizes='57x57', href='touch-icons/apple-touch-icon-57x57.png')
+    link(rel='stylesheet', href='ratchet.css')
+    script(src='ratchet.js')
   body
     block content

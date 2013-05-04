@@ -1,11 +1,23 @@
 extends layout
 
 block content
-  if !user
-    a(href='/') Home
-    a(href='/login') Login
-  else
-    a(href='/') Home
-    a(href='/account') Account
-    a(href='/logout') Logout
-
+  header.bar-title
+      h1.title Ratchet
+    .content
+      .content-padded
+        p.welcome
+          | Thanks for downloading Ratchet. This is an example HTML page that's linked up to compiled Ratchet CSS and JS, has the proper meta tags and the HTML structure. Need some more help before you start filling this with your own content? Check out some Ratchet resources:
+      if !user
+        ul.list.inset
+          li
+            a(href='/login') Login
+          li
+            a(href='/') Home
+      else
+        ul.list.inset
+          li
+            a(href='/logout') Logout
+          li
+            a(href='/account') Account
+          li
+            a(href='/') Home
