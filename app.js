@@ -24,16 +24,10 @@ var config = require('./config'),
     File = require('./schema').File;
 
 
-mongoose.connect(config.mongoDb);
+mongoose.connect(config.MONGOLAB);
 
 
 var app = express();
-
-
-// API Access link for creating client ID and secret:
-// https://code.google.com/apis/console/
-var GOOGLE_CLIENT_ID = "317623689227.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET = "1IY8SqGLn2esolLihVfoJJCa";
 
 
 // Passport session setup.
@@ -47,27 +41,42 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
+
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-// Use the GoogleStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Google
-//   profile), and invoke a callback with a user object.
+
+
 passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost/oauth2callback"
+    clientID: config.GOOGLE_CLIENT_ID,
+    clientSecret: config.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
     process.nextTick(function () {
-
-      // To keep the example simple, the user's Google profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Google account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
+      User.findOne({ 'googleId': profile.id }, function(err, existingUser) {
+        if(existingUser) {
+          console.log('User: ' + existingUser.displayName + ' found and logged in!');
+          done(null, existingUser);
+        } else {
+          var newUser = new User({
+            googleId: profile.id,
+            accessToken: accessToken,
+            displayName: profile.displayName,
+            link: profile._json.link,
+            picture: profile._json.picture,
+            gender: profile._json.gender,
+            email: profile._json.email,
+            locale: profile._json.locale,
+            verified: profile._json.verified_email
+          });
+          newUser.save(function(err) {
+            if(err) return err;
+            console.log('New user: ' + newUser.displayName + ' created and logged in!');
+            done(null, newUser);
+          });
+        }
+      });
     });
   }
 ));
@@ -81,8 +90,8 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({
-  secret: config.sessionSecret,
-  store: new MongoStore({ url: config.mongoDb })
+  secret: 'LOLCATS',
+  store: new MongoStore({ url: config.MONGOLAB })
 }));
 // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
@@ -122,6 +131,7 @@ if ('development' === app.get('env')) {
  * otherwise displays a desktop site
  */
 app.get('/', function(req, res) {
+  console.log(req.user);
   res.render('index', { user: req.user });
 });
 app.get('/account', ensureAuthenticated, function(req, res){

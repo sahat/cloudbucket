@@ -18,24 +18,18 @@ exports.File = mongoose.model('File', new mongoose.Schema({
 
 // User schema
 exports.User = mongoose.model('User', new mongoose.Schema({
-  fbId: {
+  googleId: {
     type: String,
     index: {
       unique: true
     }
   },
   accessToken: String,
-  name: {
-    full: String,
-    first: String,
-    last: String
-  },
+  displayName: String,
   link: String,
-  username: String,
+  picture: String,
   gender: String,
   email: String,
-  timezone: String,
   locale: String,
-  verified: Boolean,
-  updatedTime: String
+  verified: Boolean
 }));
