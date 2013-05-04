@@ -13,13 +13,12 @@ var async = require('async'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
     path = require('path'),
-    request = require('request'),
     passport = require('passport'),
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+    request = require('request');
 
 
 var config = require('./config'),
-    routes = require('./routes'),
     User = require('./schema').User,
     File = require('./schema').File;
 
@@ -27,6 +26,7 @@ var config = require('./config'),
 var app = express();
 
 
+// Connect to MongoDB
 mongoose.connect(config.MONGOLAB);
 
 
@@ -47,6 +47,12 @@ passport.deserializeUser(function(googleId, done) {
 });
 
 
+/**
+ * Use the GoogleStrategy within Passport.
+ * Strategies in Passport require a `verification` function, which accept
+ * credentials (in this case, an accessToken, refreshToken, and Google
+ * profile), and invoke a callback 'done' with a user object.
+ */
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
@@ -81,6 +87,7 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+
 // Express Configuration
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -106,16 +113,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
-}
-
 
 // Express development configuration
 if ('development' === app.get('env')) {
@@ -124,18 +121,35 @@ if ('development' === app.get('env')) {
 
 
 /**
- * @route Home Page
- * Redirects to Sencha app if user is visiting from a mobile device,
- * otherwise displays a desktop site
+ * Simple route middleware to ensure user is authenticated.
+ * Use this route middleware on any resource that needs to be protected.  If
+ * the request is authenticated (typically via a persistent login session),
+ * the request will proceed.  Otherwise, the user will be redirected to the
+ * login page.
+ */
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
+
+
+/**
+ * GET /index
  */
 app.get('/', function(req, res) {
-  console.log(req.user);
   res.render('index', { user: req.user });
 });
+
+/**
+ * GET /account
+ */
 app.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });
 });
 
+/**
+ * GET /login
+ */
 app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });

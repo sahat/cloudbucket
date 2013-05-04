@@ -4,6 +4,7 @@
 var mongoosastic = require('mongoosastic'),
     mongoose = require('mongoose');
 
+
 // File schema
 exports.File = mongoose.model('File', new mongoose.Schema({
   name: String,
@@ -15,6 +16,7 @@ exports.File = mongoose.model('File', new mongoose.Schema({
   keywords: [String],
   summary: String
 }).plugin(mongoosastic));
+
 
 // User schema
 exports.User = mongoose.model('User', new mongoose.Schema({
