@@ -8,23 +8,23 @@ block content
       .content-padded
         p Welcome to CloudBucket - online cloud storage with semantic search capability
         br
-        img(src='/icons/Globe.png')
         a.button.button-positive.button-block(href='/auth/google', data-ignore='push') Login with Google
   else
     header.bar-title
       h1.title CloudBucket
+      a.button(href='/upload', data-transition='fade') Upload
     nav.bar-tab
       ul.tab-inner
         li.tab-item.active
-          a(href='#')
+          a(href='/')
             img.tab-icon(src='/icons/44-shoebox@2x.png')
             .tab-label Files
         li.tab-item
-          a(href='#')
+          a(href='/search')
             img.tab-icon(src='/icons/73-radar@2x.png')
             .tab-label Search
         li.tab-item
-          a(href='#')
+          a(href='/account')
             img.tab-icon(src='/icons/19-gear@2x.png')
             .tab-label Settings
     .content
