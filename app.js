@@ -5,9 +5,7 @@
  * @date May 5, 2013
  */
 var async = require('async'),
-    cons = require('consolidate'),
     email = require('emailjs'),
-    everyauth = require('everyauth'),
     express = require('express'),
     Dropbox = require('dropbox'),
     http = require('http'),
@@ -15,91 +13,69 @@ var async = require('async'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
     path = require('path'),
-    request = require('request');
+    request = require('request'),
+    passport = require('passport'),
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 
 var config = require('./config'),
-    fb = require('./facebook'),
     routes = require('./routes'),
     User = require('./schema').User,
     File = require('./schema').File;
 
 
-// Connect to MongoLab
 mongoose.connect(config.mongoDb);
 
 
 var app = express();
 
 
-/**
- * The everyauth configuration for getting a current user
- * You may access a user object via req.user inside a route function
- * E.g. req.user.name.first - return user's first name
- * For more information refer User schema in schema.js file
- */
-everyauth.everymodule.findUserById(function(userId, callback) {
-  User.findById(userId, callback);
+// API Access link for creating client ID and secret:
+// https://code.google.com/apis/console/
+var GOOGLE_CLIENT_ID = "317623689227.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET = "1IY8SqGLn2esolLihVfoJJCa";
+
+
+// Passport session setup.
+//   To support persistent login sessions, Passport needs to be able to
+//   serialize users into and deserialize users out of the session.  Typically,
+//   this will be as simple as storing the user ID when serializing, and finding
+//   the user by ID when deserializing.  However, since this example does not
+//   have a database of user records, the complete Google profile is
+//   serialized and deserialized.
+passport.serializeUser(function(user, done) {
+  done(null, user);
 });
 
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+// Use the GoogleStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and Google
+//   profile), and invoke a callback with a user object.
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost/oauth2callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
 
-/**
- * Facebook Login Authentication
- * Here are the routes provided automatically by everyauth:
- * http://example.com/login - user sign in OR create a new account
- * http://example.com/logout - user sign out
- */
-everyauth.facebook
-  .appId('441524382606862')
-  .appSecret('a6d6825b48aaadc0522fd7a66ebaefa8')
-  .entryPath('/login')
-  .redirectPath('/')
-  .mobile(true)
-  .findOrCreateUser(function(session, accessToken, accessTokExtra, fbUserMetadata) {
-    var promise = this.Promise();
-
-    // Query MongoDB to check whether current user exists in the database
-    User.findOne({ 'fbId': fbUserMetadata.id }, function(err, foundUser) {
-
-      // This error refers to MongoDB error, not whether user has been found
-      if (err) return promise.fail(err);
-
-      // If user is already in database - pass it on and skip the creation process
-      if (foundUser) return promise.fulfill(foundUser);
-
-      // Create a new user object
-      var newUser = new User({
-        fbId: fbUserMetadata.id,
-        accessToken: accessToken,
-        name: {
-          full: fbUserMetadata.name,
-          first: fbUserMetadata.first_name,
-          last: fbUserMetadata.last_name
-        },
-        username: fbUserMetadata.username,
-        link: fbUserMetadata.link,
-        gender: fbUserMetadata.gender,
-        email: fbUserMetadata.email,
-        timezone: fbUserMetadata.timezone,
-        locale: fbUserMetadata.locale,
-        verified: fbUserMetadata.verified,
-        updatedTime: fbUserMetadata.updated_time
-      });
-
-      // Persist changes to database
-      newUser.save(function (err) {
-        if (err) return promise.fail(err);
-        return promise.fulfill(newUser);
-      });
+      // To keep the example simple, the user's Google profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the Google account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
     });
-    return promise;
-  });
-
+  }
+));
 
 // Express Configuration
-app.engine('html', cons.handlebars);
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'html');
+app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -108,11 +84,10 @@ app.use(express.session({
   secret: config.sessionSecret,
   store: new MongoStore({ url: config.mongoDb })
 }));
-app.use(everyauth.middleware());
-app.use(function(req, res, next) {
-  res.locals.user = req.user;
-  next();
-});
+// Initialize Passport!  Also use passport.session() middleware, to support
+  // persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -123,6 +98,16 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   next();
 });
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
 
 
 // Express development configuration
@@ -137,20 +122,43 @@ if ('development' === app.get('env')) {
  * otherwise displays a desktop site
  */
 app.get('/', function(req, res) {
-  var ua = req.headers['user-agent'];
-  var user = req.user && req.user.name.full;
-
-  if (ua.match(/(Android|iPhone|iPod|iPad|BlackBerry|Playbook|Silk|Kindle)/)) {
-    res.send('./public/app.html');
-  } else {
-    console.log(req.user);
-    res.render('index');
-  }
+  res.render('index', { user: req.user });
+});
+app.get('/account', ensureAuthenticated, function(req, res){
+  res.render('account', { user: req.user });
 });
 
+app.get('/login', function(req, res){
+  res.render('login', { user: req.user });
+});
 
-app.get('/app', fb.authenticate, function(req, res) {
-  res.sendfile('./public/app.html');
+// GET /auth/google
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Google authentication will involve
+//   redirecting the user to google.com.  After authorization, Google
+//   will redirect the user back to this application at /auth/google/callback
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
+                                            'https://www.googleapis.com/auth/userinfo.email'] }),
+  function(req, res){
+    // The request will be redirected to Google for authentication, so this
+    // function will not be called.
+  });
+
+// GET /auth/google/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
 });
 
 

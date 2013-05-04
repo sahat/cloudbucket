@@ -15,9 +15,8 @@
     "request": "*",
     "emailjs": "*",
     "dropbox": "*",
-    "everyauth": "*",
-    "underscore": "*",
-    "consolidate": "*",
-    "handlebars": "*"
+    "passport": "*",
+    "passport-google-oauth": "*",
+    "underscore": "*"
   }
 }

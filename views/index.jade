@@ -1,5 +1,11 @@
 extends layout
 
 block content
-  h1 {{ name }}
-  p Welcome to ssss
+  if !user
+    a(href='/') Home
+    a(href='/login') Login
+  else
+    a(href='/') Home
+    a(href='/account') Account
+    a(href='/logout') Logout
+
