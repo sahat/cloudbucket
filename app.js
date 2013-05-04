@@ -24,26 +24,26 @@ var config = require('./config'),
     File = require('./schema').File;
 
 
-mongoose.connect(config.MONGOLAB);
-
-
 var app = express();
 
 
-// Passport session setup.
-//   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete Google profile is
-//   serialized and deserialized.
+mongoose.connect(config.MONGOLAB);
+
+
+/**
+ * In this example, only the Google ID is serialized to the session,
+ * keeping the amount of data stored within the session small.
+ * When subsequent requests are received, this ID is used to find the user,
+ * which will be restored to req.user.
+ */
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.googleId);
 });
 
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(googleId, done) {
+  User.findOne({ 'googleId': googleId }, function(err, user) {
+    done(err, user);
+  });
 });
 
 
@@ -93,8 +93,6 @@ app.use(express.session({
   secret: 'LOLCATS',
   store: new MongoStore({ url: config.MONGOLAB })
 }));
-// Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.methodOverride());
