@@ -296,7 +296,7 @@ app.post('/files', function(req, res) {
 
   });
 
-  res.end();
+  res.redirect('/');
 
 //
 //  var file = new File({
