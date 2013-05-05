@@ -144,7 +144,12 @@ function ensureAuthenticated(req, res, next) {
  * @route GET /index
  */
 app.get('/', function(req, res) {
-  res.render('index', { user: req.user });
+  File.find({ user: req.user.googleId }, function(err, files) {
+    res.render('index', {
+      user: req.user,
+      files: files
+    });
+  });
 });
 
 
@@ -259,7 +264,7 @@ app.post('/signup', function(req, res) {
 });
 
 app.get('/files', function(req, res) {
-
+  // REFER TO INDEX ROUTE
 });
 
 /**
@@ -282,12 +287,12 @@ app.post('/files', function(req, res) {
         if (err) {
           console.log("Error uploading data: ", err);
         } else {
-          console.log("Successfully uploaded data to myBucket/myKey");
+          console.log("Successfully uploaded data to semanticweb");
 
           // delete temp file on disk, now that it is on S3
           fs.unlink(path, function (err) {
             if (err) return res.send(500, err);
-            console.log('successfully deleted /tmp/hello');
+            console.log('successfully deleted temp file');
           });
 
         }
@@ -302,7 +307,8 @@ app.post('/files', function(req, res) {
     type: req.files.myFile.type,
     size: req.files.myFile.size,
     path: path,
-    lastModified: req.files.myFile.lastModifiedDate
+    lastModified: req.files.myFile.lastModifiedDate,
+    user: req.user.googleId
   });
 
   // NLP analysis on file to generate keywords

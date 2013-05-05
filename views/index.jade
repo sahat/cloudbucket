@@ -16,16 +16,14 @@ block content
     include _footer
     .content
         ul.list
-          li
-            a(href='#')
-              strong My Invoice.docx
-              span.chevron
-              span.count-main docx
-          li
-            a(href='#')
-              strong Screenshot-04-04-2013.jpg
-              span.chevron
-              span.count-negative jpeg
+          for file in files
+            li
+              a(href='#')
+                strong #{file.name}
+                br
+                small #{file.size} bytes
+                span.chevron
+                span.count-main #{file.extension}
     #uploadModal.modal
       header.bar-title
         h1.title Upload a file

@@ -14,7 +14,8 @@ exports.File = mongoose.model('File', new mongoose.Schema({
   path: String,
   lastModified: Date,
   keywords: [String],
-  summary: String
+  summary: String,
+  user: String
 }).plugin(mongoosastic));
 
 
