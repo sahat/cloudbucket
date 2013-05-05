@@ -243,7 +243,6 @@ app.post('/', function(req, res) {
 app.post('/signup', function(req, res) {
   var user = new User({
     fullName: req.body.name,
-    // TODO: username
     email: req.body.email,
     password: req.body.password
   });
@@ -271,7 +270,7 @@ app.get('/files', function(req, res) {
 app.post('/files', function(req, res) {
 
   // TODO: change to linux path later
-  var path = req.files.file.path.split("\\").slice(-1).join("\\");
+  var path = req.files.myFile.path.split("\\").slice(-1).join("\\");
 
   fs.readFile(path, function (err, data) {
     if (err) return res.send(500, err);
@@ -284,6 +283,13 @@ app.post('/files', function(req, res) {
           console.log("Error uploading data: ", err);
         } else {
           console.log("Successfully uploaded data to myBucket/myKey");
+
+          // delete temp file on disk, now that it is on S3
+          fs.unlink(path, function (err) {
+            if (err) return res.send(500, err);
+            console.log('successfully deleted /tmp/hello');
+          });
+
         }
       });
     });
