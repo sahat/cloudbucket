@@ -5,6 +5,7 @@
  * @date May 5, 2013
  */
 var async = require('async'),
+    AWS = require('aws-sdk'),
     email = require('emailjs'),
     express = require('express'),
     Dropbox = require('dropbox'),
@@ -29,6 +30,9 @@ var app = express();
 // Connect to MongoDB
 mongoose.connect(config.MONGOLAB);
 
+
+// Load Amazon AWS credentials
+AWS.config.loadFromPath('./aws.json');
 
 /**
  * In this example, only the Google ID is serialized to the session,
@@ -265,13 +269,26 @@ app.get('/files', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
+  // TODO: change to linux path later
 
-  res.json({
-             "name": req.files.myFile.name,
-             "size": req.files.myFile.size / 1024 | 0,
-             "path": req.files.myFile.path
-           });
+  var path = req.files.myFile.path.split("\\").slice(-2).join("\\")
 
+  fs.readFile(path, function (err, data) {
+    if (err) return res.send(500, err);
+    var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
+    s3.createBucket(function() {
+      s3.putObject({ Key: path, Body: data }, function(err, data) {
+        if (err) {
+          console.log("Error uploading data: ", err);
+        } else {
+          console.log("Successfully uploaded data to myBucket/myKey");
+        }
+      });
+    });
+
+  });
+
+  res.end();
 
 //
 //  var file = new File({
