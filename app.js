@@ -94,7 +94,10 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+app.use(express.bodyParser({
+  uploadDir: path.join(__dirname, 'uploads'),
+  keepExtensions: true
+}));
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'LOLCATS',
@@ -262,28 +265,34 @@ app.get('/files', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
-  var user = req.params.user;
-  // express post file transfer
-  // mongo save to gridfs
-  var file = new File({
-    name: req.body.name,
-    filetype: req.body.filetype,
-    size: req.body.size,
-    path: req.body.path,
-    lastAccessed: req.body.lastAccessed,
-    lastModified: req.body.lastModified
-  });
 
-  // NLP analysis on file to generate keywords
-  var myArr = [];
-  file.keywords.push(myArr);
+  res.json({
+             "name": req.files.myFile.name,
+             "size": req.files.myFile.size / 1024 | 0,
+             "path": req.files.myFile.path
+           });
 
-  // nltk analysis to generate summary
-  file.summary = '';
 
-  file.save(function(err) {
-
-  });
+//
+//  var file = new File({
+//    name: req.body.name,
+//    filetype: req.body.filetype,
+//    size: req.body.size,
+//    path: req.body.path,
+//    lastAccessed: req.body.lastAccessed,
+//    lastModified: req.body.lastModified
+//  });
+//
+//  // NLP analysis on file to generate keywords
+//  var myArr = [];
+//  file.keywords.push(myArr);
+//
+//  // nltk analysis to generate summary
+//  file.summary = '';
+//
+//  file.save(function(err) {
+//
+//  });
 });
 
 // Update all files for a specified user

@@ -12,18 +12,27 @@ block content
   else
     header.bar-title
       h1.title CloudBucket
-      a.button(href='/upload', data-transition='fade') Upload
+      a.button(href='#uploadModal', data-transition='fade') Upload
     include _footer
     .content
-      ul.list
-        li
-          a(href='#')
-            strong My Invoice.docx
-            span.chevron
-            span.count-main docx
-
-        li
-          a(href='#')
-            strong Screenshot-04-04-2013.jpg
-            span.chevron
-            span.count-negative jpeg
+        ul.list
+          li
+            a(href='#')
+              strong My Invoice.docx
+              span.chevron
+              span.count-main docx
+          li
+            a(href='#')
+              strong Screenshot-04-04-2013.jpg
+              span.chevron
+              span.count-negative jpeg
+    #uploadModal.modal
+      header.bar-title
+        h1.title Upload a file
+        a.button(href='#uploadModal') Cancel
+      .content.content-padded
+        form(action='/files', method='POST', enctype='multipart/form-data')
+          input(type='file', name='myFile')
+          br
+          br
+          button.button-main(type='submit') Upload a File
