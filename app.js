@@ -144,12 +144,16 @@ function ensureAuthenticated(req, res, next) {
  * @route GET /index
  */
 app.get('/', function(req, res) {
-  File.find({ user: req.user.googleId }, function(err, files) {
+  if (req.user) {
+    File.find({ user: req.user.googleId }, function(err, files) {
     res.render('index', {
       user: req.user,
       files: files
     });
   });
+  } else {
+    res.render('index', { user: req.user });
+  }
 });
 
 
