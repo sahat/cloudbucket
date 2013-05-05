@@ -8,10 +8,10 @@ var mongoosastic = require('mongoosastic'),
 // File schema
 exports.File = mongoose.model('File', new mongoose.Schema({
   name: String,
-  filetype: String,
+  extension: String,
+  type: String,
   size: Number,
   path: String,
-  lastAccessed: Date,
   lastModified: Date,
   keywords: [String],
   summary: String

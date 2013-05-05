@@ -293,31 +293,31 @@ app.post('/files', function(req, res) {
         }
       });
     });
+  });
 
+  // Save to MongoDB (OK to be asynchronous)
+  var file = new File({
+    name: req.files.myFile.name,
+    extension: path.split('.')[1],
+    type: req.files.myFile.type,
+    size: req.files.myFile.size,
+    path: path,
+    lastModified: req.files.myFile.lastModifiedDate
+  });
+
+  // NLP analysis on file to generate keywords
+  var myArr = ['tag1', 'tag2', 'tag3'];
+  file.keywords.push(myArr);
+
+  // nltk analysis to generate summary
+  file.summary = 'Quick document summary goes here';
+
+  file.save(function(err) {
+    if (err) return res.send(500, err);
+    console.log('Saved file metadata to MongoDB successfully')
   });
 
   res.redirect('/');
-
-//
-//  var file = new File({
-//    name: req.body.name,
-//    filetype: req.body.filetype,
-//    size: req.body.size,
-//    path: req.body.path,
-//    lastAccessed: req.body.lastAccessed,
-//    lastModified: req.body.lastModified
-//  });
-//
-//  // NLP analysis on file to generate keywords
-//  var myArr = [];
-//  file.keywords.push(myArr);
-//
-//  // nltk analysis to generate summary
-//  file.summary = '';
-//
-//  file.save(function(err) {
-//
-//  });
 });
 
 // Update all files for a specified user
