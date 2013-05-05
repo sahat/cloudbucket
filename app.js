@@ -145,7 +145,7 @@ app.get('/', function(req, res) {
  * @route GET /account
  */
 app.get('/account', ensureAuthenticated, function(req, res){
-  res.render('account', { user: req.user });
+  res.render('settings', { user: req.user });
 });
 
 
@@ -194,6 +194,10 @@ app.get('/auth/google/callback',
   res.redirect('/');
 });
 
+
+app.get('/search', function(req, res) {
+  res.render('search', { user: req.user });
+});
 
 
 app.post('/', function(req, res) {
