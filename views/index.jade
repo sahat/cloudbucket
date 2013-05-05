@@ -15,7 +15,15 @@ block content
       a.button(href='/upload', data-transition='fade') Upload
     include _footer
     .content
-      .content-padded
-        a.button(href='/logout', data-ignore='push') Logout
-        a.button(href='/home', data-ignore='push') Home
-        a.button(href='/account', data-ignore='push') Account
+      ul.list
+        li
+          a(href='#')
+            strong My Invoice.docx
+            span.chevron
+            span.count-main docx
+
+        li
+          a(href='#')
+            strong Screenshot-04-04-2013.jpg
+            span.chevron
+            span.count-negative jpeg
