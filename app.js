@@ -99,7 +99,7 @@ app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser({
-  uploadDir: path.join(__dirname, 'uploads'),
+  uploadDir: __dirname,
   keepExtensions: true
 }));
 app.use(express.cookieParser());
@@ -269,13 +269,15 @@ app.get('/files', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
-  // TODO: change to linux path later
 
-  var path = req.files.myFile.path.split("\\").slice(-2).join("\\")
+  // TODO: change to linux path later
+  var path = req.files.file.path.split("\\").slice(-1).join("\\");
 
   fs.readFile(path, function (err, data) {
     if (err) return res.send(500, err);
+
     var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
+
     s3.createBucket(function() {
       s3.putObject({ Key: path, Body: data }, function(err, data) {
         if (err) {
