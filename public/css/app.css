@@ -6,3 +6,6 @@
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
+.list li {
+  padding: 15px 60px 15px 10px;
+}

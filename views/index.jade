@@ -12,7 +12,7 @@ block content
   else
     header.bar-title
       h1.title CloudBucket
-      a.button(href='#upload-modal', data-transition='fade') Upload
+      a.button(href='#uploadModal', data-transition='fade') Upload
     include _footer
     .content
         ul.list
@@ -24,8 +24,6 @@ block content
                 small(id='file-size-#{file.id}') #{file.size}
                 small , modified&nbsp;
                 small(id='last-modified-#{file.id}') #{file.lastModified}
-                span.chevron
-                span.count-main #{file.extension}
             script
               $(function() {
                 function updateFileFormating() {
@@ -45,12 +43,10 @@ block content
                 updateFileFormating();
               });
 
-
-
     #uploadModal.modal
       header.bar-title
         h1.title Upload a file
-        a.button(href='#upload-modal') Cancel
+        a.button(href='#uploadModal') Cancel
       .content.content-padded
         form(action='/files', method='POST', enctype='multipart/form-data')
           input(type='file', name='myFile')
