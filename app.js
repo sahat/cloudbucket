@@ -277,11 +277,13 @@ app.get('/files', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
+  var path;
 
+  // Windows uses backslash for file path, Linux uses forward slash
   if (process.platform.match(/^win/)) {
-     var path = req.files.myFile.path.split("\\").slice(-1).join("\\");
+     path = req.files.myFile.path.split("\\").slice(-1).join("\\");
   } else {
-      var path = req.files.myFile.path.split("//").slice(-1).join("//");
+     path = req.files.myFile.path.split("/").slice(-1).join("/");
   }
 
   fs.readFile(path, function (err, data) {
