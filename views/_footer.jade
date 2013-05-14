@@ -1,14 +1,39 @@
+script
+  // Refactor later. Hard dependency on HTML structure and URL path.
+  $(function() {
+
+    function updateActiveTab() {
+      var route = window.location.pathname
+      if (route === '/') {
+        $('#filesTab').addClass('active');
+      } else if (route === '/search') {
+        $('#searchTab').addClass('active');
+      } else if (route === '/account') {
+        $('#settingsTab').addClass('active');
+      }
+    }
+
+    // Update active tab when transitioning between the app tabs
+    window.addEventListener('push', function() {
+     updateActiveTab();
+    });
+
+    // Set active tab initially on DOM load
+    updateActiveTab();
+
+  });
+
 nav.bar-tab
   ul.tab-inner
-    li.tab-item.active
-      a(href='/', data-transition='slide-in')
+    li#filesTab.tab-item
+      a(href='/')
         img.tab-icon(src='/icons/44-shoebox@2x.png')
         .tab-label Files
-    li.tab-item
-      a(href='/search', data-transition='slide-in')
+    li#searchTab.tab-item
+      a(href='/search')
         img.tab-icon(src='/icons/73-radar@2x.png')
         .tab-label Search
-    li.tab-item
-      a(href='/account', data-transition='slide-in')
+    li#settingsTab.tab-item
+      a(href='/account')
         img.tab-icon(src='/icons/19-gear@2x.png')
         .tab-label Settings

@@ -60,7 +60,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
+    //callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -111,7 +112,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 99999 }));
 app.enable('jsonp callback');
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -148,6 +149,7 @@ app.get('/', function(req, res) {
     File.find({ user: req.user.googleId }, function(err, files) {
     res.render('index', {
       user: req.user,
+      active: 'active',
       files: files
     });
   });
@@ -161,7 +163,7 @@ app.get('/', function(req, res) {
  * @route GET /account
  */
 app.get('/account', ensureAuthenticated, function(req, res){
-  res.render('settings', { user: req.user });
+  res.render('settings', { user: req.user, active: 'active' });
 });
 
 
@@ -212,7 +214,7 @@ app.get('/auth/google/callback',
 
 
 app.get('/search', function(req, res) {
-  res.render('search', { user: req.user });
+  res.render('search', { user: req.user, active: 'active' });
 });
 
 
@@ -279,7 +281,7 @@ app.get('/files', function(req, res) {
 app.post('/files', function(req, res) {
   var path;
 
-  // Windows uses backslash for file path, Linux uses forward slash
+  // Windows uses backslash for file path, Linux uses forward slashuuuuuuiuhiu
   if (process.platform.match(/^win/)) {
      path = req.files.myFile.path.split("\\").slice(-1).join("\\");
   } else {
