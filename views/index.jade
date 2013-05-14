@@ -18,7 +18,7 @@ block content
         ul.list
           for file in files
             li(class='icon-#{file.extension}')
-              a(href='#')
+              a(href='/files/#{file.id}')
                 strong #{file.name}
                 br
                 small(id='file-size-#{file.id}') #{file.size}

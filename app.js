@@ -11,12 +11,14 @@ var async = require('async'),
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
+    moment = require('moment'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
     path = require('path'),
     passport = require('passport'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
     request = require('request');
+    _ = require('underscore')
 
 
 var config = require('./config'),
@@ -147,12 +149,11 @@ function ensureAuthenticated(req, res, next) {
 app.get('/', function(req, res) {
   if (req.user) {
     File.find({ user: req.user.googleId }, function(err, files) {
-    res.render('index', {
-      user: req.user,
-      active: 'active',
-      files: files
+      res.render('index', {
+        user: req.user,
+        files: files
+      });
     });
-  });
   } else {
     res.render('index', { user: req.user });
   }
@@ -171,7 +172,7 @@ app.get('/account', ensureAuthenticated, function(req, res){
  * @route GET /login
  */
 app.get('/login', function(req, res){
-  res.render('login', { user: req.user });
+  res.render('/', { user: req.user });
 });
 
 
@@ -269,10 +270,6 @@ app.post('/signup', function(req, res) {
   res.end();
 });
 
-app.get('/files', function(req, res) {
-  // REFER TO INDEX ROUTE
-});
-
 /**
  * Creates a new file object for a given user
  * @param Username
@@ -314,7 +311,7 @@ app.post('/files', function(req, res) {
   // Save to MongoDB (OK to be asynchronous)
   var file = new File({
     name: req.files.myFile.name,
-    extension: path.split('.')[1],
+    extension: path.split('.')[1].toLowerCase(),
     type: req.files.myFile.type,
     size: req.files.myFile.size,
     path: path,
@@ -341,6 +338,20 @@ app.post('/files', function(req, res) {
 app.put('/files', function(req, res) {
   var user = req.params.user;
 
+});
+
+// Retrieve detailed info about a file
+app.get('/files/:id', function(req, res) {
+  File.findOne({ '_id': req.params.id }, function(err, file) {
+    if (file) {
+      res.render('detail', {
+        user: req.user,
+        file: file
+      });
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 // Update a given file for specified user

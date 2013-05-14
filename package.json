@@ -17,6 +17,8 @@
     "dropbox": "*",
     "passport": "*",
     "passport-google-oauth": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "moment": "*",
+    "filesize": "*"
   }
 }
