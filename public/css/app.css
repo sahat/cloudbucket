@@ -7,5 +7,19 @@
   border-radius: 3px;
 }
 .list li {
-  padding: 15px 60px 15px 10px;
+  padding: 15px 60px 15px 22px;
+}
+.icon-pdf {
+  background: url(../icons/32px/pdf.png) left no-repeat;
+}
+.icon-png {
+  background: url(../icons/32px/png.png) left no-repeat;
+}
+.icon-doc,
+.icon-docx {
+  background: url(../icons/32px/doc.png) left no-repeat;
+}
+.icon-ppt,
+.icon-pptx {
+  background: url(../icons/32px/ppt.png) left no-repeat;
 }
