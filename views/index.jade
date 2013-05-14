@@ -12,7 +12,7 @@ block content
   else
     header.bar-title
       h1.title CloudBucket
-      a.button(href='#uploadModal', data-transition='fade') Upload
+      a.button(href='#upload-modal', data-transition='fade') Upload
     include _footer
     .content
         ul.list
@@ -21,13 +21,36 @@ block content
               a(href='#')
                 strong #{file.name}
                 br
-                small #{file.size} bytes
+                small(id='file-size-#{file.id}') #{file.size}
+                small , modified&nbsp;
+                small(id='last-modified-#{file.id}') #{file.lastModified}
                 span.chevron
                 span.count-main #{file.extension}
+            script
+              $(function() {
+                function updateFileFormating() {
+                  var prettyFileSize = filesize('#{file.size}');
+                  $('#file-size-#{file.id}').text(prettyFileSize);
+
+                  var prettyDate = moment('#{file.lastModified}').fromNow();
+                  $('#last-modified-#{file.id}').text(prettyDate);
+                }
+
+                // Update file formatting when transitioning between the app tabs
+                window.addEventListener('push', function() {
+                 updateFileFormating();
+                });
+
+                // Also set file formatting upon DOM load
+                updateFileFormating();
+              });
+
+
+
     #uploadModal.modal
       header.bar-title
         h1.title Upload a file
-        a.button(href='#uploadModal') Cancel
+        a.button(href='#upload-modal') Cancel
       .content.content-padded
         form(action='/files', method='POST', enctype='multipart/form-data')
           input(type='file', name='myFile')
