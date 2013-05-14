@@ -60,7 +60,7 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -278,8 +278,11 @@ app.get('/files', function(req, res) {
  */
 app.post('/files', function(req, res) {
 
-  // TODO: change to linux path later
-  var path = req.files.myFile.path.split("\\").slice(-1).join("\\");
+  if (process.platform.match(/^win/)) {
+     var path = req.files.myFile.path.split("\\").slice(-1).join("\\");
+  } else {
+      var path = req.files.myFile.path.split("//").slice(-1).join("//");
+  }
 
   fs.readFile(path, function (err, data) {
     if (err) return res.send(500, err);
