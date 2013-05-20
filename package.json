@@ -19,6 +19,7 @@
     "passport-google-oauth": "*",
     "underscore": "*",
     "moment": "*",
-    "filesize": "*"
+    "filesize": "*",
+    "aws-sdk": "*"
   }
 }

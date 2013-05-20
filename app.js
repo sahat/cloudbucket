@@ -30,6 +30,7 @@ var app = express();
 
 
 // Connect to MongoDB
+// TODO: MONGOLAB IS NOW USING GOOGLE CLOUD PLATFORM as host name is cloudbucket
 mongoose.connect(config.MONGOLAB);
 
 
@@ -62,8 +63,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
-    //callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
+    //callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
