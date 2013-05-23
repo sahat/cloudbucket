@@ -25,7 +25,7 @@ var async = require('async'),
 
 var config = require('./config'),
     User = require('./schema').User,
-    File = require('./schema').File;
+    FileSchema = require('./schema').File;
 
 
 var app = express();
@@ -35,6 +35,7 @@ var app = express();
 // TODO: MONGOLAB IS NOW USING GOOGLE CLOUD PLATFORM as host name is cloudbucket
 mongoose.connect(config.MONGOLAB);
 
+var File = mongoose.model('File', FileSchema);
 
 // Load Amazon AWS credentials
 AWS.config.loadFromPath('./aws.json');
@@ -65,8 +66,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    //callbackURL: "http://localhost:3000/auth/google/callback"
-    callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
+    //callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -218,6 +219,10 @@ app.get('/auth/google/callback',
 
 
 app.get('/search', function(req, res) {
+  User.search({ query: 'sahat' }, function(err, results) {
+
+  });
+
   request.get('http://elastic-sahat.rhcloud.com', function(error, response, body) {
     res.send(body);
   });

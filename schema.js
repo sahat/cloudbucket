@@ -2,11 +2,12 @@
  * Mongoose Schema for MongoDB
  */
 var mongoosastic = require('mongoosastic'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    config = require('./config');
 
 
 // File schema
-exports.File = mongoose.model('File', new mongoose.Schema({
+var File = new mongoose.Schema({
   name: String,
   extension: String,
   type: String,
@@ -16,8 +17,11 @@ exports.File = mongoose.model('File', new mongoose.Schema({
   keywords: [String],
   summary: String,
   user: String
-}).plugin(mongoosastic));
+});
 
+File.plugin(mongoosastic);
+
+exports.File = File;
 
 // User schema
 exports.User = mongoose.model('User', new mongoose.Schema({
