@@ -1,3 +1,5 @@
+// TODO: language support detection by NLTK
+
 /**
  * @name CCNY Senior Project
  * @authors: Emilie Bodden, Sahat Yalkabov
@@ -216,36 +218,10 @@ app.get('/auth/google/callback',
 
 
 app.get('/search', function(req, res) {
-  res.render('search', { user: req.user, active: 'active' });
+  request.get('http://elastic-sahat.rhcloud.com', function(error, response, body) {
+    res.send(body);
+  });
 });
-
-
-app.post('/', function(req, res) {
-
-  // Handle facebook post request
-});
-//
-//app.get('/search', fb.checkSession, fb.getFriendIds, fb.getUserDetails, function(req, res, next) {
-//
-//  rest.get(
-//      "http://api.rottentomatoes.com/api/public/v1.0/movies/" + req.query.rottenId + "?apikey=" + config.rottenTomatoesApiKey + "&page_limit=10&q=" + req.query.q
-//    ).on('complete', function(data) {
-//
-//      var response = util.parseMovieResults(data);
-//      util.addViewingData(req, res, next, response.cache, response.idx)
-//
-//    }).on('error', function(err) {
-//      console.log('Error getting movies', err);
-//    });
-//});
-
-//app.get('/search', function(req, res) {
-//  request('localhost:9200', function(error, response, body) {
-//    if (!error && response.statusCode === 200) {
-//      console.log(body);
-//    }
-//  });
-//});
 
 
 /**
