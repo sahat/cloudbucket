@@ -32,8 +32,9 @@ var app = express();
 
 
 // Connect to MongoDB
-// TODO: MONGOLAB IS NOW USING GOOGLE CLOUD PLATFORM as host name is cloudbucket
-mongoose.connect(config.MONGOLAB);
+// TODO: MONGOLAB IS NOW USING GOOGL E CLOUD PLATFORM as host name is cloudbucket
+mongoose.connect('localhost');
+// mongoose.connect(config.MONGOLAB);
 
 var File = mongoose.model('File', FileSchema);
 
