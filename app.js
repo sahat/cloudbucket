@@ -33,8 +33,7 @@ var app = express();
 
 // Connect to MongoDB
 // TODO: MONGOLAB IS NOW USING GOOGL E CLOUD PLATFORM as host name is cloudbucket
-mongoose.connect('localhost');
-// mongoose.connect(config.MONGOLAB);
+mongoose.connect(config.MONGOLAB);
 
 var File = mongoose.model('File', FileSchema);
 
@@ -218,8 +217,12 @@ app.get('/auth/google/callback',
   res.redirect('/');
 });
 
-
 app.get('/search', function(req, res) {
+  res.render('search');
+});
+
+
+app.post('/search', function(req, res) {
   User.search({ query: 'sahat' }, function(err, results) {
 
   });
@@ -259,7 +262,7 @@ app.post('/signup', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
-  var path;
+  var path = '';
 
   // Windows uses backslash for file path, Linux uses forward slashuuuuuuiuhiu
   if (process.platform.match(/^win/)) {
@@ -267,6 +270,16 @@ app.post('/files', function(req, res) {
   } else {
      path = req.files.myFile.path.split("/").slice(-1).join("/");
   }
+
+  var file = {
+    name: req.files.myFile.name,
+    extension: path.split('.')[1].toLowerCase(),
+    type: req.files.myFile.type,
+    size: req.files.myFile.size,
+    path: path,
+    lastModified: req.files.myFile.lastModifiedDate,
+    user: req.user.googleId
+  };
 
   fs.readFile(path, function (err, data) {
     if (err) return res.send(500, err);
@@ -280,6 +293,36 @@ app.post('/files', function(req, res) {
         } else {
           console.log("Successfully uploaded data to semanticweb");
 
+          // send a request to python cluster
+          request.post({ url: 'http://127.0.0.1:5000', 
+            form: { path:path, extension:path.split('.')[1].toLowerCase() } }, function(e, r, body) {
+            
+
+
+            console.log(body);
+            // Save to MongoDB (OK to be asynchronous)
+            var mongoFile = new File(file);
+
+            // NLP analysis on file to generate keywords
+            var tags = JSON.parse(body).tags
+            console.log(tags);
+            var myArr = tags;
+            mongoFile.keywords = tags;
+
+            // nltk analysis to generate summary
+            mongoFile.summary = 'Quick document summary goes here';
+
+            mongoFile.save(function(err) {
+              if (err) return res.send(500, err);
+              console.log('Saved file metadata to MongoDB successfully')
+            });
+
+            res.redirect('/');
+
+
+          });
+          console.log('Sent a POST request to Python');
+
           // delete temp file on disk, now that it is on S3
           fs.unlink(path, function (err) {
             if (err) return res.send(500, err);
@@ -291,30 +334,7 @@ app.post('/files', function(req, res) {
     });
   });
 
-  // Save to MongoDB (OK to be asynchronous)
-  var file = new File({
-    name: req.files.myFile.name,
-    extension: path.split('.')[1].toLowerCase(),
-    type: req.files.myFile.type,
-    size: req.files.myFile.size,
-    path: path,
-    lastModified: req.files.myFile.lastModifiedDate,
-    user: req.user.googleId
-  });
-
-  // NLP analysis on file to generate keywords
-  var myArr = ['tag1', 'tag2', 'tag3'];
-  file.keywords.push(myArr);
-
-  // nltk analysis to generate summary
-  file.summary = 'Quick document summary goes here';
-
-  file.save(function(err) {
-    if (err) return res.send(500, err);
-    console.log('Saved file metadata to MongoDB successfully')
-  });
-
-  res.redirect('/');
+  
 });
 
 // Update all files for a specified user
