@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def extract_keywords():
-    print request.form
+    print(request.form)
     filepath = request.form['path']
     extension = request.form['extension']
 

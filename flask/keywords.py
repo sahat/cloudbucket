@@ -7,7 +7,7 @@ from nltk.chunk import RegexpParser
 import csv
 from pprint import pprint
 
-csvwrite = file('db\cyttron-keywords.csv', 'wb')
+csvwrite = open('db\cyttron-keywords.csv', 'wb')
 bigramList = []
 trigramList = []
 wordList = []
@@ -30,7 +30,7 @@ def descKeywords(list):
         # print currentEntry
         freqWords(currentEntry,25)
         nGrams(currentEntry)
-        print " "
+        print(" ")
 
 # String-functions
 def freqNouns(string,int):
