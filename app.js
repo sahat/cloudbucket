@@ -10,6 +10,7 @@ var async = require('async'),
     AWS = require('aws-sdk'),
     email = require('emailjs'),
     express = require('express'),
+    filesize = require('filesize'),
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
@@ -18,9 +19,9 @@ var async = require('async'),
     MongoStore = require('connect-mongo')(express),
     path = require('path'),
     passport = require('passport'),
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-    request = require('request');
-    _ = require('underscore')
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+    request = require('request'),
+    _ = require('underscore');
 
 
 var config = require('./config'),
@@ -153,9 +154,18 @@ function ensureAuthenticated(req, res, next) {
 app.get('/', function(req, res) {
   if (req.user) {
     File.find({ user: req.user.googleId }, function(err, files) {
+
+      // Need to clone files array because it is immutable
+      var filesWithFormatting = _.clone(files);
+
+      // Prettify file sizes
+      _.each(filesWithFormatting, function(file) {
+        file.size = filesize(file.size);
+      });
+
       res.render('index', {
         user: req.user,
-        files: files
+        files: filesWithFormatting
       });
     });
   } else {
