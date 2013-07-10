@@ -153,19 +153,19 @@ function ensureAuthenticated(req, res, next) {
  */
 app.get('/', function(req, res) {
   if (req.user) {
-    File.find({ user: req.user.googleId }, function(err, files) {
-
-      // Need to clone files array because it is immutable
-      var filesWithFormatting = _.clone(files);
+    // Documents returned from queries with the lean option enabled are plain javascript objects, not MongooseDocuments.
+    // They have no save method, getters/setters or other Mongoose magic applied.
+    // And most importantly they are mutable, which allows us to apply formatting.
+    File.find({ user: req.user.googleId }).lean().exec(function(err, files) {
 
       // Prettify file sizes
-      _.each(filesWithFormatting, function(file) {
+      _.each(files, function(file) {
         file.size = filesize(file.size);
       });
-
+      console.log(files);
       res.render('index', {
         user: req.user,
-        files: filesWithFormatting
+        files: files
       });
     });
   } else {

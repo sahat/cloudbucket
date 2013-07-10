@@ -18,13 +18,13 @@ block content
         ul.list
           for file in files
             li(class='icon-#{file.extension}')
-              a(href='/files/#{file.id}')
+              a(href='/files/#{file._id}')
                 strong #{file.name}
                 br
                 small(id='file-size-#{file.id}') #{file.size}
                 small , modified&nbsp;
                 small(id='last-modified-#{file.id}') #{file.lastModified}
-            script
+            script.
               $(function() {
                 function updateFileFormating() {
                   var prettyDate = moment('#{file.lastModified}').fromNow();
