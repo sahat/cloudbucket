@@ -17,13 +17,15 @@ block content
     .content
         ul.list
           for file in files
-            li(class='icon-#{file.extension}')
+            li
               a(href='/files/#{file._id}')
-                strong #{file.name}
-                br
-                small(id='file-size-#{file.id}') #{file.size}
-                small , modified&nbsp;
-                small(id='last-modified-#{file.id}') #{file.lastModified}
+                .file-icon
+                  i.icon-file
+                .file-description
+                  strong #{file.name}
+                  br
+                  small #{file.size}
+                  small , modified #{file.lastModified}
 
     #uploadModal.modal
       header.bar-title

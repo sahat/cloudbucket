@@ -7,8 +7,20 @@
   border-radius: 3px;
 }
 .list li {
-  padding: 15px 60px 15px 22px;
 }
+
+.file-icon {
+  display: inline;
+  font-size: 32px;
+  vertical-align: middle;
+}
+
+.file-description {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
 .icon-pdf {
   background: url(../icons/32px/pdf.png) left no-repeat;
 }
