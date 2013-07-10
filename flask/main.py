@@ -16,6 +16,10 @@ def extract_keywords():
     print request.form
     filepath = request.form['path']
     extension = request.form['extension']
+
+    if extension is not 'txt':
+        return json.dumps({'tags': 'invalid format'})
+
     url = 'https://s3.amazonaws.com/semanticweb/'
     text = requests.get(url+filepath).text
 
