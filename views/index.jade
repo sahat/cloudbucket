@@ -24,21 +24,6 @@ block content
                 small(id='file-size-#{file.id}') #{file.size}
                 small , modified&nbsp;
                 small(id='last-modified-#{file.id}') #{file.lastModified}
-            script.
-              $(function() {
-                function updateFileFormating() {
-                  var prettyDate = moment('#{file.lastModified}').fromNow();
-                  $('#last-modified-#{file.id}').text(prettyDate);
-                }
-
-                // Update file formatting when transitioning between the app tabs
-                window.addEventListener('push', function() {
-                  updateFileFormating();
-                });
-
-                // Also set file formatting upon DOM load
-                updateFileFormating();
-              });
 
     #uploadModal.modal
       header.bar-title

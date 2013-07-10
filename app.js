@@ -161,6 +161,7 @@ app.get('/', function(req, res) {
       // Prettify file sizes
       _.each(files, function(file) {
         file.size = filesize(file.size);
+        file.lastModified = moment(file.lastModified).fromNow();
       });
       console.log(files);
       res.render('index', {
