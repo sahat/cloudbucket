@@ -27,9 +27,6 @@ block content
             script
               $(function() {
                 function updateFileFormating() {
-                  var prettyFileSize = filesize('#{file.size}');
-                  $('#file-size-#{file.id}').text(prettyFileSize);
-
                   var prettyDate = moment('#{file.lastModified}').fromNow();
                   $('#last-modified-#{file.id}').text(prettyDate);
                 }
