@@ -213,3 +213,12 @@ ul {
     bottom: 0;
     overflow: hidden;
 }
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+footer .topcoat-icon-button {
+  margin-right: 5px;
+}
