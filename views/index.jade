@@ -10,9 +10,7 @@ block content
         br
         a.button.button-positive.button-block(href='/auth/google', data-ignore='push') Login with Google
   else
-    header.bar-title
-      h1.title CloudBucket
-      a.button(href='#uploadModal', data-transition='fade') Upload
+    include _header
     include _footer
     .content
         ul.list

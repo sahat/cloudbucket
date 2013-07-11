@@ -151,7 +151,7 @@ function ensureAuthenticated(req, res, next) {
 /**
  * @route GET /index
  */
-app.get('/fff', function(req, res) {
+app.get('/', function(req, res) {
   if (req.user) {
     // Documents returned from queries with the lean option enabled are plain javascript objects, not MongooseDocuments.
     // They have no save method, getters/setters or other Mongoose magic applied.
