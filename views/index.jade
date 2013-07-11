@@ -11,19 +11,23 @@ block content
         a.button.button-positive.button-block(href='/auth/google', data-ignore='push') Login with Google
   else
     include _header
+
+    .search-bar
+      input.topcoat-search-input(type='search', value='', placeholder='search', style='width: 100%')
+
+    .topcoat-list__container
+      h3.topcoat-list__header All Files
+      ul.topcoat-list.list
+        for file in files
+          li.topcoat-list__item
+            a(href='/files/#{file._id}')
+              img(src='/icons/retina/doc 5.png')
+              p #{file.name}
+              p #{file.size}, modified #{file.lastModified}
+              span.chevron
+              span.count 0
+
     include _footer
-    .content
-        ul.list
-          for file in files
-            li
-              a(href='/files/#{file._id}')
-                .file-icon
-                  i.icon-file
-                .file-description
-                  strong #{file.name}
-                  br
-                  small #{file.size}
-                  small , modified #{file.lastModified}
 
     #uploadModal.modal
       header.bar-title
