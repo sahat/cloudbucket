@@ -151,6 +151,25 @@ ul {
     background-size: cover;
 }
 
+
+.icon-settings {
+  -webkit-filter: invert(100%);
+  background: transparent url(../icons/retina/stack.png);
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
+.icon-upload {
+  -webkit-filter: invert(100%);
+  background: transparent url(../icons/retina/cloud%20upload.png);
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
 .icon-sms {
     background: transparent url(images/chat.svg);
     background-repeat: no-repeat;
