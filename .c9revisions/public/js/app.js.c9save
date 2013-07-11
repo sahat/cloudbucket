@@ -21,3 +21,4 @@
 {"ts":1373578348509,"patch":[[{"diffs":[[0,"s('backg"],[1,"round"],[0,"')\n  });"]],"start1":363,"start2":363,"length1":16,"length2":21}]],"length":388,"saved":false}
 {"ts":1373578350948,"patch":[[{"diffs":[[0,"kground'"],[-1,")"],[1,", 'red');"],[0,"\n  });\n}"]],"start1":369,"start2":369,"length1":17,"length2":25}]],"length":396,"saved":false}
 {"ts":1373578524702,"patch":[[{"diffs":[[0," \n  "],[-1,"Hammer('.list > li').on(\"swiperight\", function() {\n    this.css('background', 'red');\n  });"],[0,"\n});"]],"start1":297,"start2":297,"length1":99,"length2":8}]],"length":305,"saved":false}
+{"ts":1373584090911,"patch":[[{"diffs":[[0,"ion() {\n"],[1,"  \n  // Upload file modal dialog"],[0,"\n  $('.u"]],"start1":23,"start2":23,"length1":16,"length2":48},{"diffs":[[0,"'\n  });\n"],[-1,"  \n  "],[0,"\n});"]],"start1":320,"start2":320,"length1":17,"length2":12}]],"length":332,"saved":false}

@@ -24,7 +24,6 @@ block content
               img(src='/icons/retina/doc 5.png')
               p #{file.name}
               p #{file.size}, modified #{file.lastModified}
-              span.chevron
               a.topcoat-button--cta.delete-button Delete
           script.
             Hammer('##{file._id}').on('swiperight', function(event) {

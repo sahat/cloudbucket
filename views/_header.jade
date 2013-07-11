@@ -10,8 +10,8 @@
 
 #upload.zoom-anim-dialog.mfp-hide
   form(action='/files', method='POST', enctype='multipart/form-data')
-    h2 File Upload Dialog
-    p
-      input(type='file', name='myFile')
-
-    button.topcoat-butto(type='submit') Upload
+    p Only Text files, Word documents, PDFs, MP3/AAC music, MP4/MOV/AVI/FLV video formats are supported. 
+    input(type='file', name='myFile')
+    br
+    br
+    button.topcoat-button--cta(type='submit') Upload
