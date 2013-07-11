@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  console.log($('#upload'))
+
   $('.upload-popup-link').magnificPopup({
     type: 'inline',
     fixedContentPos: false,
@@ -11,4 +11,6 @@ $(document).ready(function() {
     removalDelay: 300,
     mainClass: 'my-mfp-zoom-in'
   });
+  
+  
 });
