@@ -11,3 +11,8 @@
 {"ts":1373580586031,"patch":[[{"diffs":[[0,"et', href='/css/"],[-1,"styles"],[1,"anima"],[0,".css')\n    link("]],"start1":483,"start2":483,"length1":38,"length2":37}]],"length":832,"saved":false}
 {"ts":1373580587173,"patch":[[{"diffs":[[0,"ss/anima"],[1,"te"],[0,".css')\n "]],"start1":496,"start2":496,"length1":16,"length2":18}]],"length":834,"saved":false}
 {"ts":1373580588779,"patch":[[{"diffs":[[0,"animate."],[1,"min."],[0,"css')\n  "]],"start1":499,"start2":499,"length1":16,"length2":20}]],"length":838,"saved":false}
+{"ts":1373582678968,"patch":[[{"diffs":[[0,"hammer.min.js')\n"],[1,"    sc\n"],[0,"    script(src='"]],"start1":771,"start2":771,"length1":32,"length2":39}]],"length":845,"saved":false}
+{"ts":1373582683165,"patch":[[{"diffs":[[0,")\n    sc"],[1,"ript(src='/lib/"],[0,"\n    scr"]],"start1":785,"start2":785,"length1":16,"length2":31}]],"length":860,"saved":false}
+{"ts":1373582684898,"patch":[[{"diffs":[[0,"c='/lib/"],[1,"animate"],[0,"\n    scr"]],"start1":800,"start2":800,"length1":16,"length2":23}]],"length":867,"saved":false}
+{"ts":1373582686391,"patch":[[{"diffs":[[0,"/animate"],[1,"CSS"],[0,"\n    scr"]],"start1":807,"start2":807,"length1":16,"length2":19}]],"length":870,"saved":false}
+{"ts":1373582688361,"patch":[[{"diffs":[[0,"imateCSS"],[1,".js')"],[0,"\n    scr"]],"start1":810,"start2":810,"length1":16,"length2":21}]],"length":875,"saved":false}

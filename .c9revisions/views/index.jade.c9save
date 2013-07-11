@@ -97,3 +97,71 @@
 {"ts":1373581153701,"patch":[[{"diffs":[[0,"vent"],[-1,".angle"],[0,");\n "]],"start1":1135,"start2":1135,"length1":14,"length2":8}]],"length":1157,"saved":false}
 {"ts":1373581161594,"patch":[[{"diffs":[[0,"._id"],[-1,"}', { drag_lock_to_axis: true "],[0,"}).o"]],"start1":954,"start2":954,"length1":38,"length2":8}]],"length":1127,"saved":false}
 {"ts":1373581162567,"patch":[[{"diffs":[[0,"ile._id}"],[1,"'"],[0,").on('sw"]],"start1":951,"start2":951,"length1":16,"length2":17}]],"length":1128,"saved":false}
+{"ts":1373581953126,"patch":[[{"diffs":[[0,"ated');\n"],[1,"              \n"],[0,"        "]],"start1":1071,"start2":1071,"length1":16,"length2":31}]],"length":1143,"saved":false}
+{"ts":1373581961630,"patch":[[{"diffs":[[0,"    "],[-1,"console.log(event);"],[1,"$(this)."],[0,"\n   "]],"start1":1104,"start2":1104,"length1":27,"length2":16}]],"length":1132,"saved":false}
+{"ts":1373581964092,"patch":[[{"diffs":[[0,"$(this)."],[1,"addClass('"],[0,"\n       "]],"start1":1108,"start2":1108,"length1":16,"length2":26}]],"length":1142,"saved":false}
+{"ts":1373581964659,"patch":[[{"diffs":[[0,"dClass('"],[1,"a"],[0,"\n       "]],"start1":1118,"start2":1118,"length1":16,"length2":17}]],"length":1143,"saved":false}
+{"ts":1373581968040,"patch":[[{"diffs":[[0,"Class('a"],[1,"nimated hinge')"],[0,"\n       "]],"start1":1119,"start2":1119,"length1":16,"length2":31}]],"length":1158,"saved":false}
+{"ts":1373581970727,"patch":[[{"diffs":[[0,"ss('"],[-1,"flipInY"],[0," ani"]],"start1":1055,"start2":1055,"length1":15,"length2":8}]],"length":1151,"saved":false}
+{"ts":1373581971494,"patch":[[{"diffs":[[0,"dClass('"],[-1," "],[0,"animated"]],"start1":1051,"start2":1051,"length1":17,"length2":16}]],"length":1150,"saved":false}
+{"ts":1373581973621,"patch":[[{"diffs":[[0,"animated"],[1," flipInY"],[0,"');\n    "]],"start1":1059,"start2":1059,"length1":16,"length2":24}]],"length":1158,"saved":false}
+{"ts":1373581977702,"patch":[[{"diffs":[[0,"        "],[-1,"    "],[0,"\n       "]],"start1":1081,"start2":1081,"length1":20,"length2":16}]],"length":1154,"saved":false}
+{"ts":1373581978417,"patch":[[{"diffs":[[0,"');\n"],[-1,"          \n"],[0,"    "]],"start1":1075,"start2":1075,"length1":19,"length2":8}]],"length":1143,"saved":false}
+{"ts":1373581997391,"patch":[[{"diffs":[[0,"    "],[-1,"$(this).addClass('animated hinge')"],[0,"\n   "]],"start1":1089,"start2":1089,"length1":42,"length2":8}]],"length":1109,"saved":false}
+{"ts":1373582009489,"patch":[[{"diffs":[[0,"vent) {\n"],[1,"              \n"],[0,"        "]],"start1":989,"start2":989,"length1":16,"length2":31}]],"length":1124,"saved":false}
+{"ts":1373582010307,"patch":[[{"diffs":[[0,"{\n              "],[1,"$d"],[0,"\n              $"]],"start1":995,"start2":995,"length1":32,"length2":34}]],"length":1126,"saved":false}
+{"ts":1373582011653,"patch":[[{"diffs":[[0,"      $d"],[1,"eleteB"],[0,"\n       "]],"start1":1005,"start2":1005,"length1":16,"length2":22}]],"length":1132,"saved":false}
+{"ts":1373582013113,"patch":[[{"diffs":[[0,"$deleteB"],[1,"utton"],[0,"\n       "]],"start1":1011,"start2":1011,"length1":16,"length2":21}]],"length":1137,"saved":false}
+{"ts":1373582016134,"patch":[[{"diffs":[[0,"        "],[-1,"$"],[1,"var "],[0,"deleteBu"]],"start1":1003,"start2":1003,"length1":17,"length2":20}]],"length":1140,"saved":false}
+{"ts":1373582018173,"patch":[[{"diffs":[[0,"teButton"],[1," = "],[0,"\n       "]],"start1":1019,"start2":1019,"length1":16,"length2":19}]],"length":1143,"saved":false}
+{"ts":1373582023224,"patch":[[{"diffs":[[0,"        "],[1,"$(this).addClass('animated hinge')"],[0,"\n       "]],"start1":1119,"start2":1119,"length1":16,"length2":50}]],"length":1177,"saved":false}
+{"ts":1373582029274,"patch":[[{"diffs":[[0,"    "],[-1,"$(this).find('.delete-button')"],[0,".sho"]],"start1":1041,"start2":1041,"length1":38,"length2":8}]],"length":1147,"saved":false}
+{"ts":1373582030134,"patch":[[{"diffs":[[0,"utton = "],[1,"$(this).find('.delete-button')"],[0,"\n       "]],"start1":1022,"start2":1022,"length1":16,"length2":46}]],"length":1177,"saved":false}
+{"ts":1373582032190,"patch":[[{"diffs":[[0,"button')"],[1,";"],[0,"\n       "]],"start1":1052,"start2":1052,"length1":16,"length2":17}]],"length":1178,"saved":false}
+{"ts":1373582037657,"patch":[[{"diffs":[[0,"        "],[1,"deleteButton"],[0,".show()."]],"start1":1068,"start2":1068,"length1":16,"length2":28}]],"length":1190,"saved":false}
+{"ts":1373582050630,"patch":[[{"diffs":[[0,"    "],[-1,"$(this).addClass('animated hinge')"],[1,"deleteBu"],[0,"\n   "]],"start1":1136,"start2":1136,"length1":42,"length2":16}]],"length":1164,"saved":false}
+{"ts":1373582052339,"patch":[[{"diffs":[[0,"deleteBu"],[1,"tton."],[0,"\n       "]],"start1":1140,"start2":1140,"length1":16,"length2":21}]],"length":1169,"saved":false}
+{"ts":1373582056152,"patch":[[{"diffs":[[0,"eButton."],[1,"click(function() {\n              "],[0,"\n       "]],"start1":1145,"start2":1145,"length1":16,"length2":49}]],"length":1202,"saved":false}
+{"ts":1373582057895,"patch":[[{"diffs":[[0,"       \n"],[1,"              }\n"],[0,"        "]],"start1":1179,"start2":1179,"length1":16,"length2":32}]],"length":1218,"saved":false}
+{"ts":1373582059987,"patch":[[{"diffs":[[0,"        "],[1,"  $(this).addClass('animated hinge')"],[0,"\n       "]],"start1":1178,"start2":1178,"length1":16,"length2":52}]],"length":1254,"saved":false}
+{"ts":1373582071202,"patch":[[{"diffs":[[0,"on(event) {\n"],[1,"              \n"],[0,"            "]],"start1":985,"start2":985,"length1":24,"length2":39}]],"length":1269,"saved":false}
+{"ts":1373582073981,"patch":[[{"diffs":[[0,"        "],[1,"var li = "],[0,"\n       "]],"start1":1003,"start2":1003,"length1":16,"length2":25}]],"length":1278,"saved":false}
+{"ts":1373582076479,"patch":[[{"diffs":[[0,"  var li"],[-1," = "],[1,"EL"],[0,"\n       "]],"start1":1009,"start2":1009,"length1":19,"length2":18}]],"length":1277,"saved":false}
+{"ts":1373582078735,"patch":[[{"diffs":[[0,"var "],[1,"e"],[0,"l"],[-1,"iEL"],[0,"\n   "]],"start1":1011,"start2":1011,"length1":12,"length2":10}]],"length":1275,"saved":false}
+{"ts":1373582079996,"patch":[[{"diffs":[[0,"  var el"],[1," = "],[0,"\n       "]],"start1":1009,"start2":1009,"length1":16,"length2":19}]],"length":1278,"saved":false}
+{"ts":1373582086115,"patch":[[{"diffs":[[0,"ar el = "],[1,"$(this);"],[0,"\n       "]],"start1":1012,"start2":1012,"length1":16,"length2":24}]],"length":1286,"saved":false}
+{"ts":1373582090529,"patch":[[{"diffs":[[0,"e-button');\n"],[1,"              \n"],[0,"            "]],"start1":1082,"start2":1082,"length1":24,"length2":39}]],"length":1301,"saved":false}
+{"ts":1373582096094,"patch":[[{"diffs":[[0," deleteB"],[-1,"utto"],[1,"t"],[0,"n = $(th"]],"start1":1046,"start2":1046,"length1":20,"length2":17}]],"length":1298,"saved":false}
+{"ts":1373582100329,"patch":[[{"diffs":[[0," deleteB"],[-1,"utto"],[1,"t"],[0,"n.show()"]],"start1":1119,"start2":1119,"length1":20,"length2":17}]],"length":1295,"saved":false}
+{"ts":1373582102691,"patch":[[{"diffs":[[0," deleteB"],[-1,"utto"],[1,"t"],[0,"n.click("]],"start1":1180,"start2":1180,"length1":20,"length2":17}]],"length":1292,"saved":false}
+{"ts":1373582111858,"patch":[[{"diffs":[[0,"    "],[-1,"  $(this)"],[1,"el"],[0,".add"]],"start1":1220,"start2":1220,"length1":17,"length2":10}]],"length":1285,"saved":false}
+{"ts":1373582113215,"patch":[[{"diffs":[[0,"        "],[1,"  "],[0,"el.addCl"]],"start1":1216,"start2":1216,"length1":16,"length2":18}]],"length":1287,"saved":false}
+{"ts":1373582116336,"patch":[[{"diffs":[[0," hinge')"],[1,";"],[0,"\n       "]],"start1":1247,"start2":1247,"length1":16,"length2":17}]],"length":1288,"saved":false}
+{"ts":1373582123791,"patch":[[{"diffs":[[0,"');\n"],[-1,"              \n"],[0,"    "]],"start1":1087,"start2":1087,"length1":23,"length2":8}]],"length":1273,"saved":false}
+{"ts":1373582176109,"patch":[[{"diffs":[[0,"    "],[-1,"deleteBtn.click(function() {\n                el.addClass('animated hinge');\n              }"],[0,"\n   "]],"start1":1162,"start2":1162,"length1":99,"length2":8}]],"length":1182,"saved":false}
+{"ts":1373582187292,"patch":[[{"diffs":[[0,"        "],[1,"deleteBtn.click(function() {\n                el.addClass('animated hinge');\n              }"],[0,"\n       "]],"start1":1158,"start2":1158,"length1":16,"length2":107}]],"length":1273,"saved":false}
+{"ts":1373582263727,"patch":[[{"diffs":[[0,"       }"],[1,");"],[0,"\n       "]],"start1":1249,"start2":1249,"length1":16,"length2":18}]],"length":1275,"saved":false}
+{"ts":1373582307459,"patch":[[{"diffs":[[0,"ed hinge');\n"],[1,"                \n"],[0,"            "]],"start1":1230,"start2":1230,"length1":24,"length2":41}]],"length":1292,"saved":false}
+{"ts":1373582308480,"patch":[[{"diffs":[[0,"        "],[1,"e"],[0,"\n       "]],"start1":1250,"start2":1250,"length1":16,"length2":17}]],"length":1293,"saved":false}
+{"ts":1373582309560,"patch":[[{"diffs":[[0,"       e"],[1,"l.remo"],[0,"\n       "]],"start1":1251,"start2":1251,"length1":16,"length2":22}]],"length":1299,"saved":false}
+{"ts":1373582310888,"patch":[[{"diffs":[[0," el.remo"],[1,"ve();"],[0,"\n       "]],"start1":1257,"start2":1257,"length1":16,"length2":21}]],"length":1304,"saved":false}
+{"ts":1373582341337,"patch":[[{"diffs":[[0," hinge')"],[1,".remove()"],[0,";\n      "]],"start1":1232,"start2":1232,"length1":16,"length2":25}]],"length":1313,"saved":false}
+{"ts":1373582342462,"patch":[[{"diffs":[[0,"();\n"],[-1,"                el.remove();\n"],[0,"    "]],"start1":1247,"start2":1247,"length1":37,"length2":8}]],"length":1284,"saved":false}
+{"ts":1373582486635,"patch":[[{"diffs":[[0,"d hinge'"],[1,", function() {\n                "],[0,").remove"]],"start1":1231,"start2":1231,"length1":16,"length2":47}]],"length":1315,"saved":false}
+{"ts":1373582487363,"patch":[[{"diffs":[[0,"', function() {\n"],[1,"                \n"],[0,"                "]],"start1":1238,"start2":1238,"length1":32,"length2":49}]],"length":1332,"saved":false}
+{"ts":1373582488591,"patch":[[{"diffs":[[0,"        "],[1,"  "],[0,"\n       "]],"start1":1262,"start2":1262,"length1":16,"length2":18}]],"length":1334,"saved":false}
+{"ts":1373582490058,"patch":[[{"diffs":[[0,"        "],[1,"this"],[0,"\n       "]],"start1":1264,"start2":1264,"length1":16,"length2":20}]],"length":1338,"saved":false}
+{"ts":1373582493289,"patch":[[{"diffs":[[0,"        "],[-1,"this"],[1,"el.remove();"],[0,"\n       "]],"start1":1264,"start2":1264,"length1":20,"length2":28}]],"length":1346,"saved":false}
+{"ts":1373582495548,"patch":[[{"diffs":[[0,"       )"],[-1,".remove();"],[0,"\n       "]],"start1":1294,"start2":1294,"length1":26,"length2":16}]],"length":1336,"saved":false}
+{"ts":1373582501030,"patch":[[{"diffs":[[0,"       )"],[1,"};"],[0,"\n       "]],"start1":1294,"start2":1294,"length1":16,"length2":18}]],"length":1338,"saved":false}
+{"ts":1373582545450,"patch":[[{"diffs":[[0,"        "],[1,"}"],[0,")};\n    "]],"start1":1293,"start2":1293,"length1":16,"length2":17}]],"length":1339,"saved":false}
+{"ts":1373582547141,"patch":[[{"diffs":[[0,"      })"],[-1,"}"],[0,";\n      "]],"start1":1295,"start2":1295,"length1":17,"length2":16}]],"length":1338,"saved":false}
+{"ts":1373582735449,"patch":[[{"diffs":[[0,"el.a"],[-1,"ddClass('animated hinge', function() {\n                  el.remove();\n                });"],[0,"\n   "]],"start1":1211,"start2":1211,"length1":97,"length2":8}]],"length":1249,"saved":false}
+{"ts":1373582736989,"patch":[[{"diffs":[[0,"    "],[-1,"  el.a"],[0,"\n   "]],"start1":1205,"start2":1205,"length1":14,"length2":8}]],"length":1243,"saved":false}
+{"ts":1373582744898,"patch":[[{"diffs":[[0,"        "],[1,"  el"],[0,"\n       "]],"start1":1201,"start2":1201,"length1":16,"length2":20}]],"length":1247,"saved":false}
+{"ts":1373582748858,"patch":[[{"diffs":[[0,"      el"],[1,".animateCSS('"],[0,"\n       "]],"start1":1205,"start2":1205,"length1":16,"length2":29}]],"length":1260,"saved":false}
+{"ts":1373582753942,"patch":[[{"diffs":[[0,"ateCSS('"],[1,"hinge', function() {\n                \n                }"],[0,"\n       "]],"start1":1218,"start2":1218,"length1":16,"length2":71}]],"length":1315,"saved":false}
+{"ts":1373582755050,"patch":[[{"diffs":[[0,"       }"],[1,");"],[0,"\n       "]],"start1":1273,"start2":1273,"length1":16,"length2":18}]],"length":1317,"saved":false}
+{"ts":1373582758852,"patch":[[{"diffs":[[0,"        "],[1,"  "],[0,"\n       "]],"start1":1255,"start2":1255,"length1":16,"length2":18}]],"length":1319,"saved":false}
+{"ts":1373582761028,"patch":[[{"diffs":[[0,"        "],[1,"el"],[0,"\n       "]],"start1":1257,"start2":1257,"length1":16,"length2":18}]],"length":1321,"saved":false}
+{"ts":1373582763020,"patch":[[{"diffs":[[0,"      el"],[1,".remove();"],[0,"\n       "]],"start1":1259,"start2":1259,"length1":16,"length2":26}]],"length":1331,"saved":false}
