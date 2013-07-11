@@ -67,8 +67,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
-    //callbackURL: "http://semanticweb.aws.af.cm/auth/google/callback"
+    //callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "http://semanticweb.sahat.c9.io/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -151,7 +151,7 @@ function ensureAuthenticated(req, res, next) {
 /**
  * @route GET /index
  */
-app.get('/', function(req, res) {
+app.get('/fff', function(req, res) {
   if (req.user) {
     // Documents returned from queries with the lean option enabled are plain javascript objects, not MongooseDocuments.
     // They have no save method, getters/setters or other Mongoose magic applied.
@@ -293,7 +293,7 @@ app.post('/files', function(req, res) {
   };
 
   fs.readFile(path, function (err, data) {
-    if (err) return res.send(500, err);
+if (err) return res.send(500, err);
 
     var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 
