@@ -94,7 +94,7 @@ a {
     position: relative;
     text-align: left;
     clear: both;
-    padding: 12px 60px 16px 8px !important;
+    padding: 12px 60px 16px 0px !important;
 }
 
 .list > li p:nth-of-type(1) {
@@ -113,7 +113,7 @@ a {
   height: 48px;
   float: left;
   margin-top: 0px;
-  margin-right: 8px;
+  margin-right: 0px;
   -webkit-filter: invert(100%);
 }
 
@@ -226,7 +226,7 @@ ul {
 .delete-button {
   display: none;
   position: absolute;
-  right: 50px;
+  right: 8px;
   top: 12px;
 }
 
