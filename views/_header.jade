@@ -5,5 +5,13 @@
   .topcoat-navigation-bar__item.center.half
     h1.topcoat-navigation-bar__title CloudBucket
   .topcoat-navigation-bar__item.right.quarter
-    a.topcoat-icon-button
+    a.topcoat-icon-button.upload-popup-link(href='#upload')
       span.topcoat-icon.icon-upload
+
+#upload.zoom-anim-dialog.mfp-hide
+  form(action='/files', method='POST', enctype='multipart/form-data')
+    strong File Upload Dialog
+    p
+      input(type='file', name='myFile')
+
+    button.topcoat-butto(type='submit') Upload

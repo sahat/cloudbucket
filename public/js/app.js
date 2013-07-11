@@ -1,15 +1,14 @@
-var app = {
-  models: {},
-  views: {},
-  routers: {},
-  utils: {}
-};
-
-$(document).on("ready", function () {
-  app.router = new app.routers.AppRouter();
-  app.utils.templates.load(["HomeView"],
-    function () {
-        app.router = new app.routers.AppRouter();
-        Backbone.history.start();
-    });
+$(document).ready(function() {
+  console.log($('#upload'))
+  $('.upload-popup-link').magnificPopup({
+    type: 'inline',
+    fixedContentPos: false,
+    fixedBgPos: true,
+    overflowY: 'auto',
+    closeBtnInside: true,
+    preloader: false,
+    midClick: true,
+    removalDelay: 300,
+    mainClass: 'my-mfp-zoom-in'
+  });
 });
