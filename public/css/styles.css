@@ -165,6 +165,15 @@ ul {
     background-size: cover;
 }
 
+.icon-back {
+  -webkit-filter: invert(100%);
+  background: transparent url(../icons/retina/arrow%207.png);
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
 
 .icon-settings {
   -webkit-filter: invert(100%);
