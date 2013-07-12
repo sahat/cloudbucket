@@ -312,37 +312,33 @@ app.post('/files', function(req, res) {
      var path = req.files.myFile.path.split("/").slice(-1).join("/");
   }
 
-  var file = {
-    name: req.files.userFile.name,
-    extension: filename.split('.').pop().toLowerCase(),
-    type: req.files.userFile.type,
-    size: req.files.userFile.size,
-    path: path,
-    lastModified: req.files.myFile.lastModifiedDate,
-    user: req.user.googleId
-  };
-
-  fs.readFile(path, function (err, data) {
-if (err) return res.send(500, err);
+  fs.readFile(path, function(err, data) {
+    if (err) return res.send(500, err);
 
     var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 
     s3.createBucket(function() {
       s3.putObject({ Key: path, Body: data }, function(err, data) {
         if (err) {
-          console.log("Error uploading data: ", err);
+          console.error(err);
         } else {
-          console.log("Successfully uploaded data to semanticweb");
+          console.log("Successfully uploaded data to semanticweb bucket");
 
-          // send a request to python cluster
-          request.post({ url: 'http://127.0.0.1:5000', 
-            form: { path:path, extension:path.split('.')[1].toLowerCase() } }, function(e, r, body) {
-            
+          // send a request to the Flask app for keyword processing
 
-
+          request('http://127.0.0.1:5000/' + path, function(e, r, body) {
+            if (e) return res.send(500, err);
             console.log(body);
-            // Save to MongoDB (OK to be asynchronous)
-            var mongoFile = new File(file);
+
+            var mongoFile = new File({
+              name: req.files.userFile.name,
+              extension: filename.split('.').pop().toLowerCase(),
+              type: req.files.userFile.type,
+              size: req.files.userFile.size,
+              path: path,
+              lastModified: req.files.userFile.lastModifiedDate,
+              user: req.user.googleId
+            });
 
             // NLP analysis on file to generate keywords
             var tags = JSON.parse(body).tags
