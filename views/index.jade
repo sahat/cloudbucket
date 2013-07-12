@@ -27,12 +27,12 @@ block content
               a.topcoat-button--cta.delete-button Delete
           script.
             Hammer('##{file._id}').on('swiperight', function(event) {
-              var el = $(this);
-              var deleteBtn = $(this).find('.delete-button');
-              deleteBtn.show().addClass('animated flipInY');
-              deleteBtn.click(function() {
-                el.animateCSS('hinge', function() {
-                  el.remove();
+              var $el = $(this);
+              var $deleteBtn = $(this).find('.delete-button');
+              $deleteBtn.show().addClass('animated flipInY');
+              $deleteBtn.click(function() {
+                $el.animateCSS('hinge', function() {
+                  $el.remove();
                 });
               });
             });

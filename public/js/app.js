@@ -12,5 +12,14 @@ $(document).ready(function() {
     removalDelay: 300,
     mainClass: 'my-mfp-zoom-in'
   });
-
+  
+  $('[rel=popover]').popover({ 
+    html : true,
+    placement: 'bottom',
+    container: 'body',
+    content: function() {
+      return $('#popover-content').html();
+    }
+  });
+  
 });

@@ -1,6 +1,6 @@
 .topcoat-navigation-bar
   .topcoat-navigation-bar__item.left.quarter
-    a.topcoat-icon-button
+    a.topcoat-icon-button(href='#', rel='popover')
       span.topcoat-icon.icon-settings
   .topcoat-navigation-bar__item.center.half
     h1.topcoat-navigation-bar__title CloudBucket
@@ -15,3 +15,14 @@
     br
     br
     button.topcoat-button--cta(type='submit') Upload
+
+#popover-content(style='display: none', class='animated flipInY')
+  ul.topcoat-list.list
+    li.topcoat-list__item 
+      a(href='#') New File
+    li.topcoat-list__item
+      a(href='#') New Folder
+    li.topcoat-list__item
+      a(href='#') Settings
+    li.topcoat-list__item
+      a(href='#') Logout

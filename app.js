@@ -21,8 +21,9 @@ var async = require('async'),
     passport = require('passport'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
-    _ = require('underscore'),
-    Case = require('case');
+    _ = require('underscore');
+    
+// Case = require('case');
 
 // TODO: Reserved for later
 // Case.upper('foo_bar')                       -> 'FOO BAR'
