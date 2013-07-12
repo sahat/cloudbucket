@@ -314,7 +314,7 @@ app.post('/files', function(req, res) {
 
   var file = {
     name: req.files.userFile.name,
-    extension: path.split('.')[1].toLowerCase(),
+    extension: filename.split('.').pop().toLowerCase(),
     type: req.files.userFile.type,
     size: req.files.userFile.size,
     path: path,
