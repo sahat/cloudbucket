@@ -11,7 +11,7 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
+@app.route('/extract', methods=['POST'])
 def extract_keywords():
     print(request.form)
     filepath = request.form['path']

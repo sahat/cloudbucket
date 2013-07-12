@@ -304,20 +304,19 @@ app.post('/signup', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
-  var path = '';
 
-  // Windows uses backslash for file path, Linux uses forward slashuuuuuuiuhiu
+  // Windows uses backslash for file path, Linux uses forward slash
   if (process.platform.match(/^win/)) {
-     path = req.files.myFile.path.split("\\").slice(-1).join("\\");
+     var path = req.files.myFile.path.split("\\").slice(-1).join("\\");
   } else {
-     path = req.files.myFile.path.split("/").slice(-1).join("/");
+     var path = req.files.myFile.path.split("/").slice(-1).join("/");
   }
 
   var file = {
-    name: req.files.myFile.name,
+    name: req.files.userFile.name,
     extension: path.split('.')[1].toLowerCase(),
-    type: req.files.myFile.type,
-    size: req.files.myFile.size,
+    type: req.files.userFile.type,
+    size: req.files.userFile.size,
     path: path,
     lastModified: req.files.myFile.lastModifiedDate,
     user: req.user.googleId
