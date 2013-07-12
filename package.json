@@ -20,6 +20,7 @@
     "underscore": "*",
     "moment": "*",
     "filesize": "*",
-    "aws-sdk": "*"
+    "aws-sdk": "*",
+    "case": "*
   }
 }

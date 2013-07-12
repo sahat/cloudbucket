@@ -21,7 +21,33 @@ var async = require('async'),
     passport = require('passport'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    Case = require('case');
+
+// TODO: Reserved for later
+// Case.upper('foo_bar')                       -> 'FOO BAR'
+// Case.lower('fooBar')                        -> 'foo bar'
+// Case.snake('Foo bar!')                      -> 'foo_bar'
+// Case.squish('foo.bar')                      -> 'FooBar'
+// Case.camel('foo, bar')                      -> 'fooBar'
+// Case.constant('Foo-Bar')                    -> 'FOO_BAR'
+// Case.title('foo v. bar')                    -> 'Foo v. Bar'
+// Case.capital('foo_v_bar')                   -> 'Foo V Bar'
+// Case.sentence('"foo!" said bar', ['Bar'])   -> '"Foo!" said Bar'
+
+// Case.of('foo')          -> 'lower'
+// Case.of('foo_bar')      -> 'snake'
+// Case.of('Foo v Bar')    -> 'title'
+// Case.of('foo_ Bar')     -> undefined
+
+// Case.flip('FlipMe')     -> 'fLIPmE'
+// Case.flip('TEST THIS!') -> 'test this!'
+
+// Case.type('bang', function(s) {
+//     return Case.upper(s, '!')+'!';
+// });
+// Case.bang('bang')       -> 'BANG!'
+// Case.of('TEST!THIS!')   -> 'bang'
 
 
 var config = require('./config'),
@@ -156,14 +182,18 @@ app.get('/', function(req, res) {
     // Documents returned from queries with the lean option enabled are plain javascript objects, not MongooseDocuments.
     // They have no save method, getters/setters or other Mongoose magic applied.
     // And most importantly they are mutable, which allows us to apply formatting.
-    File.find({ user: req.user.googleId }).lean().exec(function(err, files) {
-
-      // Prettify file sizes
+    File
+    .find({ user: req.user.googleId })
+    .sort('name')
+    .lean()
+    .exec(function(err, files) {
+      
+      // Format "filesize" and "last modified date" to be human readable
       _.each(files, function(file) {
         file.size = filesize(file.size);
         file.lastModified = moment(file.lastModified).fromNow();
       });
-      console.log(files);
+
       res.render('index', {
         user: req.user,
         files: files
