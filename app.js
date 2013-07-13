@@ -337,69 +337,66 @@ app.get('/extract', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
-
-  // Windows uses backslash for file path, Linux uses forward slash
-  if (process.platform.match(/^win/)) {
-     var path = req.files.userFile.path.split("\\").slice(-1).join("\\");
-  } else {
-     var path = req.files.userFile.path.split("/").slice(-1).join("/");
-  }
-
+  var path = getPath(req.files.userFile.path);
   fs.readFile(path, function(err, data) {
     if (err) return res.send(500, err);
-
     var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
-
     s3.createBucket(function() {
       s3.putObject({ Key: path, Body: data }, function(err, data) {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log("Successfully uploaded data to semanticweb bucket");
-
-          // send a request to the Flask app for keyword processing
-
-          request('http://127.0.0.1:5000/' + path, function(e, r, body) {
-            if (e) return res.send(500, err);
-            console.log(body);
-
-            var mongoFile = new File({
-              name: req.files.userFile.name,
-              extension: path.split('.').pop().toLowerCase(),
-              type: req.files.userFile.type,
-              size: req.files.userFile.size,
-              path: 'https://s3.amazonaws.com/semanticweb/' + path,
-              lastModified: req.files.userFile.lastModifiedDate,
-              user: req.user.googleId
+        console.log('---data---', data);
+        if (err) return res.send(500, err);
+        var AlchemyAPI = require('alchemy-api');
+        var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
+        async.parallel({
+          entities: function(callback){
+            alchemy.entities('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+              if (err) res.send(500, err);
+              var entities = response.entities;
+              callback(null, entities);
             });
-
-            // NLP analysis on file to generate keywords
-            var tags = JSON.parse(body).tags
-            console.log(tags);
-            var myArr = tags;
-            mongoFile.keywords = tags;
-
-            // nltk analysis to generate summary
-            mongoFile.summary = 'Quick document summary goes here';
-
-            mongoFile.save(function(err) {
+          },
+          concepts: function(callback) {
+            alchemy.concepts('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+              if (err) res.send(500, err);
+              var concepts = response.concepts;
+              callback(null, concepts);
+            });
+          },
+          keywords: function(callback) {
+            alchemy.keywords('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+              if (err) res.send(500, err);
+              var keywords = response.keywords;
+              callback(null, keywords);
+            });
+          }
+        },
+        function(err, results) {
+          if (err) return res.send(500, err);
+          var file = new File({
+            name: req.files.userFile.name,
+            extension: path.split('.').pop().toLowerCase(),
+            type: req.files.userFile.type,
+            size: req.files.userFile.size,
+            keywords: results.keywords,
+            concepts: results.concepts,
+            entities: results.entities,
+            path: 'https://s3.amazonaws.com/semanticweb/' + path,
+            lastModified: req.files.userFile.lastModifiedDate,
+            user: req.user.googleId
+          });
+          file.save(function(err) {
               if (err) return res.send(500, err);
               console.log('Saved file metadata to MongoDB successfully')
             });
 
-            res.redirect('/');
+          res.redirect('/');
+          console.log(results);
+        });
 
-
-          });
-          console.log('Sent a POST request to Python');
-
-          // delete temp file on disk, now that it is on S3
-          fs.unlink(path, function (err) {
-            if (err) return res.send(500, err);
-            console.log('successfully deleted temp file');
-          });
-
-        }
+        fs.unlink(path, function (err) {
+          if (err) return res.send(500, err);
+          console.log('successfully deleted temp file');
+        });
       });
     });
   });
@@ -449,3 +446,15 @@ app.del('/files/:id', function(req, res) {
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+/**
+ * JavaScript Utilities
+*/
+
+function getPath(fullPath) {
+   if (process.platform.match(/^win/)) {
+     return fullPath.split("\\").slice(-1).join("\\");
+  } else {
+     return fullPath.split("/").slice(-1).join("/");
+  }
+}
