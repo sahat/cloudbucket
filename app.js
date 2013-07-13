@@ -414,7 +414,7 @@ app.post('/files', function(req, res) {
           console.log(results);
         });
 
-        fs.unlink(path, function (err) {
+        fs.unlink(filePath, function (err) {
           if (err) return res.send(500, err);
           console.log('successfully deleted temp file');
         });
