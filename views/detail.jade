@@ -3,17 +3,23 @@ extends layout
 block content
   include _header
 
-  h3= file.name
+  h3 Category
+  p #{file.category}
 
   h3 Summary
   p= file.summary
 
+  h3 Entities
+  for entity in file.entities
+    span #{entity.text} : #{entity.type} &nbsp;
+
+  h3 Concept Tags
+  for concept in file.concepts
+    span #{concept.text} &nbsp;
+
+  h3 Keyword Tags
+  for keyword in file.keywords
+    span #{keyword.text} &nbsp;
+
   br
-
-  h3 Tags
-  for kw in file.keywords
-    p= kw
-
-  br
-
   a.topcoat-button(href='#') Delete
