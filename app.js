@@ -22,6 +22,12 @@ var async = require('async'),
     request = require('request'),
     _ = require('underscore');
 
+// Integrates underscore.string with underscore library
+_.str = require('underscore.string');
+_.mixin(_.str.exports());
+
+
+
 // Case = require('case');
 
 // TODO: Reserved for later
@@ -402,6 +408,7 @@ app.post('/files', function(req, res) {
             category: results.category,
             concepts: results.concepts,
             entities: results.entities,
+            summary: _(textBody).truncate(100),
             path: 'https://s3.amazonaws.com/semanticweb/' + filePath,
             user: req.user.googleId
           });
