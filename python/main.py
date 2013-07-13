@@ -50,7 +50,7 @@ def extract_keywords(file):
 
         return json.dumps({'tags': wordList})
     else:
-        json.dumps({'message': 'Unsupported File Format'})
+        return json.dumps({'message': 'Unsupported File Format'})
 
 if __name__ == '__main__':
     app.run(debug=True)

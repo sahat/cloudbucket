@@ -307,9 +307,9 @@ app.post('/files', function(req, res) {
 
   // Windows uses backslash for file path, Linux uses forward slash
   if (process.platform.match(/^win/)) {
-     var path = req.files.myFile.path.split("\\").slice(-1).join("\\");
+     var path = req.files.userFile.path.split("\\").slice(-1).join("\\");
   } else {
-     var path = req.files.myFile.path.split("/").slice(-1).join("/");
+     var path = req.files.userFile.path.split("/").slice(-1).join("/");
   }
 
   fs.readFile(path, function(err, data) {
@@ -332,10 +332,10 @@ app.post('/files', function(req, res) {
 
             var mongoFile = new File({
               name: req.files.userFile.name,
-              extension: filename.split('.').pop().toLowerCase(),
+              extension: path.split('.').pop().toLowerCase(),
               type: req.files.userFile.type,
               size: req.files.userFile.size,
-              path: path,
+              path: 'https://s3.amazonaws.com/semanticweb/' + path,
               lastModified: req.files.userFile.lastModifiedDate,
               user: req.user.googleId
             });
