@@ -337,33 +337,43 @@ app.get('/extract', function(req, res) {
  * @return 200 OK
  */
 app.post('/files', function(req, res) {
-  var path = getPath(req.files.userFile.path);
-  fs.readFile(path, function(err, data) {
+  var filePath = getPath(req.files.userFile.path),
+      fileName = req.files.userFile.name,
+      fileExtension = path.split('.').pop().toLowerCase(),
+      fileType = req.files.userFile.type,
+      fileSize = req.files.userFile.size,
+      fileLastModified = req.files.userFile.lastModifiedDate;
+
+  fs.readFile(filePath, function(err, fileData) {
     if (err) return res.send(500, err);
     var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
     s3.createBucket(function() {
-      s3.putObject({ Key: path, Body: data }, function(err, data) {
+      s3.putObject({ Key: path, Body: fileData }, function(err, data) {
         console.log('---data---', data);
         if (err) return res.send(500, err);
         var AlchemyAPI = require('alchemy-api');
         var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
+
+        // Extract Plain Text File
+        var textBody = fileData.toString();
+
         async.parallel({
           entities: function(callback){
-            alchemy.entities('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+            alchemy.entities(textBody, {}, function(err, response) {
               if (err) res.send(500, err);
               var entities = response.entities;
               callback(null, entities);
             });
           },
           concepts: function(callback) {
-            alchemy.concepts('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+            alchemy.concepts(textBody, {}, function(err, response) {
               if (err) res.send(500, err);
               var concepts = response.concepts;
               callback(null, concepts);
             });
           },
           keywords: function(callback) {
-            alchemy.keywords('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+            alchemy.keywords(textBody, {}, function(err, response) {
               if (err) res.send(500, err);
               var keywords = response.keywords;
               callback(null, keywords);
@@ -373,15 +383,15 @@ app.post('/files', function(req, res) {
         function(err, results) {
           if (err) return res.send(500, err);
           var file = new File({
-            name: req.files.userFile.name,
-            extension: path.split('.').pop().toLowerCase(),
-            type: req.files.userFile.type,
-            size: req.files.userFile.size,
+            name: fileName,
+            extension: fileExtension,
+            type: fileType,
+            size: fileSize,
+            lastModified: fileLastModified,
             keywords: results.keywords,
             concepts: results.concepts,
             entities: results.entities,
-            path: 'https://s3.amazonaws.com/semanticweb/' + path,
-            lastModified: req.files.userFile.lastModifiedDate,
+            path: 'https://s3.amazonaws.com/semanticweb/' + filePath,
             user: req.user.googleId
           });
           file.save(function(err) {
