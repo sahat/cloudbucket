@@ -11,7 +11,9 @@ block content
 
   h3 Entities
   for entity in file.entities
-    span #{entity.text} : #{entity.type} &nbsp;
+    span
+      strong #{entity.text} -
+      | #{entity.type} &nbsp;
 
   h3 Concept Tags
   for concept in file.concepts
