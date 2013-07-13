@@ -1,5 +1,3 @@
-// TODO: language support detection by NLTK
-
 /**
  * @name CCNY Senior Project
  * @authors: Emilie Bodden, Sahat Yalkabov
@@ -22,7 +20,7 @@ var async = require('async'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
     _ = require('underscore');
-    
+
 // Case = require('case');
 
 // TODO: Reserved for later
@@ -296,6 +294,41 @@ app.post('/signup', function(req, res) {
   });
 
   res.end();
+});
+
+
+app.get('/extract', function(req, res) {
+  var AlchemyAPI = require('alchemy-api');
+  var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
+
+
+  async.parallel({
+    entities: function(callback){
+      alchemy.entities('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+        if (err) res.send(500, err);
+        var entities = response.entities;
+        callback(null, entities);
+      });
+    },
+    concepts: function(callback) {
+      alchemy.concepts('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+        if (err) res.send(500, err);
+        var concepts = response.concepts;
+        callback(null, concepts);
+      });
+    },
+    keywords: function(callback) {
+      alchemy.keywords('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+        if (err) res.send(500, err);
+        var keywords = response.keywords;
+        callback(null, keywords);
+      });
+    }
+  },
+  function(err, results) {
+    if (err) return res.send(500, err);
+    res.send(results);
+  });
 });
 
 /**

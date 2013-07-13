@@ -21,6 +21,7 @@
     "moment": "*",
     "filesize": "*",
     "aws-sdk": "*",
-    "case": "*
+    "case": "*",
+    "alchemy-api": "*"
   }
 }
