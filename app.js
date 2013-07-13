@@ -408,7 +408,7 @@ app.post('/files', function(req, res) {
             category: results.category,
             concepts: results.concepts,
             entities: results.entities,
-            summary: _(textBody).truncate(100),
+            summary: _(textBody).truncate(500),
             path: 'https://s3.amazonaws.com/semanticweb/' + filePath,
             user: req.user.googleId
           });

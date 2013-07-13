@@ -3,7 +3,10 @@
     a.topcoat-icon-button(href='#', rel='popover')
       span.topcoat-icon.icon-settings
   .topcoat-navigation-bar__item.center.half
-    h1.topcoat-navigation-bar__title CloudBucket
+    if file
+      h1.topcoat-navigation-bar__title #{file.name}
+    else
+      h1.topcoat-navigation-bar__title CloudBucket
   .topcoat-navigation-bar__item.right.quarter
     a.topcoat-icon-button.upload-popup-link(href='#upload')
       span.topcoat-icon.icon-upload
