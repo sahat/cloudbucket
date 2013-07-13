@@ -6,6 +6,7 @@
  */
 var async = require('async'),
     AWS = require('aws-sdk'),
+    AlchemyAPI = require('alchemy-api'),
     email = require('emailjs'),
     express = require('express'),
     filesize = require('filesize'),
@@ -58,8 +59,8 @@ var app = express();
 
 
 // Connect to MongoDB
-// TODO: MONGOLAB IS NOW USING GOOGL E CLOUD PLATFORM as host name is cloudbucket
 mongoose.connect(config.MONGOLAB);
+var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
 
 var File = mongoose.model('File', FileSchema);
 
@@ -333,29 +334,31 @@ app.get('/extract', function(req, res) {
 
 /**
  * Creates a new file object for a given user
- * @param Username
- * @return 200 OK
+ * @state Signed in
+ * @return Redirect to home page
  */
 app.post('/files', function(req, res) {
-  var filePath = getPath(req.files.userFile.path),
-      fileName = req.files.userFile.name,
-      fileExtension = path.split('.').pop().toLowerCase(),
-      fileType = req.files.userFile.type,
-      fileSize = req.files.userFile.size,
-      fileLastModified = req.files.userFile.lastModifiedDate;
+  var
+    filePath = getPath(req.files.userFile.path),
+    fileName = req.files.userFile.name,
+    fileExtension = filePath.split('.').pop().toLowerCase(),
+    fileType = req.files.userFile.type,
+    fileSize = req.files.userFile.size,
+    fileLastModified = req.files.userFile.lastModifiedDate;
 
   fs.readFile(filePath, function(err, fileData) {
     if (err) return res.send(500, err);
     var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
     s3.createBucket(function() {
-      s3.putObject({ Key: path, Body: fileData }, function(err, data) {
-        console.log('---data---', data);
+      s3.putObject({ Key: filePath, Body: fileData }, function(err, data) {
         if (err) return res.send(500, err);
-        var AlchemyAPI = require('alchemy-api');
-        var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
 
         // Extract Plain Text File
-        var textBody = fileData.toString();
+        if (fileExtension === 'txt') {
+          var textBody = fileData.toString();
+        } else {
+          return res.send('Format not supported');
+        }
 
         async.parallel({
           entities: function(callback){
@@ -363,6 +366,13 @@ app.post('/files', function(req, res) {
               if (err) res.send(500, err);
               var entities = response.entities;
               callback(null, entities);
+            });
+          },
+          category: function(callback) {
+            alchemy.category(textBody, {}, function(err, response) {
+              if (err) res.send(500, err);
+              var category = response.category;
+              callback(null, category);
             });
           },
           concepts: function(callback) {
@@ -389,6 +399,7 @@ app.post('/files', function(req, res) {
             size: fileSize,
             lastModified: fileLastModified,
             keywords: results.keywords,
+            category: results.category,
             concepts: results.concepts,
             entities: results.entities,
             path: 'https://s3.amazonaws.com/semanticweb/' + filePath,
