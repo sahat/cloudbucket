@@ -26,10 +26,11 @@ block content
           script.
             Hammer('##{file._id}').on('swiperight', function(event) {
               var $el = $(this);
+              $el.transition({ x: 100 });
               var $deleteBtn = $(this).find('.delete-button');
-              $deleteBtn.show().addClass('animated flipInY');
+              $deleteBtn.show().css('left', '-100px')
               $deleteBtn.click(function() {
-                $el.animateCSS('hinge', function() {
+                $el.animateCSS('fadeOutDown', function() {
                   $el.remove();
                 });
               });
