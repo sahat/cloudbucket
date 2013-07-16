@@ -20,6 +20,20 @@ body {
   padding: 0 .50rem;
 }
 
+.search-bar .topcoat-icon-button {
+  line-height: 2;
+  color: #373737;
+  background-color: #ddd;
+  border: 1px solid #bdbdbd;
+  margin-top: 3px;
+}
+
+.topcoat-icon-button:active,
+.topcoat-icon-button-.is-active {
+  background-color: #ddd;
+
+}
+
 .topcoat-icon-button--quiet:active,
 .topcoat-icon-button--quiet.is-active,
 .topcoat-icon-button--large--quiet:active,
@@ -127,7 +141,7 @@ a {
     position: relative;
     text-align: left;
     clear: both;
-    padding: 3px 60px 5px 0 !important
+    padding: 3px 60px 5px 0 !important;
 }
 
 .list > li p:nth-of-type(1) {
