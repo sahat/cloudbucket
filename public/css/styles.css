@@ -4,7 +4,7 @@ body {
 .topcoat-navigation-bar {
   height: 44px;
   background: #ececec;
-
+  border-bottom: 1px solid #bcbcbc;
 }
 .topcoat-navigation-bar__item {
   line-height: 2.05;
@@ -16,11 +16,23 @@ body {
 .topcoat-navigation-bar .topcoat-icon-button--quiet {
   color: #777;
   font-size: 21px;
-  line-height: 2;
+  line-height: 1.6;
   padding: 0 .50rem;
+}
+
+.topcoat-icon-button--quiet:active,
+.topcoat-icon-button--quiet.is-active,
+.topcoat-icon-button--large--quiet:active,
+.topcoat-icon-button--large--quiet.is-active {
+  color: #373737;
+  background-color: #ddd;
+  border: 1px solid #bdbdbd;
 }
 .topcoat-list {
   color: #2e2e2e;
+}
+.topcoat-list__container {
+  border-top: 0;
 }
 .topcoat-list__item {
   background: #fff;
