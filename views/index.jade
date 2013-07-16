@@ -20,7 +20,7 @@ block content
         for file in files
           li.topcoat-list__item(id='#{file._id}')
             a(href='/files/#{file._id}')
-              img(src='/icons/retina/doc 5.png')
+              i.icon-file-text-alt
               p #{file.name}
               p #{file.size}, modified #{file.lastModified}
               a.topcoat-button--cta.delete-button Delete

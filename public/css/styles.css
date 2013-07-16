@@ -127,7 +127,7 @@ a {
     position: relative;
     text-align: left;
     clear: both;
-    padding: 6px 60px 8px 0 !important;
+    padding: 3px 60px 5px 0 !important
 }
 
 .list > li p:nth-of-type(1) {
@@ -137,16 +137,14 @@ a {
 }
 
 .list > li p:nth-of-type(2) {
-    margin: 0;
-    color: #5e5e5e;
+  margin: 0;
+  color: #999;
+  font-size: 14px;
 }
-.list > li img {
-  width: 48px;
-  height: 48px;
+.list  [class^="icon-"] {
   float: left;
-  margin-top: 0;
-  margin-right: 0;
-  -webkit-filter: invert(100%);
+  font-size: 27px;
+  margin: 8px 10px 5px 10px;
 }
 .list li:active {
     background-color: #404141;
