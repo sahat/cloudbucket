@@ -18,17 +18,32 @@ block content
       ul.topcoat-list.list
         for file in files
           li.topcoat-list__item(id='#{file._id}')
-            a(href='/files/#{file._id}')
+            a(href='#')
               i.icon-file-text-alt
               p #{file.name}
               p #{file.size}, modified #{file.lastModified}
             a.delete-button Delete
           script.
-            Hammer('##{file._id}').on('swiperight', function(event) {
+            Hammer('##{file._id}', { swipe_velocity: 0.4 }).on('swiperight swipeleft', function(event) {
+              event.gesture.preventDefault();
+              
               var $el = $(this);
-              $el.transition({ x: 100 });
               var $deleteBtn = $(this).find('.delete-button');
-              $deleteBtn.show().css('left', '-100px')
+              
+              switch(event.type) {
+                case 'swiperight':
+                  $el.transition({ x: 100 });
+                  $deleteBtn.show().css('left', '-100px')
+                  break;
+                case 'swipeleft':
+                  $el.transition({ x: 0 });
+                  $deleteBtn.transition({ x: 0 });
+                  break;
+              }
+                
+                
+              
+              
               $deleteBtn.click(function() {
                 $el.animateCSS('fadeOutDown', function() {
                   $el.remove();

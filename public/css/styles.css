@@ -55,6 +55,7 @@ body {
 .topcoat-list__container {
   border-top: 0;
   background: #e4e4e3;
+  overflow: hidden;
 }
 .topcoat-list__item {
   background: #fff;
@@ -63,7 +64,7 @@ body {
 }
 
 .delete-button {
-  z-index: -1;
+  display: none;
   position: absolute;
   top: 0px;
   color: #fff;
