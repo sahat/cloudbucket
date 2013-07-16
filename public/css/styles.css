@@ -60,6 +60,21 @@ body {
   border-top: 0;
   border-bottom: 1px solid #ccc;
 }
+
+.delete-button {
+  z-index: -1;
+  position: absolute;
+  top: 0px;
+  color: #fff;
+  font-weight: 100;
+  background: #c93e37;
+  width: 100px;
+  height: 50px;
+  line-height: 2.3;
+  font-size: 22px;
+  text-align: center;
+}
+
 .file-icon {
   display: inline;
   font-size: 32px;
@@ -85,6 +100,9 @@ body {
 }
 
 
+.topcoat-list__item:first-child {
+  border-top: 0;
+}
 
 .topcoat-icon--back {
   background: url("images/back_light.svg") no-repeat;
@@ -108,6 +126,10 @@ body {
   background: #e4e4e3;
   box-shadow: inset 0 11px 8px -10px #d5d5d5, inset 0 -11px 8px -10px #d5d5d5;
   padding-right: 10px;
+}
+
+.topcoat-list__container {
+  background: #a6a6a6;
 }
 
 a {
@@ -276,12 +298,6 @@ ul {
 
 }
 
-.delete-button {
-  display: none;
-  position: absolute;
-  right: 8px;
-  top: 11px;
-}
 
 #map {
     position: absolute;

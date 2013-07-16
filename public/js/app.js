@@ -21,5 +21,6 @@ $(document).ready(function() {
       return $('#popover-content').html();
     }
   });
-  
+
+
 });
