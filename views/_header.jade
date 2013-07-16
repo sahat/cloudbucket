@@ -1,15 +1,15 @@
 .topcoat-navigation-bar
   .topcoat-navigation-bar__item.left.quarter
-    a.topcoat-icon-button(href='#', rel='popover')
-      span.topcoat-icon.icon-settings
+    a.topcoat-icon-button--quiet(href='#', rel='popover')
+      i.icon-reorder
   .topcoat-navigation-bar__item.center.half
     if file
       h1.topcoat-navigation-bar__title #{file.name}
     else
       h1.topcoat-navigation-bar__title CloudBucket
   .topcoat-navigation-bar__item.right.quarter
-    a.topcoat-icon-button.upload-popup-link(href='#upload')
-      span.topcoat-icon.icon-upload
+    a.topcoat-icon-button--quiet.upload-popup-link(href='#upload')
+      i.icon-cloud-upload
 
 #upload.zoom-anim-dialog.mfp-hide
   form(action='/files', method='POST', enctype='multipart/form-data')
