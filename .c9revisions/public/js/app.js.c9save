@@ -22,3 +22,11 @@
 {"ts":1373578350948,"patch":[[{"diffs":[[0,"kground'"],[-1,")"],[1,", 'red');"],[0,"\n  });\n}"]],"start1":369,"start2":369,"length1":17,"length2":25}]],"length":396,"saved":false}
 {"ts":1373578524702,"patch":[[{"diffs":[[0," \n  "],[-1,"Hammer('.list > li').on(\"swiperight\", function() {\n    this.css('background', 'red');\n  });"],[0,"\n});"]],"start1":297,"start2":297,"length1":99,"length2":8}]],"length":305,"saved":false}
 {"ts":1373584090911,"patch":[[{"diffs":[[0,"ion() {\n"],[1,"  \n  // Upload file modal dialog"],[0,"\n  $('.u"]],"start1":23,"start2":23,"length1":16,"length2":48},{"diffs":[[0,"'\n  });\n"],[-1,"  \n  "],[0,"\n});"]],"start1":320,"start2":320,"length1":17,"length2":12}]],"length":332,"saved":false}
+{"contributors":[],"silentsave":true,"ts":1373965445688,"patch":[[{"diffs":[[0,"'\n  });\n"],[1,"  \n  $('[rel=popover]').popover({ \n    html : true,\n    placement: 'bottom',\n    container: 'body',\n    content: function() {\n      return $('#popover-content').html();\n    }\n  });\n\n  $"],[0,"\n});"]],"start1":320,"start2":320,"length1":12,"length2":197}]],"length":517,"saved":false}
+{"ts":1373965446292,"patch":[[{"diffs":[[0,"});\n\n  $"],[1,"."],[0,"\n});"]],"start1":505,"start2":505,"length1":12,"length2":13}]],"length":518,"saved":false}
+{"ts":1373965448532,"patch":[[{"diffs":[[0,");\n\n  $."],[1,"nonbounce()"],[0,"\n});"]],"start1":506,"start2":506,"length1":12,"length2":23}]],"length":529,"saved":false}
+{"ts":1373965450074,"patch":[[{"diffs":[[0,"bounce()"],[1,";"],[0,"\n});"]],"start1":517,"start2":517,"length1":12,"length2":13}]],"length":530,"saved":false}
+{"ts":1373965577989,"patch":[[{"diffs":[[0,"});\n\n  $"],[1,"(body)"],[0,".nonboun"]],"start1":505,"start2":505,"length1":16,"length2":22}]],"length":536,"saved":false}
+{"ts":1373965579828,"patch":[[{"diffs":[[0,"  $(body"],[1,"''"],[0,").nonbou"]],"start1":510,"start2":510,"length1":16,"length2":18}]],"length":538,"saved":false}
+{"ts":1373965582200,"patch":[[{"diffs":[[0,"  $("],[1,"'"],[0,"body'"],[-1,"'"],[0,").no"]],"start1":510,"start2":510,"length1":14,"length2":14}]],"length":538,"saved":false}
+{"ts":1373965687576,"patch":[[{"diffs":[[0,");\n\n"],[-1,"  $('body').nonbounce();\n"],[0,"});"]],"start1":506,"start2":506,"length1":32,"length2":7}]],"length":513,"saved":false}

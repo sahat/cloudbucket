@@ -2,3 +2,6 @@
 {"contributors":[],"silentsave":true,"ts":1373652464913,"patch":[[{"diffs":[[0,"dk\": \"*\""],[1,",\n    "],[0,"\n  }\n}"]],"start1":450,"start2":450,"length1":14,"length2":20}]],"length":470,"saved":false}
 {"ts":1373652471034,"patch":[[{"diffs":[[0,"*\",\n    "],[1,"\"case\""],[0,"\n  }\n}"]],"start1":456,"start2":456,"length1":14,"length2":20}]],"length":476,"saved":false}
 {"ts":1373652473251,"patch":[[{"diffs":[[0,"  \"case\""],[1,": \"*"],[0,"\n  }\n}"]],"start1":462,"start2":462,"length1":14,"length2":18}]],"length":480,"saved":false}
+{"contributors":[],"silentsave":true,"ts":1373965158338,"patch":[[{"diffs":[[0,"core\": \"*\",\n"],[1,"    \"underscore-string\"\n"],[0,"    \"moment\""]],"start1":388,"start2":388,"length1":24,"length2":48},{"diffs":[[0,"ase\": \"*"],[1,"\",\n    \"alchemy-api\": \"*\""],[0,"\n  }\n}"]],"start1":490,"start2":490,"length1":14,"length2":39}]],"length":529,"saved":false}
+{"ts":1373965160377,"patch":[[{"diffs":[[0,"-string\""],[1,": \"*\""],[0,"\n    \"mo"]],"start1":415,"start2":415,"length1":16,"length2":21}]],"length":534,"saved":false}
+{"ts":1373965161248,"patch":[[{"diffs":[[0,"ng\": \"*\""],[1,","],[0,"\n    \"mo"]],"start1":420,"start2":420,"length1":16,"length2":17}]],"length":535,"saved":false}
