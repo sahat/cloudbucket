@@ -1,32 +1,29 @@
-.button-google {
-  background-color: #e74b37;
-  -webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.20);
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,.20);
-  color: #fff;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+body {
+  background: #e4e3e4;
 }
-
 .topcoat-navigation-bar {
   height: 44px;
 }
-
 .topcoat-navigation-bar__item {
   line-height: 2.05;
   vertical-align: middle;
 }
-
 .topcoat-navigation-bar .topcoat-icon-button {
   line-height: 2;
   padding: 0 .50rem;
 }
-
+.topcoat-list {
+  color: #2e2e2e;
+}
+.topcoat-list__item {
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+}
 .file-icon {
   display: inline;
   font-size: 32px;
   vertical-align: middle;
 }
-
 .file-description {
   display: inline-block;
   margin-left: 10px;
@@ -36,7 +33,6 @@
 .topcoat-navigation-bar {
     z-index: 10;
 }
-
 .scroller {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -47,18 +43,22 @@
     right: 0px;
 }
 
+.topcoat-search-input {
+  height: 2rem;
+  background-color: #fff;
+  background-image: url(../img/search_dark.svg);
+}
+
 .topcoat-icon--back {
     background: url("images/back_light.svg") no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
 }
-
 .topcoat-list__container {
     border-bottom: none;
     clear: both;
 }
-
 .count {
     color: #58C0FF;
     position: absolute;
@@ -66,18 +66,15 @@
     top: 26px;
     font-weight: bold;
 }
-
 .search-bar {
     padding:12px 10px 12px 8px;
 }
-
 a {
     text-decoration: none;
     color: inherit;
     -webkit-touch-callout: none;
     -webkit-tap-highlight-color: rgb(0, 0, 0);
 }
-
 .details {
     margin: auto;
 }
@@ -95,7 +92,6 @@ a {
     font-size: 1.2rem;
     color: #C6C8C8;
 }
-
 .details h2 {
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
@@ -103,34 +99,31 @@ a {
     font-weight: normal;
     color: #888;
 }
-
 .list li {
     position: relative;
     text-align: left;
     clear: both;
-    padding: 12px 60px 16px 0px !important;
+    padding: 6px 60px 8px 0 !important;
 }
 
 .list > li p:nth-of-type(1) {
-    margin: 0px;
+    margin: 0;
     padding-top: 4px;
     font-weight: bold;
 }
 
 .list > li p:nth-of-type(2) {
-    margin: 0px;
-    color: #888;
+    margin: 0;
+    color: #5e5e5e;
 }
-
 .list > li img {
   width: 48px;
   height: 48px;
   float: left;
-  margin-top: 0px;
-  margin-right: 0px;
+  margin-top: 0;
+  margin-right: 0;
   -webkit-filter: invert(100%);
 }
-
 .list li:active {
     background-color: #404141;
     -webkit-box-shadow: inset 0 1px rgba(0,0,0,0.18);
