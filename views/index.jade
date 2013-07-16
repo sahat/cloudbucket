@@ -24,7 +24,7 @@ block content
               p #{file.size}, modified #{file.lastModified}
             a.delete-button Delete
           script.
-            Hammer('##{file._id}', { swipe_velocity: 0.4 }).on('swiperight swipeleft', function(event) {
+            Hammer('##{file._id}', { swipe_velocity: 0.3 }).on('swiperight swipeleft', function(event) {
               event.gesture.preventDefault();
               
               var $el = $(this);
@@ -32,11 +32,11 @@ block content
               
               switch(event.type) {
                 case 'swiperight':
-                  $el.transition({ x: 100 });
-                  $deleteBtn.show().css('left', '-100px')
+                  $el.transition({ x: 100, duration: 300 });
+                  $deleteBtn.transition({ x: 0 });
                   break;
                 case 'swipeleft':
-                  $el.transition({ x: 0 });
+                  $el.transition({ x: 0, duration: 300 });
                   $deleteBtn.transition({ x: 0 });
                   break;
               }

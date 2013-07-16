@@ -64,9 +64,9 @@ body {
 }
 
 .delete-button {
-  display: none;
   position: absolute;
   top: 0px;
+  left: -100px;
   color: #fff;
   font-weight: 100;
   background: #c93e37;
