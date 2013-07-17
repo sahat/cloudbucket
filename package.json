@@ -18,7 +18,7 @@
     "passport": "*",
     "passport-google-oauth": "*",
     "underscore": "*",
-    "underscore-string": "*",
+    "underscore.string": "*",
     "moment": "*",
     "filesize": "*",
     "aws-sdk": "*",
