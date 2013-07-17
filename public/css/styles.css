@@ -21,10 +21,13 @@ body {
 }
 
 .topcoat-search-input {
-  height: 2rem;
+  height: 2.2rem;
   width: 100%;
   background-color: #fff;
   background-image: url(../img/search_dark.svg);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 
 .search-bar .topcoat-icon-button {
