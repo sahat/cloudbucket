@@ -12,9 +12,8 @@
     a.topcoat-icon-button--quiet.upload-popup-link(href='#upload')
       i.icon-cloud-upload
 
-#upload.zoom-anim-dialog.mfp-hidercury
- 
-   form(action='/files', method='POST', enctype='multipart/form-data')
+#upload.zoom-anim-dialog.mfp-hide
+  form(action='/files', method='POST', enctype='multipart/form-data')
     p Only Text files, Word documents, PDFs, MP3/AAC music, MP4/MOV/AVI/FLV video formats are supported. 
     input(type='file', name='userFile')
     br

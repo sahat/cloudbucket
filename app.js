@@ -65,7 +65,12 @@ var app = express();
 
 
 // Connect to MongoDB
-mongoose.connect(config.MONGOLAB);
+mongoose.connect(config.MONGOLAB, function(err) {
+  if (err) {
+    console.error('Database connection error');
+    return res.send(500, 'Database connection error');
+  }
+});
 var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
 
 var File = mongoose.model('File', FileSchema);
@@ -99,8 +104,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    //callbackURL: "http://localhost:3000/auth/google/callback"
-    callbackURL: "http://semanticweb.sahat.c9.io/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
+    //callbackURL: "http://semanticweb.sahat.c9.io/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
