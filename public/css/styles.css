@@ -2,6 +2,9 @@ body {
   background: #e4e3e4;
   padding-top: 40px;
 }
+.container {
+  margin-top: -1px;
+}
 .topcoat-navigation-bar {
   height: 40px;
   background: #ececec;
@@ -10,7 +13,11 @@ body {
   right: 0;
   left: 0;
   top: 0;
-  z-index: 1030;
+  z-index: 1066;
+  webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+
 }
 .topcoat-navigation-bar__item {
   line-height: 2.05;
@@ -21,9 +28,9 @@ body {
 }
 .topcoat-navigation-bar .topcoat-icon-button--quiet {
   color: #777;
-  font-size: 21px;
-  line-height: 1.6;
-  padding: 0 .50rem;
+  font-size: 25px;
+  line-height: 1;
+  padding: 0.1rem .50rem
 }
 
 .topcoat-search-input {
@@ -436,7 +443,7 @@ footer .topcoat-icon-button {
 }
 .mfp-move-from-top.mfp-bg {
   opacity: 0;
-  -webkit-transition: all 0.4s;
+  -webkit-transition: all 0.3s;
   -webkit-backface-visibility: hidden;
 }
 .mfp-move-from-top.mfp-ready .mfp-with-anim {
@@ -461,6 +468,7 @@ footer .topcoat-icon-button {
 .mfp-container {
   top: 40px !important;
   padding: 0 !important;
+  z-index: 1;
 }
 
 .mfp-bg {
