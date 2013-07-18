@@ -1,5 +1,0 @@
-{"ts":1373555922079,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
-{"contributors":[],"silentsave":true,"ts":1373555923180,"patch":[[{"diffs":[[1,"<script>\n        $.nonbounce();\n        \n        </script>"]],"start1":0,"start2":0,"length1":0,"length2":58}]],"length":58,"saved":false}
-{"ts":1373555925577,"patch":[[{"diffs":[[0,"script>\n"],[-1,"        "],[0,"$.nonbou"]],"start1":1,"start2":1,"length1":24,"length2":16},{"diffs":[[0,"();\n"],[-1,"        \n        "],[1,"\n"],[0,"</sc"]],"start1":20,"start2":20,"length1":25,"length2":9}]],"length":34,"saved":false}
-{"ts":1373555928373,"patch":[[{"diffs":[[0,"script>\n"],[1,"  "],[0,"$.nonbou"]],"start1":1,"start2":1,"length1":16,"length2":18}]],"length":36,"saved":false}
-{"ts":1373555930375,"patch":[[{"diffs":[[0,"unce();\n"],[-1,"\n"],[0,"</script"]],"start1":18,"start2":18,"length1":17,"length2":16}]],"length":35,"saved":false}

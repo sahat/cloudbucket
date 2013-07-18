@@ -1,6 +1,5 @@
 $(document).ready(function() {
-  
-  // Upload file modal dialog
+
   $('.upload-popup-link').magnificPopup({
     type: 'inline',
     fixedContentPos: false,
@@ -12,14 +11,13 @@ $(document).ready(function() {
     removalDelay: 300,
     mainClass: 'my-mfp-zoom-in'
   });
-  
-  $('[rel=popover]').popover({ 
-    html : true,
-    placement: 'bottom',
-    container: 'body',
-    content: function() {
-      return $('#popover-content').html();
-    }
+
+  // Inline popups
+  $('.menu-popup-button').magnificPopup({
+    type: 'inline',
+    removalDelay: 500,
+    mainClass: 'mfp-move-from-top',
+    midClick: true
   });
 
 });

@@ -382,10 +382,58 @@ footer .topcoat-icon-button {
 .my-mfp-zoom-in.mfp-removing.mfp-bg {
   opacity: 0;
 }
+.popover {
+  color: #f0f0f0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1010;
+  display: none;
+  max-width: 276px;
+  padding: 1px;
+  text-align: left;
+  background-color: #303030;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  white-space: normal;
+}
+.popover-content {
+  padding: 9px 14px;
+}
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  -moz-transition: opacity 0.15s linear;
+  -o-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+.fade.in {
+  opacity: 1;
+}
+.collapse {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+  -moz-transition: height 0.35s ease;
+  -o-transition: height 0.35s ease;
+  transition: height 0.35s ease;
+}
+.collapse.in {
+  height: auto;
+}
 
 
 /* 
+
 ====== Move-from-top effect ======
+
 */
 
 .white-popup {
@@ -399,33 +447,46 @@ footer .topcoat-icon-button {
 
 
 .mfp-move-from-top {
+  
+  .mfp-content {
+   vertical-align:top; 
+  }
+  
   /* start state */
+  .mfp-with-anim {
+    opacity: 0;
+    transition: all 0.2s;
+    
+    transform: translateY(-100px);
+  }
+  
+  &.mfp-bg {
+    opacity: 0;
+    transition: all 0.2s;
+  }
+  
   /* animate in */
+  &.mfp-ready {
+    .mfp-with-anim {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    &.mfp-bg {
+      opacity: 0.8;
+    }
+  }
+  
   /* animate out */
-}
-.mfp-move-from-top .mfp-content {
-  vertical-align: top;
-}
-.mfp-move-from-top .mfp-with-anim {
-  opacity: 0;
-  -webkit-transition: all 0.2s;
-  -webkit-transform: translateY(-100px);
-}
-.mfp-move-from-top.mfp-bg {
-  opacity: 0;
-  -webkit-transition: all 0.2s;
-}
-.mfp-move-from-top.mfp-ready .mfp-with-anim {
-  opacity: 1;
-  -webkit-transform: translateY(0);
-}
-.mfp-move-from-top.mfp-ready.mfp-bg {
-  opacity: 0.8;
-}
-.mfp-move-from-top.mfp-removing .mfp-with-anim {
-  -webkit-transform: translateY(-50px);
-  opacity: 0;
-}
-.mfp-move-from-top.mfp-removing.mfp-bg {
-  opacity: 0;
+  &.mfp-removing {
+    
+    .mfp-with-anim {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    &.mfp-bg {
+      opacity: 0;
+    }
+    
+  }
+  
 }

@@ -1,6 +1,6 @@
 .topcoat-navigation-bar
   .topcoat-navigation-bar__item.left.quarter
-    a.topcoat-icon-button--quiet(href='#', rel='popover')
+    a.topcoat-icon-button--quiet.menu-popup-button(href='#test-popup')
       i.icon-reorder
   .topcoat-navigation-bar__item.center.half
     if file
@@ -11,7 +11,6 @@
   .topcoat-navigation-bar__item.right.quarter
     a.topcoat-icon-button--quiet.upload-popup-link(href='#upload')
       i.icon-cloud-upload
-
 #upload.zoom-anim-dialog.mfp-hide
   form(action='/files', method='POST', enctype='multipart/form-data')
     p Only Text files, Word documents, PDFs, MP3/AAC music, MP4/MOV/AVI/FLV video formats are supported. 
@@ -30,3 +29,9 @@
       a(href='#') Settings
     li.topcoat-list__item
       a(href='#') Logout
+
+#test-popup.white-popup.mfp-with-anim.mfp-hide
+  | You may put any HTML here. This is dummy copy. It is not meant to be read. It has been placed here solely to demonstrate the look and feel of finished, typeset text. Only for show. He who searches for meaning here will be sorely disappointed.
+
+
+

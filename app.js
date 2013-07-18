@@ -198,7 +198,6 @@ app.get('/', function(req, res) {
     .sort('name')
     .lean()
     .exec(function(err, files) {
-      
       // Format "filesize" and "last modified date" to be human readable
       _.each(files, function(file) {
         file.size = filesize(file.size);
@@ -227,7 +226,7 @@ app.get('/account', ensureAuthenticated, function(req, res){
 /**
  * @route GET /login
  */
-app.get('/login', function(req, res){
+app.get('/login', function(req, res) {
   res.render('/', { user: req.user });
 });
 
@@ -419,7 +418,7 @@ app.post('/files', function(req, res) {
           });
           file.save(function(err) {
               if (err) return res.send(500, err);
-              console.log('Saved file metadata to MongoDB successfully')
+              console.log('Saved file metadata to MongoDB successfully');
             });
 
           res.redirect('/');
@@ -433,8 +432,6 @@ app.post('/files', function(req, res) {
       });
     });
   });
-
-  
 });
 
 // Update all files for a specified user
