@@ -1,6 +1,6 @@
 .topcoat-navigation-bar
   .topcoat-navigation-bar__item.left.quarter
-    a.topcoat-icon-button--quiet.menu-popup-button(href='#test-popup')
+    a.topcoat-icon-button--quiet.menu-popup-button(href='#menu')
       i.icon-reorder
   .topcoat-navigation-bar__item.center.half
     if file
@@ -19,19 +19,21 @@
     br
     button.topcoat-button--cta(type='submit') Upload
 
-#popover-content(style='display: none', class='animated flipInY')
-  ul.topcoat-list.list
+#menu.menu-popup.mfp-with-anim.mfp-hide
+  ul.topcoat-list.menu-list
     li.topcoat-list__item 
-      a(href='#') New File
+      a(href='#') 
+        i.icon-file-text-alt
+        |  New File
     li.topcoat-list__item
-      a(href='#') New Folder
+      a(href='#') 
+      i.icon-folder-open-alt
+      |  New Folder
     li.topcoat-list__item
-      a(href='#') Settings
+      a(href='#') 
+      i.icon-wrench
+      |  Options
     li.topcoat-list__item
-      a(href='#') Logout
-
-#test-popup.white-popup.mfp-with-anim.mfp-hide
-  | You may put any HTML here. This is dummy copy. It is not meant to be read. It has been placed here solely to demonstrate the look and feel of finished, typeset text. Only for show. He who searches for meaning here will be sorely disappointed.
-
-
-
+      a(href='#') 
+      i.icon-off
+      |  Logout

@@ -13,11 +13,23 @@ $(document).ready(function() {
   });
 
   // Inline popups
-  $('.menu-popup-button').magnificPopup({
-    type: 'inline',
-    removalDelay: 500,
-    mainClass: 'mfp-move-from-top',
-    midClick: true
-  });
+  
 
+  // if not shown, show the menu popup
+  $('.menu-popup-button').click(function() {
+    if ($('#menu').hasClass('mfp-hide')) {
+      $.magnificPopup.open(
+      {
+        items: {
+          type: 'inline',
+          src: $('.menu-popup')
+        },
+        showCloseBtn: false,
+        removalDelay: 400,
+        mainClass: 'mfp-move-from-top'
+      });
+    } else {
+      $.magnificPopup.close();
+    }
+  });
 });
