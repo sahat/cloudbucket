@@ -24,6 +24,7 @@ $(document).ready(function() {
           type: 'inline',
           src: $('.menu-popup')
         },
+        fixedContentPos: true,
         showCloseBtn: false,
         removalDelay: 400,
         mainClass: 'mfp-move-from-top'

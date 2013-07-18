@@ -1,10 +1,17 @@
 body {
   background: #e4e3e4;
+  padding-top: 40px;
 }
 .topcoat-navigation-bar {
   height: 40px;
   background: #ececec;
   border-bottom: 1px solid #bcbcbc;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 1030;
+  margin-bottom: 0
 }
 .topcoat-navigation-bar__item {
   line-height: 2.05;
@@ -70,6 +77,7 @@ body {
 
 .topcoat-list.menu-list .topcoat-list__item {
   padding: 0.75rem;
+  color: #666;
 }
 .topcoat-list.menu-list .topcoat-list__item:last-child {
   border-bottom: 0;
@@ -107,9 +115,6 @@ body {
   vertical-align: middle;
 }
 
-.topcoat-navigation-bar {
-    z-index: 10;
-}
 .scroller {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -427,7 +432,7 @@ footer .topcoat-icon-button {
 .mfp-move-from-top .mfp-with-anim {
   opacity: 0;
   -webkit-transition: all 0.4s;
-  -webkit-transform: translateY(-293px);
+  -webkit-transform: translateY(-195px);
 }
 .mfp-move-from-top.mfp-bg {
   opacity: 0;
@@ -441,7 +446,7 @@ footer .topcoat-icon-button {
   opacity: 0.4;
 }
 .mfp-move-from-top.mfp-removing .mfp-with-anim {
-  -webkit-transform: translateY(-293px);
+  -webkit-transform: translateY(-195px);
   opacity: 1;
 }
 .mfp-move-from-top.mfp-removing.mfp-bg {
