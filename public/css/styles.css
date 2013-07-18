@@ -14,9 +14,9 @@ body {
   left: 0;
   top: 0;
   z-index: 1066;
-  webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 
 }
 .topcoat-navigation-bar__item {
@@ -87,6 +87,7 @@ body {
 }
 .topcoat-list.menu-list .topcoat-list__item:last-child {
   border-bottom: 0;
+  box-shadow: 0 10px 6px -6px #777;
 }
 
 .topcoat-list__container {
