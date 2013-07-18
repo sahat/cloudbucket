@@ -32,7 +32,7 @@ $(document).ready(function() {
       preloader: false,
       overflowY: 'hidden',
       showCloseBtn: false,
-      removalDelay: 300,
+      removalDelay: 400,
       mainClass: 'mfp-move-from-top'
     });
   });

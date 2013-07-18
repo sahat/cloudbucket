@@ -17,7 +17,6 @@ body {
   webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow:0 1px 4px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-
 }
 .topcoat-navigation-bar__item {
   line-height: 2.05;
@@ -438,13 +437,13 @@ footer .topcoat-icon-button {
 }
 .mfp-move-from-top .mfp-with-anim {
   opacity: 0;
-  -webkit-transition: all 0.3s;
+  -webkit-transition: all 0.4s;
   -webkit-transform: translateY(-195px);
   -webkit-backface-visibility: hidden;
 }
 .mfp-move-from-top.mfp-bg {
   opacity: 0;
-  -webkit-transition: all 0.3s;
+  -webkit-transition: all 0.4s;
   -webkit-backface-visibility: hidden;
 }
 .mfp-move-from-top.mfp-ready .mfp-with-anim {
@@ -459,7 +458,7 @@ footer .topcoat-icon-button {
 .mfp-move-from-top.mfp-removing .mfp-with-anim {
   -webkit-transform: translateY(-195px);
   -webkit-backface-visibility: hidden;
-  opacity: 0;
+  opacity: 1;
 }
 .mfp-move-from-top.mfp-removing.mfp-bg {
   opacity: 0;
