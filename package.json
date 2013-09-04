@@ -1,6 +1,6 @@
 {
-  "name": "semantica",
-  "version": "0.2.0",
+  "name": "bitbucket",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -24,6 +24,6 @@
     "aws-sdk": "*",
     "case": "*",
     "alchemy-api": "*",
-    "mediainfo": "*"
+    "musicmetadata": "*"
   }
 }

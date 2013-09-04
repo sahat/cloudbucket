@@ -13,7 +13,7 @@ var async = require('async'),
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
-    mediainfo = require("mediainfo"),
+    mm = require('musicmetadata'),
     moment = require('moment'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
@@ -343,13 +343,22 @@ app.get('/extract', function(req, res) {
   });
 });
 
+app.get('/audio', function(req, res) {
+  //create a new parser from a node ReadStream
+  var parser = new mm(fs.createReadStream('Euphoria.mp3'));
+  //listen for the metadata event
+  parser.on('metadata', function (result) {
+    console.log(result);
+  });
+});
+
 /**
  * Creates a new file object for a given user
  * @state Signed in
  * @return Redirect to home page
  */
 app.post('/files', function(req, res) {
-  var
+
     filePath = getPath(req.files.userFile.path),
     fileName = req.files.userFile.name,
     fileExtension = filePath.split('.').pop().toLowerCase(),
