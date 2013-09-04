@@ -18,7 +18,7 @@ block content
         ul.topcoat-list.list
           for file in files
             li.topcoat-list__item(id='#{file._id}')
-              a(href='#')
+              a(href='/files/#{file._id}')
                 i.icon-file-text-alt
                 p #{file.name}
                 p #{file.size}, modified #{file.lastModified}

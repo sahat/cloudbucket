@@ -23,6 +23,7 @@
     "filesize": "*",
     "aws-sdk": "*",
     "case": "*",
-    "alchemy-api": "*"
+    "alchemy-api": "*",
+    "mediainfo": "*"
   }
 }

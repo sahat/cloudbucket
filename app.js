@@ -13,6 +13,7 @@ var async = require('async'),
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
+    mediainfo = require("mediainfo"),
     moment = require('moment'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
@@ -104,8 +105,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    //callbackURL: "http://localhost:3000/auth/google/callback"
-    callbackURL: "http://semanticweb.sahat.c9.io/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
+    //callbackURL: "http://semanticweb.sahat.c9.io/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -216,9 +217,9 @@ app.get('/', function(req, res) {
 
 
 /**
- * @route GET /account
+ * @route GET /settings
  */
-app.get('/account', ensureAuthenticated, function(req, res){
+app.get('/settings', ensureAuthenticated, function(req, res){
   res.render('settings', { user: req.user, active: 'active' });
 });
 
