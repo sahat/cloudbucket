@@ -5,23 +5,23 @@
  * @date May 5, 2013
  */
 var async = require('async'),
-    AWS = require('aws-sdk'),
-    AlchemyAPI = require('alchemy-api'),
-    email = require('emailjs'),
-    express = require('express'),
-    filesize = require('filesize'),
-    Dropbox = require('dropbox'),
-    http = require('http'),
-    fs = require('fs'),
-    mm = require('musicmetadata'),
-    moment = require('moment'),
-    mongoose = require('mongoose'),
-    MongoStore = require('connect-mongo')(express),
-    path = require('path'),
-    passport = require('passport'),
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-    request = require('request'),
-    _ = require('underscore');
+  AWS = require('aws-sdk'),
+  AlchemyAPI = require('alchemy-api'),
+  email = require('emailjs'),
+  express = require('express'),
+  filesize = require('filesize'),
+  Dropbox = require('dropbox'),
+  http = require('http'),
+  fs = require('fs'),
+  mm = require('musicmetadata'),
+  moment = require('moment'),
+  mongoose = require('mongoose'),
+  MongoStore = require('connect-mongo')(express),
+  path = require('path'),
+  passport = require('passport'),
+  GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+  request = require('request'),
+  _ = require('underscore');
 
 // Integrates underscore.string with underscore library
 _.str = require('underscore.string');
@@ -58,8 +58,8 @@ _.mixin(_.str.exports());
 
 
 var config = require('./config'),
-    User = require('./schema').User,
-    FileSchema = require('./schema').File;
+  User = require('./schema').User,
+  FileSchema = require('./schema').File;
 
 
 var app = express();
@@ -195,21 +195,21 @@ app.get('/', function(req, res) {
     // They have no save method, getters/setters or other Mongoose magic applied.
     // And most importantly they are mutable, which allows us to apply formatting.
     File
-    .find({ user: req.user.googleId })
-    .sort('name')
-    .lean()
-    .exec(function(err, files) {
-      // Format "filesize" and "last modified date" to be human readable
-      _.each(files, function(file) {
-        file.size = filesize(file.size);
-        file.lastModified = moment(file.lastModified).fromNow();
-      });
+      .find({ user: req.user.googleId })
+      .sort('name')
+      .lean()
+      .exec(function(err, files) {
+        // Format "filesize" and "last modified date" to be human readable
+        _.each(files, function(file) {
+          file.size = filesize(file.size);
+          file.lastModified = moment(file.lastModified).fromNow();
+        });
 
-      res.render('index', {
-        user: req.user,
-        files: files
+        res.render('index', {
+          user: req.user,
+          files: files
+        });
       });
-    });
   } else {
     res.render('index', { user: req.user });
   }
@@ -266,8 +266,8 @@ app.get('/auth/google', passport.authenticate('google', {
  */
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login'}), function (req, res) {
-  res.redirect('/');
-});
+    res.redirect('/');
+  });
 
 app.get('/search', function(req, res) {
   res.render('search');
@@ -315,51 +315,41 @@ app.get('/extract', function(req, res) {
 
 
   async.parallel({
-    entities: function(callback){
-      alchemy.entities('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
-        if (err) res.send(500, err);
-        var entities = response.entities;
-        callback(null, entities);
-      });
+      entities: function(callback){
+        alchemy.entities('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+          if (err) res.send(500, err);
+          var entities = response.entities;
+          callback(null, entities);
+        });
+      },
+      concepts: function(callback) {
+        alchemy.concepts('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+          if (err) res.send(500, err);
+          var concepts = response.concepts;
+          callback(null, concepts);
+        });
+      },
+      keywords: function(callback) {
+        alchemy.keywords('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
+          if (err) res.send(500, err);
+          var keywords = response.keywords;
+          callback(null, keywords);
+        });
+      }
     },
-    concepts: function(callback) {
-      alchemy.concepts('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
-        if (err) res.send(500, err);
-        var concepts = response.concepts;
-        callback(null, concepts);
-      });
-    },
-    keywords: function(callback) {
-      alchemy.keywords('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
-        if (err) res.send(500, err);
-        var keywords = response.keywords;
-        callback(null, keywords);
-      });
-    }
-  },
-  function(err, results) {
-    if (err) return res.send(500, err);
-    res.send(results);
-  });
-});
-
-app.get('/audio', function(req, res) {
-  //create a new parser from a node ReadStream
-  var parser = new mm(fs.createReadStream('Euphoria.mp3'));
-  //listen for the metadata event
-  parser.on('metadata', function (result) {
-    console.log(result);
-  });
+    function(err, results) {
+      if (err) return res.send(500, err);
+      res.send(results);
+    });
 });
 
 /**
- * Creates a new file object for a given user
+ * Uploads a file for a given user
  * @state Signed in
  * @return Redirect to home page
  */
-app.post('/files', function(req, res) {
-
-    filePath = getPath(req.files.userFile.path),
+app.post('/files/upload', function(req, res) {
+  var filePath = getPath(req.files.userFile.path),
     fileName = req.files.userFile.name,
     fileExtension = filePath.split('.').pop().toLowerCase(),
     fileType = req.files.userFile.type,
@@ -368,6 +358,7 @@ app.post('/files', function(req, res) {
 
   fs.readFile(filePath, function(err, fileData) {
     if (err) return res.send(500, err);
+
     var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
     s3.createBucket(function() {
       s3.putObject({ Key: filePath, Body: fileData }, function(err, data) {
@@ -376,69 +367,78 @@ app.post('/files', function(req, res) {
         // Extract Plain Text File
         if (fileExtension === 'txt') {
           var textBody = fileData.toString();
+          async.parallel({
+              entities: function(callback){
+                alchemy.entities(textBody, {}, function(err, response) {
+                  if (err) res.send(500, err);
+                  var entities = response.entities;
+                  callback(null, entities);
+                });
+              },
+              category: function(callback) {
+                alchemy.category(textBody, {}, function(err, response) {
+                  if (err) res.send(500, err);
+                  var category = response.category;
+                  callback(null, category);
+                });
+              },
+              concepts: function(callback) {
+                alchemy.concepts(textBody, {}, function(err, response) {
+                  if (err) res.send(500, err);
+                  var concepts = response.concepts;
+                  callback(null, concepts);
+                });
+              },
+              keywords: function(callback) {
+                alchemy.keywords(textBody, {}, function(err, response) {
+                  if (err) res.send(500, err);
+                  var keywords = response.keywords;
+                  callback(null, keywords);
+                });
+              }
+            },
+            function(err, results) {
+              if (err) return res.send(500, err);
+              var file = new File({
+                name: fileName,
+                extension: fileExtension,
+                type: fileType,
+                size: fileSize,
+                lastModified: fileLastModified,
+                keywords: results.keywords,
+                category: results.category,
+                concepts: results.concepts,
+                entities: results.entities,
+                summary: _(textBody).truncate(500),
+                path: 'https://s3.amazonaws.com/semanticweb/' + filePath,
+                user: req.user.googleId
+              });
+
+              file.save(function(err) {
+                if (err) return res.send(500, err);
+                console.log('Saved file metadata to MongoDB successfully');
+              });
+
+              res.redirect('/');
+              console.log(results);
+            });
+        } else if (fileExtension === 'mp3') {
+          //create a new parser from a node ReadStream
+          var parser = new mm(fs.createReadStream('Euphoria.mp3'));
+          //listen for the metadata event
+          parser.on('metadata', function (result) {
+            console.log(result);
+          });
         } else {
           return res.send('Format not supported');
         }
-
-        async.parallel({
-          entities: function(callback){
-            alchemy.entities(textBody, {}, function(err, response) {
-              if (err) res.send(500, err);
-              var entities = response.entities;
-              callback(null, entities);
-            });
-          },
-          category: function(callback) {
-            alchemy.category(textBody, {}, function(err, response) {
-              if (err) res.send(500, err);
-              var category = response.category;
-              callback(null, category);
-            });
-          },
-          concepts: function(callback) {
-            alchemy.concepts(textBody, {}, function(err, response) {
-              if (err) res.send(500, err);
-              var concepts = response.concepts;
-              callback(null, concepts);
-            });
-          },
-          keywords: function(callback) {
-            alchemy.keywords(textBody, {}, function(err, response) {
-              if (err) res.send(500, err);
-              var keywords = response.keywords;
-              callback(null, keywords);
-            });
-          }
-        },
-        function(err, results) {
-          if (err) return res.send(500, err);
-          var file = new File({
-            name: fileName,
-            extension: fileExtension,
-            type: fileType,
-            size: fileSize,
-            lastModified: fileLastModified,
-            keywords: results.keywords,
-            category: results.category,
-            concepts: results.concepts,
-            entities: results.entities,
-            summary: _(textBody).truncate(500),
-            path: 'https://s3.amazonaws.com/semanticweb/' + filePath,
-            user: req.user.googleId
-          });
-          file.save(function(err) {
-              if (err) return res.send(500, err);
-              console.log('Saved file metadata to MongoDB successfully');
-            });
-
-          res.redirect('/');
-          console.log(results);
-        });
 
         fs.unlink(filePath, function (err) {
           if (err) return res.send(500, err);
           console.log('successfully deleted temp file');
         });
+
+
       });
     });
   });
@@ -489,12 +489,12 @@ http.createServer(app).listen(app.get('port'), function(){
 
 /**
  * JavaScript Utilities
-*/
+ */
 
 function getPath(fullPath) {
-   if (process.platform.match(/^win/)) {
-     return fullPath.split("\\").slice(-1).join("\\");
+  if (process.platform.match(/^win/)) {
+    return fullPath.split("\\").slice(-1).join("\\");
   } else {
-     return fullPath.split("/").slice(-1).join("/");
+    return fullPath.split("/").slice(-1).join("/");
   }
 }
