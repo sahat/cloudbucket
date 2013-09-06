@@ -27,7 +27,7 @@ block content
                 a(href='#')
                   i(class='icon-#{file.extension}')
                   p #{file.name}
-                  p #{file.size}, modified #{file.lastModified}
+                  p #{file.friendlySize}, modified #{file.lastModified.toDateString()}
                 a.delete-button Delete
             script.
               Hammer('##{file._id}', { swipe_velocity: 0.2, drag_lock_to_axis: true }).on('swiperight swipeleft', function(event) {

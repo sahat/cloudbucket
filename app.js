@@ -292,23 +292,16 @@ app.get('/upload', function(req, res) {
  * POST /upload
  * Uploads a file for a given user
  */
-
-// TODO: click on upload
-// create mongodb object
-// augment object based on extension
-// save it
-// in parallel upload to s3
-// once uploaded delete it
-/**
- * FLOW:
- * 1. Receive request
- * 2. Rename file (blocking operation)
- * 3. Upload to S3 (parallel)
- *    Create MongoDB object (parallel)
- *    Analyze file (parallel)
- * 4. Save analysis data to MongoDB
- */
 app.post('/upload', function(req, res) {
+  /**
+  * FLOW:
+  * 1. Receive request
+  * 2. Rename file (blocking operation)
+  * 3. Upload to S3 (parallel)
+  *    Create MongoDB object (parallel)
+  *    Analyze file (parallel)
+  * 4. Save analysis data to MongoDB
+  */
   var filePath = getPath(req.files.userFile.path),
       fileName = req.files.userFile.name,
       fileExtension = filePath.split('.').pop().toLowerCase(),
@@ -333,12 +326,6 @@ app.post('/upload', function(req, res) {
         console.error(err);
         return res.send(500, 'Error while uploading a file to S3');
       }
-      fs.unlink(fileName, function (err) {
-        if (err) {
-          console.error(err);
-          return res.send(500, 'Could not to remove a file');
-        }
-      });
     });
   });
 
@@ -350,7 +337,6 @@ app.post('/upload', function(req, res) {
     size: fileSize,
     friendlySize: filesize(fileSize),
     lastModified: fileLastModified,
-    friendlylastModified: moment(fileLastModified).fromNow(),
     path: config.AWS + filePath,
     user: req.user.googleId
   });
@@ -377,31 +363,32 @@ app.post('/upload', function(req, res) {
     */
     case 'txt':
       var textBody = fileData.toString();
+      console.log(textBody);
       async.parallel({
         entities: function(callback){
           alchemy.entities(textBody, {}, function(err, response) {
-            if (err) res.send(500, err);
+            if (err) console.error(err);
             var entities = response.entities;
             callback(null, entities);
           });
         },
         category: function(callback) {
           alchemy.category(textBody, {}, function(err, response) {
-            if (err) res.send(500, err);
+            if (err) console.error(err);
             var category = response.category;
             callback(null, category);
           });
         },
         concepts: function(callback) {
           alchemy.concepts(textBody, {}, function(err, response) {
-            if (err) res.send(500, err);
+            if (err) console.error(err);
             var concepts = response.concepts;
             callback(null, concepts);
           });
         },
         keywords: function(callback) {
           alchemy.keywords(textBody, {}, function(err, response) {
-            if (err) res.send(500, err);
+            if (err) console.error(err);
             var keywords = response.keywords;
             callback(null, keywords);
           });
@@ -460,7 +447,10 @@ app.post('/upload', function(req, res) {
       console.error(err);
       return res.send(500, 'Could not save post-analysis file to database');
     }
-    res.redirect('/');
+    // Delete file from local disk
+    fs.unlink(fileName, function(err) {
+      if (err) console.error(err);
+    });
   });
 
 });
