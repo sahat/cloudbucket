@@ -299,102 +299,131 @@ app.get('/upload', function(req, res) {
 // save it
 // in parallel upload to s3
 // once uploaded delete it
+/**
+ * FLOW:
+ * 1. Receive request
+ * 2. Rename file (blocking operation)
+ * 3. Upload to S3 (parallel)
+ *    Create MongoDB object (parallel)
+ *    Analyze file (parallel)
+ * 4. Save analysis data to MongoDB
+ */
 app.post('/upload', function(req, res) {
-
   var filePath = getPath(req.files.userFile.path),
       fileName = req.files.userFile.name,
       fileExtension = filePath.split('.').pop().toLowerCase(),
       fileType = req.files.userFile.type,
       fileSize = req.files.userFile.size,
-      fileLastModified = req.files.userFile.lastModifiedDate;
+      fileLastModified = req.files.userFile.lastModifiedDate,
+      relativePath = '';
 
+  // Rename to a more readable filename (BLOCKING)
+  fs.renameSync(filePath, fileName);
 
-  fs.readFile(filePath, function(err, fileData) {
-    if (err) return res.send(500, err);
+  // Get file contents (BLOCKING)
+  var fileData = fs.readFileSync(fileName);
 
-    var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
-    s3.createBucket(function() {
-      s3.putObject({ Key: filePath, Body: fileData }, function(err, data) {
-        if (err) return res.send(500, err);
+  // Initialize S3 Bucket
+  var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 
-        // Extract Plain Text File
-        if (fileExtension === 'txt') {
-          var textBody = fileData.toString();
-          async.parallel({
-              entities: function(callback){
-                alchemy.entities(textBody, {}, function(err, response) {
-                  if (err) res.send(500, err);
-                  var entities = response.entities;
-                  callback(null, entities);
-                });
-              },
-              category: function(callback) {
-                alchemy.category(textBody, {}, function(err, response) {
-                  if (err) res.send(500, err);
-                  var category = response.category;
-                  callback(null, category);
-                });
-              },
-              concepts: function(callback) {
-                alchemy.concepts(textBody, {}, function(err, response) {
-                  if (err) res.send(500, err);
-                  var concepts = response.concepts;
-                  callback(null, concepts);
-                });
-              },
-              keywords: function(callback) {
-                alchemy.keywords(textBody, {}, function(err, response) {
-                  if (err) res.send(500, err);
-                  var keywords = response.keywords;
-                  callback(null, keywords);
-                });
-              }
-            },
-            function(err, results) {
-              if (err) return res.send(500, err);
-              var file = new File({
-                name: fileName,
-                extension: fileExtension,
-                type: fileType,
-                size: filesize(fileSize),
-                lastModified: moment(fileLastModified).fromNow(),
-                keywords: results.keywords,
-                category: results.category,
-                concepts: results.concepts,
-                entities: results.entities,
-                summary: _(textBody).truncate(500),
-                path: 'https://s3.amazonaws.com/semanticweb/' + filePath,
-                user: req.user.googleId
-              });
-
-              file.save(function(err) {
-                if (err) return res.send(500, err);
-                console.log('Saved file metadata to MongoDB successfully');
-              });
-
-              res.redirect('/');
-              console.log(results);
-            });
-        } else if (fileExtension === 'mp3') {
-          //create a new parser from a node ReadStream
-          var parser = new mm(fs.createReadStream('Euphoria.mp3'));
-          //listen for the metadata event
-          parser.on('metadata', function (result) {
-            console.log(result);
-          });
-        } else {
-          return res.send('Format not supported');
+  // Upload a file to S3
+  s3.createBucket(function() {
+    s3.putObject({ Key: filePath, Body: fileData }, function(err, data) {
+      if (err) {
+        console.error(err);
+        return res.send('Error while uploading a file to S3');
+      }
+      fs.unlink(filePath, function (err) {
+        if (err) {
+          console.error(err);
+          return res.send('Could not to remove a file');
         }
-
-        fs.unlink(filePath, function (err) {
-          if (err) return res.send(500, err);
-          console.log('successfully deleted temp file');
-        });
-
-
       });
     });
   });
+
+  // Create a partial MongoDB object
+  var file = new File({
+    name: fileName,
+    extension: fileExtension,
+    type: fileType,
+    size: filesize(fileSize),
+    lastModified: moment(fileLastModified).fromNow(),
+    path: config.AWS + filePath,
+    user: req.user.googleId
+  });
+
+  // File contents analysis
+  switch(fileExtension) {
+    case 'txt':
+      var textBody = fileData.toString();
+      async.parallel({
+        entities: function(callback){
+          alchemy.entities(textBody, {}, function(err, response) {
+            if (err) res.send(500, err);
+            var entities = response.entities;
+            callback(null, entities);
+          });
+        },
+        category: function(callback) {
+          alchemy.category(textBody, {}, function(err, response) {
+            if (err) res.send(500, err);
+            var category = response.category;
+            callback(null, category);
+          });
+        },
+        concepts: function(callback) {
+          alchemy.concepts(textBody, {}, function(err, response) {
+            if (err) res.send(500, err);
+            var concepts = response.concepts;
+            callback(null, concepts);
+          });
+        },
+        keywords: function(callback) {
+          alchemy.keywords(textBody, {}, function(err, response) {
+            if (err) res.send(500, err);
+            var keywords = response.keywords;
+            callback(null, keywords);
+          });
+        }
+      },
+      function(err, results) {
+        // TODO: Look up how parallel errors work
+        if (err) return res.send(500, err);
+
+        file.keywords = results.keywords;
+        file.category = results.category;
+        file.concepts = results.concepts;
+        file.entities = results.entities;
+        file.summary = _(textBody).truncate(500);
+      });
+      break;
+    case 'mp3':
+      var parser = new mm(fs.createReadStream(fileName));
+      parser.on('metadata', function (result) {
+        file.genre = result.genre;
+        file.title = result.title;
+        file.artist = result.artist;
+        file.albumArtist = result.albumArtist;
+        file.year = result.year;
+        file.album = result.album;
+        file.albumCover = result.picture[0].data;
+      });
+      break;
+    default:
+      res.send('Format is not supported');
+      break;
+  }
+
+  // Save to database
+  file.save(function(err) {
+    if (err) {
+      console.error(err);
+      return res.send('Could not save post-analysis file to database');
+    }
+    res.redirect('/');
+  });
+
 });
 
 /**

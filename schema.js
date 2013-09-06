@@ -14,13 +14,24 @@ var File = new mongoose.Schema({
   size: Number,
   path: String,
   lastModified: Date,
+  isFolder: Boolean,
+
+
   keywords: Array,
   category: String,
   concepts: Array,
   entities: Array,
   summary: String,
   user: String,
-  isFolder: Boolean
+
+
+  genre: Array,
+  title: String,
+  artist: Array,
+  albumArtist: Array,
+  year: Date,
+  album: String,
+  albumCover: Buffer
 });
 
 File.plugin(mongoosastic);
