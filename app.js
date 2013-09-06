@@ -328,15 +328,15 @@ app.post('/upload', function(req, res) {
 
   // Upload a file to S3
   s3.createBucket(function() {
-    s3.putObject({ Key: filePath, Body: fileData }, function(err, data) {
+    s3.putObject({ Key: fileName, Body: fileData }, function(err, data) {
       if (err) {
         console.error(err);
-        return res.send('Error while uploading a file to S3');
+        return res.send(500, 'Error while uploading a file to S3');
       }
-      fs.unlink(filePath, function (err) {
+      fs.unlink(fileName, function (err) {
         if (err) {
           console.error(err);
-          return res.send('Could not to remove a file');
+          return res.send(500, 'Could not to remove a file');
         }
       });
     });
@@ -347,14 +347,34 @@ app.post('/upload', function(req, res) {
     name: fileName,
     extension: fileExtension,
     type: fileType,
-    size: filesize(fileSize),
-    lastModified: moment(fileLastModified).fromNow(),
+    size: fileSize,
+    friendlySize: filesize(fileSize),
+    lastModified: fileLastModified,
+    friendlylastModified: moment(fileLastModified).fromNow(),
     path: config.AWS + filePath,
     user: req.user.googleId
   });
 
   // File contents analysis
   switch(fileExtension) {
+    /**
+    TTTTTTTTTTTTTTTTTTTTTTTXXXXXXX       XXXXXXXTTTTTTTTTTTTTTTTTTTTTTT
+    T:::::::::::::::::::::TX:::::X       X:::::XT:::::::::::::::::::::T
+    T:::::::::::::::::::::TX:::::X       X:::::XT:::::::::::::::::::::T
+    T:::::TT:::::::TT:::::TX::::::X     X::::::XT:::::TT:::::::TT:::::T
+    TTTTTT  T:::::T  TTTTTTXXX:::::X   X:::::XXXTTTTTT  T:::::T  TTTTTT
+            T:::::T           X:::::X X:::::X           T:::::T
+            T:::::T            X:::::X:::::X            T:::::T
+            T:::::T             X:::::::::X             T:::::T
+            T:::::T             X:::::::::X             T:::::T
+            T:::::T            X:::::X:::::X            T:::::T
+            T:::::T           X:::::X X:::::X           T:::::T
+            T:::::T        XXX:::::X   X:::::XXX        T:::::T
+          TT:::::::TT      X::::::X     X::::::X      TT:::::::TT
+          T:::::::::T      X:::::X       X:::::X      T:::::::::T
+          T:::::::::T      X:::::X       X:::::X      T:::::::::T
+          TTTTTTTTTTT      XXXXXXX       XXXXXXX      TTTTTTTTTTT
+    */
     case 'txt':
       var textBody = fileData.toString();
       async.parallel({
@@ -398,9 +418,28 @@ app.post('/upload', function(req, res) {
         file.summary = _(textBody).truncate(500);
       });
       break;
+    /**
+    MMMMMMMM               MMMMMMMMPPPPPPPPPPPPPPPPP    333333333333333
+    M:::::::M             M:::::::MP::::::::::::::::P  3:::::::::::::::33
+    M::::::::M           M::::::::MP::::::PPPPPP:::::P 3::::::33333::::::3
+    M:::::::::M         M:::::::::MPP:::::P     P:::::P3333333     3:::::3
+    M::::::::::M       M::::::::::M  P::::P     P:::::P            3:::::3
+    M:::::::::::M     M:::::::::::M  P::::P     P:::::P            3:::::3
+    M:::::::M::::M   M::::M:::::::M  P::::PPPPPP:::::P     33333333:::::3
+    M::::::M M::::M M::::M M::::::M  P:::::::::::::PP      3:::::::::::3
+    M::::::M  M::::M::::M  M::::::M  P::::PPPPPPPPP        33333333:::::3
+    M::::::M   M:::::::M   M::::::M  P::::P                        3:::::3
+    M::::::M    M:::::M    M::::::M  P::::P                        3:::::3
+    M::::::M     MMMMM     M::::::M  P::::P                        3:::::3
+    M::::::M               M::::::MPP::::::PP          3333333     3:::::3
+    M::::::M               M::::::MP::::::::P          3::::::33333::::::3
+    M::::::M               M::::::MP::::::::P          3:::::::::::::::33
+    MMMMMMMM               MMMMMMMMPPPPPPPPPP           333333333333333
+    */
     case 'mp3':
       var parser = new mm(fs.createReadStream(fileName));
       parser.on('metadata', function (result) {
+        console.log(result);
         file.genre = result.genre;
         file.title = result.title;
         file.artist = result.artist;
@@ -419,7 +458,7 @@ app.post('/upload', function(req, res) {
   file.save(function(err) {
     if (err) {
       console.error(err);
-      return res.send('Could not save post-analysis file to database');
+      return res.send(500, 'Could not save post-analysis file to database');
     }
     res.redirect('/');
   });
