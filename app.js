@@ -168,7 +168,8 @@ function ensureAuthenticated(req, res, next) {
  */
 app.get('/', function(req, res) {
   if (req.user) {
-    // Documents returned from queries with the lean option enabled are plain javascript objects, not MongooseDocuments.
+    // Documents returned from queries with the lean option enabled are plain
+    // javascript objects, not MongooseDocuments.
     // They have no save method, getters/setters or other Mongoose magic applied.
     // And most importantly they are mutable, which allows us to apply formatting.
     File
@@ -276,30 +277,27 @@ app.post('/signup', function(req, res) {
 
   user.save(function (err) {
     if (err) {
-      console.log(err);
-    } else {
-      console.log('User has been successfully created');
+      console.error(err);
+      return res.send('Unable to create a new user');
     }
-
+    res.redirect('/');
   });
 
-  // should return OAuth key
-  res.end();
 });
 
 
 /**
+ * POST /upload
  * Uploads a file for a given user
- * @state Signed in
- * @return Redirect to home page
  */
-app.post('/files/upload', function(req, res) {
+app.post('/upload', function(req, res) {
   var filePath = getPath(req.files.userFile.path),
-    fileName = req.files.userFile.name,
-    fileExtension = filePath.split('.').pop().toLowerCase(),
-    fileType = req.files.userFile.type,
-    fileSize = req.files.userFile.size,
-    fileLastModified = req.files.userFile.lastModifiedDate;
+      fileName = req.files.userFile.name,
+      fileExtension = filePath.split('.').pop().toLowerCase(),
+      fileType = req.files.userFile.type,
+      fileSize = req.files.userFile.size,
+      fileLastModified = req.files.userFile.lastModifiedDate;
+
 
   fs.readFile(filePath, function(err, fileData) {
     if (err) return res.send(500, err);
@@ -348,8 +346,8 @@ app.post('/files/upload', function(req, res) {
                 name: fileName,
                 extension: fileExtension,
                 type: fileType,
-                size: fileSize,
-                lastModified: fileLastModified,
+                size: filesize(fileSize),
+                lastModified: moment(fileLastModified).fromNow(),
                 keywords: results.keywords,
                 category: results.category,
                 concepts: results.concepts,
