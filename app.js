@@ -280,6 +280,15 @@ app.post('/signup', function(req, res) {
 
 
 /**
+ * GET /upload
+ * Upload form
+ */
+app.get('/upload', function(req, res) {
+  res.render('upload');
+});
+
+
+/**
  * POST /upload
  * Uploads a file for a given user
  */

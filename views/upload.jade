@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+  include _header
+
+  form#upload(method='post', action='upload.php', enctype='multipart/form-data')
+    #drop
+      | File Uploader
+      a Browse
+      input(type='file', name='userFile', multiple='multiple')
+    ul

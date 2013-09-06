@@ -9,22 +9,14 @@
       h1.topcoat-navigation-bar__title Cloud
         strong Bucket
   .topcoat-navigation-bar__item.right.quarter
-    a.topcoat-icon-button--quiet.upload-popup-link(href='#upload')
+    a.topcoat-icon-button--quiet(href='/upload')
       i.icon-cloud-upload
-#upload.zoom-anim-dialog.mfp-hide
-  form(action='/upload', method='POST', enctype='multipart/form-data')
-    h3 File Upload
-    input(type='file', name='userFile')
-    br
-    br
-    button.topcoat-button--cta(type='submit') Upload
 
 #menu.menu-popup.mfp-with-anim.mfp-hide
   ul.topcoat-list.menu-list
-    li.topcoat-list__item 
-      a(href='#') 
-        i.icon-file-text-alt
-        |  New File
+    li.topcoat-list__item(id='home')
+      i.icon-home
+      |  Home
     li.topcoat-list__item(id='new-folder')
       i.icon-folder-open-alt
       | New Folder
