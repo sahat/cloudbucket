@@ -216,11 +216,7 @@ a {
   color: #999;
   font-size: 14px;
 }
-.list  [class^="icon-"] {
-  float: left;
-  font-size: 27px;
-  margin: 8px 10px 5px 10px;
-}
+
 .list li:active {
   background-color: #efefef;
 }
@@ -1226,26 +1222,27 @@ perspective effects (not including the modals and the overlay).
 	body { font-size: 75%; }
 }
 
+.list [class^="icon-"] {
+  float: left;
+  background-size: contain;
+  width: 44px;
+  height: 44px;
+}
 
 .icon-folder {
   background-image: url('../img/folder.png');
-  background-size: contain;
-  width: 32px;
-  height: 32px;
 }
 
 .icon-text {
   background-image: url('../img/text.png');
-  background-size: contain;
-  width: 32px;
-  height: 32px;
 }
 
 .icon-generic-file {
   background-image: url('../img/file.png');
-  background-size: contain;
-  width: 32px;
-  height: 32px;
+}
+
+.icon-mp3 {
+  background-image: url('../img/iTunes-mp3.png');
 }
 
 /*-------------------------

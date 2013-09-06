@@ -25,7 +25,7 @@ block content
             else
               li.topcoat-list__item(id='#{file._id}')
                 a(href='#')
-                  i.icon-text
+                  i(class='icon-#{file.extension}')
                   p #{file.name}
                   p #{file.size}, modified #{file.lastModified}
                 a.delete-button Delete
