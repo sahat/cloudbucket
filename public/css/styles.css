@@ -1227,22 +1227,15 @@ perspective effects (not including the modals and the overlay).
   background-size: contain;
   width: 44px;
   height: 44px;
+  background-image: url('../img/GenericDocumentIcon.png');
 }
 
 .icon-folder {
-  background-image: url('../img/folder.png');
-}
-
-.icon-text {
-  background-image: url('../img/text.png');
-}
-
-.icon-generic-file {
-  background-image: url('../img/file.png');
+  background-image: url('../img/folder.png') !important;
 }
 
 .icon-mp3 {
-  background-image: url('../img/iTunes-mp3.png');
+  background-image: url('../img/iTunes-mp3.png') !important;
 }
 
 /*-------------------------
