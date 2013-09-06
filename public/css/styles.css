@@ -1218,20 +1218,17 @@ perspective effects (not including the modals and the overlay).
 	transition: all 0.5s 0.1s;
 }
 
-@media screen and (max-width: 32em) {
-	body { font-size: 75%; }
-}
-
 .list [class^="icon-"] {
   float: left;
-  background-size: contain;
+  background-size:contain;
   width: 44px;
   height: 44px;
   background-image: url('../img/GenericDocumentIcon.png');
+  margin: 0 10px 0 10px;
 }
 
 .icon-folder {
-  background-image: url('../img/folder.png') !important;
+  background-image: url('../img/GenericFolderIcon.png') !important;
 }
 
 .icon-mp3 {
