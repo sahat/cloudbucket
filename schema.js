@@ -8,7 +8,7 @@ var mongoosastic = require('mongoosastic'),
 
 // File schema
 var File = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   extension: String,
   type: String,
   size: Number,
