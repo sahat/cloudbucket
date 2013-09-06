@@ -73,11 +73,13 @@ body {
   border-top: 0;
 }
 
-
 .topcoat-list__item {
   background: #fff;
   border-top: 0;
   border-bottom: 1px solid #ccc;
+  -webkit-user-select: none;
+  -webkit-touch-callout:none;
+
 }
 
 .topcoat-list__item:active {

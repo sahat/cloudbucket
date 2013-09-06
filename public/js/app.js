@@ -27,6 +27,7 @@ $(document).ready(function() {
         src: $('#menu'),
         type: 'inline'
       },
+      closeOnContentClick: true,
       fixedContentPos: true,
       fixedBgPos: true,
       preloader: false,
@@ -40,6 +41,9 @@ $(document).ready(function() {
 
 $('#new-folder').click(function() {
   var name = prompt('Enter folder name:');
+  $.post('/files', { isFolder: true, name: name }, function(response) {
+     console.log(response); 
+  });
 });
   
 

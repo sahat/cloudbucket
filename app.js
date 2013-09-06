@@ -395,6 +395,20 @@ app.post('/upload', function(req, res) {
   });
 });
 
+/**
+ * New Folder or file
+ */
+app.post('/files', function(req, res) {
+  var name = req.body.name;
+  if (req.body.isFolder) {
+    var file = new File({
+      name: name,
+      isFolder: true
+    });
+    file.save();
+  }
+});
+
 // Update all files for a specified user
 app.put('/files', function(req, res) {
   var user = req.params.user;

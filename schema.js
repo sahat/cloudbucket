@@ -19,7 +19,8 @@ var File = new mongoose.Schema({
   concepts: Array,
   entities: Array,
   summary: String,
-  user: String
+  user: String,
+  isFolder: Boolean,
 });
 
 File.plugin(mongoosastic);
