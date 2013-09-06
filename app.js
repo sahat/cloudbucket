@@ -290,7 +290,15 @@ app.post('/signup', function(req, res) {
  * POST /upload
  * Uploads a file for a given user
  */
+
+// TODO: click on upload
+// create mongodb object
+// augment object based on extension
+// save it
+// in parallel upload to s3
+// once uploaded delete it
 app.post('/upload', function(req, res) {
+
   var filePath = getPath(req.files.userFile.path),
       fileName = req.files.userFile.name,
       fileExtension = filePath.split('.').pop().toLowerCase(),

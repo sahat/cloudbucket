@@ -36,6 +36,11 @@ $(document).ready(function() {
       mainClass: 'mfp-move-from-top'
     });
   });
+
+
+$('#new-folder').click(function() {
+  var name = prompt('Enter folder name:');
+});
   
 
   
