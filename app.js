@@ -4,6 +4,11 @@
  * @contributors: Emilie Chen, Hannah PyCon
  * @date May 5, 2013
  */
+
+
+// TODO: semanticweb s3 files are still old filepath names
+// TODO: change if (err) throw err;
+// TODO: Catch all exceptions at the end, make a 500.html page
 var async = require('async'),
   AWS = require('aws-sdk'),
   AlchemyAPI = require('alchemy-api'),
@@ -403,6 +408,18 @@ app.post('/upload', function(req, res) {
         file.concepts = results.concepts;
         file.entities = results.entities;
         file.summary = _(textBody).truncate(500);
+
+        // Save to database
+        file.save(function(err) {
+          if (err) {
+            console.error(err);
+            return res.send(500, 'Could not save post-analysis file to database');
+          }
+          // Delete file from local disk
+          fs.unlink(fileName, function(err) {
+            if (err) console.error(err);
+          });
+        });
       });
       break;
     /**
@@ -434,25 +451,24 @@ app.post('/upload', function(req, res) {
         file.year = result.year;
         file.album = result.album;
         file.albumCover = result.picture[0].data;
+
+        // Save to database
+        file.save(function(err) {
+          if (err) {
+            console.error(err);
+            return res.send(500, 'Could not save post-analysis file to database');
+          }
+          // Delete file from local disk
+          fs.unlink(fileName, function(err) {
+            if (err) console.error(err);
+          });
+        });
       });
       break;
     default:
       res.send('Format is not supported');
       break;
   }
-
-  // Save to database
-  file.save(function(err) {
-    if (err) {
-      console.error(err);
-      return res.send(500, 'Could not save post-analysis file to database');
-    }
-    // Delete file from local disk
-    fs.unlink(fileName, function(err) {
-      if (err) console.error(err);
-    });
-  });
-
 });
 
 /**
