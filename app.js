@@ -7,6 +7,7 @@
 var async = require('async'),
   AWS = require('aws-sdk'),
   AlchemyAPI = require('alchemy-api'),
+  Case = require('case'),
   email = require('emailjs'),
   express = require('express'),
   filesize = require('filesize'),
@@ -28,56 +29,31 @@ _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
 
-
-// Case = require('case');
-
-// TODO: Reserved for later
-// Case.upper('foo_bar')                       -> 'FOO BAR'
-// Case.lower('fooBar')                        -> 'foo bar'
-// Case.snake('Foo bar!')                      -> 'foo_bar'
-// Case.squish('foo.bar')                      -> 'FooBar'
-// Case.camel('foo, bar')                      -> 'fooBar'
-// Case.constant('Foo-Bar')                    -> 'FOO_BAR'
-// Case.title('foo v. bar')                    -> 'Foo v. Bar'
-// Case.capital('foo_v_bar')                   -> 'Foo V Bar'
-// Case.sentence('"foo!" said bar', ['Bar'])   -> '"Foo!" said Bar'
-
-// Case.of('foo')          -> 'lower'
-// Case.of('foo_bar')      -> 'snake'
-// Case.of('Foo v Bar')    -> 'title'
-// Case.of('foo_ Bar')     -> undefined
-
-// Case.flip('FlipMe')     -> 'fLIPmE'
-// Case.flip('TEST THIS!') -> 'test this!'
-
-// Case.type('bang', function(s) {
-//     return Case.upper(s, '!')+'!';
-// });
-// Case.bang('bang')       -> 'BANG!'
-// Case.of('TEST!THIS!')   -> 'bang'
-
-
 var config = require('./config'),
   User = require('./schema').User,
   FileSchema = require('./schema').File;
 
 
 var app = express();
+var alchemy = new AlchemyAPI(config.ALCHEMY);
 
 
 // Connect to MongoDB
 mongoose.connect(config.MONGOLAB, function(err) {
   if (err) {
-    console.error('Database connection error');
-    return res.send(500, 'Database connection error');
+    console.error('Error connecting to database');
+    process.exit();
+  } else {
+    console.info('Database connection established');
   }
 });
-var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
+
 
 var File = mongoose.model('File', FileSchema);
 
 // Load Amazon AWS credentials
 AWS.config.loadFromPath('./aws.json');
+
 
 /**
  * In this example, only the Google ID is serialized to the session,
@@ -88,6 +64,7 @@ AWS.config.loadFromPath('./aws.json');
 passport.serializeUser(function(user, done) {
   done(null, user.googleId);
 });
+
 
 passport.deserializeUser(function(googleId, done) {
   User.findOne({ 'googleId': googleId }, function(err, user) {
@@ -286,11 +263,11 @@ app.post('/search', function(req, res) {
 
 
 /**
+ * POST /signup
  * Creates a new user account
- * @param Full Name, Username, Email, Password
- * @return 200 OK
  */
 app.post('/signup', function(req, res) {
+
   var user = new User({
     fullName: req.body.name,
     email: req.body.email,
@@ -303,45 +280,13 @@ app.post('/signup', function(req, res) {
     } else {
       console.log('User has been successfully created');
     }
+
   });
 
+  // should return OAuth key
   res.end();
 });
 
-
-app.get('/extract', function(req, res) {
-  var AlchemyAPI = require('alchemy-api');
-  var alchemy = new AlchemyAPI('15d085702f92ef2b5c85bb7f802da39d19c0fd59');
-
-
-  async.parallel({
-      entities: function(callback){
-        alchemy.entities('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
-          if (err) res.send(500, err);
-          var entities = response.entities;
-          callback(null, entities);
-        });
-      },
-      concepts: function(callback) {
-        alchemy.concepts('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
-          if (err) res.send(500, err);
-          var concepts = response.concepts;
-          callback(null, concepts);
-        });
-      },
-      keywords: function(callback) {
-        alchemy.keywords('http://www.cnn.com/2013/07/12/us/snowden-getaway-options/index.html', {}, function(err, response) {
-          if (err) res.send(500, err);
-          var keywords = response.keywords;
-          callback(null, keywords);
-        });
-      }
-    },
-    function(err, results) {
-      if (err) return res.send(500, err);
-      res.send(results);
-    });
-});
 
 /**
  * Uploads a file for a given user
