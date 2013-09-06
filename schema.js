@@ -20,7 +20,7 @@ var File = new mongoose.Schema({
   entities: Array,
   summary: String,
   user: String,
-  isFolder: Boolean,
+  isFolder: Boolean
 });
 
 File.plugin(mongoosastic);

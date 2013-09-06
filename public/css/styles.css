@@ -1218,3 +1218,25 @@ perspective effects (not including the modals and the overlay).
 @media screen and (max-width: 32em) {
 	body { font-size: 75%; }
 }
+
+
+.icon-folder {
+  background-image: url('../img/folder.png');
+  background-size: contain;
+  width: 32px;
+  height: 32px;
+}
+
+.icon-text {
+  background-image: url('../img/text.png');
+  background-size: contain;
+  width: 32px;
+  height: 32px;
+}
+
+.icon-generic-file {
+  background-image: url('../img/file.png');
+  background-size: contain;
+  width: 32px;
+  height: 32px;
+}

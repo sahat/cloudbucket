@@ -42,7 +42,7 @@ $(document).ready(function() {
 $('#new-folder').click(function() {
   var name = prompt('Enter folder name:');
   $.post('/files', { isFolder: true, name: name }, function(response) {
-     console.log(response); 
+     location.reload();
   });
 });
   

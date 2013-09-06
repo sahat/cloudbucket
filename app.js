@@ -168,26 +168,19 @@ function ensureAuthenticated(req, res, next) {
  */
 app.get('/', function(req, res) {
   if (req.user) {
-    // Documents returned from queries with the lean option enabled are plain
-    // javascript objects, not MongooseDocuments.
-    // They have no save method, getters/setters or other Mongoose magic applied.
-    // And most importantly they are mutable, which allows us to apply formatting.
     File
-      .find({ user: req.user.googleId })
-      .sort('name')
-      .lean()
-      .exec(function(err, files) {
-        // Format "filesize" and "last modified date" to be human readable
-        _.each(files, function(file) {
-          file.size = filesize(file.size);
-          file.lastModified = moment(file.lastModified).fromNow();
-        });
-
-        res.render('index', {
-          user: req.user,
-          files: files
-        });
+    .find({ user: req.user.googleId })
+    .sort('name')
+    .exec(function(err, files) {
+      if (err) {
+        console.error(err);
+        return res.send('Error fetching user files')
+      }
+      res.render('index', {
+        user: req.user,
+        files: files
       });
+    });
   } else {
     res.render('index', { user: req.user });
   }
@@ -400,13 +393,16 @@ app.post('/upload', function(req, res) {
  */
 app.post('/files', function(req, res) {
   var name = req.body.name;
+  var file = new File({
+    name: name,
+    user: req.user.googleId
+  });
   if (req.body.isFolder) {
-    var file = new File({
-      name: name,
-      isFolder: true
-    });
-    file.save();
+    file.isFolder = true;
   }
+  file.save(function(err) {
+    res.send(200);
+  });
 });
 
 // Update all files for a specified user

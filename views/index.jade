@@ -17,12 +17,18 @@ block content
       .topcoat-list__container
         ul.topcoat-list.list
           for file in files
-            li.topcoat-list__item.md-trigger(id='#{file._id}', data-modal='modal-12')
-              a(href='#')
-                i.icon-file-text-alt
+            if file.isFolder
+              li.topcoat-list__item(id='#{file._id}')
+                i.icon-folder
                 p #{file.name}
-                p #{file.size}, modified #{file.lastModified}
-              a.delete-button Delete
+                p &nbsp;
+            else
+              li.topcoat-list__item(id='#{file._id}')
+                a(href='#')
+                  i.icon-text
+                  p #{file.name}
+                  p #{file.size}, modified #{file.lastModified}
+                a.delete-button Delete
             script.
               Hammer('##{file._id}', { swipe_velocity: 0.2, drag_lock_to_axis: true }).on('swiperight swipeleft', function(event) {
                 event.gesture.preventDefault();
