@@ -12,6 +12,9 @@ body {
 .container {
   margin-top: -1px;
 }
+.content {
+  background-color: #fff;
+}
 .topcoat-navigation-bar {
   height: 40px;
   background: #ececec;

@@ -24,7 +24,7 @@ block content
                 p Folder
             else
               li.topcoat-list__item(id='#{file._id}')
-                a(href='#')
+                a(href='/files/#{file._id}')
                   i(class='icon-#{file.extension}')
                   p #{file.name}
                   p #{file.friendlySize}, modified #{file.lastModified.toDateString()}

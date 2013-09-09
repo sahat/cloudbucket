@@ -1,27 +1,27 @@
 extends layout
 
 block content
-  include _header
+    include _header
+    .content
+        if file.extension == 'txt':
+            h3 Category
+            p #{file.category}
 
-  h3 Category
-  p #{file.category}
+            h3 Summary
+            p= file.summary
 
-  h3 Summary
-  p= file.summary
+            h3 Entities
+            for entity in file.entities
+                span
+                  strong #{entity.text} -
+                  | #{entity.type} &nbsp;
 
-  h3 Entities
-  for entity in file.entities
-    span
-      strong #{entity.text} -
-      | #{entity.type} &nbsp;
+            h3 Concept Tags
+            for concept in file.concepts
+                span #{concept.text} &nbsp;
 
-  h3 Concept Tags
-  for concept in file.concepts
-    span #{concept.text} &nbsp;
-
-  h3 Keyword Tags
-  for keyword in file.keywords
-    span #{keyword.text} &nbsp;
-
-  br
-  a.topcoat-button(href='#') Delete
+            h3 Keyword Tags
+            for keyword in file.keywords
+                span #{keyword.text} &nbsp;
+        else if file.extension == 'mp3'
+            h1 Audio File
