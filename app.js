@@ -132,27 +132,15 @@ app.use(express.bodyParser({
 }));
 app.use(express.cookieParser());
 app.use(express.session({
-  secret: 'LOLCATS',
+  secret: '1aae4f5eb740067d22088604cd0dc189',
   store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 99999 }));
-app.enable('jsonp callback');
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-  next();
-});
-
-
-// Express development configuration
-if ('development' === app.get('env')) {
-  app.use(express.errorHandler());
-}
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.errorHandler());
 
 
 /**
@@ -167,7 +155,6 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-
 /**
  * @route GET /index
  */
@@ -177,10 +164,7 @@ app.get('/', function(req, res) {
     .find({ user: req.user.googleId })
     .sort('name')
     .exec(function(err, files) {
-      if (err) {
-        console.error(err);
-        return res.send('Error fetching user files')
-      }
+      if (err) throw err;
       res.render('index', {
         user: req.user,
         files: files
@@ -274,10 +258,7 @@ app.post('/signup', function(req, res) {
   });
 
   user.save(function (err) {
-    if (err) {
-      console.error(err);
-      return res.send('Unable to create a new user');
-    }
+    if (err) return res.send(500, 'Unable to create a new user');
     res.redirect('/');
   });
 
@@ -298,27 +279,18 @@ app.get('/upload', function(req, res) {
  * Uploads a file for a given user
  */
 app.post('/upload', function(req, res) {
-  /**
-  * FLOW:
-  * 1. Receive request
-  * 2. Rename file (blocking operation)
-  * 3. Upload to S3 (parallel)
-  *    Create MongoDB object (parallel)
-  *    Analyze file (parallel)
-  * 4. Save analysis data to MongoDB
-  */
-  var filePath = getPath(req.files.userFile.path),
-      fileName = req.files.userFile.name,
-      fileExtension = filePath.split('.').pop().toLowerCase(),
-      fileType = req.files.userFile.type,
-      fileSize = req.files.userFile.size,
-      fileLastModified = req.files.userFile.lastModifiedDate,
-      relativePath = '';
+  var filePath = getPath(req.files.userFile.path);
+  var fileName = req.files.userFile.name;
+  var fileExtension = filePath.split('.').pop().toLowerCase();
+  var fileType = req.files.userFile.type;
+  var fileSize = req.files.userFile.size;
+  var fileLastModified = req.files.userFile.lastModifiedDate;
+  var relativePath = '';
 
-  // Rename to a more readable filename (BLOCKING)
+  // Rename downloaded file to a more readable name (BLOCKING)
   fs.renameSync(filePath, fileName);
 
-  // Get file contents (BLOCKING)
+  // Get file contents
   var fileData = fs.readFileSync(fileName);
 
   // Initialize S3 Bucket
@@ -327,14 +299,11 @@ app.post('/upload', function(req, res) {
   // Upload a file to S3
   s3.createBucket(function() {
     s3.putObject({ Key: fileName, Body: fileData }, function(err, data) {
-      if (err) {
-        console.error(err);
-        return res.send(500, 'Error while uploading a file to S3');
-      }
+      if (err) throw err;
     });
   });
 
-  // Create a partial MongoDB object
+  // Create a MongoDB object that is common to all file extensions
   var file = new File({
     name: fileName,
     extension: fileExtension,
@@ -346,53 +315,35 @@ app.post('/upload', function(req, res) {
     user: req.user.googleId
   });
 
-  // File contents analysis
+  // Perform content analysis based on extension type
   switch(fileExtension) {
-    /**
-    TTTTTTTTTTTTTTTTTTTTTTTXXXXXXX       XXXXXXXTTTTTTTTTTTTTTTTTTTTTTT
-    T:::::::::::::::::::::TX:::::X       X:::::XT:::::::::::::::::::::T
-    T:::::::::::::::::::::TX:::::X       X:::::XT:::::::::::::::::::::T
-    T:::::TT:::::::TT:::::TX::::::X     X::::::XT:::::TT:::::::TT:::::T
-    TTTTTT  T:::::T  TTTTTTXXX:::::X   X:::::XXXTTTTTT  T:::::T  TTTTTT
-            T:::::T           X:::::X X:::::X           T:::::T
-            T:::::T            X:::::X:::::X            T:::::T
-            T:::::T             X:::::::::X             T:::::T
-            T:::::T             X:::::::::X             T:::::T
-            T:::::T            X:::::X:::::X            T:::::T
-            T:::::T           X:::::X X:::::X           T:::::T
-            T:::::T        XXX:::::X   X:::::XXX        T:::::T
-          TT:::::::TT      X::::::X     X::::::X      TT:::::::TT
-          T:::::::::T      X:::::X       X:::::X      T:::::::::T
-          T:::::::::T      X:::::X       X:::::X      T:::::::::T
-          TTTTTTTTTTT      XXXXXXX       XXXXXXX      TTTTTTTTTTT
-    */
     case 'txt':
-      var textBody = fileData.toString();
-      console.log(textBody);
+      var text = fileData.toString();
+      console.log(text);
       async.parallel({
         entities: function(callback){
-          alchemy.entities(textBody, {}, function(err, response) {
+          alchemy.entities(text, {}, function(err, response) {
             if (err) console.error(err);
             var entities = response.entities;
             callback(null, entities);
           });
         },
         category: function(callback) {
-          alchemy.category(textBody, {}, function(err, response) {
+          alchemy.category(text, {}, function(err, response) {
             if (err) console.error(err);
             var category = response.category;
             callback(null, category);
           });
         },
         concepts: function(callback) {
-          alchemy.concepts(textBody, {}, function(err, response) {
+          alchemy.concepts(text, {}, function(err, response) {
             if (err) console.error(err);
             var concepts = response.concepts;
             callback(null, concepts);
           });
         },
         keywords: function(callback) {
-          alchemy.keywords(textBody, {}, function(err, response) {
+          alchemy.keywords(text, {}, function(err, response) {
             if (err) console.error(err);
             var keywords = response.keywords;
             callback(null, keywords);
@@ -400,50 +351,30 @@ app.post('/upload', function(req, res) {
         }
       },
       function(err, results) {
-        // TODO: Look up how parallel errors work
-        if (err) return res.send(500, err);
+        if (err) throw err;
 
         file.keywords = results.keywords;
         file.category = results.category;
         file.concepts = results.concepts;
         file.entities = results.entities;
-        file.summary = _(textBody).truncate(500);
+        file.summary = _(text).truncate(500);
 
         // Save to database
         file.save(function(err) {
-          if (err) {
-            console.error(err);
-            return res.send(500, 'Could not save post-analysis file to database');
-          }
-          // Delete file from local disk
+          if (err) throw err;
+
+          // Delete a file from local disk
           fs.unlink(fileName, function(err) {
-            if (err) console.error(err);
+            if (err) throw err;
           });
         });
+
       });
       break;
-    /**
-    MMMMMMMM               MMMMMMMMPPPPPPPPPPPPPPPPP    333333333333333
-    M:::::::M             M:::::::MP::::::::::::::::P  3:::::::::::::::33
-    M::::::::M           M::::::::MP::::::PPPPPP:::::P 3::::::33333::::::3
-    M:::::::::M         M:::::::::MPP:::::P     P:::::P3333333     3:::::3
-    M::::::::::M       M::::::::::M  P::::P     P:::::P            3:::::3
-    M:::::::::::M     M:::::::::::M  P::::P     P:::::P            3:::::3
-    M:::::::M::::M   M::::M:::::::M  P::::PPPPPP:::::P     33333333:::::3
-    M::::::M M::::M M::::M M::::::M  P:::::::::::::PP      3:::::::::::3
-    M::::::M  M::::M::::M  M::::::M  P::::PPPPPPPPP        33333333:::::3
-    M::::::M   M:::::::M   M::::::M  P::::P                        3:::::3
-    M::::::M    M:::::M    M::::::M  P::::P                        3:::::3
-    M::::::M     MMMMM     M::::::M  P::::P                        3:::::3
-    M::::::M               M::::::MPP::::::PP          3333333     3:::::3
-    M::::::M               M::::::MP::::::::P          3::::::33333::::::3
-    M::::::M               M::::::MP::::::::P          3:::::::::::::::33
-    MMMMMMMM               MMMMMMMMPPPPPPPPPP           333333333333333
-    */
     case 'mp3':
       var parser = new mm(fs.createReadStream(fileName));
+      
       parser.on('metadata', function (result) {
-        console.log(result);
         file.genre = result.genre;
         file.title = result.title;
         file.artist = result.artist;
@@ -454,19 +385,18 @@ app.post('/upload', function(req, res) {
 
         // Save to database
         file.save(function(err) {
-          if (err) {
-            console.error(err);
-            return res.send(500, 'Could not save post-analysis file to database');
-          }
+          if (err) throw err;
+
           // Delete file from local disk
           fs.unlink(fileName, function(err) {
             if (err) console.error(err);
           });
         });
+
       });
       break;
     default:
-      res.send('Format is not supported');
+      res.send('Error: File format is not supported');
       break;
   }
 });
