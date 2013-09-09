@@ -264,6 +264,10 @@ app.post('/signup', function(req, res) {
 
 });
 
+app.use('/dropbox',express.directory('/var/lib/stickshift/5228e550e0b8cd205f0001b9/app-root/data/604724',
+  {icons:true
+	}
+));
 
 /**
  * GET /upload
