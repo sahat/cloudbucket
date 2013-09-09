@@ -393,8 +393,8 @@ app.post('/upload', function(req, res) {
           });
         });
 
-      });
       break;
+      });
     default:
       res.send('Error: File format is not supported');
       break;
