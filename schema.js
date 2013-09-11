@@ -51,5 +51,7 @@ exports.User = mongoose.model('User', new mongoose.Schema({
   email: String,
   locale: String,
   verified: Boolean,
-  isAdmin: Boolean
+  isAdmin: Boolean,
+
+  diskQuota: { type: Number, default: 1000 } // in MB
 }));
