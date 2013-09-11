@@ -10,26 +10,27 @@
 // TODO: change if (err) throw err;
 // TODO: Catch all exceptions at the end, make a 500.html page
 var async = require('async'),
-  AWS = require('aws-sdk'),
-  AlchemyAPI = require('alchemy-api'),
-  Case = require('case'),
-  email = require('emailjs'),
-  express = require('express'),
-  filesize = require('filesize'),
-  Dropbox = require('dropbox'),
-  http = require('http'),
-  fs = require('fs'),
-  mm = require('musicmetadata'),
-  moment = require('moment'),
-  mongoose = require('mongoose'),
-  MongoStore = require('connect-mongo')(express),
-  path = require('path'),
-  passport = require('passport'),
-  GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-  request = require('request'),
-  _ = require('underscore');
+    AWS = require('aws-sdk'),
+    AlchemyAPI = require('alchemy-api'),
+    crypto = require('crypto'),
+    Case = require('case'),
+    email = require('emailjs'),
+    express = require('express'),
+    filesize = require('filesize'),
+    Dropbox = require('dropbox'),
+    http = require('http'),
+    fs = require('fs'),
+    mm = require('musicmetadata'),
+    moment = require('moment'),
+    mongoose = require('mongoose'),
+    MongoStore = require('connect-mongo')(express),
+    path = require('path'),
+    passport = require('passport'),
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+    request = require('request'),
+    _ = require('underscore');
 
-// Integrates underscore.string with underscore library
+// Augment underscore.string with underscore library
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
@@ -41,6 +42,7 @@ var config = require('./config'),
 
 var app = express();
 var alchemy = new AlchemyAPI(config.ALCHEMY);
+var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 
 
 // Connect to MongoDB
@@ -293,25 +295,25 @@ app.post('/upload', function(req, res) {
   var fileType = req.files.userFile.type;
   var fileSize = req.files.userFile.size;
   var fileLastModified = req.files.userFile.lastModifiedDate;
-  var relativePath = '';
 
-  // Rename downloaded file to a more readable name (BLOCKING)
-  fs.renameSync(filePath, fileName);
+  // Read file contents into memory
+  var fileData = fs.readFileSync(filePath);
 
-  // Get file contents
-  var fileData = fs.readFileSync(fileName);
-
-  // Initialize S3 Bucket
-  var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
-
-  // Upload a file to S3
+  // Similar to above (used for music-metadata library)
+  var fileDataStream = fs.createReadStream(filePath)
+  
+  // Create a cryptographic hash of a filename
+  var sha1sum = crypto.createHash('sha1').update(fileData).digest('hex');
+    
+  // Upload a file to Amazon S3
   s3.createBucket(function() {
-    s3.putObject({ Key: fileName, Body: fileData }, function(err, data) {
+    s3.putObject({ Key: sha1sum, Body: fileData }, function(err, data) {
       if (err) throw err;
+      else console.log(data);
     });
   });
 
-  // Create a MongoDB object that is common to all file extensions
+  // Create a MongoDB object common to all file types
   var file = new File({
     name: fileName,
     extension: fileExtension,
@@ -319,42 +321,40 @@ app.post('/upload', function(req, res) {
     size: fileSize,
     friendlySize: filesize(fileSize),
     lastModified: fileLastModified,
-    path: config.AWS + filePath,
+    path: sha1sum,
     user: req.user.googleId
   });
 
-  // Perform content analysis based on extension type
+  // Content analysis based on the extension type
   switch(fileExtension) {
     case 'txt':
+      // Get raw text as a string
       var text = fileData.toString();
-      console.log(text);
+      
+      // Do 4 Alchemy API requests in parallel
       async.parallel({
         entities: function(callback){
           alchemy.entities(text, {}, function(err, response) {
-            if (err) console.error(err);
             var entities = response.entities;
-            callback(null, entities);
+            callback(err, entities);
           });
         },
         category: function(callback) {
           alchemy.category(text, {}, function(err, response) {
-            if (err) console.error(err);
             var category = response.category;
-            callback(null, category);
+            callback(err, category);
           });
         },
         concepts: function(callback) {
           alchemy.concepts(text, {}, function(err, response) {
-            if (err) console.error(err);
             var concepts = response.concepts;
-            callback(null, concepts);
+            callback(err, concepts);
           });
         },
         keywords: function(callback) {
           alchemy.keywords(text, {}, function(err, response) {
-            if (err) console.error(err);
             var keywords = response.keywords;
-            callback(null, keywords);
+            callback(err, keywords);
           });
         }
       },
@@ -365,22 +365,17 @@ app.post('/upload', function(req, res) {
         file.category = results.category;
         file.concepts = results.concepts;
         file.entities = results.entities;
-        file.summary = _(text).truncate(500);
+        file.preview = _(text).truncate(500);
 
         // Save to database
-        file.save(function(err) {
-          if (err) throw err;
+        file.save();
 
-          // Delete a file from local disk
-          fs.unlink(fileName, function(err) {
-            if (err) throw err;
-          });
-        });
-
+        // Delete a file from local disk
+        fs.unlink(filePath);
       });
       break;
     case 'mp3':
-      var parser = new mm(fs.createReadStream(fileName));
+      var parser = new mm(fileDataStream);
       
       parser.on('metadata', function (result) {
         file.genre = result.genre;
@@ -392,14 +387,10 @@ app.post('/upload', function(req, res) {
         file.albumCover = result.picture[0].data;
 
         // Save to database
-        file.save(function(err) {
-          if (err) throw err;
+        file.save();
 
-          // Delete file from local disk
-          fs.unlink(fileName, function(err) {
-            if (err) console.error(err);
-          });
-        });
+        // Delete a file from local disk
+        fs.unlink(filePath);
       });
       break;
     default:
