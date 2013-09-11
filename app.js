@@ -35,9 +35,9 @@ _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
 
-var config = require('./config'),
-  User = require('./schema').User,
-  FileSchema = require('./schema').File;
+var config = require('./config.json'),
+    User = require('./schema').User,
+    FileSchema = require('./schema').File;
 
 
 var app = express();
@@ -58,7 +58,7 @@ mongoose.connect(config.MONGOLAB, function(err) {
 var File = mongoose.model('File', FileSchema);
 
 // Load Amazon AWS credentials
-AWS.config.loadFromPath('./aws.json');
+AWS.config.update(config.AWS);
 
 
 /**
