@@ -42,7 +42,6 @@ var config = require('./config.json'),
 
 var app = express();
 var alchemy = new AlchemyAPI(config.ALCHEMY);
-var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 
 var userCount = 0;
 
@@ -64,6 +63,9 @@ var File = mongoose.model('File', FileSchema);
 
 // Load Amazon AWS credentials
 AWS.config.update(config.AWS);
+
+// Load an S3 bucket
+var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 
 
 /**
@@ -332,107 +334,132 @@ app.post('/upload', function(req, res) {
   var fileSize = req.files.userFile.size;
   var fileLastModified = req.files.userFile.lastModifiedDate;
 
-  // Read file contents into memory
-  var fileData = fs.readFileSync(filePath);
-
-  // Similar to above (used for music-metadata library)
-  var fileDataStream = fs.createReadStream(filePath)
-  
-  // Create a cryptographic hash of a filename
-  var sha1sum = crypto.createHash('sha1').update(fileData).digest('hex');
-    
-  // Upload a file to Amazon S3
-  s3.createBucket(function() {
-    s3.putObject({ Key: sha1sum, Body: fileData }, function(err, data) {
-      if (err) throw err;
-      else console.log(data);
-    });
-  });
-
-  // Create a MongoDB object common to all file types
-  var file = new File({
-    name: fileName,
-    extension: fileExtension,
-    type: fileType,
-    size: fileSize,
-    friendlySize: filesize(fileSize),
-    lastModified: fileLastModified,
-    path: sha1sum,
-    user: req.user.googleId
-  });
-
-  // Content analysis based on the extension type
-  switch(fileExtension) {
-    case 'txt':
-      // Get raw text as a string
-      var text = fileData.toString();
-      
-      // Do 4 Alchemy API requests in parallel
-      async.parallel({
-        entities: function(callback){
-          alchemy.entities(text, {}, function(err, response) {
-            var entities = response.entities;
-            callback(err, entities);
-          });
-        },
-        category: function(callback) {
-          alchemy.category(text, {}, function(err, response) {
-            var category = response.category;
-            callback(err, category);
-          });
-        },
-        concepts: function(callback) {
-          alchemy.concepts(text, {}, function(err, response) {
-            var concepts = response.concepts;
-            callback(err, concepts);
-          });
-        },
-        keywords: function(callback) {
-          alchemy.keywords(text, {}, function(err, response) {
-            var keywords = response.keywords;
-            callback(err, keywords);
-          });
+  async.series({
+    checkDiskUsage: function(callback){
+      User.findOne({ 'googleId': req.user.googleId }, function(err, user) {
+        user.diskUsage = user.diskUsage + fileSize;
+        if (user.diskUsage > user.diskQuota) {
+          callback('Error: Disk Quota Exceeded');
         }
-      },
-      function(err, results) {
-        if (err) throw err;
-
-        file.keywords = results.keywords;
-        file.category = results.category;
-        file.concepts = results.concepts;
-        file.entities = results.entities;
-        file.preview = _(text).truncate(500);
-
-        // Save to database
-        file.save();
-
-        // Delete a file from local disk
-        fs.unlink(filePath);
+        user.save();
+        callback(null, user.diskUsage);
       });
-      break;
-    case 'mp3':
-      var parser = new mm(fileDataStream);
+    }
+  },
+  function(err, results) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    // Read file contents into memory
+    var fileData = fs.readFileSync(filePath);
+
+    // Similar to above (used for music-metadata library)
+    var fileDataStream = fs.createReadStream(filePath)
+    
+    // C);reate a cryptographic hash of a filename
+    var sha1sum = crypto.createHash('sha1').update(fileData).digest('hex');
       
-      parser.on('metadata', function (result) {
-        file.genre = result.genre;
-        file.title = result.title;
-        file.artist = result.artist;
-        file.albumArtist = result.albumArtist;
-        file.year = result.year;
-        file.album = result.album;
-        file.albumCover = result.picture[0].data;
-
-        // Save to database
-        file.save();
-
-        // Delete a file from local disk
-        fs.unlink(filePath);
+    // Upload a file to Amazon S3
+    s3.createBucket(function() {
+      console.info('Uploading file to Amazon S3');
+      s3.putObject({ Key: sha1sum, Body: fileData }, function(err, data) {
+        if (err) throw err;
+        else console.log(data);
       });
-      break;
-    default:
-      res.send('Error: File format is not supported');
-      break;
-  }
+    });
+
+    // Create a MongoDB object common to all file types
+    var file = new File({
+      name: fileName,
+      extension: fileExtension,
+      type: fileType,
+      size: fileSize,
+      friendlySize: filesize(fileSize),
+      lastModified: fileLastModified,
+      path: sha1sum,
+      user: req.user.googleId
+    });
+
+    // Content analysis based on the extension type
+    switch(fileExtension) {
+      case 'txt':
+        console.info('Parsing TXT file');
+
+        // Get raw text as a string
+        var text = fileData.toString();
+        
+        // Do 4 Alchemy API requests in parallel
+        async.parallel({
+          entities: function(callback){
+            alchemy.entities(text, {}, function(err, response) {
+              var entities = response.entities;
+              callback(err, entities);
+            });
+          },
+          category: function(callback) {
+            alchemy.category(text, {}, function(err, response) {
+              var category = response.category;
+              callback(err, category);
+            });
+          },
+          concepts: function(callback) {
+            alchemy.concepts(text, {}, function(err, response) {
+              var concepts = response.concepts;
+              callback(err, concepts);
+            });
+          },
+          keywords: function(callback) {
+            alchemy.keywords(text, {}, function(err, response) {
+              var keywords = response.keywords;
+              callback(err, keywords);
+            });
+          }
+        },
+        function(err, results) {
+          if (err) throw err;
+
+          file.keywords = results.keywords;
+          file.category = results.category;
+          file.concepts = results.concepts;
+          file.entities = results.entities;
+          file.preview = _(text).truncate(500);
+
+          // Save to database
+          file.save();
+
+          // Delete a file from local disk
+          fs.unlink(filePath);
+        });
+        break;
+      case 'mp3':
+        console.info('Parsing MP3 file');
+
+        var parser = new mm(fileDataStream);
+        
+        parser.on('metadata', function (result) {
+          file.genre = result.genre;
+          file.title = result.title;
+          file.artist = result.artist;
+          file.albumArtist = result.albumArtist;
+          file.year = result.year;
+          file.album = result.album;
+          file.albumCover = result.picture[0].data;
+
+          // Save to database
+          file.save();
+
+          // Delete a file from local disk
+          fs.unlink(filePath);
+        });
+        break;
+      default:
+        res.send('Error: File format is not supported');
+        break;
+    }
+
+  });
 });
 
 
