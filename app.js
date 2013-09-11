@@ -47,8 +47,8 @@ var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 var userCount = 0;
 
 // Connect to MongoDB
-// mongoose.connect(config.MONGOLAB, function(err) {
-mongoose.connect('localhost', function(err) {
+mongoose.connect(config.MONGOLAB, function(err) {
+//mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
   }
@@ -156,7 +156,6 @@ if ('development' == app.get('env')) {
 }
 
 
-
 /**
  * Simple route middleware to ensure user is authenticated.
  * Use this route middleware on any resource that needs to be protected.  If
@@ -170,12 +169,33 @@ function ensureAuthenticated(req, res, next) {
 }
 
 /**
- * GET /admin
+ * GET /admin/users
  */
-app.get('/admin', function(req, res) {
-  console.log(req.user);
-  res.render('admin', { user: req.user });
+app.get('/admin/users', function(req, res) {
+  User.find(function(err, users) {
+    res.render('admin/users', { user: req.user, userList: users });
+  });
 });
+
+/**
+ * GET /admin/view-usage
+ */
+app.get('/admin/view-usage', function(req, res) {
+  User.find(function(err, users) {
+    res.render('admin/view-usage', { user: req.user, userList: users });
+  });
+});
+
+/**
+ * GET /admin/manage-quota
+ */
+app.get('/admin/manage-quota', function(req, res) {
+  User.find(function(err, users) {
+    res.render('admin/manage-quota', { user: req.user, userList: users });
+  });
+});
+
+
 
 /**
  * @route GET /index
@@ -296,7 +316,7 @@ app.use('/dropbox',express.directory('/var/lib/stickshift/5228e550e0b8cd205f0001
  * Upload form
  */
 app.get('/upload', function(req, res) {
-  res.render('upload');
+  res.render('upload', { user: req.user });
 });
 
 

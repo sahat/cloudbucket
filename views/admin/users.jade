@@ -1,0 +1,7 @@
+extends ../layout
+
+block content
+  include ../_header
+  ul
+    for u in userList
+      li #{u.displayName}
