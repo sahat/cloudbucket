@@ -173,7 +173,8 @@ function ensureAuthenticated(req, res, next) {
  * GET /admin
  */
 app.get('/admin', function(req, res) {
-  res.render('admin');
+  console.log(req.user);
+  res.render('admin', { user: req.user });
 });
 
 /**

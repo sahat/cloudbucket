@@ -26,26 +26,31 @@ nav.navbar.navbar-default(role='navigation')
   
   .collapse.navbar-collapse.navbar-ex1-collapse
     ul.nav.navbar-nav
-      li.active
-        a(href='#') Link
       li
-        a(href='#') Link
-      li.dropdown
-        a.dropdown-toggle(href='#', data-toggle='dropdown')
-          | Dropdown
-          b.caret
-        ul.dropdown-menu
-          li
-            a(href='#') Action
-          li
-            a(href='#') Another action
-          li
-            a(href='#') Something else here
-          li
-            a(href='#') Separated link
-          li
-            a(href='#') One more separated link
-
+        a(href='/upload') 
+          span.glyphicon.glyphicon-cloud-upload
+          |  Upload
+      li
+        a(href='/options') 
+          span.glyphicon.glyphicon-wrench
+          |  Options
+      li
+        a(href='/logout') 
+          span.glyphicon.glyphicon-eject
+          |  Logout
+      if user.isAdmin
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            span.glyphicon.glyphicon-lock
+            |  Admin
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Find Users
+            li
+              a(href='#') View Disk Usage
+            li
+              a(href='#') Manage Disk Quota
 
 
 #menu.menu-popup.mfp-with-anim.mfp-hide
