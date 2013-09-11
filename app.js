@@ -110,7 +110,8 @@ passport.use(new GoogleStrategy({
             gender: profile._json.gender,
             email: profile._json.email,
             locale: profile._json.locale,
-            verified: profile._json.verified_email
+            verified: profile._json.verified_email,
+            isAdmin: userCount < 1 ? true : false
           });
           user.save(function(err) {
             if(err) return err;
