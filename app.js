@@ -48,11 +48,10 @@ var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 // Connect to MongoDB
 mongoose.connect(config.MONGOLAB, function(err) {
   if (err) {
-    console.error('Error connecting to database');
+    console.error(err);
     process.exit();
-  } else {
-    console.info('Database connection established');
-  }
+  } 
+  console.info('Database connection established...OK');
 });
 
 
@@ -142,11 +141,16 @@ app.use(passport.session());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.errorHandler());
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.send(500, 'Something broke.');
-})
+});
+
+// development only
+if ('development' == app.get('env')) {
+  app.use(express.errorHandler());
+}
+
 
 
 /**
