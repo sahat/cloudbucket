@@ -7,7 +7,10 @@ var mongoosastic = require('mongoosastic'),
 
 
 // File schema
+// 
+// 1-to-1 onto function between user and files
 var File = new mongoose.Schema({
+  // general
   name: { type: String, required: true },
   extension: String,
   type: String,
@@ -17,13 +20,15 @@ var File = new mongoose.Schema({
   lastModified: Date,
   isFolder: Boolean,
 
+  // txt
   keywords: Array,
   category: String,
   concepts: Array,
   entities: Array,
-  summary: String,
+  preview: String,
   user: String,
 
+  // mp3
   genre: Array,
   title: String,
   artist: Array,
