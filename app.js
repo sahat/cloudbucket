@@ -44,14 +44,18 @@ var app = express();
 var alchemy = new AlchemyAPI(config.ALCHEMY);
 var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 
+var userCount = 0;
 
 // Connect to MongoDB
 mongoose.connect(config.MONGOLAB, function(err) {
   if (err) {
     console.error(err);
-    process.exit();
-  } 
+  }
   console.info('Database connection established...OK');
+  User.count({}, function(err, count) {
+    userCount = count;
+    console.log("Number of users:", count);
+  });
 });
 
 
@@ -95,10 +99,9 @@ passport.use(new GoogleStrategy({
     process.nextTick(function () {
       User.findOne({ 'googleId': profile.id }, function(err, existingUser) {
         if(existingUser) {
-          console.log('User: ' + existingUser.displayName + ' found and logged in!');
           done(null, existingUser);
         } else {
-          var newUser = new User({
+          var user = new User({
             googleId: profile.id,
             accessToken: accessToken,
             displayName: profile.displayName,
@@ -109,10 +112,10 @@ passport.use(new GoogleStrategy({
             locale: profile._json.locale,
             verified: profile._json.verified_email
           });
-          newUser.save(function(err) {
+          user.save(function(err) {
             if(err) return err;
-            console.log('New user: ' + newUser.displayName + ' created and logged in!');
-            done(null, newUser);
+            console.log('New user: ' + user.displayName + ' created and logged in!');
+            done(null, user);
           });
         }
       });

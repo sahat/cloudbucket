@@ -2,9 +2,7 @@
  * Mongoose Schema for MongoDB
  */
 var mongoosastic = require('mongoosastic'),
-    mongoose = require('mongoose'),
-    config = require('./config');
-
+    mongoose = require('mongoose');
 
 // File schema
 // 
@@ -52,5 +50,6 @@ exports.User = mongoose.model('User', new mongoose.Schema({
   gender: String,
   email: String,
   locale: String,
-  verified: Boolean
+  verified: Boolean,
+  isAdmin: Boolean
 }));
