@@ -29,20 +29,20 @@ nav.navbar.navbar-default(role='navigation')
       li
         a(href='/upload') 
           span.glyphicon.glyphicon-cloud-upload
-          |  Upload
+          strong Upload
       li
         a(href='/options') 
           span.glyphicon.glyphicon-wrench
-          |  Options
+          strong Options
       li
         a(href='/logout') 
           span.glyphicon.glyphicon-eject
-          |  Logout
+          strong Logout
       if user.isAdmin
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
-            span.glyphicon.glyphicon-lock
-            |  Admin
+            span.glyphicon.glyphicon-user
+            strong Admin
             b.caret
           ul.dropdown-menu
             li

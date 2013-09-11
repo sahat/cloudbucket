@@ -9,6 +9,10 @@
   margin-left: 15px;
 }
 
+.navbar-nav .glyphicon {
+  padding-right: 15px;
+}
+
 .navbar-brand {
   float: right;
 }
