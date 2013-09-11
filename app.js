@@ -47,7 +47,8 @@ var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
 var userCount = 0;
 
 // Connect to MongoDB
-mongoose.connect(config.MONGOLAB, function(err) {
+// mongoose.connect(config.MONGOLAB, function(err) {
+mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
   }
@@ -114,8 +115,7 @@ passport.use(new GoogleStrategy({
             isAdmin: userCount < 1 ? true : false
           });
           user.save(function(err) {
-            if(err) return err;
-            console.log('New user: ' + user.displayName + ' created and logged in!');
+            if (err) throw err;
             done(null, user);
           });
         }
@@ -168,6 +168,13 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login');
 }
+
+/**
+ * GET /admin
+ */
+app.get('/admin', function(req, res) {
+  res.render('admin');
+});
 
 /**
  * @route GET /index

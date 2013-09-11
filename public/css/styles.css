@@ -5,13 +5,19 @@
   padding:0;
 }
 
-body {
-  background: #e4e3e4;
-  padding-top: 40px;
+/* BOOTSTRAP OVERRIDE */
+.navbar-toggle {
+  float: left;
+  margin-right: 0;
+  margin-left: 15px;
 }
-.container {
-  margin-top: -1px;
+
+.navbar-brand {
+  float: right;
 }
+
+/* END BOOTSTRAP OVERRIDE */
+
 .content {
   background-color: #fff;
 }
@@ -240,9 +246,6 @@ a {
     color:  #58C0FF ;
 }
 
-ul {
-    clear:both;
-}
 
 .icon-call {
     background: transparent url(images/call.svg);

@@ -1,16 +1,52 @@
-.topcoat-navigation-bar
-  .topcoat-navigation-bar__item.left.quarter
-    a.topcoat-icon-button--quiet.menu-popup-button(href='#menu')
-      i.icon-reorder
-  .topcoat-navigation-bar__item.center.half
-    if file
-      h1.topcoat-navigation-bar__title #{file.name}
-    else
-      h1.topcoat-navigation-bar__title Cloud
-        strong Bucket
-  .topcoat-navigation-bar__item.right.quarter
-    a.topcoat-icon-button--quiet(href='/upload')
-      i.icon-cloud-upload
+//- .topcoat-navigation-bar
+//-   .topcoat-navigation-bar__item.left.quarter
+//-     a.topcoat-icon-button--quiet.menu-popup-button(href='#menu')
+//-       i.icon-reorder
+//-   .topcoat-navigation-bar__item.center.half
+//-     if file
+//-       h1.topcoat-navigation-bar__title #{file.name}
+//-     else
+//-       h1.topcoat-navigation-bar__title Cloud
+//-         strong Bucket
+//-   .topcoat-navigation-bar__item.right.quarter
+//-     a.topcoat-icon-button--quiet(href='/upload')
+//-       i.icon-cloud-upload
+
+nav.navbar.navbar-default(role='navigation')
+  
+  .navbar-header
+    button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+      span.sr-only Toggle navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    
+    a.navbar-brand(href='#') Cloud
+      strong Bucket
+  
+  .collapse.navbar-collapse.navbar-ex1-collapse
+    ul.nav.navbar-nav
+      li.active
+        a(href='#') Link
+      li
+        a(href='#') Link
+      li.dropdown
+        a.dropdown-toggle(href='#', data-toggle='dropdown')
+          | Dropdown
+          b.caret
+        ul.dropdown-menu
+          li
+            a(href='#') Action
+          li
+            a(href='#') Another action
+          li
+            a(href='#') Something else here
+          li
+            a(href='#') Separated link
+          li
+            a(href='#') One more separated link
+
+
 
 #menu.menu-popup.mfp-with-anim.mfp-hide
   ul.topcoat-list.menu-list
@@ -28,3 +64,4 @@
       a(href='/logout')
         i.icon-off
         |  Logout
+
