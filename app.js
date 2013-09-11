@@ -87,8 +87,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    //callbackURL: "http://localhost:3000/auth/google/callback"
-    callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
+    //callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -141,6 +141,10 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.errorHandler());
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.send(500, 'Something broke.');
+})
 
 
 /**
@@ -404,42 +408,18 @@ app.post('/upload', function(req, res) {
   }
 });
 
-/**
- * New Folder or file
- */
-app.post('/files', function(req, res) {
-  var name = req.body.name;
-  var file = new File({
-    name: name,
-    user: req.user.googleId
-  });
-  if (req.body.isFolder) {
-    file.isFolder = true;
-  }
-  file.save(function(err) {
-    res.send(200);
-  });
-});
-
-// Update all files for a specified user
-app.put('/files', function(req, res) {
-  var user = req.params.user;
-
-});
 
 // Retrieve detailed info about a file
 app.get('/files/:id', function(req, res) {
   File.findOne({ '_id': req.params.id }, function(err, file) {
     if (file) {
-      res.render('detail', {
-        user: req.user,
-        file: file
-      });
+      res.render('detail', { user: req.user, file: file });
     } else {
       res.redirect('/');
     }
   });
 });
+
 
 // Update a given file for specified user
 app.put('/files/:id', function(req, res) {
@@ -463,6 +443,9 @@ app.del('/files/:id', function(req, res) {
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+
+
 
 /**
  * JavaScript Utilities
