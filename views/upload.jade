@@ -4,12 +4,21 @@ block content
 
   include _header
   .container
-    input#lefile.form-control(type='file', name='userFile' style='display: none;')
-    .input-group
-      input#photoCover.form-control.input-large(type='text')
-      .input-group-btn
-        a.btn.btn-primary(onclick='$(\'input[id=lefile]\').click();') Browse
-  
+    form(role='form')
+      .form-group
+        label(for='exampleInputEmail1') File
+        input#lefile.form-control(type='file', name='userFile' style='display: none;')
+        .input-group
+          input#photoCover.form-control.input-large(type='text')
+          .input-group-btn
+            a.btn.btn-primary(onclick='$(\'input[id=lefile]\').click();') Browse
+        
+      .form-group
+        label(for='exampleInputEmail1') Tags
+        input#exampleInputEmail1.form-control(type='email', placeholder='Enter email')
+
+      button.btn.btn-danger.btn-lg(type='submit') Submit
+    
   script(type='text/javascript')
     $('input[id=lefile]').change(function() {
       $('#photoCover').val($(this).val());
