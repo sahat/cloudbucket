@@ -150,10 +150,10 @@ app.use(passport.session());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.send(500, 'Something broke.');
-});
+// app.use(function(err, req, res, next) {
+//   console.error(err.stack);
+//   res.send(500, 'Something broke.');
+// });
 
 // development only
 if ('development' == app.get('env')) {
@@ -330,6 +330,11 @@ app.get('/upload', function(req, res) {
  * Uploads a file for a given user
  */
 app.post('/upload', function(req, res) {
+  if (!req.files) {
+    console.error('Error: No file selected');
+    return res.redirect('/upload');
+  }
+
   var filePath = getPath(req.files.userFile.path);
   var fileName = req.files.userFile.name;
   var fileExtension = filePath.split('.').pop().toLowerCase();

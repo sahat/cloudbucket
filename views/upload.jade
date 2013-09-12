@@ -4,12 +4,13 @@ block content
 
   include _header
   .container
-    form(role='form')
+    form(role='form', method='post', action='/upload', enctype='multipart/form-data')
+      
       .form-group
         label(for='exampleInputEmail1') File
         input#lefile.form-control(type='file', name='userFile' style='display: none;')
         .input-group
-          input#photoCover.form-control.input-large(type='text')
+          input#photoCover.form-control(type='text', disabled='disabled')
           .input-group-btn
             a.btn.btn-primary(onclick='$(\'input[id=lefile]\').click();') Browse
         
@@ -19,12 +20,12 @@ block content
 
       button.btn.btn-danger.btn-lg(type='submit') Submit
     
-  script(type='text/javascript')
+  script.
     $('input[id=lefile]').change(function() {
       $('#photoCover').val($(this).val());
     });
 
-  script(type='text/javascript')
+  script.
     $(function() {
       $('#tags').tagsInput({
         'width': '100%'  

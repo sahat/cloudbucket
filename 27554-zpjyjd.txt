@@ -1,0 +1,106 @@
+● Methods of evaluating quality of data
+○ Reliability (issue of consistency)
+■ Consistency
+● Reliable data yields consistent results.
+● Do repeat administrations of the same assessment yield the same
+result each time?
+● Will different observers of the same behavior record the behavior
+the same way?
+● Do individuals respond in a consistent way within the same
+assessment device? (internal consistency)
+● We expect people to respond with the same consistency if we are
+testing only one thing.
+○ Different questions asking the same thing.
+○ If answers are more or less consistent there is an internal
+consistency.
+■ Ways to enhance reliability
+● Make multiple observations and aggregate (average) the results.
+○ Allows random results to average out for a more consistent
+result.
+○ Average results provide a more stable estimates.
+○ Ask the same questions multiple times in a different way
+and then average out the answer scores.
+● Be careful in all procedures
+○ Carefully read instructions, understand assessments, be
+careful with scoring, assessments.
+○ Present instructions carefully
+● Measure something important
+○ For example “what’s your favorite food?” answer might
+change in the future, it’s not as important.
+○ Ask meaningful questions.
+○ Validity (issue of accuracy)
+■ Is the data of assessment accurate?
+■ Two types of validity:
+■ Convergent validity
+● Does the assessment agree with other assessments of the same
+construct? (bathroom scale and doctor’s scale, does the data agree
+with each other?)
+■ Criterion validity
+● Whether or not assessment correlate or predicts some form of
+L-data or B-data.
+● Is our assessment consistent with L/B data?
+● Example of Criterion validity:
+○ Higher test scores are more likely be more
+generous/charitable. Or more likely to give $20 to someone
+if the test score is higher.
+○ Criteria will always be some kind of B or L data.
+
+■ Construct validity = our assessment device is really assessing what we
+claim.
+■ A valid assessment is necessarily reliable, but a reliable assessment is not
+necessarily valid.
+○
+
+Generalizability
+■ Is our data or conclusions drawn from our data can extend beyond the
+specific parameters under which they were assessed?
+● Time/cohort effects
+○ Example: patriotism assessment between 9/11/2001 and
+present day. Depending on when you do the study you may
+get different assessment.
+● Race/ethnicity
+● Gender
+● Culture/nationality
+
+●
+
+Research Design
+○ Case method: in-depth study of a single individual, typically description.
+○ Determining the relationship between variables.
+■ Correlational method (Optimism vs Spontaniety)
+● Assess the strength between two variables
+● See correlations reported as correlation coefficients.
+● Example:
+○ Give research participants a questionnaire that will assess
+optimism.
+○ Then the same questionnaire about spontaneity.
+○ See the correlation between them for each participants.
+○ If correlation is 0.85 then the correlation is strong. If it’s
+positive it tells us that two variables go in the same
+direction. If correlation is negative then scores will move in
+opposite directions.
+■ Experimental method
+● Manipulate one or more variables by deciding what the outcome
+will be.
+● Example:
+○ Manipulate levels of optimism. Influence optimism
+ourselves into the participant.
+○ For another group we do the reverse, make that group less
+optimistic.
+○ Give all participants optimistic and spontaneity surveys.
+○ Look at the averages (mean) between two groups.
+○ Take the difference between two means from two groups,
+and then decide if the number is statistically meaningful.
+■ Which method is better?
+● Reasons for correlational method:
+○ Correlational method is easier to perform.
+○ Manipulating variables is not possible or not ethical.
+● Reasons for experimental method:
+
+○ Easily manipulate data, variable manipulation is feasible.
+○ You have control of how many levels of variables you can
+manipulate.
+■ If everyone is optimistic - correlational method
+won’t give us much information.
+
+
