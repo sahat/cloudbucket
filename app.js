@@ -235,7 +235,7 @@ app.get('/settings', ensureAuthenticated, function(req, res){
  * @route GET /login
  */
 app.get('/login', function(req, res) {
-  res.render('/', { user: req.user });
+  res.render('index', { user: req.user });
 });
 
 
@@ -320,7 +320,7 @@ app.use('/dropbox',express.directory('/var/lib/stickshift/5228e550e0b8cd205f0001
  * GET /upload
  * Upload form
  */
-app.get('/upload', ensureAuthenticated, function(req, res) {
+app.get('/upload', function(req, res) {
   res.render('upload', { user: req.user });
 });
 

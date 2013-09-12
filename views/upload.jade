@@ -15,11 +15,18 @@ block content
         
       .form-group
         label(for='exampleInputEmail1') Tags
-        input#exampleInputEmail1.form-control(type='email', placeholder='Enter email')
+        input.form-control(name='tags', id='tags', value='foo,bar,baz')
 
       button.btn.btn-danger.btn-lg(type='submit') Submit
     
   script(type='text/javascript')
     $('input[id=lefile]').change(function() {
       $('#photoCover').val($(this).val());
+    });
+
+  script(type='text/javascript')
+    $(function() {
+      $('#tags').tagsInput({
+        'width': '100%'  
+      });
     });
