@@ -538,8 +538,8 @@ app.get('/convert', function(res, req) {
 
 
 // Retrieve detailed info about a file
-app.get('/files/:id', function(req, res) {
-  File.findOne({ '_id': req.params.id }, function(err, file) {
+app.get('/files/:path', function(req, res) {
+  File.findOne({ 'path': req.params.path }, function(err, file) {
     if (file) {
       res.render('detail', { user: req.user, file: file });
     } else {
