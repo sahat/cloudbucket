@@ -17,11 +17,13 @@
   float: right;
 }
 
+.table tbody>tr>td {
+  vertical-align: middle;
+}
+
 /* END BOOTSTRAP OVERRIDE */
 
-.content {
-  background-color: #fff;
-}
+
 .topcoat-navigation-bar {
   height: 40px;
   background: #ececec;
@@ -178,12 +180,7 @@
   font-weight: bold;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
-}
+
 .details {
     margin: auto;
 }
@@ -512,11 +509,6 @@ perspective effects (not including the modals and the overlay).
 	-webkit-perspective: 600px;
 	-moz-perspective: 600px;
 	perspective: 600px;
-}
-
-.container {
-	background: #e74c3c;
-	min-height: 100%;
 }
 
 .md-modal {

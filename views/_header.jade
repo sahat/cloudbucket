@@ -21,7 +21,7 @@ nav.navbar.navbar-default(role='navigation')
       span.icon-bar
       span.icon-bar
     
-    a.navbar-brand(href='#') Cloud
+    a.navbar-brand(href='/') Cloud
       strong Bucket
   
   .collapse.navbar-collapse.navbar-ex1-collapse
@@ -38,7 +38,7 @@ nav.navbar.navbar-default(role='navigation')
         a(href='/logout') 
           span.glyphicon.glyphicon-eject
           strong Logout
-      if user.isAdmin
+      if user && user.isAdmin
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
             span.glyphicon.glyphicon-user

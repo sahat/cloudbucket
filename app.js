@@ -26,6 +26,7 @@ var async = require('async'),
     MongoStore = require('connect-mongo')(express),
     path = require('path'),
     passport = require('passport'),
+    restler = require('restler'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
     _ = require('underscore');
@@ -46,10 +47,11 @@ var alchemy = new AlchemyAPI(config.ALCHEMY);
 var userCount = 0;
 
 // Connect to MongoDB
-mongoose.connect(config.MONGOLAB, function(err) {
-//mongoose.connect('localhost', function(err) {
+//mongoose.connect(config.MONGOLAB, function(err) {
+mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
+    process.exit(1);
   }
   console.info('Database connection established...OK');
   User.count({}, function(err, count) {
@@ -131,6 +133,7 @@ passport.use(new GoogleStrategy({
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.locals.pretty = true;
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser({
@@ -140,7 +143,7 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: '1aae4f5eb740067d22088604cd0dc189',
-  store: new MongoStore({ url: config.MONGOLAB })
+  //store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -180,11 +183,11 @@ app.get('/admin/users', function(req, res) {
 });
 
 /**
- * GET /admin/view-usage
+ * GET /admin/users/<google-id>
  */
-app.get('/admin/view-usage', function(req, res) {
-  User.find(function(err, users) {
-    res.render('admin/view-usage', { user: req.user, userList: users });
+app.get('/admin/users/:googleId', function(req, res) {
+  User.findOne({ 'googleId': req.params.googleId }, function(err, user) {
+    res.render('admin/profile', { user: req.user, profile: user });
   });
 });
 
@@ -461,6 +464,70 @@ app.post('/upload', function(req, res) {
     }
 
   });
+});
+
+app.get('/convert', function(res, req) {
+  // console.log();
+  // var username = 'ca117fa0e6ba09f5c715cd8c5bac267a';
+  // var password = '321ab681f15c42338efdfae3eb1d17a989c934ba';
+
+  // var
+  //   spawn = require('child_process').spawn,
+  //   python  = spawn('python');
+
+  // USE DOCSPLIT FOR DOCS
+  var exec = require('child_process').exec;
+  exec('pdf2txt.py senior.pdf', function (err, stdout, stderr) {
+    console.log(stdout);
+  });
+  // python.stdin.write('print ("a")');
+  // python.stdin.end();
+
+  // python.stdout.on('data', function (data) {
+  //         console.log(data.toString());
+  // });
+
+
+  // request({ 
+  //   method: 'POST',
+  //   uri: 'http://' + username + ':' + password + '@' + 'api.doxument.com/v1/docs.json',
+  //   multipart: [{ 
+  //     body: {
+  //       'file': ''
+  //     },
+  //   }]
+  // },
+  // function (error, response, body) {
+  //   console.log(body);
+  // });
+
+//   var form = new FormData();
+//   var url = 'http://' + username + ':' + password + '@' + 'api.doxument.com/v1/docs.json';
+  
+//   var r = request.post(url)
+//   var form = r.form()
+//   form.append('file', fs.createReadStream(path.join(__dirname, 'lecture2.doc')));
+//   form.submit(url, function(err, res) {
+//     console.log(res);
+//   });
+
+//   fs.stat("lecture2.doc", function(err, stats) {
+//     restler.post("http://posttestserver.com/post.php", {
+//         multipart: true,
+//         data: {
+//             "folder_id": "0",
+//             "filename": restler.file("lecture2.doc", null, stats.size, null)
+//         }
+//     }).on("complete", function(data) {
+//         console.log(data);
+//     });
+// });
+
+  // request.get('api.doxument.com/v1/docs.json?view=compact', function(e, r, b) {
+  //   console.log(b);
+  // });
+
+
 });
 
 

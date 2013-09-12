@@ -2,6 +2,34 @@ extends ../layout
 
 block content
   include ../_header
-  ul
-    for u in userList
-      li #{u.displayName}
+  .container
+    table.table
+      thead
+        tr
+          th.text-center Disk Usage
+          th.text-center Name
+          th.text-center Email
+          th.text-center Actions
+      tbody
+        for u in userList
+          tr
+            td
+              .chart(data-percent='72') 
+                span 72
+                | %
+            td #{u.displayName}
+            td #{u.email}
+            td
+              a.btn.btn-danger(href='/admin/users/#{u.googleId}/delete')
+                span.glyphicon.glyphicon-trash
+                |  Delete
+
+  script(type='text/javascript')
+    $(function() {
+      $('.chart').easyPieChart({
+        animate: 1000,
+        onStep: function(value) {
+          this.$el.find('span').text(~~value);
+        }
+      });
+    });
