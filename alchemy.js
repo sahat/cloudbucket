@@ -35,7 +35,6 @@ module.exports = function(params, cb) {
     }
   },
   function(err, results) {
-    if (err) throw err;
-    cb(results);
+    cb(err, results);
   });
 }

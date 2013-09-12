@@ -320,7 +320,7 @@ app.use('/dropbox',express.directory('/var/lib/stickshift/5228e550e0b8cd205f0001
  * GET /upload
  * Upload form
  */
-app.get('/upload', function(req, res) {
+app.get('/upload', ensureAuthenticated, function(req, res) {
   res.render('upload', { user: req.user });
 });
 
@@ -336,6 +336,9 @@ app.post('/upload', function(req, res) {
   var fileType = req.files.userFile.type;
   var fileSize = req.files.userFile.size;
   var fileLastModified = req.files.userFile.lastModifiedDate;
+
+console.log('======')
+  console.log(req.files.userFile);
 
   async.series({
     checkDiskUsage: function(callback){
@@ -412,7 +415,26 @@ app.post('/upload', function(req, res) {
         console.info('Parsing PDF file');
 
         exec('pdf2txt.py senior.pdf', function (err, stdout, stderr) {
-          console.log(stdout);
+          // Get raw text as a string
+          var text = stdout.toString();
+          
+          // Perform NLP analysis on text
+          doAlchemy(text, function(err, results) {
+            file.keywords = results.keywords;
+            file.category = results.category;
+            file.concepts = results.concepts;
+            file.entities = results.entities;
+            file.preview = _(text).truncate(500);
+
+            console.log(results);
+            // Save to database
+            file.save(function(err) {
+              if (err) console.error(err);
+            });
+
+            // Delete a file from local disk
+            fs.unlink(filePath);
+          });
         });
         break;
       case 'mp3':
