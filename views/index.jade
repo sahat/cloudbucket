@@ -13,7 +13,7 @@ block content
     include _header
     .container
       .input-group
-        input.form-control(type='text')
+        input.form-control(type='text', placeholder='Search by name or keywords')
         span.input-group-btn
           button.btn.btn-primary(type='button') Search
       br
@@ -29,4 +29,6 @@ block content
                 a(href='/files/#{file.path}')
                   span.glyphicon.glyphicon-file
                   |  #{file.name}
+                  br
+                  span.text-muted #{file.friendlySize}
           
