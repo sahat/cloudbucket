@@ -14,19 +14,9 @@ block content
       tbody
         tr
           td
-            .chart(data-percent='72') 
-              span 72
-              | %
+            
           td #{profile.displayName}
           td #{profile.email}
           td 
             button.btn.btn-danger Delete
-          script(type='text/javascript')
-            $(function() {
-              $('.chart').easyPieChart({
-                animate: 1000,
-                onStep: function(value) {
-                  this.$el.find('span').text(~~value);
-                }
-              });
-            });
+          

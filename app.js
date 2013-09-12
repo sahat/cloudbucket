@@ -11,9 +11,9 @@
 // TODO: Catch all exceptions at the end, make a 500.html page
 var async = require('async'),
     AWS = require('aws-sdk'),
-    AlchemyAPI = require('alchemy-api'),
     crypto = require('crypto'),
     Case = require('case'),
+    exec = require('child_process').exec,
     email = require('emailjs'),
     express = require('express'),
     filesize = require('filesize'),
@@ -35,14 +35,14 @@ var async = require('async'),
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
-
 var config = require('./config.json'),
     User = require('./schema').User,
     FileSchema = require('./schema').File;
 
+var doAlchemy = require('./alchemy');
 
 var app = express();
-var alchemy = new AlchemyAPI(config.ALCHEMY);
+
 
 var userCount = 0;
 
@@ -393,36 +393,8 @@ app.post('/upload', function(req, res) {
         // Get raw text as a string
         var text = fileData.toString();
         
-        // Do 4 Alchemy API requests in parallel
-        async.parallel({
-          entities: function(callback){
-            alchemy.entities(text, {}, function(err, response) {
-              var entities = response.entities;
-              callback(err, entities);
-            });
-          },
-          category: function(callback) {
-            alchemy.category(text, {}, function(err, response) {
-              var category = response.category;
-              callback(err, category);
-            });
-          },
-          concepts: function(callback) {
-            alchemy.concepts(text, {}, function(err, response) {
-              var concepts = response.concepts;
-              callback(err, concepts);
-            });
-          },
-          keywords: function(callback) {
-            alchemy.keywords(text, {}, function(err, response) {
-              var keywords = response.keywords;
-              callback(err, keywords);
-            });
-          }
-        },
-        function(err, results) {
-          if (err) throw err;
-
+        // Perform NLP analysis on text
+        doAlchemy(text, function(err, results) {
           file.keywords = results.keywords;
           file.category = results.category;
           file.concepts = results.concepts;
@@ -434,6 +406,13 @@ app.post('/upload', function(req, res) {
 
           // Delete a file from local disk
           fs.unlink(filePath);
+        });
+        break;
+      case 'pdf':
+        console.info('Parsing PDF file');
+
+        exec('pdf2txt.py senior.pdf', function (err, stdout, stderr) {
+          console.log(stdout);
         });
         break;
       case 'mp3':
