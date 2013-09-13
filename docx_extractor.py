@@ -7,7 +7,7 @@ from docx import opendocx, getdocumenttext
 if __name__ == '__main__':
     try:
         document = opendocx(sys.argv[1])
-        newfile = open(sys.argv[2], 'w')
+        #newfile = open(sys.argv[2], 'w')
     except:
         print(
             "Please supply an input and output file. For example:\n"
@@ -25,4 +25,4 @@ if __name__ == '__main__':
         newparatextlist.append(paratext.encode("utf-8"))
 
     # Print out text of document with two newlines under each paragraph
-    newfile.write('\n\n'.join(newparatextlist))
+    sys.stdout.write('\n\n'.join(newparatextlist))

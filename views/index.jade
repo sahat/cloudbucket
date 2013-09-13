@@ -12,10 +12,11 @@ block content
   else
     include _header
     .container
-      .input-group
-        input.form-control(type='text', placeholder='Search by name or keywords')
-        span.input-group-btn
-          button.btn.btn-primary(type='button') Search
+      form(action='/search', method='post')
+        .input-group
+          input.form-control(type='text', name='searchValue' placeholder='Search by name or keywords')
+          span.input-group-btn
+            button.btn.btn-primary(type='submit') Search
       br
       
     if files.length < 1

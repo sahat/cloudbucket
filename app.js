@@ -276,19 +276,18 @@ app.get('/auth/google/callback',
     res.redirect('/');
   });
 
+
 app.get('/search', function(req, res) {
   res.render('search');
 });
 
 
+
 app.post('/search', function(req, res) {
-  User.search({ query: 'sahat' }, function(err, results) {
-
-  });
-
-  request.get('http://elastic-sahat.rhcloud.com', function(error, response, body) {
-    res.send(body);
-  });
+  var formData = req.body.searchValue;
+  console.log(formData);
+  // query mongodb Files collection
+  // on multiple fields
 });
 
 
@@ -420,6 +419,9 @@ console.log('======')
         console.info('Parsing PDF file');
 
         exec('pdf2txt.py senior.pdf', function (err, stdout, stderr) {
+          console.info('=== PDF RESPONSE ===');
+          console.info(stdout);
+
           // Get raw text as a string
           var text = stdout.toString();
           
