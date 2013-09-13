@@ -406,10 +406,11 @@ console.log('======')
           file.category = results.category;
           file.concepts = results.concepts;
           file.entities = results.entities;
-          file.preview = _(text).truncate(500);
 
           // Save to database
-          file.save();
+          file.save(function(err) {
+            if (err) console.error(err);
+          });
 
           // Delete a file from local disk
           fs.unlink(filePath);
@@ -431,7 +432,6 @@ console.log('======')
             file.category = results.category;
             file.concepts = results.concepts;
             file.entities = results.entities;
-            file.preview = _(text).truncate(500);
 
             console.log(results);
             // Save to database
@@ -444,6 +444,34 @@ console.log('======')
           });
         });
         break;
+      case 'docx':
+        console.info('Parsing DOCX file');
+
+        exec('python docx_extractor.py' + filePath, function(err, stdout, stderr) {
+          console.info('=== DOCX RESPONSE ===');
+          console.info(stdout);
+
+          // Get raw text as a string
+          var text = stdout.toString();
+          
+          // Perform NLP analysis on text
+          doAlchemy(text, function(err, results) {
+            file.keywords = results.keywords;
+            file.category = results.category;
+            file.concepts = results.concepts;
+            file.entities = results.entities;
+
+            console.log(results);
+            
+            // Save to database
+            file.save(function(err) {
+              if (err) console.error(err);
+            });
+
+            // Delete a file from local disk
+            fs.unlink(filePath);
+          });
+        });
       case 'mp3':
         console.info('Parsing MP3 file');
 
