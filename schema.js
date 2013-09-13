@@ -15,8 +15,7 @@ var File = new mongoose.Schema({
   size: Number,
   friendlySize: String,
   path: String,
-  //lastModified: Date,
-  //isFolder: Boolean,
+  tags: Array,
 
   // document
   keywords: Array,

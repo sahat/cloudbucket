@@ -317,9 +317,7 @@ app.post('/upload', function(req, res) {
   var fileType = req.files.userFile.type;
   var fileSize = req.files.userFile.size;
   var fileLastModified = req.files.userFile.lastModifiedDate;
-
-console.log('======')
-  console.log(req.files.userFile);
+  var tags = req.body.tags ? req.body.tags.split(',') : [];
 
   async.series({
     checkDiskUsage: function(callback){
