@@ -7,22 +7,22 @@ block content
     form(role='form', method='post', action='/upload', enctype='multipart/form-data')
       
       .form-group
-        label(for='exampleInputEmail1') File
-        input#lefile.form-control(type='file', name='userFile' style='display: none;')
+        label(for='userFile') File
+        input#userFile.form-control(type='file', name='userFile' style='display: none;')
         .input-group
-          input#photoCover.form-control(type='text', disabled='disabled')
+          input#uploadField.form-control(type='text', disabled='disabled')
           .input-group-btn
-            a.btn.btn-primary(onclick='$(\'input[id=lefile]\').click();') Browse
+            a.btn.btn-primary(onclick='$(\'input[id=userFile]\').click();') Browse
         
       .form-group
         label(for='exampleInputEmail1') Tags
-        input.form-control(name='tags', id='tags', value='foo,bar,baz')
+        input.form-control(name='tags', id='tags')
 
       button.btn.btn-danger.btn-lg(type='submit') Submit
     
   script.
-    $('input[id=lefile]').change(function() {
-      $('#photoCover').val($(this).val());
+    $('input[id=userFile]').change(function() {
+      $('#uploadField').val($(this).val());
     });
 
   script.
