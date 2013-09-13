@@ -284,36 +284,13 @@ app.get('/search', function(req, res) {
 
 
 app.post('/search', function(req, res) {
-  var formData = req.body.searchValue;
-  console.log(formData);
+  var searchQuery = req.body.query;
+
+  // TODO: NOT IMPLEMENTED
   // query mongodb Files collection
   // on multiple fields
 });
 
-
-/**
- * POST /signup
- * Creates a new user account
- */
-app.post('/signup', function(req, res) {
-
-  var user = new User({
-    fullName: req.body.name,
-    email: req.body.email,
-    password: req.body.password
-  });
-
-  user.save(function (err) {
-    if (err) return res.send(500, 'Unable to create a new user');
-    res.redirect('/');
-  });
-
-});
-
-app.use('/dropbox',express.directory('/var/lib/stickshift/5228e550e0b8cd205f0001b9/app-root/data/604724',
-  {icons:true
-	}
-));
 
 /**
  * GET /upload
@@ -410,7 +387,7 @@ console.log('======')
           // Save to database
           file.save(function(err) {
             if (err) console.error(err);
-          });
+        });
 
           // Delete a file from local disk
           fs.unlink(filePath);

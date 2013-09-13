@@ -15,15 +15,15 @@ var File = new mongoose.Schema({
   size: Number,
   friendlySize: String,
   path: String,
-  lastModified: Date,
-  isFolder: Boolean,
+  //lastModified: Date,
+  //isFolder: Boolean,
 
-  // txt
+  // document
   keywords: Array,
   category: String,
   concepts: Array,
   entities: Array,
-  preview: String,
+  //preview: String,
   user: String,
 
   // mp3
