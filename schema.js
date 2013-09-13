@@ -53,6 +53,6 @@ exports.User = mongoose.model('User', new mongoose.Schema({
   isAdmin: Boolean,
 
 
-  diskUsage: { type: Number, default: 0 }, // in bytes
-  diskQuota: { type: Number, default: 1073741824 } // in bytes
+  diskUsage: { type: Number, default: 0 }, // 0 bytes
+  diskQuota: { type: Number, default: 1073741824 } // 1GB in bytes
 }));
