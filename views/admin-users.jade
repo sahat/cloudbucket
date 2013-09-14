@@ -1,7 +1,7 @@
-extends ../layout
+extends layout
 
 block content
-  include ../_header
+  include _header
   .container
     table.table
       thead
@@ -14,8 +14,9 @@ block content
         for u in userList
           tr
             td
-              .chart(data-percent='72') 
-                span 72
+              - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
+              .chart(data-percent=percent) 
+                span= percent
                 | %
             td #{u.displayName}
             td #{u.email}

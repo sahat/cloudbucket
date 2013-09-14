@@ -178,7 +178,7 @@ function loginRequired(req, res, next) {
  */
 app.get('/admin/users', function(req, res) {
   User.find(function(err, users) {
-    res.render('admin/users', { user: req.user, userList: users });
+    res.render('admin-users', { user: req.user, userList: users });
   });
 });
 
@@ -285,8 +285,9 @@ app.get('/auth/google/callback',
 
 app.get('/search', function(req, res) {
   var searchQuery = req.query.q;
-  console.log('+++')
-  console.log(searchQuery)
+  
+  console.log(searchQuery);
+  
   var conditions = {
     $or: 
       [
