@@ -21,16 +21,35 @@ block content
             td #{u.displayName}
             td #{u.email}
             td
-              a.btn.btn-danger(href='/admin/users/#{u.googleId}/delete')
-                span.glyphicon.glyphicon-trash
-                |  Delete
+              .btn-group
+                a.btn.btn-sm.btn-danger(id='delete', data-user='#{u.googleId}')
+                  span.glyphicon.glyphicon-trash
+                a.btn.btn-sm.btn-info(id='quota', data-user='#{u.googleId}')
+                  span.glyphicon.glyphicon-dashboard
 
-  script(type='text/javascript')
-    $(function() {
-      $('.chart').easyPieChart({
-        animate: 1000,
-        onStep: function(value) {
-          this.$el.find('span').text(~~value);
-        }
-      });
+  script.
+    // disk usage circle
+    $('.chart').easyPieChart({
+      size: 80,
+      animate: 800,
+      onStep: function(value) {
+        this.$el.find('span').text(~~value);
+      }
     });
+
+    // delete user confirmation
+    $('a#delete').click(function() {
+      var answer = confirm('Are you sure you want to delete the user?');
+      var user = $(this).data('user');
+      if (answer) {
+        $.ajax({
+          url: '/admin/users/' + user,
+          type: 'DELETE',
+          success: function(result) {
+              // Do something with the result
+          }
+        });
+      }
+    });
+
+

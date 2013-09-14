@@ -184,7 +184,7 @@ app.get('/admin/users', function(req, res) {
 
 
 app.del('/admin/users/:googleId', function(req, res) {
-  // delete user and their files
+  console.log('please delete');
 });
 
 
@@ -197,14 +197,6 @@ app.get('/admin/users/:googleId', function(req, res) {
   });
 });
 
-/**
- * GET /admin/manage-quota
- */
-app.get('/admin/manage-quota', function(req, res) {
-  User.find(function(err, users) {
-    res.render('admin/manage-quota', { user: req.user, userList: users });
-  });
-});
 
 
 
