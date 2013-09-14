@@ -13,9 +13,9 @@ block content
     include _header
     .container
       .input-group
-        input.form-control(type='text', id='search', placeholder='Search by name or keywords')
+        input.form-control(type='text', id='search-field', placeholder='Search by name or keywords')
         span.input-group-btn
-          button.btn.btn-primary(type='button') Search
+          button.btn.btn-primary(type='button', id='search-btn') Search
       br
       
     if files.length < 1
@@ -31,4 +31,12 @@ block content
                   |  #{file.name}
                   br
                   span.text-muted Size: #{file.friendlySize}
+
+  script.
+    $('#search-btn').click(function() {
+      var qs = $('#search-field').val();
+      $.get('/search?q=' + qs, function(data) {
+          console.log(data);
+        });
+    });
           

@@ -30,7 +30,7 @@ var File = new mongoose.Schema({
   title: String,
   artist: Array,
   albumArtist: Array,
-  year: Date,
+  year: String,
   album: String,
   albumCover: mongoose.Schema.Types.Mixed
 });

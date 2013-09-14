@@ -284,32 +284,26 @@ app.get('/auth/google/callback',
 
 
 app.get('/search', function(req, res) {
-  res.render('search');
-});
-
-
-
-app.get('/search', function(req, res) {
   var searchQuery = req.query.q;
-
+  console.log('+++')
+  console.log(searchQuery)
   var conditions = {
-    user: req.user,
     $or: 
       [
-        { name: /searchQuery/ },
-        { tags: searchQuerry },
-        { keywords: searchQuerry },
-        { concepts: searchQuerry },
-        { entities: searchQuerry },
-        { keywords: searchQuerry },
-        { extension: searchQuerry },
-        { category: /searchQuerry/ },
-        { genre: /searchQuerry/ },
-        { title: /searchQuerry/ },
-        { artist: searchQuerry },
-        { albumArtist: searchQuerry },
-        { year: searchQuerry },
-        { album: /searchQuerry/ }
+        { name: new RegExp(searchQuery, 'i') },
+        { tags: searchQuery },
+        { keywords: { $elemMatch: { text: searchQuery } } },
+        { concepts: { $elemMatch: { text: searchQuery } } },
+        { entities: { $elemMatch: { text: searchQuery } } },
+        { keywords: { $elemMatch: { text: searchQuery } } },
+        { extension: searchQuery },
+        { category: new RegExp(searchQuery, 'i') },
+        { genre: new RegExp(searchQuery, 'i') },
+        { title: new RegExp(searchQuery, 'i') },
+        { artist: searchQuery },
+        { albumArtist: searchQuery },
+        { year: searchQuery },
+        { album: new RegExp(searchQuery, 'i') }
       ]
   };
 
