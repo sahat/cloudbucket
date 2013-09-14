@@ -184,7 +184,17 @@ app.get('/admin/users', function(req, res) {
 
 
 app.del('/admin/users/:googleId', function(req, res) {
-  console.log('please delete');
+  // Delete user
+  User.findOne({ googleId: req.params.googleId }).remove();
+  
+  // Delete files from MongoDB and S3
+  File.find({ user: req.params.googleId }, function(err, files) {
+    for (var i=0; i<files.length; i++) {
+      files[i].remove();
+      s3.deleteObject({ Bucket: 'semanticweb', Key: files[i].path});
+    }
+  });
+  
 });
 
 
@@ -625,18 +635,11 @@ app.put('/files/:id', function(req, res) {
  * @return 200 OK
  */
 app.del('/files/:id', function(req, res) {
-  async.parallel({
-    removeFromDatabase: function(callback) {
-      File.delete({ '_id': req.params.id }, function(err, file) {
-        if (err) throw err;
-      });
-    },
-
-    removeFromS3: function(callback) {
-
-    }
+  File.delete({ '_id': req.params.id }, function(err, file) {
+    if (err) throw err;
+    if (file) return res.send(404, 'File not found');
+    s3.deleteObject({ Bucket: 'semanticweb', Key: file.path});
   });
-  res.send('File has been deleted');
 });
 
 
