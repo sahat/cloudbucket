@@ -32,7 +32,7 @@ var File = new mongoose.Schema({
   albumArtist: Array,
   year: Date,
   album: String,
-  albumCover: Buffer
+  albumCover: mongoose.Schema.Types.Mixed
 });
 
 File.plugin(mongoosastic);

@@ -10,6 +10,14 @@ block content
       h3 Summary
       p= file.summary
 
+      h3 User Tags
+      if file.tags.length > 0
+        for tag in file.tags
+          span.label.label-danger #{tag}
+          | &nbsp;
+      else
+        div No tags
+
       h3 Entities
       for entity in file.entities
         span
@@ -28,3 +36,18 @@ block content
 
     else if file.extension == 'mp3'
       h1 Audio File
+
+      for tag in file.tags
+        span.label.label-danger #{tag}
+        | &nbsp;
+      
+      p Title: #{file.title}
+      p Artist: #{file.artist}
+      p Album: #{file.album}
+      p Genre: #{file.genre}
+      p Size: #{file.friendlySize}
+      p Cover: 
+        img(src='/images/#{file.album}')
+
+
+

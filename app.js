@@ -26,7 +26,6 @@ var async = require('async'),
     MongoStore = require('connect-mongo')(express),
     path = require('path'),
     passport = require('passport'),
-    restler = require('restler'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
     _ = require('underscore');
@@ -47,8 +46,8 @@ var app = express();
 var userCount = 0;
 
 // Connect to MongoDB
-//mongoose.connect(config.MONGOLAB, function(err) {
-mongoose.connect('localhost', function(err) {
+mongoose.connect(config.MONGOLAB, function(err) {
+//mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -142,8 +141,8 @@ app.use(express.bodyParser({
 }));
 app.use(express.cookieParser());
 app.use(express.session({
-  secret: '1aae4f5eb740067d22088604cd0dc189',
-  //store: new MongoStore({ url: config.MONGOLAB })
+  secret: 'secret',
+  store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -168,19 +167,26 @@ if ('development' == app.get('env')) {
  * the request will proceed.  Otherwise, the user will be redirected to the
  * login page.
  */
-function ensureAuthenticated(req, res, next) {
+function loginRequired(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login');
 }
 
 /**
  * GET /admin/users
+ * Display a list of users and their disk usage
  */
 app.get('/admin/users', function(req, res) {
   User.find(function(err, users) {
     res.render('admin/users', { user: req.user, userList: users });
   });
 });
+
+
+app.del('/admin/users/:googleId', function(req, res) {
+  // delete user and their files
+});
+
 
 /**
  * GET /admin/users/<google-id>
@@ -226,7 +232,7 @@ app.get('/', function(req, res) {
 /**
  * @route GET /settings
  */
-app.get('/settings', ensureAuthenticated, function(req, res){
+app.get('/settings', loginRequired, function(req, res){
   res.render('settings', { user: req.user, active: 'active' });
 });
 
@@ -283,12 +289,39 @@ app.get('/search', function(req, res) {
 
 
 
-app.post('/search', function(req, res) {
-  var searchQuery = req.body.query;
+app.get('/search', function(req, res) {
+  var searchQuery = req.query.q;
 
-  // TODO: NOT IMPLEMENTED
-  // query mongodb Files collection
-  // on multiple fields
+  var conditions = {
+    user: req.user,
+    $or: 
+      [
+        { name: /searchQuery/ },
+        { tags: searchQuerry },
+        { keywords: searchQuerry },
+        { concepts: searchQuerry },
+        { entities: searchQuerry },
+        { keywords: searchQuerry },
+        { extension: searchQuerry },
+        { category: /searchQuerry/ },
+        { genre: /searchQuerry/ },
+        { title: /searchQuerry/ },
+        { artist: searchQuerry },
+        { albumArtist: searchQuerry },
+        { year: searchQuerry },
+        { album: /searchQuerry/ }
+      ]
+  };
+
+  File.find(conditions, function(err, files) {
+    if (err) throw err;
+
+    console.log(files);
+
+    res.send({ files: files });
+  });
+
+
 });
 
 
@@ -296,7 +329,7 @@ app.post('/search', function(req, res) {
  * GET /upload
  * Upload form
  */
-app.get('/upload', function(req, res) {
+app.get('/upload', loginRequired, function(req, res) {
   res.render('upload', { user: req.user });
 });
 
@@ -306,6 +339,7 @@ app.get('/upload', function(req, res) {
  * Uploads a file for a given user
  */
 app.post('/upload', function(req, res) {
+  // Users must select a file before upload
   if (!req.files) {
     console.error('Error: No file selected');
     return res.redirect('/upload');
@@ -319,88 +353,68 @@ app.post('/upload', function(req, res) {
   var fileLastModified = req.files.userFile.lastModifiedDate;
   var tags = req.body.tags ? req.body.tags.split(',') : [];
 
+  console.log(req.body.tags);
+  // Read file contents into memory
+  var fileData = fs.readFileSync(filePath);
+
+  // Similar to above (used for music-metadata library)
+  var fileDataStream = fs.createReadStream(filePath)
+    
+  // C);reate a cryptographic hash of a filename
+  var sha1sum = crypto.createHash('sha1').update(fileData).digest('hex');
+      
+
   async.series({
-    checkDiskUsage: function(callback){
+    
+    checkDiskUsage: function(callback) {
       User.findOne({ 'googleId': req.user.googleId }, function(err, user) {
         user.diskUsage = user.diskUsage + fileSize;
         if (user.diskUsage > user.diskQuota) {
           callback('Error: Disk Quota Exceeded');
         }
         user.save();
-        callback(null, user.diskUsage);
+        callback(null);
       });
-    }
-  },
-  function(err, results) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    // Read file contents into memory
-    var fileData = fs.readFileSync(filePath);
-
-    // Similar to above (used for music-metadata library)
-    var fileDataStream = fs.createReadStream(filePath)
+    },
     
-    // C);reate a cryptographic hash of a filename
-    var sha1sum = crypto.createHash('sha1').update(fileData).digest('hex');
-      
-    // Upload a file to Amazon S3
-    s3.createBucket(function() {
+    uploadToS3: function(callback) {
       console.info('Uploading file to Amazon S3');
-      s3.putObject({ Key: sha1sum, Body: fileData }, function(err, data) {
-        if (err) throw err;
-        else console.log(data);
+      s3.createBucket(function() {
+        s3.putObject({ Key: sha1sum, Body: fileData }, function(err, data) {
+          if (err) throw err;
+          callback(null);
+        });
       });
-    });
+    },
 
-    // Create a MongoDB object common to all file types
-    var file = new File({
-      name: fileName,
-      extension: fileExtension,
-      type: fileType,
-      size: fileSize,
-      friendlySize: filesize(fileSize),
-      lastModified: fileLastModified,
-      path: sha1sum,
-      user: req.user.googleId
-    });
+    saveToDatabase: function(callback) {
+      console.info('Saving to Database');
+      var file = new File({
+        name: fileName,
+        extension: fileExtension,
+        type: fileType,
+        size: fileSize,
+        friendlySize: filesize(fileSize),
+        lastModified: fileLastModified,
+        path: sha1sum,
+        user: req.user.googleId
+      });
 
-    // Content analysis based on the extension type
-    switch(fileExtension) {
-      case 'txt':
-        console.info('Parsing TXT file');
+      // Add user-defined tags
+      _.each(tags, function(tag) {
+        file.tags.push(tag);
+      })
 
-        // Get raw text as a string
-        var text = fileData.toString();
+      switch(fileExtension) {
         
-        // Perform NLP analysis on text
-        doAlchemy(text, function(err, results) {
-          file.keywords = results.keywords;
-          file.category = results.category;
-          file.concepts = results.concepts;
-          file.entities = results.entities;
-
-          // Save to database
-          file.save(function(err) {
-            if (err) console.error(err);
-        });
-
-          // Delete a file from local disk
-          fs.unlink(filePath);
-        });
-        break;
-      case 'pdf':
-        console.info('Parsing PDF file');
-
-        exec('pdf2txt.py senior.pdf', function (err, stdout, stderr) {
-          console.info('=== PDF RESPONSE ===');
-          console.info(stdout);
+        case 'md':
+        case 'markdown':
+        case 'txt':
+          console.info('Parsing TXT file');
 
           // Get raw text as a string
-          var text = stdout.toString();
-          
+          var text = fileData.toString();
+
           // Perform NLP analysis on text
           doAlchemy(text, function(err, results) {
             file.keywords = results.keywords;
@@ -408,74 +422,131 @@ app.post('/upload', function(req, res) {
             file.concepts = results.concepts;
             file.entities = results.entities;
 
-            console.log(results);
             // Save to database
             file.save(function(err) {
-              if (err) console.error(err);
+              if (err) throw err;
+              console.log(file)
+              callback(null);
             });
-
-            // Delete a file from local disk
-            fs.unlink(filePath);
           });
-        });
-        break;
-      case 'docx':
-        console.info('Parsing DOCX file');
+          break;
+        
+        case 'pdf':
+          console.info('Parsing PDF file');
 
-        exec('python docx_extractor.py' + filePath, function(err, stdout, stderr) {
-          console.info('=== DOCX RESPONSE ===');
-          console.info(stdout);
+          exec('pdf2txt.py ' + filePath, function (err, stdout, stderr) {
+            console.info('=== PDF RESPONSE ===');
+            console.info(stdout);
 
-          // Get raw text as a string
-          var text = stdout.toString();
-          
-          // Perform NLP analysis on text
-          doAlchemy(text, function(err, results) {
-            file.keywords = results.keywords;
-            file.category = results.category;
-            file.concepts = results.concepts;
-            file.entities = results.entities;
-
-            console.log(results);
+            // Get raw text as a string
+            var text = stdout.toString();
             
+            // Perform NLP analysis on text
+            doAlchemy(text, function(err, results) {
+              file.keywords = results.keywords;
+              file.category = results.category;
+              file.concepts = results.concepts;
+              file.entities = results.entities;
+
+              // Save to database
+              file.save(function(err) {
+                if (err) throw err;
+
+                callback(null);
+              });
+            });
+          });
+          break;
+
+        case 'docx':
+          console.info('Parsing DOCX file');
+
+          exec('python docx_extractor.py ' + filePath, function(err, stdout, stderr) {
+            console.info('=== DOCX RESPONSE ===');
+            console.info(stdout);
+
+            // Get raw text as a string
+            var text = stdout.toString();
+            
+            // Perform NLP analysis on text
+            doAlchemy(text, function(err, results) {
+              if (err) throw err;
+
+              file.keywords = results.keywords;
+              file.category = results.category;
+              file.concepts = results.concepts;
+              file.entities = results.entities;
+
+              // Save to database
+              file.save(function(err) {
+                if (err) throw err;
+                callback(null);
+              });
+
+            });
+          });
+        case 'mp3':
+          console.info('Parsing MP3 file');
+
+          var parser = new mm(fileDataStream);
+          
+          // Extract MP3 metadata
+          parser.on('metadata', function (result) {
+            file.genre = result.genre;
+            file.title = result.title;
+            file.artist = result.artist;
+            file.albumArtist = result.albumArtist;
+            file.year = result.year;
+            file.album = result.album;
+            file.albumCover = result.picture;
             // Save to database
             file.save(function(err) {
-              if (err) console.error(err);
+              if (err) throw err;
+              callback(null);
             });
-
-            // Delete a file from local disk
-            fs.unlink(filePath);
           });
-        });
-      case 'mp3':
-        console.info('Parsing MP3 file');
+          break;
+        default:
+          console.info('Non-parsable format detected. Save file as is.');
+          file.save(function(err) {
+            if (err) throw err;
+            callback(null);
+          });
+          break;
+      }
+    },
 
-        var parser = new mm(fileDataStream);
-        
-        parser.on('metadata', function (result) {
-          file.genre = result.genre;
-          file.title = result.title;
-          file.artist = result.artist;
-          file.albumArtist = result.albumArtist;
-          file.year = result.year;
-          file.album = result.album;
-          file.albumCover = result.picture[0].data;
-
-          // Save to database
-          file.save();
-
-          // Delete a file from local disk
-          fs.unlink(filePath);
-        });
-        break;
-      default:
-        console.error('Error: File format is not supported');
-        fs.unlink(filePath);
-        break;
+    cleanup: function(callback) {
+      console.info('Unlinking file');
+      fs.unlink(filePath, function(err) {
+        if (err) throw err;
+        callback(null);
+      });
     }
-
+  }, function(err, cb) {
+      res.redirect('/');
   });
 });
+
+
+app.get('/images/:album', function(req, res) {
+  var album = req.params.album;
+  var pattern = new RegExp(album, 'i');
+
+  File.findOne({ album: pattern }, function(err, file) {
+    if (err) throw err;
+
+    if (!file) {
+      return res.send('Album cover not found');
+    }
+
+    console.log(file)
+    
+    res.writeHead(200, { 'Content-Type': 'image/jpg' });
+    res.end(file.albumCover[0].data.buffer);
+  });
+});
+
 
 app.get('/convert', function(res, req) {
   // console.log();
@@ -543,8 +614,8 @@ app.get('/convert', function(res, req) {
 
 
 // Retrieve detailed info about a file
-app.get('/files/:path', function(req, res) {
-  File.findOne({ 'path': req.params.path }, function(err, file) {
+app.get('/files/:id', function(req, res) {
+  File.findOne({ '_id': req.params.id }, function(err, file) {
     if (file) {
       res.render('detail', { user: req.user, file: file });
     } else {
@@ -567,8 +638,18 @@ app.put('/files/:id', function(req, res) {
  * @return 200 OK
  */
 app.del('/files/:id', function(req, res) {
-  var user = req.params.user;
-  var fileId = req.params.id;
+  async.parallel({
+    removeFromDatabase: function(callback) {
+      File.delete({ '_id': req.params.id }, function(err, file) {
+        if (err) throw err;
+      });
+    },
+
+    removeFromS3: function(callback) {
+
+    }
+  });
+  res.send('File has been deleted');
 });
 
 

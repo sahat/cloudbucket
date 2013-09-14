@@ -12,11 +12,10 @@ block content
   else
     include _header
     .container
-      form(action='/search', method='post')
-        .input-group
-          input.form-control(type='text', name='query' placeholder='Search by name or keywords')
-          span.input-group-btn
-            button.btn.btn-primary(type='submit') Search
+      .input-group
+        input.form-control(type='text', id='search', placeholder='Search by name or keywords')
+        span.input-group-btn
+          button.btn.btn-primary(type='button') Search
       br
       
     if files.length < 1
@@ -26,8 +25,8 @@ block content
         tbody
           for file in files
             tr
-              td(id='#{file.path}')
-                a(href='/files/#{file.path}')
+              td(id='#{file.id}')
+                a(href='/files/#{file.id}')
                   span.glyphicon.glyphicon-file
                   |  #{file.name}
                   br
