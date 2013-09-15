@@ -40,7 +40,7 @@ var config = require('./config.json'),
     User = require('./schema').User,
     FileSchema = require('./schema').File;
 
-var doAlchemy = require('./alchemy');
+var alchemyAPI = require('./alchemy');
 
 var app = express();
 
@@ -387,97 +387,130 @@ app.post('/upload', function(req, res) {
     checkDiskUsage: function(callback) {
       User.findOne({ 'googleId': req.user.googleId }, function(err, user) {
         user.diskUsage = user.diskUsage + fileSize;
+        
         if (user.diskUsage > user.diskQuota) {
-          callback('Error: Disk Quota Exceeded');
+          req.flash('info', 'Disk Quota Exceeded');
+          return res.redirect('/upload');
         }
-        user.save();
-        callback(null);
+
+        user.save(function(err) {
+          if (err) {
+            console.error(err);
+            req.flash('info', 'Could not update user\'s disk usage');
+            return res.redirect('/upload');
+          }
+          callback(null);
+        });
       });
     },
     
     uploadToS3: function(callback) {
-      console.info('Uploading file to Amazon S3');
+      console.info('Uploading to Amazon S3');
       
-      //if ()
-      contentType = 'binary/octet-stream';
-
-      s3.putObject({ 
-        Key: s3path, 
+      var fileObject = { 
+        Key: fileNameS3, 
         Body: fileData, 
-        ContentType: 'image/jpg' 
-      }, function(err, data) {
-        if (err) throw err;
-        callback(null);
-      });
+        ContentType: fileContentType
+      };
 
+      s3.putObject(fileObject, function(err, data) {
+        if (err) {
+          console.error(err);
+          req.flash('info', 'Error uploading file to Amazon S3');
+          return res.redirect('/upload');
+        }
+        callback(null, data.ETag);
+      });
 
     },
 
-    saveToDatabase: function(callback) {
-      console.info('Saving to Database');
+    saveToDatabase: function(callback, ETag) {
+      console.info('Saving to MongoDB');
+      
+      // Create a base file object
       var file = new File({
         name: fileName,
         extension: fileExtension,
-        type: fileContentType,
+        contentType: fileContentType,
         size: fileSize,
         friendlySize: filesize(fileSize),
-        lastModified: '222',
-        path: s3path,
+        path: fileNameS3,
+        ETag: ETag,
         user: req.user.googleId
       });
 
-      // Add user-defined tags
+
+      // Add custom tags to the above object
       _.each(fileTags, function(tag) {
         file.tags.push(tag);
       })
 
+      // Perform data extraction based on the filetype
       switch(fileExtension) {
-        
         case 'md':
         case 'markdown':
+        case 'rst':
         case 'txt':
-          console.info('Parsing TXT file');
+          console.info('Parsing:', fileExtension);
 
-          // Get raw text as a string
+
+          // Get the string representation of the binary file
           var text = fileData.toString();
 
+
           // Perform NLP analysis on text
-          doAlchemy(text, function(err, results) {
+          alchemyAPI(text, function(results) {
             file.keywords = results.keywords;
             file.category = results.category;
             file.concepts = results.concepts;
             file.entities = results.entities;
 
+
             // Save to database
             file.save(function(err) {
-              if (err) throw err;
-              console.log(file)
+              if (err) {
+                console.error(err);
+                req.flash('info', 'Unable to save to database (TEXT)');
+                return res.redirect('/upload');
+              }
               callback(null);
             });
           });
           break;
         
         case 'pdf':
-          console.info('Parsing PDF file');
+          console.info('Parsing:', fileExtension);
 
+
+          // Use node.js child process to call a python library - pdfminer
+          // pdf2txt.py is just a terminal command gets executed from node.js
           exec('pdf2txt.py ' + filePath, function (err, stdout, stderr) {
-            console.info('=== PDF RESPONSE ===');
-            console.info(stdout);
+            if (err || stderr) {
+              console.error(err, stderr);
+              req.flash('info', 'Error while parsing PDF file');
+              return res.redirect('/upload');
+            }
 
-            // Get raw text as a string
+
+            // Grab stdout text and convert it to a string
             var text = stdout.toString();
+
             
             // Perform NLP analysis on text
-            doAlchemy(text, function(err, results) {
+            alchemyAPI(text, function(results) {
               file.keywords = results.keywords;
               file.category = results.category;
               file.concepts = results.concepts;
               file.entities = results.entities;
 
+
               // Save to database
               file.save(function(err) {
-                if (err) throw err;
-
+                if (err) {
+                  console.error(err);
+                  req.flash('info', 'Unable to save to database (PDF)');
+                  return res.redirect('/upload');
+                }
                 callback(null);
               });
             });
@@ -485,37 +518,51 @@ app.post('/upload', function(req, res) {
           break;
 
         case 'docx':
-          console.info('Parsing DOCX file');
+          console.info('Parsing:', fileExtension);
 
-          exec('python docx_extractor.py ' + filePath, function(err, stdout, stderr) {
-            console.info('=== DOCX RESPONSE ===');
-            console.info(stdout);
 
-            // Get raw text as a string
+          // Use node.js child process to call a local python file
+          // docx_extractor.py uses python-docx python library for parsing
+          exec('python docx.py ' + filePath, function(err, stdout, stderr) {
+            if (err || stderr) {
+              console.error(err, stderr);
+              req.flash('info', 'Error while parsing PDF file');
+              return res.redirect('/upload');
+            }
+
+
+            // Grab stdout text and convert it to a string
             var text = stdout.toString();
             
-            // Perform NLP analysis on text
-            doAlchemy(text, function(err, results) {
-              if (err) throw err;
 
+            // Perform NLP analysis on text
+            alchemyAPI(text, function(results) {
               file.keywords = results.keywords;
               file.category = results.category;
               file.concepts = results.concepts;
               file.entities = results.entities;
 
+
               // Save to database
               file.save(function(err) {
-                if (err) throw err;
+                if (err) {
+                  console.error(err);
+                  req.flash('info', 'Unable to save to database (DOCX)');
+                  return res.redirect('/upload');
+                }
                 callback(null);
               });
-
             });
           });
+          break;
+
         case 'mp3':
-          console.info('Parsing MP3 file');
+          console.info('Parsing:', fileExtension);
+
 
           var parser = new mm(fileDataStream);
           
+
           // Extract MP3 metadata
           parser.on('metadata', function (result) {
             file.genre = result.genre;
@@ -525,38 +572,58 @@ app.post('/upload', function(req, res) {
             file.year = result.year;
             file.album = result.album;
             file.albumCover = result.picture;
+            
+
             // Save to database
             file.save(function(err) {
-              if (err) throw err;
+              if (err) {
+                console.error(err);
+                req.flash('info', 'Unable to save to database (MP3)');
+                return res.redirect('/upload');
+              }
               callback(null);
             });
           });
           break;
+
+        case 'gif':
         case 'jpeg':
         case 'jpg':
-        case 'gif':
         case 'png':
-          console.log('Parsing IMAGE file');
+          console.info('Parsing:', fileExtension);
           
-          var imageUrl = 'https://s3.amazonaws.com/' + config.AWS.bucket + '/' + s3path;
 
-          console.log(imageUrl);
-          var url = 'http://api.skybiometry.com/fc/faces/detect' + 
-                    '?api_key=' + config.SKYBIOMETRY.api_key + 
-                    '&api_secret=' + config.SKYBIOMETRY.api_secret + 
-                    '&urls=' + imageUrl +
-                    '&attributes=all';
+          // Image file that has been uploaded to Amazon s3 just now
+          var imageUrl = 'https://s3.amazonaws.com/' + 
+                          config.AWS.bucket + '/' + fileNameS3;
 
-          request.get(url, function(e,r,b) {
+
+          
+          var skyBiometry = 'http://api.skybiometry.com/fc/faces/detect' + 
+                            '?api_key=' + config.SKYBIOMETRY.api_key + 
+                            '&api_secret=' + config.SKYBIOMETRY.api_secret + 
+                            '&urls=' + imageUrl +
+                            '&attributes=all';
+
+
+          // Returns tags for detected faces in one or more photos, 
+          // with geometric information of the tag, eyes, nose and mouth, 
+          // as well as additional attributes such as gender.
+          request.get(skyBiometry, function(error, response, body) {
             console.log(b);
             callback(null);
           });
-
           break;
+
         default:
-          console.info('Non-parsable format detected. Save file as is.');
+          console.info('Non-parsable format detected. Saving file as-is.');
+
           file.save(function(err) {
-            if (err) throw err;
+            if (err) {
+              console.error(err);
+              req.flash('info', 'Unable to save to database (NIL)');
+              return res.redirect('/upload');
+            }
             callback(null);
           });
           break;
