@@ -610,7 +610,21 @@ app.post('/upload', function(req, res) {
           // with geometric information of the tag, eyes, nose and mouth, 
           // as well as additional attributes such as gender.
           request.get(skyBiometry, function(error, response, body) {
-            console.log(b);
+            
+            file.width = body.width;
+            file.height = body.height;
+            file.recognizable = body.tags[0].recognizable;
+            file.yaw = body.tags[0].yaw;
+            file.roll = body.tags[0].roll;
+            file.pitch = body.tags[0].pitch;
+            file.face = body.tags[0].attributes.face;
+            file.gender = body.tags[0].attributes.gender;
+            file.glasses = body.tags[0].attributes.glasses;
+            file.smiling = body.tags[0].attributes.smiling;
+
+
+
+            console.log(body.width);
             callback(null);
           });
           break;

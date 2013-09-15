@@ -9,12 +9,13 @@ var mongoosastic = require('mongoosastic'),
 // 1-to-1 onto function between user and files
 var File = new mongoose.Schema({
   // general
-  name: { type: String, required: true },
+  name: String,
   extension: String,
-  type: String,
+  contentType: String,
   size: Number,
   friendlySize: String,
   path: String,
+  ETag: String,
   tags: Array,
 
   // document
@@ -32,7 +33,31 @@ var File = new mongoose.Schema({
   albumArtist: Array,
   year: String ,
   album: String,
-  albumCover: mongoose.Schema.Types.Mixed
+  albumCover: mongoose.Schema.Types.Mixed,
+
+  // image
+  width: Number,
+  height: Number,
+  recognizable: Boolean,
+  yaw: Number,
+  roll: Number,
+  pitch: Number,
+  face: {
+    value: String,
+    confidence: Number
+  },
+  gender: {
+    value: String,
+    confidence: Number
+  },
+  glasses: {
+    value: String,
+    confidence: Number
+  },
+  smiling: {
+    value: String,
+    confidence: Number
+  }
 });
 
 File.plugin(mongoosastic);

@@ -41,6 +41,6 @@ module.exports = function(text, cb) {
     }
   },
   function(err, results) {
-    cb(err, results);
+    cb(results);
   });
 }
