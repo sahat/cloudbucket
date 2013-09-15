@@ -219,7 +219,7 @@ app.put('/admin/users/:googleId', function(req, res) {
       console.error(err);
       return res.send(500, 'Error finding the user');
     }
-
+    console.log(newQuota);
     user.diskQuota = newQuota;
 
     user.save(function(err) {

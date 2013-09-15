@@ -39,19 +39,11 @@ nav.navbar.navbar-default(role='navigation')
           span.glyphicon.glyphicon-log-out
           strong Logout
       if user && user.isAdmin
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
+        li
+          a(href='/admin/users')
             span.glyphicon.glyphicon-user
             strong Admin
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='/admin/users') List Users
-            li
-              a(href='/admin/view-usage') View Disk Usage
-            li
-              a(href='/admin/manage-quota') Manage Disk Quota
-
+       
 
 #menu.menu-popup.mfp-with-anim.mfp-hide
   ul.topcoat-list.menu-list

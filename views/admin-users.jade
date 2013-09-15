@@ -56,12 +56,15 @@ block content
       var currentQuota = $(this).data('quota');
       var newQuota = prompt('Manage User Disk Quota (bytes):', currentQuota);
       var user = $(this).data('user');
-      
+      if (!newQuota) {
+        return false;
+      }
       $.ajax({
         url: '/admin/users/' + user,
         type: 'PUT',
+        data: { newQuota: newQuota },
         success: function(result) {
-          console.log(result);
+          humane.log(result);
         }
       });
     });
