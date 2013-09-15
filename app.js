@@ -201,7 +201,36 @@ app.del('/admin/users/:googleId', function(req, res) {
       s3.deleteObject({ Bucket: 'semanticweb', Key: files[i].path});
     }
   });
-  
+});
+
+
+/**
+ * PUT /admin/users
+ * Update user's disk quota
+ * @param  {Number} newQuota
+ * @return {String} Success message
+ */
+app.put('/admin/users/:googleId', function(req, res) {
+  var newQuota = req.body.newQuota;
+
+  // Update user's quota
+  User.findOne({ googleId: req.params.googleId }, function(err, user) {
+    if (err) {
+      console.error(err);
+      return res.send(500, 'Error finding the user');
+    }
+
+    user.diskQuota = newQuota;
+
+    user.save(function(err) {
+      if (err) {
+        console.error(err);
+        return res.send(500, 'Could not update disk quota');
+      }
+
+      res.send(200, 'Sucessfully updated disk quota');
+    });
+  });
 });
 
 
