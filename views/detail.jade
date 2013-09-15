@@ -3,7 +3,7 @@ extends layout
 block content
   include _header
   .container
-    if file.extension == 'txt' || file.extension == 'pdf' || file.extension == 'md'
+    if file.extension == 'txt' || file.extension == 'docx' || file.extension == 'pdf' || file.extension == 'md'
       h3 Category
       p #{file.category}
 
