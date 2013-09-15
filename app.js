@@ -347,34 +347,41 @@ app.get('/upload', loginRequired, function(req, res) {
  */
 app.post('/upload', function(req, res) {
 
-  // Check if no file has been selected
+  // VALIDATION: No file has been selected
   if (!req.files.userFile.name) {
     req.flash('info', 'No file selected');
     return res.redirect('/upload');
   }
 
+
+  // Grab data from user-submitted file
   var filePath = req.files.userFile.path;
   var fileName = req.files.userFile.name;
   var fileContentType = req.files.userFile.headers['content-type'];
   var fileExtension = filePath.split('.').pop().toLowerCase();
   var fileSize = req.files.userFile.size;
-  var tags = req.body.tags ? req.body.tags.split(',') : [];
+  var fileTags = req.body.tags ? req.body.tags.split(',') : [];
 
-  console.log(req.files);
 
-  // Read file contents into memory
+  // Load file contents into memory
   var fileData = fs.readFileSync(filePath);
 
-  // Similar to above (used for music-metadata library)
+
+  // Similar to above, except the data will be loaded in chunks 
+  // from a readable stream when it is requested. Used by the 
+  // music-metadata library.
   var fileDataStream = fs.createReadStream(filePath)
     
+
   // Create a cryptographic hash of a filename
-  var sha1sum = crypto.createHash('sha1').update(fileData).digest('hex');
+  var sha1 = crypto.createHash('sha1').update(fileData).digest('hex');
   
-  // (old path, new path)
-  var s3path = sha1sum + '.' + fileExtension;
+
+  // Construct a unique filename for Amazon S3
+  var fileNameS3 = sha1 + '.' + fileExtension;
 
 
+  // Perform multiple tasks in series
   async.series({
     
     checkDiskUsage: function(callback) {
@@ -420,7 +427,7 @@ app.post('/upload', function(req, res) {
       });
 
       // Add user-defined tags
-      _.each(tags, function(tag) {
+      _.each(fileTags, function(tag) {
         file.tags.push(tag);
       })
 
@@ -698,10 +705,10 @@ http.createServer(app).listen(app.get('port'), function(){
  * JavaScript Utilities
  */
 
-function getPath(fullPath) {
-  if (process.platform.match(/^win/)) {
-    return fullPath.split("\\").slice(-1).join("\\");
-  } else {
-    return fullPath.split("/").slice(-1).join("/");
-  }
-}
+// function getPath(fullPath) {
+//   if (process.platform.match(/^win/)) {
+//     return fullPath.split("\\").slice(-1).join("\\");
+//   } else {
+//     return fullPath.split("/").slice(-1).join("/");
+//   }
+// }
