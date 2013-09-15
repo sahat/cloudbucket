@@ -610,22 +610,31 @@ app.post('/upload', function(req, res) {
           // with geometric information of the tag, eyes, nose and mouth, 
           // as well as additional attributes such as gender.
           request.get(skyBiometry, function(error, response, body) {
-            
-            file.width = body.width;
-            file.height = body.height;
-            file.recognizable = body.tags[0].recognizable;
-            file.yaw = body.tags[0].yaw;
-            file.roll = body.tags[0].roll;
-            file.pitch = body.tags[0].pitch;
-            file.face = body.tags[0].attributes.face;
-            file.gender = body.tags[0].attributes.gender;
-            file.glasses = body.tags[0].attributes.glasses;
-            file.smiling = body.tags[0].attributes.smiling;
+
+            // Convert string to json
+            var body = JSON.parse(body);
 
 
+            file.width = body.photos[0].width;
+            file.height = body.photos[0].height;
+            file.recognizable = body.photos[0].tags[0].recognizable;
+            file.yaw = body.photos[0].tags[0].yaw;
+            file.roll = body.photos[0].tags[0].roll;
+            file.pitch = body.photos[0].tags[0].pitch;
+            file.face = body.photos[0].tags[0].attributes.face;
+            file.gender = body.photos[0].tags[0].attributes.gender;
+            file.glasses = body.photos[0].tags[0].attributes.glasses;
+            file.smiling = body.photos[0].tags[0].attributes.smiling;
 
-            console.log(body.width);
-            callback(null);
+
+            file.save(function(err) {
+              if (err) {
+                console.error(err);
+                req.flash('info', 'Unable to save to database (IMG)');
+                return res.redirect('/upload');
+              }
+              callback(null);
+            })
           });
           break;
 
