@@ -24,6 +24,8 @@
     "aws-sdk": "*",
     "case": "*",
     "alchemy-api": "*",
-    "musicmetadata": "*"
+    "musicmetadata": "*",
+    "restler": "*",
+    "connect-flash": "*"
   }
 }

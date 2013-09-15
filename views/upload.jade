@@ -3,6 +3,7 @@ extends layout
 block content
 
   include _header
+
   .container
     form(role='form', method='post', action='/upload', enctype='multipart/form-data')
       
@@ -30,4 +31,8 @@ block content
       $('#tags').tagsInput({
         'width': '100%'  
       });
+      
+      if ('#{message}') {
+        humane.log('#{message}');
+      }
     });

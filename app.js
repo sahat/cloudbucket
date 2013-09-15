@@ -11,6 +11,7 @@
 // TODO: Catch all exceptions at the end, make a 500.html page
 var async = require('async'),
     AWS = require('aws-sdk'),
+    flash = require('connect-flash');
     crypto = require('crypto'),
     Case = require('case'),
     exec = require('child_process').exec,
@@ -28,6 +29,7 @@ var async = require('async'),
     passport = require('passport'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
+    restler = require('restler'),
     _ = require('underscore');
 
 // Augment underscore.string with underscore library
@@ -63,10 +65,14 @@ mongoose.connect(config.MONGOLAB, function(err) {
 var File = mongoose.model('File', FileSchema);
 
 // Load Amazon AWS credentials
-AWS.config.update(config.AWS);
+AWS.config.update({
+  accessKeyId: config.AWS.accessKeyId,
+  secretAccessKey: config.AWS.secretAccessKey,
+  region: config.AWS.region
+});
 
 // Load an S3 bucket
-var s3 = new AWS.S3({ params: { Bucket: 'semanticweb' } });
+var s3 = new AWS.S3({ params: { Bucket: config.AWS.bucket } });
 
 
 /**
@@ -141,9 +147,10 @@ app.use(express.bodyParser({
 }));
 app.use(express.cookieParser());
 app.use(express.session({
-  secret: 'secret',
+  secret: 'topsecretz',
   store: new MongoStore({ url: config.MONGOLAB })
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.methodOverride());
@@ -327,7 +334,10 @@ app.get('/search', function(req, res) {
  * Upload form
  */
 app.get('/upload', loginRequired, function(req, res) {
-  res.render('upload', { user: req.user });
+  res.render('upload', { 
+    user: req.user,
+    message: req.flash('info')
+   });
 });
 
 
@@ -336,30 +346,34 @@ app.get('/upload', loginRequired, function(req, res) {
  * Uploads a file for a given user
  */
 app.post('/upload', function(req, res) {
-  // Users must select a file before upload
-  if (!req.files) {
-    console.error('Error: No file selected');
+
+  // Check if no file has been selected
+  if (!req.files.userFile.name) {
+    req.flash('info', 'No file selected');
     return res.redirect('/upload');
   }
 
-  var filePath = getPath(req.files.userFile.path);
+  var filePath = req.files.userFile.path;
   var fileName = req.files.userFile.name;
+  var fileContentType = req.files.userFile.headers['content-type'];
   var fileExtension = filePath.split('.').pop().toLowerCase();
-  var fileType = req.files.userFile.type;
   var fileSize = req.files.userFile.size;
-  var fileLastModified = req.files.userFile.lastModifiedDate;
   var tags = req.body.tags ? req.body.tags.split(',') : [];
 
-  console.log(req.body.tags);
+  console.log(req.files);
+
   // Read file contents into memory
   var fileData = fs.readFileSync(filePath);
 
   // Similar to above (used for music-metadata library)
   var fileDataStream = fs.createReadStream(filePath)
     
-  // C);reate a cryptographic hash of a filename
+  // Create a cryptographic hash of a filename
   var sha1sum = crypto.createHash('sha1').update(fileData).digest('hex');
-      
+  
+  // (old path, new path)
+  var s3path = sha1sum + '.' + fileExtension;
+
 
   async.series({
     
@@ -376,12 +390,20 @@ app.post('/upload', function(req, res) {
     
     uploadToS3: function(callback) {
       console.info('Uploading file to Amazon S3');
-      s3.createBucket(function() {
-        s3.putObject({ Key: sha1sum, Body: fileData }, function(err, data) {
-          if (err) throw err;
-          callback(null);
-        });
+      
+      //if ()
+      contentType = 'binary/octet-stream';
+
+      s3.putObject({ 
+        Key: s3path, 
+        Body: fileData, 
+        ContentType: 'image/jpg' 
+      }, function(err, data) {
+        if (err) throw err;
+        callback(null);
       });
+
+
     },
 
     saveToDatabase: function(callback) {
@@ -389,11 +411,11 @@ app.post('/upload', function(req, res) {
       var file = new File({
         name: fileName,
         extension: fileExtension,
-        type: fileType,
+        type: fileContentType,
         size: fileSize,
         friendlySize: filesize(fileSize),
-        lastModified: fileLastModified,
-        path: sha1sum,
+        lastModified: '222',
+        path: s3path,
         user: req.user.googleId
       });
 
@@ -502,6 +524,27 @@ app.post('/upload', function(req, res) {
               callback(null);
             });
           });
+          break;
+        case 'jpeg':
+        case 'jpg':
+        case 'gif':
+        case 'png':
+          console.log('Parsing IMAGE file');
+          
+          var imageUrl = 'https://s3.amazonaws.com/' + config.AWS.bucket + '/' + s3path;
+
+          console.log(imageUrl);
+          var url = 'http://api.skybiometry.com/fc/faces/detect' + 
+                    '?api_key=' + config.SKYBIOMETRY.api_key + 
+                    '&api_secret=' + config.SKYBIOMETRY.api_secret + 
+                    '&urls=' + imageUrl +
+                    '&attributes=all';
+
+          request.get(url, function(e,r,b) {
+            console.log(b);
+            callback(null);
+          });
+
           break;
         default:
           console.info('Non-parsable format detected. Save file as is.');
