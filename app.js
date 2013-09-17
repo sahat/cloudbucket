@@ -808,8 +808,12 @@ app.put('/files/:id', function(req, res) {
  * Deletes a file  for a given user
  */
 app.del('/files/:id', function(req, res) {
-  File.delete({ '_id': req.params.id }, function(err, file) {
-    if (err) throw err;
+  File.delete({ _id: req.params.id }, function(err, file) {
+    if (err) {
+      console.error(err);
+      req.flash('info', 'Could not process delete request');
+      return res.redirect('files/' + req.params.id);
+    }
     if (file) return res.send(404, 'File not found');
     s3.deleteObject({ Bucket: 'semanticweb', Key: file.path});
   });

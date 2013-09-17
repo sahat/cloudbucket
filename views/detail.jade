@@ -2,12 +2,13 @@ extends layout
 
 block content
   include _header
-  
+
   .container
-    if file.contentType.match('text')
+    h1= file.contentType
+    if file.contentType.match('application')
       include detail-text
     else if file.contentType.match('image')
-			include detail-image
+      include detail-image
     else if file.contentType.match('audio')
       include detail-audio
     else if file.contentType.match('video')

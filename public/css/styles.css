@@ -8,22 +8,77 @@
   margin-right: 0;
   margin-left: 15px;
 }
-
+.navbar-nav {
+  margin: 0 -15px;
+}
 .navbar-nav .glyphicon {
   padding-right: 15px;
 }
+.navbar-nav > li:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+.navbar-nav>li>a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: #707070;
+}
+.navbar-nav>li:active {
+  background: #4285f4;
+  color: #fff;
+}
+.navbar-nav > li:active a {
+  color: #fff;
+}
+.navbar-nav > li:active a:hover {
+  color: #fff;
+}
+.navbar-default {
+}
+.navbar-default .navbar-collapse {
+  background-color: #fff;
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
 
+
+.navbar-default .navbar-collapse:before, .navbar-default .navbar-collapse:after
+{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+  -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+  box-shadow:0 0 20px rgba(0,0,0,0.8);
+  top:50%;
+  bottom:0;
+  left:10px;
+  right:10px;
+  -moz-border-radius:100px / 10px;
+  border-radius:100px / 10px;
+}
+.navbar-default .navbar-collapse:after
+{
+  right:10px;
+  left:auto;
+  -webkit-transform:skew(8deg) rotate(3deg);
+  -moz-transform:skew(8deg) rotate(3deg);
+  -ms-transform:skew(8deg) rotate(3deg);
+  -o-transform:skew(8deg) rotate(3deg);
+  transform:skew(8deg) rotate(3deg);
+}
 .navbar-brand {
   float: right;
 }
-
 .table tbody>tr>td {
   vertical-align: middle;
 }
-
 .label {
   display: inline-block;
 }
+
+
+
+
+
 
 /* END BOOTSTRAP OVERRIDE */
 
