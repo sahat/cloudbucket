@@ -1,31 +1,22 @@
 .container
-
   dl.file-card
     dt= file.name
     dd Category
       .pull-right #{file.category}
-    dt Euismod
     dd Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
     dd Donec id elit non mi porta gravida at eget metus.
-    dt Malesuada porta
     dd Etiam porta sem malesuada magna mollis euismod.
 
+  dl.file-card
+    dt User Tags
+    dd
+      if file.tags.length > 0
+        for tag in file.tags
+          span.label.label-success #{tag}
+          |&nbsp;
+      else
+        div No tags
 
-
-
-  h3 Category
-  p #{file.category}
-
-  h3 Summary
-  p= file.summary
-
-  h3 User Tags
-  if file.tags.length > 0
-    for tag in file.tags
-      span.label.label-danger #{tag}
-      |&nbsp;
-  else
-    div No tags
 
   h3 Entities
   for entity in file.entities
@@ -42,3 +33,7 @@
     for keyword in file.keywords
       span.label.label-primary #{keyword.text}
       |&nbsp;
+
+  .btn.btn-danger.btn-block
+    span.glyphicon.glyphicon-trash
+    |  Delete

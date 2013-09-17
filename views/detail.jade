@@ -3,7 +3,7 @@ extends layout
 block content
   include _header
 
-  if file.contentType.match('text') || file.contentType.match('pdf') || file.contentType.match('document')
+  if file.contentType.match('text') || file.contentType.match('pdf') || file.contentType.match('wordprocessingml')
     include detail-text
   else if file.contentType.match('image')
     include detail-image

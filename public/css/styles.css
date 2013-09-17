@@ -37,7 +37,9 @@ body {
 .file-card dd {
   padding: 10px 15px;
 }
-
+.file-card dd:not(last-child) {
+  border-bottom: 1px solid #ddd;
+}
 
 
 
