@@ -1,19 +1,4 @@
-//- .topcoat-navigation-bar
-//-   .topcoat-navigation-bar__item.left.quarter
-//-     a.topcoat-icon-button--quiet.menu-popup-button(href='#menu')
-//-       i.icon-reorder
-//-   .topcoat-navigation-bar__item.center.half
-//-     if file
-//-       h1.topcoat-navigation-bar__title #{file.name}
-//-     else
-//-       h1.topcoat-navigation-bar__title Cloud
-//-         strong Bucket
-//-   .topcoat-navigation-bar__item.right.quarter
-//-     a.topcoat-icon-button--quiet(href='/upload')
-//-       i.icon-cloud-upload
-
 nav.navbar.navbar-default(role='navigation')
-  
   .navbar-header
     button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
       span.sr-only Toggle navigation
@@ -28,21 +13,17 @@ nav.navbar.navbar-default(role='navigation')
     ul.nav.navbar-nav
       li
         a(href='/upload') 
-          span.glyphicon.glyphicon-cloud-upload
-          strong Upload
+          span.glyphicon.glyphicon-cloud-upload  Upload
       li
         a(href='/settings') 
-          span.glyphicon.glyphicon-wrench
-          strong Settings
+          span.glyphicon.glyphicon-wrench  Settings
       li
         a(href='/logout') 
-          span.glyphicon.glyphicon-log-out
-          strong Logout
+          span.glyphicon.glyphicon-log-out  Logout
       if user && user.isAdmin
         li
           a(href='/admin/users')
-            span.glyphicon.glyphicon-user
-            strong Admin
+            span.glyphicon.glyphicon-user  Admin
        
 
 #menu.menu-popup.mfp-with-anim.mfp-hide
