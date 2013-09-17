@@ -20,19 +20,19 @@ block content
             |  Search
       br
       
-    if files.length < 1
-      h3.text-center You do not have any files yet
-    else
-      table.table.table-hover
-        tbody
-          for file in files
-            tr
-              td(id='#{file.id}')
-                a(href='/files/#{file.id}')
-                  span.glyphicon.glyphicon-file
-                  |  #{file.name}
-                  br
-                  span.text-muted Size: #{file.friendlySize}
+      if files.length < 1
+        h3.text-center You do not have any files yet
+      else
+        table.table.table-hover
+          tbody
+            for file in files
+              tr
+                td.file-item(id='#{file.id}')
+                  a(href='/files/#{file.id}')
+                    span.glyphicon.glyphicon-file
+                    |  #{file.name}
+                    br
+                    span.text-muted Size: #{file.friendlySize}
 
   script.
     $('#search-btn').click(function() {

@@ -1,7 +1,13 @@
 body {
-  background: url(../img/noise.png);
-  background-color: #f8f8f8;
+  background: #f8f8f8 url(../img/noise.png);
 }
+
+.file-item {
+  background-color: #fff;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
 /* BOOTSTRAP OVERRIDE */
 
 .navbar-toggle {
@@ -83,8 +89,17 @@ body {
 
 
 
-
 /* END BOOTSTRAP OVERRIDE */
+
+
+
+
+
+
+
+
+
+
 
 
 .topcoat-navigation-bar {
