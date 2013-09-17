@@ -622,20 +622,17 @@ app.post('/upload', function(req, res) {
           });
           break;
 
-        case 'gif':
         case 'jpeg':
         case 'jpg':
         case 'png':
           console.info('Parsing:', fileExtension);
-          
 
-          // Image file that has been uploaded to Amazon s3 just now
+          // Get image file that has been uploaded to Amazon S3
           var imageUrl = 'https://s3.amazonaws.com/' + 
                           config.AWS.bucket + '/' + fileNameS3;
 
-
-          
-          var skyBiometry = 'http://api.skybiometry.com/fc/faces/detect' + 
+          // This URL will simply return a JSON response that we are going to parse
+          var skyBiometry = 'http://api.skybiometry.com/fc/faces/detect' +
                             '?api_key=' + config.SKYBIOMETRY.api_key + 
                             '&api_secret=' + config.SKYBIOMETRY.api_secret + 
                             '&urls=' + imageUrl +
@@ -650,18 +647,22 @@ app.post('/upload', function(req, res) {
             // Convert string to json
             var body = JSON.parse(body);
 
-
             file.width = body.photos[0].width;
             file.height = body.photos[0].height;
-            file.recognizable = body.photos[0].tags[0].recognizable;
-            file.yaw = body.photos[0].tags[0].yaw;
-            file.roll = body.photos[0].tags[0].roll;
-            file.pitch = body.photos[0].tags[0].pitch;
-            file.face = body.photos[0].tags[0].attributes.face;
-            file.gender = body.photos[0].tags[0].attributes.gender;
-            file.glasses = body.photos[0].tags[0].attributes.glasses;
-            file.smiling = body.photos[0].tags[0].attributes.smiling;
 
+            // Sky Biometry doesn't always return "tags" key, especially
+            // if you upload some random PNG image that has no info
+            // on face, gender, etc.
+            if (body.photos[0].tags[0]) {
+              file.recognizable = body.photos[0].tags[0].recognizable;
+              file.yaw = body.photos[0].tags[0].yaw;
+              file.roll = body.photos[0].tags[0].roll;
+              file.pitch = body.photos[0].tags[0].pitch;
+              file.face = body.photos[0].tags[0].attributes.face;
+              file.gender = body.photos[0].tags[0].attributes.gender;
+              file.glasses = body.photos[0].tags[0].attributes.glasses;
+              file.smiling = body.photos[0].tags[0].attributes.smiling;
+            }
 
             file.save(function(err) {
               if (err) {
