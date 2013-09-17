@@ -3,9 +3,8 @@
     dt= file.name
     dd Category
       .pull-right #{file.category}
-    dd Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-    dd Donec id elit non mi porta gravida at eget metus.
-    dd Etiam porta sem malesuada magna mollis euismod.
+    dd Size
+      .pull-right #{file.friendlySize}
 
   dl.file-card
     dt User Tags
@@ -17,6 +16,13 @@
       else
         div No tags
 
+  dl.file-card
+    dt Entities
+    dd
+      for entity in file.entities
+        span.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+        script.
+          $('.entity').tooltip();
 
   h3 Entities
   for entity in file.entities
