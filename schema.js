@@ -57,7 +57,12 @@ var File = new mongoose.Schema({
   smiling: {
     value: String,
     confidence: Number
-  }
+  },
+
+  // video
+  aspectRatio: Number,
+  videoCodec: String,
+  audioCodec: String
 });
 
 File.plugin(mongoosastic);

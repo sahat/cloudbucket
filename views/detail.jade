@@ -2,52 +2,13 @@ extends layout
 
 block content
   include _header
+  
   .container
-    if file.extension == 'txt' || file.extension == 'docx' || file.extension == 'pdf' || file.extension == 'md'
-      h3 Category
-      p #{file.category}
-
-      h3 Summary
-      p= file.summary
-
-      h3 User Tags
-      if file.tags.length > 0
-        for tag in file.tags
-          span.label.label-danger #{tag}
-          | &nbsp;
-      else
-        div No tags
-
-      h3 Entities
-      for entity in file.entities
-        span
-          strong #{entity.text} -
-          | #{entity.type} &nbsp;
-
-      h3 Concept Tags
-      for concept in file.concepts
-        span #{concept.text} &nbsp;
-
-      h4 Keyword Tags
-      div(style='max-width:100%')
-        for keyword in file.keywords
-          span.label.label-primary #{keyword.text}
-          | &nbsp;
-
-    else if file.extension == 'mp3'
-      h1 Audio File
-
-      for tag in file.tags
-        span.label.label-danger #{tag}
-        | &nbsp;
-      
-      p Title: #{file.title}
-      p Artist: #{file.artist}
-      p Album: #{file.album}
-      p Genre: #{file.genre}
-      p Size: #{file.friendlySize}
-      p Cover: 
-        img(src='/images/#{file.album}')
-
-
-
+    if file.contentType.match('text')
+      include detail-text
+    else if file.contentType.match('image')
+			include detail-image
+    else if file.contentType.match('audio')
+      include detail-audio
+    else if file.contentType.match('video')
+      include detail-video
