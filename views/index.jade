@@ -28,10 +28,8 @@ block content
               tr
                 td.file-item(id='#{file.id}')
                   a(href='/files/#{file.id}')
-                    span.glyphicon.glyphicon-file
-                    |  #{file.name}
-                    br
-                    span.text-muted Size: #{file.friendlySize}
+                    strong= file.name
+                  span.file-size.text-muted= file.friendlySize
 
   script.
     $('#search-btn').click(function() {

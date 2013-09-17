@@ -6,9 +6,18 @@ body {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
+.file-item a {
+  color: #4d4d4d;
+}
+.file-item a:hover {
+  text-decoration: none;
+}
+.file-size {
+  display: block;
+}
 .search-bar {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 /* BOOTSTRAP OVERRIDE */
 .navbar {
