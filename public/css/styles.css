@@ -19,12 +19,31 @@ body {
   display: block;
 }
 .search-bar {
-  margin-top: 15px;
+  margin-top: 5px;
   margin-bottom: 15px;
 }
+.file-card {
+  background: #fff;
+  border: 1px solid #ddd;
+}
+.file-card dt {
+  padding: 10px 15px;
+}
+.file-card dt:first-child {
+  font-weight: bold;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ddd;
+}
+.file-card dd {
+  padding: 10px 15px;
+}
+
+
+
+
 /* BOOTSTRAP OVERRIDE */
 .navbar {
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 .navbar-toggle {
   float: left;

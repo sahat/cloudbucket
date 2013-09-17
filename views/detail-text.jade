@@ -1,29 +1,44 @@
-h3 Category
-p #{file.category}
+.container
 
-h3 Summary
-p= file.summary
+  dl.file-card
+    dt= file.name
+    dd Category
+      .pull-right #{file.category}
+    dt Euismod
+    dd Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
+    dd Donec id elit non mi porta gravida at eget metus.
+    dt Malesuada porta
+    dd Etiam porta sem malesuada magna mollis euismod.
 
-h3 User Tags
-if file.tags.length > 0
-  for tag in file.tags
-    span.label.label-danger #{tag}
-    |&nbsp;
-else
-  div No tags
 
-h3 Entities
-for entity in file.entities
-  span
-    strong #{entity.text} -
-    | #{entity.type} &nbsp;
 
-h3 Concept Tags
-for concept in file.concepts
-  span #{concept.text} &nbsp;
 
-h4 Keyword Tags
-div(style='max-width:100%')
-  for keyword in file.keywords
-    span.label.label-primary #{keyword.text}
-    |&nbsp;
+  h3 Category
+  p #{file.category}
+
+  h3 Summary
+  p= file.summary
+
+  h3 User Tags
+  if file.tags.length > 0
+    for tag in file.tags
+      span.label.label-danger #{tag}
+      |&nbsp;
+  else
+    div No tags
+
+  h3 Entities
+  for entity in file.entities
+    span
+      strong #{entity.text} -
+      | #{entity.type} &nbsp;
+
+  h3 Concept Tags
+  for concept in file.concepts
+    span #{concept.text} &nbsp;
+
+  h4 Keyword Tags
+  div(style='max-width:100%')
+    for keyword in file.keywords
+      span.label.label-primary #{keyword.text}
+      |&nbsp;
