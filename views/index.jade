@@ -13,9 +13,11 @@ block content
     include _header
     .container
       .input-group
-        input.form-control(type='text', id='search-field', placeholder='Search by name or keywords')
+        input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
         span.input-group-btn
-          button.btn.btn-primary(type='button', id='search-btn') Search
+          button.btn.btn-primary(type='button', id='search-btn')
+            span.glyphicon.glyphicon-search
+            |  Search
       br
       
     if files.length < 1
