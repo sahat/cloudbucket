@@ -1,4 +1,5 @@
 var async = require('async'),
+    Case = require('case'),
     config = require('./config'),
     AlchemyAPI = require('alchemy-api');
 
@@ -20,7 +21,8 @@ module.exports = function(text, cb) {
         console.info(response);
         if (err) console.error('category', err);
         var category = response ? response.category : '';
-        callback(null, category);
+        var capitalizedCategory = Case.capital(category);
+        callback(null, capitalizedCategory);
       });
     },
     concepts: function(callback) {
