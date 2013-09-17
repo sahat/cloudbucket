@@ -6,6 +6,9 @@ body {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
+.file-row:last-child .file-item {
+  border-bottom: 2px solid #ddd;
+}
 .file-item a {
   color: #4d4d4d;
 }

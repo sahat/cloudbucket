@@ -25,7 +25,7 @@ block content
         table.table.table-hover
           tbody
             for file in files
-              tr
+              tr.file-row
                 td.file-item(id='#{file.id}')
                   a(href='/files/#{file.id}')
                     strong= file.name
