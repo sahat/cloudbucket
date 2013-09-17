@@ -194,7 +194,7 @@ app.del('/admin/users/:googleId', function(req, res) {
   // Delete user
   User.findOne({ googleId: req.params.googleId }).remove();
   
-  // Delete files from MongoDB and S3
+  // Delete files from MongoDB and S3 that belong to the deleted user
   File.find({ user: req.params.googleId }, function(err, files) {
     for (var i=0; i<files.length; i++) {
       files[i].remove();
@@ -324,25 +324,25 @@ app.get('/auth/google/callback',
 app.get('/search', function(req, res) {
   var searchQuery = req.query.q;
   
-  console.log(searchQuery);
+  var regularExpression = new RegExp(searchQuery, 'i');
   
   var conditions = {
     $or: 
       [
-        { name: new RegExp(searchQuery, 'i') },
+        { name: regularExpression },
         { tags: searchQuery },
         { keywords: { $elemMatch: { text: searchQuery } } },
         { concepts: { $elemMatch: { text: searchQuery } } },
         { entities: { $elemMatch: { text: searchQuery } } },
         { keywords: { $elemMatch: { text: searchQuery } } },
         { extension: searchQuery },
-        { category: new RegExp(searchQuery, 'i') },
-        { genre: new RegExp(searchQuery, 'i') },
-        { title: new RegExp(searchQuery, 'i') },
+        { category: regularExpression },
+        { genre: regularExpression },
+        { title: regularExpression },
         { artist: searchQuery },
         { albumArtist: searchQuery },
         { year: searchQuery },
-        { album: new RegExp(searchQuery, 'i') }
+        { album: regularExpression }
       ]
   };
 
@@ -781,7 +781,7 @@ app.get('/convert', function(res, req) {
 
 // Retrieve detailed info about a file
 app.get('/files/:id', function(req, res) {
-  File.findOne({ '_id': req.params.id }, function(err, file) {
+  File.findOne({ _id: req.params.id }, function(err, file) {
     if (file) {
       res.render('detail', { user: req.user, file: file });
     } else {
@@ -798,10 +798,7 @@ app.put('/files/:id', function(req, res) {
 });
 
 /**
- * Deletes a file object for a given user
- * @param Username
- * @param File ID
- * @return 200 OK
+ * Deletes a file  for a given user
  */
 app.del('/files/:id', function(req, res) {
   File.delete({ '_id': req.params.id }, function(err, file) {
