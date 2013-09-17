@@ -323,10 +323,15 @@ app.get('/auth/google/callback',
 
 app.get('/search', function(req, res) {
   var searchQuery = req.query.q;
+
+  // Prevent empty search queries
+  if (!searchQuery) {
+    return res.send({ 'Error': 'Search query requires a querystring parameter'});
+  }
   
   var regularExpression = new RegExp(searchQuery, 'i');
   
-  var conditions = {
+  var searchCriteria = {
     $or: 
       [
         { name: regularExpression },
@@ -346,10 +351,12 @@ app.get('/search', function(req, res) {
       ]
   };
 
-  File.find(conditions, function(err, files) {
-    if (err) throw err;
-
-    console.log(files);
+  File.find(searchCriteria, function(err, files) {
+    if (err) {
+      console.error(err);
+      req.flash('info', 'Error searching files');
+      return res.redirect('/');
+    }
 
     res.send({ files: files });
   });
