@@ -1,4 +1,6 @@
-
+body {
+  background: url(../img/noise.png);
+}
 /* BOOTSTRAP OVERRIDE */
 
 .navbar-toggle {
@@ -30,7 +32,9 @@
 .navbar-nav > li:active a:hover {
   color: #fff;
 }
-.navbar-default {
+
+.navbar-toggle {
+  border: 0;
 }
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #777;
