@@ -1,15 +1,19 @@
 body {
   background: #f8f8f8 url(../img/noise.png);
 }
-
 .file-item {
   background-color: #fff;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
-
+.search-bar {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 /* BOOTSTRAP OVERRIDE */
-
+.navbar {
+  margin-bottom: 0;
+}
 .navbar-toggle {
   float: left;
   margin-right: 0;
@@ -39,7 +43,6 @@ body {
 .navbar-nav > li:active a:hover {
   color: #fff;
 }
-
 .navbar-toggle {
   border: 0;
 }
@@ -141,13 +144,6 @@ body {
   border-radius: 0;
 }
 
-.search-bar .topcoat-icon-button {
-  line-height: 2;
-  color: #373737;
-  background-color: #ddd;
-  border: 1px solid #bdbdbd;
-  margin-top: 3px;
-}
 
 .topcoat-icon-button:active,
 .topcoat-icon-button-.is-active {

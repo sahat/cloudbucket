@@ -12,14 +12,13 @@ block content
   else
     include _header
     .container
-      .input-group
+      .input-group.search-bar
         input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
         span.input-group-btn
           button.btn.btn-primary(type='button', id='search-btn')
             span.glyphicon.glyphicon-search
             |  Search
-      br
-      
+
       if files.length < 1
         h3.text-center You do not have any files yet
       else
