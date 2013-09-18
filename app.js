@@ -4,12 +4,8 @@
  * @contributors: Emilie Chen, Hannah PyCon
  * @date May 5, 2013
  */
-
-
-// TODO: semanticweb s3 files are still old filepath names
-// TODO: change if (err) throw err;
-// TODO: Catch all exceptions at the end, make a 500.html page
 var async = require('async'),
+
     AWS = require('aws-sdk'),
     flash = require('connect-flash');
     crypto = require('crypto'),
@@ -63,6 +59,7 @@ mongoose.connect(config.MONGOLAB, function(err) {
     console.log("Number of users:", count);
   });
 });
+
 
 
 var File = mongoose.model('File', FileSchema);
@@ -685,8 +682,53 @@ app.post('/upload', function(req, res) {
             '&artist=' + artist +
             '&format=json';
             
-            // Get additional information from Last.fm
+            // Get additional information from Last.fm and Musixmatch lyrics service
             async.parallel({
+
+              musixMatch: function(extCallback) {
+                async.serial({
+                  getTrackId: function(interCallback) {
+                    var trackIdUrl = 'http://api.musixmatch.com/ws/1.1/track.search?' +
+                      'q_track=' + track +
+                      '&q_artist=' + artist +
+                      '&f_has_lyrics=1' +
+                      '&apikey=' + config.MUSIXMATCH;
+
+                    request.get(trackIdUrl, function(error, response, body) {
+                      var json = JSON.parse(body);
+
+                      if (json.message.header.status_code === 200) {
+                        var trackId = json.message.body.track_list[0].track.track_id;
+                        console.log(trackId);
+                        interCallback(null, trackId);
+                      } else {
+                        interCallback(null);
+                      }
+                    });
+                  },
+                  getLyrics: function(trackId, interCallback) {
+                    if (!trackId) {
+                      console.error('TrackID is not found');
+                      return;
+                    }
+                    var lyricsUrl = 'http://api.musixmatch.com/ws/1.1/track.lyrics.get?' +
+                      'track_id=' + trackId +
+                      '&apikey=' + config.MUSIXMATCH;
+
+                    request.get(lyricsUrl, function(error, response, body) {
+                      var json = JSON.parse(body);
+
+                      if (json.message.header.status_code === 200) {
+                        var lyrics = json.message.body.lyrics.lyrics_body;
+                        console.log(lyrics);
+                        extCallback(null, lyrics);
+                      } else {
+                        extCallback(null);
+                      }
+                    });
+                  }
+                });
+              },
               trackInfo: function(callback) {
                 request.get(trackInfoUrl, function(error, response, body) {
                   var track = JSON.parse(body).track;
@@ -751,6 +793,7 @@ app.post('/upload', function(req, res) {
               var trackInfo = data.trackInfo;
               var artistInfo = data.artistInfo;
               var similarArtists = data.similarArtists;
+              var lyrics = data.musixMatch;
 
               console.log(parsedAudio)
               // Local extraction
@@ -769,7 +812,7 @@ app.post('/upload', function(req, res) {
               file.artistImages = artistInfo.artistImages;
               file.artistBio = artistInfo.artistBio;
               file.similarArtists = similarArtists;
-              
+              file.lyrics = lyrics;
               
               file.save(function(err) {
                 if (err) {
@@ -891,9 +934,6 @@ app.get('/convert', function(req, res) {
   var artist = '';
 
 
-
-
-
   async.serial({
     getTrackId: function(callback) {
       var trackIdUrl = 'http://api.musixmatch.com/ws/1.1/track.search?' +
@@ -907,6 +947,7 @@ app.get('/convert', function(req, res) {
 
         if (json.message.header.status_code === 200) {
           var trackId = json.message.body.track_list[0].track.track_id;
+          console.log(trackId);
           callback(null, trackId);
         } else {
           callback(null);
@@ -924,38 +965,11 @@ app.get('/convert', function(req, res) {
 
         if (json.message.header.status_code === 200) {
           var lyrics = json.message.body.lyrics.lyrics_body;
+          console.log(lyrics);
           callback(null, lyrics);
         } else {
           callback(null);
         }
-
-        return console.log(body);
-
-
-        {
-          "message": {
-          "header": {
-            "status_code": 200,
-              "execute_time": 0.04367995262146
-          },
-          "body": {
-            "lyrics": {
-              "lyrics_id": 7260188,
-                "restricted": 0,
-                "instrumental": 0,
-                "lyrics_body": "Now and then I think of when we were together\r\n...",
-                "lyrics_language": "en",
-                "script_tracking_url": "http:\/\/tracking.musixmatch.com\/t1.0\/m42By\/J7rv9z",
-                "pixel_tracking_url": "http:\/\/tracking.musixmatch.com\/t1.0\/m42By\/J7rv9z6q9he7AA",
-                "html_tracking_url": "http:\/\/tracking.musixmatch.com\/t1.0\/m42By\/J7rv9z6qIa\/",
-                "lyrics_copyright": "Lyrics powered by www.musiXmatch.com",
-                "updated_time": "2012-04-26T02:09:39Z"
-            }
-          }
-        }
-        }
-
-        callback(null);
       });
     }
   });
