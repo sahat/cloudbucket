@@ -663,20 +663,30 @@ app.post('/upload', function(req, res) {
 
 
           var parser = new mm(fileDataStream);
+        
           
-
-          // Extract MP3 metadata
-          parser.on('metadata', function (result) {
-            file.genre = result.genre || 'Unknown';
-            file.title = result.title;
-            file.artist = result.artist;
-            file.albumArtist = result.albumArtist;
-            file.year = result.year || 'N/A';
-            file.album = result.album || 'Unknown';
-            file.albumCover = result.picture;
-            
-
+          async.parallel({
+            // Extract MP3 metadata
+            localMetadata: function(callback) {
+              parser.on('metadata', function (result) {
+                callback(result);
+              });
+            },
+            // Get additional information from Last.fm
+            lastFm: function(callback) {
+              
+              callback(null);
+            }
+          }, function(err, results) {
             // Save to database
+            file.genre = results.localMetadata.genre || 'Unknown';
+            file.title = results.localMetadata.title;
+            file.artist = results.localMetadata.artist;
+            file.albumArtist = results.localMetadata.albumArtist;
+            file.year = results.localMetadata.year || 'N/A';
+            file.album = results.localMetadata.album || 'Unknown';
+            file.albumCover = results.localMetadata.picture;
+                
             file.save(function(err) {
               if (err) {
                 console.error(err);
@@ -686,6 +696,12 @@ app.post('/upload', function(req, res) {
               callback(null);
             });
           });
+          
+          
+            
+
+            
+          
           break;
 
         case 'jpeg':
@@ -793,8 +809,33 @@ app.get('/static/:album', function(req, res) {
 
 
 app.get('/convert', function(req, res) {
-
-
+  var artist = 'Emilie Autumn';
+  var track = 'Dead is the new alive';
+  var trackInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&' + 
+            'api_key=' + config.LASTFM.api_key +
+            '&artist=' + artist +
+            '&track=' + track + 
+            '&format=json';
+  var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&' + 
+            'api_key=' + config.LASTFM.api_key +
+            '&artist=' + artist +
+            '&track=' + track + 
+            '&format=json';
+  
+  request.get(trackInfoUrl, function(error, response, body) {
+    var track = JSON.parse(body).track;
+    var albumCover = track.album.image[3]['#text']; // x-large
+    var lastFmTags = [];
+    _.each(track.toptags.tag, function(tag) {
+      lastFmTags.push(tag.name);
+    });
+    console.log('====');
+    console.log(albumCover);
+    console.log(lastFmTags);
+    res.send(JSON.parse(body));
+  });
+  
+  request.
 
 });
 
