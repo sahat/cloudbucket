@@ -6,6 +6,9 @@
       img.album-cover.pull-left(src='/img/no_cover.png')
     p 
       strong #{file.title}
+    - var minutes = Math.floor((file.trackDuration / 1000) / 60);
+    - var seconds = Math.floor((file.trackDuration / 1000) % 60);
+    p Duration: #{minutes}:#{seconds}
     p by #{file.artist}
     p on #{file.album}
     p
@@ -15,7 +18,7 @@
 
   dl.file-card
     dt About Artist
-    dd Pull data from last.fm
+    dd!=  file.artistBio
 
   dl.file-card
     dt= file.name
