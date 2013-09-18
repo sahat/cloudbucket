@@ -15,7 +15,7 @@ var async = require('async'),
     crypto = require('crypto'),
     Case = require('case'),
     exec = require('child_process').exec,
-    epubParser = require('epub-parser'),
+    EPub = require('epub'),
     email = require('emailjs'),
     express = require('express'),
     filesize = require('filesize'),
@@ -463,14 +463,13 @@ app.post('/upload', function(req, res) {
 
     saveToDatabase: function(callback, ETag) {
       console.info('Saving to MongoDB');
-      
       // Create a base file object
       var file = new File({
         name: fileName,
         extension: fileExtension,
         contentType: fileContentType,
         size: fileSize,
-        friendlySize: filesize(fileSize),
+        friendlySize: filesize(fileSize, 2, false),
         path: fileNameS3,
         ETag: ETag,
         user: req.user.googleId
@@ -484,16 +483,52 @@ app.post('/upload', function(req, res) {
 
       // Perform data extraction based on the filetype
       switch(fileExtension) {
+        case 'epub':
+          epubParser.open(filePath, function (err, epubData) {
+            if(err) {
+              console.error(err);
+              req.flash('info', 'Error parsing EPUB file');
+              return res.redirect('/');
+            }
+            console.log(epubData.easy);
+            //console.log(epubData.raw.json.ncx);
+            console.log(epubData.easy.linearSpine['about.html'].item);
+
+            // Get the string representation of the binary file
+            var text = fileData.toString();
+
+
+            // Perform NLP analysis on text
+            alchemyAPI(text, function(results) {
+              file.keywords = results.keywords;
+              file.category = results.category;
+              file.concepts = results.concepts;
+              file.entities = results.entities;
+
+
+              // Save to database
+              file.save(function(err) {
+                if (err) {
+                  console.error(err);
+                  req.flash('info', 'Unable to save to database (TEXT)');
+                  return res.redirect('/upload');
+                }
+                callback(null);
+              });
+            });
+          });
+          break;
         case 'md':
         case 'markdown':
         case 'rst':
         case 'txt':
           console.info('Parsing:', fileExtension);
 
-
           // Get the string representation of the binary file
           var text = fileData.toString();
 
+          console.log(text + ": " + text.length + " characters, " +
+            Buffer.byteLength(text, 'utf8') + " bytes");
 
           // Perform NLP analysis on text
           alchemyAPI(text, function(results) {
@@ -501,7 +536,6 @@ app.post('/upload', function(req, res) {
             file.category = results.category;
             file.concepts = results.concepts;
             file.entities = results.entities;
-
 
             // Save to database
             file.save(function(err) {
@@ -723,68 +757,16 @@ app.get('/images/:album', function(req, res) {
 });
 
 
-app.get('/convert', function(res, req) {
-  // console.log();
-  // var username = 'ca117fa0e6ba09f5c715cd8c5bac267a';
-  // var password = '321ab681f15c42338efdfae3eb1d17a989c934ba';
-
-  // var
-  //   spawn = require('child_process').spawn,
-  //   python  = spawn('python');
-
-  // USE DOCSPLIT FOR DOCS
-  var exec = require('child_process').exec;
-  exec('pdf2txt.py senior.pdf', function (err, stdout, stderr) {
-    console.log(stdout);
-  });
-  // python.stdin.write('print ("a")');
-  // python.stdin.end();
-
-  // python.stdout.on('data', function (data) {
-  //         console.log(data.toString());
-  // });
-
-
-  // request({ 
-  //   method: 'POST',
-  //   uri: 'http://' + username + ':' + password + '@' + 'api.doxument.com/v1/docs.json',
-  //   multipart: [{ 
-  //     body: {
-  //       'file': ''
-  //     },
-  //   }]
-  // },
-  // function (error, response, body) {
-  //   console.log(body);
-  // });
-
-//   var form = new FormData();
-//   var url = 'http://' + username + ':' + password + '@' + 'api.doxument.com/v1/docs.json';
+app.get('/convert', function(req, res) {
   
-//   var r = request.post(url)
-//   var form = r.form()
-//   form.append('file', fs.createReadStream(path.join(__dirname, 'lecture2.doc')));
-//   form.submit(url, function(err, res) {
-//     console.log(res);
-//   });
-
-//   fs.stat("lecture2.doc", function(err, stats) {
-//     restler.post("http://posttestserver.com/post.php", {
-//         multipart: true,
-//         data: {
-//             "folder_id": "0",
-//             "filename": restler.file("lecture2.doc", null, stats.size, null)
-//         }
-//     }).on("complete", function(data) {
-//         console.log(data);
-//     });
-// });
-
-  // request.get('api.doxument.com/v1/docs.json?view=compact', function(e, r, b) {
-  //   console.log(b);
-  // });
-
-
+  var epub = new EPub('book.epub');
+  epub.on("end", function(){
+      // epub is now usable
+      console.log(epub.metadata.title);
+      console.log(epub.metadata);
+      epub.getChapter("chapter_id", function(err, text){});
+  });
+  epub.parse();
 });
 
 
