@@ -1,6 +1,6 @@
 /**
  * @name CCNY Senior Project
- * @authors: Emilie Bodden, Sahat Yalkabov
+ * @authors: Emily Bodden, Sahat Yalkabov
  * @contributors: Emilie Chen, Hannah PyCon
  * @date May 5, 2013
  */
@@ -110,8 +110,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
-    //callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
+    //callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -667,12 +667,12 @@ app.post('/upload', function(req, res) {
 
           // Extract MP3 metadata
           parser.on('metadata', function (result) {
-            file.genre = result.genre;
+            file.genre = result.genre || 'Unknown';
             file.title = result.title;
             file.artist = result.artist;
             file.albumArtist = result.albumArtist;
-            file.year = result.year;
-            file.album = result.album;
+            file.year = result.year || 'N/A';
+            file.album = result.album || 'Unknown';
             file.albumCover = result.picture;
             
 

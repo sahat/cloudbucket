@@ -1,10 +1,13 @@
 .container
   .clearfix
-    img.book-cover.thumbnail.pull-left(src='/static/#{file.album}')
-    p #{file.title}
-    p #{file.artist}
-    p #{file.album}
-    p #{file.genre}
+    if file.albumCover
+      img.thumbnail.pull-left(src='/static/#{file.albumCover}')
+    else
+      img.album-cover.pull-left(src='/img/no_cover.png')
+    p 
+      strong #{file.title}
+    p by #{file.artist}
+    p on #{file.album}
     p
       a.button.is-tertiary.has-icon(href='#{downloadUrl}')
         span.glyphicon.glyphicon-send
@@ -12,12 +15,12 @@
 
   dl.file-card
     dt About Artist
-    dd= Pull data from last.fm
+    dd Pull data from last.fm
 
   dl.file-card
     dt= file.name
-    dd Category
-      .pull-right #{file.bookCategory}
+    dd Genre
+      .pull-right #{file.genre}
     dd Size
       .pull-right #{file.friendlySize}
 
