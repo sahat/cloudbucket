@@ -690,17 +690,24 @@ app.post('/upload', function(req, res) {
               trackInfo: function(callback) {
                 request.get(trackInfoUrl, function(error, response, body) {
                   var track = JSON.parse(body).track;
-                  
-                  var albumCover = track.album.image[3]['#text']; // x-large
                   var trackDuration = track.duration; // number in milliseconds
                   var lastFmTags = [];
-                  
+                  var albumCovers = [];
+
                   _.each(track.toptags.tag, function(tag) {
                     lastFmTags.push(tag.name);
                   });
-                  
+
+                  // Some tracks don't have album information
+                  if (track.album) {
+                    _.each(track.album.image, function(img) {
+                      albumCovers.push(img);
+                    });
+                  }
+
+
                   var trackInfo = {
-                    albumCover: albumCover,
+                    albumCovers: albumCovers,
                     trackDuration: trackDuration,
                     lastFmTags: lastFmTags
                   };
@@ -753,9 +760,10 @@ app.post('/upload', function(req, res) {
               file.albumArtist = parsedAudio.albumArtist;
               file.year = parsedAudio.year || 'N/A';
               file.album = parsedAudio.album || 'Unknown';
+              file.albumCover = parsedAudio.picture; // buffer
               
               // Last.fm API
-              file.albumCover = trackInfo.albumCover;
+              file.albumCovers = trackInfo.albumCovers; // links
               file.trackDuration = trackInfo.trackDuration;
               file.lastFmTags = trackInfo.lastFmTags;
               file.artistImages = artistInfo.artistImages;
