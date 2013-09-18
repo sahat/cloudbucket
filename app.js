@@ -753,7 +753,7 @@ app.post('/upload', function(req, res) {
 });
 
 
-app.get('/images/:album', function(req, res) {
+app.get('/static/:album', function(req, res) {
   var album = req.params.album;
   var pattern = new RegExp(album, 'i');
 

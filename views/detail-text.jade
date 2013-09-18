@@ -1,4 +1,9 @@
 .container
+  .text-center
+    a(href='').button.is-primary.has-icon.has-text
+      i.icon-attachment
+      |  Open File
+
   dl.file-card
     dt= file.name
     dd Category
@@ -16,25 +21,35 @@
       else
         div No tags
 
-  dl.file-card
-    dt Entities
-    dd
-      for entity in file.entities
-        span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
-        | &nbsp;
-        script.
-          $('.entity').tooltip();
+  if file.entities.length > 0
+    dl.file-card
+      dt Entities
+      dd
+        for entity in file.entities
+          span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+          | &nbsp;
+          script.
+            $('.entity').tooltip();
 
-  h3 Concept Tags
-  for concept in file.concepts
-    span #{concept.text} &nbsp;
+  if file.concepts.length > 0
+    dl.file-card
+      dt Concepts
+      dd
+        for concept in file.concepts
+          span.label.label-default #{concept.text}
+          | &nbsp;
 
-  h4 Keyword Tags
-  div(style='max-width:100%')
-    for keyword in file.keywords
-      span.label.label-primary #{keyword.text}
-      |&nbsp;
 
+  if file.keywords.length > 0
+    dl.file-card
+      dt Keywords
+      dd
+        for keyword in file.keywords
+          span.label.label-primary #{keyword.text}
+          |&nbsp;
+
+
+  br
   .btn.btn-danger.btn-block
     span.glyphicon.glyphicon-trash
     |  Delete

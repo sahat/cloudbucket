@@ -1,14 +1,15 @@
 body {
   background: #f8f8f8 url(../img/noise.png);
 }
+.file-open {
+  font-size: 80px;
+}
 .file-item {
   background-color: #fff;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
-.file-row:last-child .file-item {
-  border-bottom: 2px solid #ddd;
-}
+
 .file-item a {
   color: #4d4d4d;
 }
