@@ -43,7 +43,12 @@ var File = new mongoose.Schema({
   albumArtist: Array,
   year: String ,
   album: String,
-  albumCover: mongoose.Schema.Types.Mixed,
+  albumCover: String,
+  trackDuration: Number,
+  lastFmTags: Array,
+  artistImages: Array,
+  artistBio: String,
+  similarArtists: Array,
 
   // image
   width: Number,

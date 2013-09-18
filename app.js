@@ -661,47 +661,119 @@ app.post('/upload', function(req, res) {
         case 'mp3':
           console.info('Parsing:', fileExtension);
 
-
           var parser = new mm(fileDataStream);
-        
           
-          async.parallel({
-            // Extract MP3 metadata
-            localMetadata: function(callback) {
-              parser.on('metadata', function (result) {
-                callback(result);
-              });
-            },
+          // Extract MP3 metadata
+          parser.on('metadata', function (parsedAudio) {
+            
+            var artist = parsedAudio.artist;
+            var track = parsedAudio.title;
+            
+            var trackInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&' + 
+            'api_key=' + config.LASTFM.api_key +
+            '&artist=' + artist +
+            '&track=' + track + 
+            '&format=json';
+            
+          var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&' + 
+            'api_key=' + config.LASTFM.api_key +
+            '&artist=' + artist +
+            '&format=json';
+  
+          var artistInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&' + 
+            'api_key=' + config.LASTFM.api_key +
+            '&artist=' + artist +
+            '&format=json';
+            
             // Get additional information from Last.fm
-            lastFm: function(callback) {
-              
-              callback(null);
-            }
-          }, function(err, results) {
-            // Save to database
-            file.genre = results.localMetadata.genre || 'Unknown';
-            file.title = results.localMetadata.title;
-            file.artist = results.localMetadata.artist;
-            file.albumArtist = results.localMetadata.albumArtist;
-            file.year = results.localMetadata.year || 'N/A';
-            file.album = results.localMetadata.album || 'Unknown';
-            file.albumCover = results.localMetadata.picture;
-                
-            file.save(function(err) {
-              if (err) {
-                console.error(err);
-                req.flash('info', 'Unable to save to database (MP3)');
-                return res.redirect('/upload');
+            async.parallel({
+              trackInfo: function(callback) {
+                request.get(trackInfoUrl, function(error, response, body) {
+                  var track = JSON.parse(body).track;
+                  
+                  var albumCover = track.album.image[3]['#text']; // x-large
+                  var trackDuration = track.duration; // number in milliseconds
+                  var lastFmTags = [];
+                  
+                  _.each(track.toptags.tag, function(tag) {
+                    lastFmTags.push(tag.name);
+                  });
+                  
+                  var trackInfo = {
+                    albumCover: albumCover,
+                    trackDuration: trackDuration,
+                    lastFmTags: lastFmTags
+                  };
+                  
+                  callback(null, trackInfo)
+                });
+              },
+              artistInfo: function(callback) {
+                request.get(artistInfoUrl, function(error, response, body) {
+                  var artist = JSON.parse(body).artist;
+                  
+                  var artistImages = [];
+                  
+                  _.each(artist.image, function(img) {
+                    artistImages.push(img);
+                  });
+                  
+                  var artistBio = artist.bio.summary;
+                  
+                  var artistInfo = {
+                    artistImages: artistImages,
+                    artistBio: artistBio
+                  };
+                  
+                  callback(null, artistInfo);
+                });
+              },
+              similarArtists: function(callback) {
+                request.get(similarArtistsUrl, function(error, response, body) {
+                  var similarArtistsRaw = JSON.parse(body).similarartists.artist;
+                  
+                  var similarArtists = [];
+                  
+                  for (var i = 0; i < similarArtistsRaw.length; i++) {
+                    similarArtists.push(similarArtistsRaw[i]);
+                  }
+                    
+                  callback(null, similarArtists);
+                });
               }
-              callback(null);
-            });
+            }, function(err, data) {
+              var trackInfo = data.trackInfo;
+              var artistInfo = data.artistInfo;
+              var similarArtists = data.similarArtists;
+              
+              // Local extraction
+              file.genre = parsedAudio.genre || 'Unknown';
+              file.title = parsedAudio.title;
+              file.artist = parsedAudio.artist;
+              file.albumArtist = parsedAudio.albumArtist;
+              file.year = parsedAudio.year || 'N/A';
+              file.album = parsedAudio.album || 'Unknown';
+              
+              // Last.fm API
+              file.albumCover = trackInfo.albumCover;
+              file.trackDuration = trackInfo.trackDuration;
+              file.lastFmTags = trackInfo.lastFmTags;
+              file.artistImages = artistInfo.artistImages;
+              file.artistBio = artistInfo.artistBio;
+              file.similarArtists = similarArtists;
+              
+              
+              file.save(function(err) {
+                if (err) {
+                  console.error(err);
+                  req.flash('info', 'Unable to save to database (MP3)');
+                  return res.redirect('/upload');
+                }
+                callback(null);
+              });
+              
+            }); 
           });
-          
-          
-            
-
-            
-          
           break;
 
         case 'jpeg':
