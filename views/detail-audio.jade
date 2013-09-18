@@ -1,7 +1,7 @@
 .container
   .clearfix
     if file.albumCover
-      img.album-cover.thumbnail.pull-left(src='/static/#{file.album}')
+      img.album-cover.thumbnail.pull-left(src="#{file.albumCovers[2]['#text']}")
     else
       img.album-cover.pull-left(src='/img/no_cover.png')
     p 
