@@ -504,7 +504,8 @@ app.post('/upload', function(req, res) {
               var bookPageCount = items[0].volumeInfo.pageCount;
               var bookCategory = items[0].volumeInfo.categories[0];
               var bookAverageRating = items[0].volumeInfo.averageRating;
-              var bookCover = items[0].volumeInfo.imageLinks.thumbnail;
+              var bookCover = items[0].volumeInfo.imageLinks ?
+                items[0].volumeInfo.imageLinks.thumbnail : '';
 
               file.bookTitle = bookTitle;
               file.bookAuthor = bookAuthor;
