@@ -822,6 +822,12 @@ app.get('/convert', function(req, res) {
             '&artist=' + artist +
             '&format=json';
   
+  var artistInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&' + 
+          'api_key=' + config.LASTFM.api_key +
+          '&artist=' + artist +
+          '&format=json';
+
+  
   request.get(trackInfoUrl, function(error, response, body) {
     var track = JSON.parse(body).track;
     
@@ -842,9 +848,22 @@ app.get('/convert', function(req, res) {
     var similarArtists = [];
     
     for (var i = 0; i < similarArtistsRaw.length; i++) {
-      similarArtists.push(similarArtistsRaw[i].name);
+      similarArtists.push(similarArtistsRaw[i]);
     }
+      
     return res.send(similarArtists);
+  });
+  
+  request.get(artistInfoUrl, function(error, response, body) {
+    var artist = JSON.parse(body).artist;
+    
+    var artistImages = [];
+    
+    _.each(artist.image, function(img) {
+      artistImages.push(img);
+    });
+    
+    var artistBio = artist.bio.summary;
   });
 
 });
