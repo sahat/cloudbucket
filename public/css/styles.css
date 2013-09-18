@@ -1,3 +1,27 @@
+@font-face {
+  font-family: 'EntypoRegular';
+  src: url('../fonts/entypo.eot');
+  src: url('../fonts/entypo.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/entypo.woff') format('woff'),
+  url('../fonts/entypo.ttf') format('truetype'),
+  url('../fonts/entypo.svg#EntypoRegular') format('svg');
+}
+.entypo {
+  display: inline-block;
+  font-family: 'EntypoRegular';
+  -webkit-font-smoothing: antialiased;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 0;
+  font-size: 2.8em;
+  vertical-align: middle;
+}
+.entypo-lg {
+  line-height: 0.5;
+  vertical-align: inherit;
+}
+
+
 body {
   background: #f8f8f8 url(../img/noise.png);
 }

@@ -1,21 +1,25 @@
 .container
   .text-center
     .file-open
-      span.glyphicon.glyphicon-file
+      span.entypo.entypo-lg &#128240;
   .text-center
     button.button.is-primary.has-icon
       span.glyphicon.glyphicon-send
-      | &nbsp; Open in Browser
+      span &nbsp; Open in Browser
 
   dl.file-card
-    dt= file.name
+    dt
+      span.entypo &#128318;
+      |  #{file.name}
     dd Category
       .pull-right #{file.category}
     dd Size
       .pull-right #{file.friendlySize}
 
   dl.file-card
-    dt User Tags
+    dt
+      span.entypo &#59148;
+      |  User Tags
     dd
       if file.tags.length > 0
         for tag in file.tags
@@ -26,7 +30,9 @@
 
   if file.entities.length > 0
     dl.file-card
-      dt Entities
+      dt
+        span.entypo &#128101;
+        |  Entities
       dd
         for entity in file.entities
           span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
@@ -36,7 +42,9 @@
 
   if file.concepts.length > 0
     dl.file-card
-      dt Concepts
+      dt
+        span.entypo &#59172;
+        |  Concepts
       dd
         for concept in file.concepts
           span.label.label-default #{concept.text}
@@ -45,7 +53,9 @@
 
   if file.keywords.length > 0
     dl.file-card
-      dt Keywords
+      dt
+        span.entypo &#9000;
+        |  Keywords
       dd
         for keyword in file.keywords
           span.label.label-primary #{keyword.text}
