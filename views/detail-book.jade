@@ -5,8 +5,10 @@
       strong #{file.bookTitle}
     p by
       strong  #{file.bookAuthor}
-    p Rating:&nbsp;
+    p
       span#star
+      | &nbsp;
+      span.label.label-warning #{file.bookAverageRating}
     p #{file.bookPageCount} pages
     p Published: #{file.bookPublishedDate}
 
