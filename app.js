@@ -15,8 +15,8 @@ var async = require('async'),
     crypto = require('crypto'),
     Case = require('case'),
     exec = require('child_process').exec,
-    EPub = require('epub'),
     email = require('emailjs'),
+    epubParser = require('epub-parser'),
     express = require('express'),
     filesize = require('filesize'),
     Dropbox = require('dropbox'),
@@ -389,7 +389,7 @@ app.post('/upload', function(req, res) {
     req.flash('info', 'No file selected');
     return res.redirect('/upload');
   }
-
+  console.log(req.files);
 
   // Grab data from user-submitted file
   var filePath = req.files.userFile.path;
@@ -484,39 +484,42 @@ app.post('/upload', function(req, res) {
       // Perform data extraction based on the filetype
       switch(fileExtension) {
         case 'epub':
+          console.info('Parsing:', fileExtension)
+
           epubParser.open(filePath, function (err, epubData) {
-            if(err) {
-              console.error(err);
-              req.flash('info', 'Error parsing EPUB file');
-              return res.redirect('/');
-            }
-            console.log(epubData.easy);
-            //console.log(epubData.raw.json.ncx);
-            console.log(epubData.easy.linearSpine['about.html'].item);
+            var epub = epubData.raw.json.ncx;
+            var title = epub.docTitle[0].text[0];
+            var googleUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
+            request.get(googleUrl + title, function(error, response, body) {
+              var items = JSON.parse(body);
 
-            // Get the string representation of the binary file
-            var text = fileData.toString();
+              var bookTitle = items[0].volumeInfo.title;
+              var bookAuthor = items[0].volumeInfo.authors[0];
+              var bookPublishedDate = items[0].volumeInfo.publishedDate;
+              var bookDescription = items[0].volumeInfo.description;
+              var bookISBN10 = items[0].volumeInfo.industryIdentifiers[0].identifier;
+              var bookISBN13 = items[0].volumeInfo.industryIdentifiers[1].identifier;
+              var bookPageCount = items[0].volumeInfo.pageCount;
+              var bookCategory = items[0].volumeInfo.categories[0];
+              var bookAverageRating = items[0].volumeInfo.averageRating;
+              var bookCover = items[0].volumeInfo.imageLinks.thumbnail;
 
-
-            // Perform NLP analysis on text
-            alchemyAPI(text, function(results) {
-              file.keywords = results.keywords;
-              file.category = results.category;
-              file.concepts = results.concepts;
-              file.entities = results.entities;
-
-
-              // Save to database
-              file.save(function(err) {
-                if (err) {
-                  console.error(err);
-                  req.flash('info', 'Unable to save to database (TEXT)');
-                  return res.redirect('/upload');
-                }
-                callback(null);
-              });
+              return res.send(JSON.parse(b));
             });
+
           });
+
+//
+//
+//            // Save to database
+//            file.save(function(err) {
+//              if (err) {
+//                console.error(err);
+//                req.flash('info', 'Unable to save to database (TEXT)');
+//                return res.redirect('/upload');
+//              }
+//              callback(null);
+//            });
           break;
         case 'md':
         case 'markdown':
@@ -566,7 +569,7 @@ app.post('/upload', function(req, res) {
             // Grab stdout text and convert it to a string
             var text = stdout.toString();
 
-            
+
             // Perform NLP analysis on text
             alchemyAPI(text, function(results) {
               file.keywords = results.keywords;
@@ -758,15 +761,9 @@ app.get('/images/:album', function(req, res) {
 
 
 app.get('/convert', function(req, res) {
-  
-  var epub = new EPub('book.epub');
-  epub.on("end", function(){
-      // epub is now usable
-      console.log(epub.metadata.title);
-      console.log(epub.metadata);
-      epub.getChapter("chapter_id", function(err, text){});
-  });
-  epub.parse();
+
+
+
 });
 
 
