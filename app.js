@@ -694,7 +694,7 @@ app.post('/upload', function(req, res) {
           console.info('Parsing:', fileExtension);
 
           // Get image file that has been uploaded to Amazon S3
-          var imageUrl = 'https://s3.amazonaws.com/' + 
+          var imageUrl = 'https://s3.amazonaws.com/' +
                           config.AWS.bucket + '/' + fileNameS3;
 
           // This URL will simply return a JSON response that we are going to parse
@@ -802,8 +802,18 @@ app.get('/convert', function(req, res) {
 // Retrieve detailed info about a file
 app.get('/files/:id', function(req, res) {
   File.findOne({ _id: req.params.id }, function(err, file) {
+    if (err) {
+      console.error(err);
+      return res.send(500, 'Error retrieving a file');
+    }
     if (file) {
-      res.render('detail', { user: req.user, file: file });
+      var downloadUrl = 'https://s3.amazonaws.com/' + config.AWS.bucket +
+        '/' + file.path;
+      res.render('detail', {
+        user: req.user,
+        file: file,
+        downloadUrl: downloadUrl
+      });
     } else {
       res.redirect('/');
     }
