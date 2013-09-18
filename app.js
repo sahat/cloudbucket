@@ -65,6 +65,11 @@ mongoose.connect(config.MONGOLAB, function(err) {
 
 var File = mongoose.model('File', FileSchema);
 
+FileSchema.pre('save', function (next) {
+  console.log('Saving in middlware');
+  next();
+});
+
 // Load Amazon AWS credentials
 AWS.config.update({
   accessKeyId: config.AWS.accessKeyId,
@@ -398,7 +403,7 @@ app.post('/upload', function(req, res) {
   var fileExtension = filePath.split('.').pop().toLowerCase();
   var fileSize = req.files.userFile.size;
   var fileTags = req.body.tags ? req.body.tags.split(',') : [];
-
+  var user = req.user;
 
   // Load file contents into memory
   var fileData = fs.readFileSync(filePath);
@@ -411,7 +416,7 @@ app.post('/upload', function(req, res) {
     
 
   // Create a cryptographic hash of a filename
-  var sha1 = crypto.createHash('sha1').update(fileData).digest('hex');
+  var sha1 = crypto.createHash('sha1').update(fileData + user).digest('hex');
   
 
   // Construct a unique filename for Amazon S3
@@ -491,7 +496,7 @@ app.post('/upload', function(req, res) {
             var title = epub.docTitle[0].text[0];
             var googleUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
             request.get(googleUrl + title, function(error, response, body) {
-              var items = JSON.parse(body);
+              var items = JSON.parse(body).items;
 
               var bookTitle = items[0].volumeInfo.title;
               var bookAuthor = items[0].volumeInfo.authors[0];
@@ -504,22 +509,34 @@ app.post('/upload', function(req, res) {
               var bookAverageRating = items[0].volumeInfo.averageRating;
               var bookCover = items[0].volumeInfo.imageLinks.thumbnail;
 
-              return res.send(JSON.parse(b));
+              file.bookTitle = bookTitle;
+              file.bookAuthor = bookAuthor;
+              file.bookPublishedDate = bookPublishedDate;
+              file.bookDescription = bookDescription;
+              file.bookISBN10 = bookISBN10;
+              file.bookISBN13 = bookISBN13;
+              file.bookPageCount = bookPageCount;
+              file.bookCategory = bookCategory;
+              file.bookAverageRating = bookAverageRating;
+              file.bookCover = bookCover;
+
+              // Save to database
+              file.save(function(err) {
+                if (err) {
+                  console.error(err);
+                  req.flash('info', 'Unable to save to database (TEXT)');
+                  return res.redirect('/upload');
+                }
+                console.log('saving');
+                //callback(null);
+              });
             });
 
           });
 
-//
-//
-//            // Save to database
-//            file.save(function(err) {
-//              if (err) {
-//                console.error(err);
-//                req.flash('info', 'Unable to save to database (TEXT)');
-//                return res.redirect('/upload');
-//              }
-//              callback(null);
-//            });
+
+
+
           break;
         case 'md':
         case 'markdown':

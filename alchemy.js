@@ -6,7 +6,7 @@ var async = require('async'),
 var alchemy = new AlchemyAPI(config.ALCHEMY);
 
 module.exports = function(text, cb) {
-  
+
   async.parallel({
     entities: function(callback){
       alchemy.entities(text, {}, function(err, response) {
