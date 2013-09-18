@@ -66,7 +66,7 @@ mongoose.connect(config.MONGOLAB, function(err) {
 var File = mongoose.model('File', FileSchema);
 
 FileSchema.pre('save', function (next) {
-  console.log('Saving in middlware');
+  // TODO: Use for error-validation
   next();
 });
 
@@ -497,13 +497,10 @@ app.post('/upload', function(req, res) {
             var googleUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
             request.get(googleUrl + title, function(error, response, body) {
               var items = JSON.parse(body).items;
-
               var bookTitle = items[0].volumeInfo.title;
               var bookAuthor = items[0].volumeInfo.authors[0];
               var bookPublishedDate = items[0].volumeInfo.publishedDate;
               var bookDescription = items[0].volumeInfo.description;
-              var bookISBN10 = items[0].volumeInfo.industryIdentifiers[0].identifier;
-              var bookISBN13 = items[0].volumeInfo.industryIdentifiers[1].identifier;
               var bookPageCount = items[0].volumeInfo.pageCount;
               var bookCategory = items[0].volumeInfo.categories[0];
               var bookAverageRating = items[0].volumeInfo.averageRating;
@@ -513,8 +510,6 @@ app.post('/upload', function(req, res) {
               file.bookAuthor = bookAuthor;
               file.bookPublishedDate = bookPublishedDate;
               file.bookDescription = bookDescription;
-              file.bookISBN10 = bookISBN10;
-              file.bookISBN13 = bookISBN13;
               file.bookPageCount = bookPageCount;
               file.bookCategory = bookCategory;
               file.bookAverageRating = bookAverageRating;
@@ -524,11 +519,10 @@ app.post('/upload', function(req, res) {
               file.save(function(err) {
                 if (err) {
                   console.error(err);
-                  req.flash('info', 'Unable to save to database (TEXT)');
+                  req.flash('info', 'Unable to save to database (EPUB)');
                   return res.redirect('/upload');
                 }
-                console.log('saving');
-                //callback(null);
+                callback(null);
               });
             });
 

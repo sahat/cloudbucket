@@ -31,8 +31,6 @@ var File = new mongoose.Schema({
   bookAuthor: String,
   bookPublishedDate: String,
   bookDescription: String,
-  bookISBN10: String,
-  bookISBN13: String,
   bookPageCount: Number,
   bookCategory: String,
   bookAverageRating: String,
