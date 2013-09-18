@@ -20,15 +20,10 @@
     dt Entities
     dd
       for entity in file.entities
-        span.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+        span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+        | &nbsp;
         script.
           $('.entity').tooltip();
-
-  h3 Entities
-  for entity in file.entities
-    span
-      strong #{entity.text} -
-      | #{entity.type} &nbsp;
 
   h3 Concept Tags
   for concept in file.concepts
