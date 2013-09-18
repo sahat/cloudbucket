@@ -26,6 +26,18 @@ var File = new mongoose.Schema({
   //preview: String,
   user: String,
 
+  //epub book
+  bookTitle: String,
+  bookAuthor: String,
+  bookPublishedDate: String,
+  bookDescription: String,
+  bookISBN10: String,
+  bookISBN13: String,
+  bookPageCount: Number,
+  bookCategory: String,
+  bookAverageRating: String,
+  bookCover: String,
+
   // mp3
   genre: Array,
   title: String,
