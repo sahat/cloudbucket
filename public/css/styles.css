@@ -1,8 +1,19 @@
 body {
   background: #f8f8f8 url(../img/noise.png);
 }
+a.button:hover {
+  text-decoration: none;
+}
 .file-open {
-  font-size: 80px;
+  font-size: 85px;
+  color: #434a54;
+  line-height: 1;
+}
+.file-open:hover {
+  color: #5a6370;
+}
+.file-open:active {
+  color: #2c3138;
 }
 .file-item {
   background-color: #fff;
