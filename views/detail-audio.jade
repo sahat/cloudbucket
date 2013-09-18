@@ -1,14 +1,12 @@
 .container
   .clearfix
     if file.albumCover
-      img.thumbnail.pull-left(src='/static/#{file.albumCover}')
+      img.album-cover.thumbnail.pull-left(src='/static/#{file.album}')
     else
       img.album-cover.pull-left(src='/img/no_cover.png')
     p 
       strong #{file.title}
-    - var minutes = Math.floor((file.trackDuration / 1000) / 60);
-    - var seconds = Math.floor((file.trackDuration / 1000) % 60);
-    p Duration: #{minutes}:#{seconds}
+
     p by #{file.artist}
     p on #{file.album}
     p
@@ -24,6 +22,10 @@
     dt= file.name
     dd Genre
       .pull-right #{file.genre}
+    dd Duration
+      - var minutes = Math.floor((file.trackDuration / 1000) / 60);
+      - var seconds = Math.floor((file.trackDuration / 1000) % 60);
+      .pull-right #{minutes}:#{seconds}
     dd Size
       .pull-right #{file.friendlySize}
 

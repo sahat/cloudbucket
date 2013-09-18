@@ -705,7 +705,6 @@ app.post('/upload', function(req, res) {
                     });
                   }
 
-
                   var trackInfo = {
                     albumCovers: albumCovers,
                     trackDuration: trackDuration,
@@ -752,14 +751,15 @@ app.post('/upload', function(req, res) {
               var trackInfo = data.trackInfo;
               var artistInfo = data.artistInfo;
               var similarArtists = data.similarArtists;
-              
+
+              console.log(parsedAudio)
               // Local extraction
-              file.genre = parsedAudio.genre || 'Unknown';
+              file.genre = parsedAudio.genre ? parsedAudio.genre : 'Unknown';
               file.title = parsedAudio.title;
               file.artist = parsedAudio.artist;
-              file.albumArtist = parsedAudio.albumArtist;
-              file.year = parsedAudio.year || 'N/A';
-              file.album = parsedAudio.album || 'Unknown';
+              file.albumArtist = parsedAudio.albumArtist ? parsedAudio.albumArtist : 'Unknown';
+              file.year = parsedAudio.year ? parsedAudio.year : 'Unknown';
+              file.album = parsedAudio.album ? parsedAudio.album : 'Unknown';
               file.albumCover = parsedAudio.picture; // buffer
               
               // Last.fm API
@@ -880,10 +880,8 @@ app.get('/static/:album', function(req, res) {
       return res.end();
     }
 
-    console.log(file);
-    
     res.writeHead(200, { 'Content-Type': 'image/jpg' });
-    res.end(file.albumCover[0].data.buffer);
+    res.end(file.albumCover[0].data);
   });
 });
 

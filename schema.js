@@ -43,7 +43,10 @@ var File = new mongoose.Schema({
   albumArtist: Array,
   year: String ,
   album: String,
-  albumCover: Buffer,
+  albumCover: [{
+    format: String,
+    data: Buffer
+  }],
   albumCovers: Array,
   trackDuration: Number,
   lastFmTags: Array,
