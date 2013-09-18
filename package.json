@@ -27,6 +27,7 @@
     "musicmetadata": "*",
     "restler": "*",
     "connect-flash": "*",
-    "epub-parser": "*"
+    "epub-parser": "*",
+    "fluent-ffmpeg": "*"
   }
 }

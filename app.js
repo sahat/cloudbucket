@@ -19,6 +19,7 @@ var async = require('async'),
     epubParser = require('epub-parser'),
     express = require('express'),
     filesize = require('filesize'),
+    ffmpeg = require('fluent-ffmpeg'),
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
@@ -761,10 +762,14 @@ app.get('/static/:album', function(req, res) {
     if (err) throw err;
 
     if (!file) {
-      return res.send('Album cover not found');
+      return res.send('File not found');
     }
 
-    console.log(file)
+    if (!file.albumCover) {
+      return res.end();
+    }
+
+    console.log(file);
     
     res.writeHead(200, { 'Content-Type': 'image/jpg' });
     res.end(file.albumCover[0].data.buffer);
