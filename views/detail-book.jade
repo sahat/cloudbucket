@@ -1,0 +1,64 @@
+.container
+  .clearfix
+    img.book-cover.thumbnail.pull-left(src='#{file.bookCover}')
+    p
+      strong #{file.bookTitle}
+    p by
+      strong  #{file.bookAuthor}
+    p #{file.bookAverageRating} average rating
+    p #{file.bookPageCount} pages
+    p Published: #{file.bookPublishedDate}
+
+  dl.file-card
+    dt Description
+    dd= file.bookDescription
+
+  dl.file-card
+    dt= file.name
+    dd Category
+      .pull-right #{file.bookCategory}
+    dd Size
+      .pull-right #{file.friendlySize}
+
+  dl.file-card
+    dt User Tags
+    dd
+      if file.tags.length > 0
+        for tag in file.tags
+          span.label.label-success #{tag}
+          |&nbsp;
+      else
+        div No tags
+
+  if file.entities.length > 0
+    dl.file-card
+      dt Entities
+      dd
+        for entity in file.entities
+          span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+          | &nbsp;
+          script.
+            $('.entity').tooltip();
+
+  if file.concepts.length > 0
+    dl.file-card
+      dt Concepts
+      dd
+        for concept in file.concepts
+          span.label.label-default #{concept.text}
+          | &nbsp;
+
+
+  if file.keywords.length > 0
+    dl.file-card
+      dt Keywords
+      dd
+        for keyword in file.keywords
+          span.label.label-primary #{keyword.text}
+          |&nbsp;
+
+
+  br
+  .btn.btn-danger.btn-block
+    span.glyphicon.glyphicon-trash
+    |  Delete

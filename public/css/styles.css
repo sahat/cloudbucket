@@ -4,6 +4,9 @@ body {
 a.button:hover {
   text-decoration: none;
 }
+.book-cover {
+  margin-right: 10px;
+}
 .file-open {
   font-size: 85px;
   color: #434a54;
