@@ -809,33 +809,43 @@ app.get('/static/:album', function(req, res) {
 
 
 app.get('/convert', function(req, res) {
-  var artist = 'Emilie Autumn';
-  var track = 'Dead is the new alive';
+  var artist = 'Evanescence';
+  var track = 'Going Under';
   var trackInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&' + 
             'api_key=' + config.LASTFM.api_key +
             '&artist=' + artist +
             '&track=' + track + 
             '&format=json';
-  var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&' + 
+            
+  var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&' + 
             'api_key=' + config.LASTFM.api_key +
             '&artist=' + artist +
-            '&track=' + track + 
             '&format=json';
   
   request.get(trackInfoUrl, function(error, response, body) {
     var track = JSON.parse(body).track;
+    
     var albumCover = track.album.image[3]['#text']; // x-large
+    var trackDuration = track.duration; // number in milliseconds
     var lastFmTags = [];
+    
     _.each(track.toptags.tag, function(tag) {
       lastFmTags.push(tag.name);
     });
-    console.log('====');
-    console.log(albumCover);
-    console.log(lastFmTags);
-    res.send(JSON.parse(body));
+    
+    //res.send(JSON.parse(body));
   });
   
-  request.
+  request.get(similarArtistsUrl, function(error, response, body) {
+    var similarArtistsRaw = JSON.parse(body).similarartists.artist;
+    
+    var similarArtists = [];
+    
+    for (var i = 0; i < similarArtistsRaw.length; i++) {
+      similarArtists.push(similarArtistsRaw[i].name);
+    }
+    return res.send(similarArtists);
+  });
 
 });
 
