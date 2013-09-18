@@ -41,7 +41,7 @@
 
   dl.file-card
     dt Lyrics
-    dd Pull in Last.fm lyrics
+    dd!= file.lyrics.replace(/\n/g, '<br />')
 
   dl.file-card
     dt Similar Artists

@@ -662,8 +662,10 @@ app.post('/upload', function(req, res) {
           
           // Extract MP3 metadata
           parser.on('metadata', function (parsedAudio) {
-            
-            var artist = parsedAudio.artist;
+
+            // returns an array with a single element
+            var artist = parsedAudio.artist[0];
+
             var track = parsedAudio.title;
             
             var trackInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&' + 
@@ -672,22 +674,23 @@ app.post('/upload', function(req, res) {
             '&track=' + track + 
             '&format=json';
             
-          var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&' + 
+          var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&' +
             'api_key=' + config.LASTFM.api_key +
             '&artist=' + artist +
             '&format=json';
   
-          var artistInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&' + 
+          var artistInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&' +
             'api_key=' + config.LASTFM.api_key +
             '&artist=' + artist +
             '&format=json';
-            
+
             // Get additional information from Last.fm and Musixmatch lyrics service
             async.parallel({
-
               musixMatch: function(extCallback) {
-                async.serial({
-                  getTrackId: function(interCallback) {
+                console.log('Starting musixmatch waterfall task');
+                async.waterfall([
+                  function(innerCallback) {
+                    console.log('Musixmatch: Getting Track ID');
                     var trackIdUrl = 'http://api.musixmatch.com/ws/1.1/track.search?' +
                       'q_track=' + track +
                       '&q_artist=' + artist +
@@ -695,39 +698,33 @@ app.post('/upload', function(req, res) {
                       '&apikey=' + config.MUSIXMATCH;
 
                     request.get(trackIdUrl, function(error, response, body) {
-                      var json = JSON.parse(body);
 
-                      if (json.message.header.status_code === 200) {
-                        var trackId = json.message.body.track_list[0].track.track_id;
-                        console.log(trackId);
-                        interCallback(null, trackId);
-                      } else {
-                        interCallback(null);
-                      }
+                      var json = JSON.parse(body);
+                      console.log(artist);
+                      console.log(track);
+
+                      var trackId = json.message.body.track_list[0].track.track_id;
+                      console.log('TrackID:', trackId);
+                      innerCallback(null, trackId);
                     });
                   },
-                  getLyrics: function(trackId, interCallback) {
-                    if (!trackId) {
-                      console.error('TrackID is not found');
-                      return;
-                    }
+                  function(trackId) {
+                    console.log('Musixmatch: Getting Lyrics');
+                    console.log('++++');
+                    console.log('TrackID in lyrics function', trackId);
                     var lyricsUrl = 'http://api.musixmatch.com/ws/1.1/track.lyrics.get?' +
                       'track_id=' + trackId +
                       '&apikey=' + config.MUSIXMATCH;
 
                     request.get(lyricsUrl, function(error, response, body) {
                       var json = JSON.parse(body);
-
-                      if (json.message.header.status_code === 200) {
-                        var lyrics = json.message.body.lyrics.lyrics_body;
-                        console.log(lyrics);
-                        extCallback(null, lyrics);
-                      } else {
-                        extCallback(null);
-                      }
+                      console.log(json);
+                      var lyrics = json.message.body.lyrics.lyrics_body;
+                      console.log(lyrics);
+                      extCallback(null, lyrics);
                     });
                   }
-                });
+                ]);
               },
               trackInfo: function(callback) {
                 request.get(trackInfoUrl, function(error, response, body) {
