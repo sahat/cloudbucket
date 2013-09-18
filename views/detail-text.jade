@@ -1,8 +1,11 @@
 .container
   .text-center
-    a.file-open(href='')
+    .file-open
       span.glyphicon.glyphicon-file
-
+  .text-center
+    button.button.is-primary.has-icon
+      span.glyphicon.glyphicon-send
+      | &nbsp; Open in Browser
 
   dl.file-card
     dt= file.name
