@@ -126,7 +126,7 @@ passport.use(new GoogleStrategy({
             email: profile._json.email,
             locale: profile._json.locale,
             verified: profile._json.verified_email,
-            isAdmin: userCount < 1 ? true : false
+            isAdmin: userCount < 1
           });
           user.save(function(err) {
             if (err) throw err;
