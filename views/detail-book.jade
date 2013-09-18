@@ -5,7 +5,8 @@
       strong #{file.bookTitle}
     p by
       strong  #{file.bookAuthor}
-    p #{file.bookAverageRating} average rating
+    p Rating:&nbsp;
+      span#star
     p #{file.bookPageCount} pages
     p Published: #{file.bookPublishedDate}
 
@@ -62,3 +63,11 @@
   .btn.btn-danger.btn-block
     span.glyphicon.glyphicon-trash
     |  Delete
+
+  script.
+    $('#star').raty({
+      score: 3.26,
+      readOnly: true,
+      width: false,
+      path: '../img'
+    });
