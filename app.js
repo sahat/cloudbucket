@@ -20,6 +20,7 @@ var async = require('async'),
     express = require('express'),
     filesize = require('filesize'),
     ffmpeg = require('fluent-ffmpeg'),
+    Metalib = require('fluent-ffmpeg').Metadata,
     Dropbox = require('dropbox'),
     http = require('http'),
     fs = require('fs'),
@@ -448,23 +449,23 @@ app.post('/upload', function(req, res) {
     },
     
     uploadToS3: function(callback) {
-      console.info('Uploading to Amazon S3');
-      
-      var fileObject = { 
-        Key: fileNameS3, 
-        Body: fileData, 
-        ContentType: fileContentType
-      };
-
-      s3.putObject(fileObject, function(err, data) {
-        if (err) {
-          console.error(err);
-          req.flash('info', 'Error uploading file to Amazon S3');
-          return res.redirect('/upload');
-        }
-        callback(null, data.ETag);
-      });
-
+//      console.info('Uploading to Amazon S3');
+//
+//      var fileObject = {
+//        Key: fileNameS3,
+//        Body: fileData,
+//        ContentType: fileContentType
+//      };
+//
+//      s3.putObject(fileObject, function(err, data) {
+//        if (err) {
+//          console.error(err);
+//          req.flash('info', 'Error uploading file to Amazon S3');
+//          return res.redirect('/upload');
+//        }
+//        callback(null, data.ETag);
+//      });
+      callback(null, 'etag');
     },
 
     saveToDatabase: function(callback, ETag) {
@@ -529,10 +530,24 @@ app.post('/upload', function(req, res) {
             });
 
           });
+          break;
+        case 'avi':
+        case 'mp4':
+        case 'mov':
+        case 'flv':
+          var proc = new ffmpeg({ source: fileData })
+            .withSize('150x100')
+            .takeScreenshots(5, '/path/to/thumbnail/folder', function(err, filenames) {
+              if(err){
+                throw err;
+              }
+              console.log(filenames);
+              console.log('screenshots were saved');
+            });
 
-
-
-
+          var metaObject = new Metalib('/path/to/your_movie.avi', function(metadata, err) {
+            console.log(require('util').inspect(metadata, false, null));
+          });
           break;
         case 'md':
         case 'markdown':
