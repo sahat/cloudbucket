@@ -15,7 +15,6 @@ a.button:hover {
 .file-open:active {
   color: #2c3138;
 }
-
 .file-table {
   background-color: #fff;
   box-shadow: 0 2px 2px -1px rgba(0,0,0,.055);
@@ -38,6 +37,7 @@ a.button:hover {
 .file-card {
   background: #fff;
   border: 1px solid #ddd;
+  box-shadow: 0 2px 2px -1px rgba(0,0,0,.055);
 }
 .file-card dt {
   padding: 10px 15px;
@@ -50,7 +50,7 @@ a.button:hover {
 .file-card dd {
   padding: 10px 15px;
 }
-.file-card dd:not(last-child) {
+.file-card dd:not(:last-child) {
   border-bottom: 1px solid #ddd;
 }
 
