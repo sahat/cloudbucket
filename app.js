@@ -887,62 +887,80 @@ app.get('/static/:album', function(req, res) {
 
 
 app.get('/convert', function(req, res) {
-  var artist = 'Evanescence';
-  var track = 'Going Under';
-  var trackInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&' + 
-            'api_key=' + config.LASTFM.api_key +
-            '&artist=' + artist +
-            '&track=' + track + 
-            '&format=json';
-            
-  var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&' + 
-            'api_key=' + config.LASTFM.api_key +
-            '&artist=' + artist +
-            '&format=json';
-  
-  var artistInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&' + 
-          'api_key=' + config.LASTFM.api_key +
-          '&artist=' + artist +
-          '&format=json';
+  var track = '';
+  var artist = '';
 
-  
-  request.get(trackInfoUrl, function(error, response, body) {
-    var track = JSON.parse(body).track;
-    
-    var albumCover = track.album.image[3]['#text']; // x-large
-    var trackDuration = track.duration; // number in milliseconds
-    var lastFmTags = [];
-    
-    _.each(track.toptags.tag, function(tag) {
-      lastFmTags.push(tag.name);
-    });
-    
-    //res.send(JSON.parse(body));
-  });
-  
-  request.get(similarArtistsUrl, function(error, response, body) {
-    var similarArtistsRaw = JSON.parse(body).similarartists.artist;
-    
-    var similarArtists = [];
-    
-    for (var i = 0; i < similarArtistsRaw.length; i++) {
-      similarArtists.push(similarArtistsRaw[i]);
+
+
+
+
+  async.serial({
+    getTrackId: function(callback) {
+      var trackIdUrl = 'http://api.musixmatch.com/ws/1.1/track.search?' +
+        'q_track=' + track +
+        '&q_artist=' + artist +
+        '&f_has_lyrics=1' +
+        '&apikey=' + config.MUSIXMATCH;
+
+      request.get(trackIdUrl, function(error, response, body) {
+        var json = JSON.parse(body);
+
+        if (json.message.header.status_code === 200) {
+          var trackId = json.message.body.track_list[0].track.track_id;
+          callback(null, trackId);
+        } else {
+          callback(null);
+        }
+
+      });
+    },
+    getLyrics: function(trackId, callback) {
+      var lyricsUrl = 'http://api.musixmatch.com/ws/1.1/track.lyrics.get?' +
+        'track_id=' + trackId +
+        '&apikey=' + config.MUSIXMATCH;
+
+      request.get(lyricsUrl, function(error, response, body) {
+        var json = JSON.parse(body);
+
+        if (json.message.header.status_code === 200) {
+          var lyrics = json.message.body.lyrics.lyrics_body;
+          callback(null, lyrics);
+        } else {
+          callback(null);
+        }
+
+        return console.log(body);
+
+
+        {
+          "message": {
+          "header": {
+            "status_code": 200,
+              "execute_time": 0.04367995262146
+          },
+          "body": {
+            "lyrics": {
+              "lyrics_id": 7260188,
+                "restricted": 0,
+                "instrumental": 0,
+                "lyrics_body": "Now and then I think of when we were together\r\n...",
+                "lyrics_language": "en",
+                "script_tracking_url": "http:\/\/tracking.musixmatch.com\/t1.0\/m42By\/J7rv9z",
+                "pixel_tracking_url": "http:\/\/tracking.musixmatch.com\/t1.0\/m42By\/J7rv9z6q9he7AA",
+                "html_tracking_url": "http:\/\/tracking.musixmatch.com\/t1.0\/m42By\/J7rv9z6qIa\/",
+                "lyrics_copyright": "Lyrics powered by www.musiXmatch.com",
+                "updated_time": "2012-04-26T02:09:39Z"
+            }
+          }
+        }
+        }
+
+        callback(null);
+      });
     }
-      
-    return res.send(similarArtists);
   });
-  
-  request.get(artistInfoUrl, function(error, response, body) {
-    var artist = JSON.parse(body).artist;
-    
-    var artistImages = [];
-    
-    _.each(artist.image, function(img) {
-      artistImages.push(img);
-    });
-    
-    var artistBio = artist.bio.summary;
-  });
+
+
 
 });
 

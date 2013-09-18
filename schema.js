@@ -53,6 +53,10 @@ var File = new mongoose.Schema({
   artistImages: Array,
   artistBio: String,
   similarArtists: Array,
+  trackId: Number,
+  artistId: Number,
+  albumId: Number,
+  lyrics: String,
 
   // image
   width: Number,
