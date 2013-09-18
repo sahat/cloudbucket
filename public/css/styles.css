@@ -15,12 +15,11 @@ a.button:hover {
 .file-open:active {
   color: #2c3138;
 }
-.file-item {
-  background-color: #fff;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-}
 
+.file-table {
+  background-color: #fff;
+  box-shadow: 0 2px 2px -1px rgba(0,0,0,.055);
+}
 .file-item a {
   color: #4d4d4d;
 }
@@ -34,6 +33,8 @@ a.button:hover {
   margin-top: 5px;
   margin-bottom: 15px;
 }
+
+
 .file-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -58,6 +59,7 @@ a.button:hover {
 /* BOOTSTRAP OVERRIDE */
 .navbar {
   margin-bottom: 10px;
+  box-shadow: 0 2px 2px -1px rgba(0,0,0,.055);
 }
 .navbar-toggle {
   float: left;
@@ -91,6 +93,9 @@ a.button:hover {
 .navbar-toggle {
   border: 0;
 }
+.navbar-default {
+  background-color: #fff;
+}
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #777;
 }
@@ -98,8 +103,6 @@ a.button:hover {
   background-color: #fff;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
-
-
 .navbar-default .navbar-collapse:before, .navbar-default .navbar-collapse:after
 {
   content:"";
@@ -123,6 +126,13 @@ a.button:hover {
 }
 .table tbody>tr>td {
   vertical-align: middle;
+}
+.table-hover>tbody>tr:hover>td {
+  background-color: #4285f4;
+}
+.table-hover>tbody>tr:hover>td a,
+.table-hover>tbody>tr:hover>td .text-muted{
+  color: #fff;
 }
 .label {
   display: inline-block;

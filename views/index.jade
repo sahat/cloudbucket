@@ -22,7 +22,7 @@ block content
       if files.length < 1
         h3.text-center You do not have any files yet
       else
-        table.table.table-hover
+        table.file-table.table.table-hover.table-bordered
           tbody
             for file in files
               tr.file-row
