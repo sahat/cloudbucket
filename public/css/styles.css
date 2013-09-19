@@ -27,7 +27,8 @@
   vertical-align: inherit;
 }
 .album-cover {
-  margin-right: 10px;
+  max-width: 184px;
+  max-height: 184px;
 }
 .shift-right {
   margin-right: 10px;

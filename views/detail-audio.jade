@@ -1,9 +1,9 @@
 .container
   .clearfix
-    if file.albumCover
-      img.album-cover.thumbnail.pull-left(src="#{file.albumCovers[2]['#text']}")
+    if file.albumCovers[2]
+      img.album-cover.shift-right.thumbnail.pull-left(src="#{file.albumCovers[2]['#text']}")
     else
-      img.album-cover.pull-left(src='/img/no_cover.png')
+      img.album-cover.shift-right.thumbnail.pull-left(src='/img/no_cover.png')
     p
       strong #{file.title}
 
@@ -47,7 +47,10 @@
     dt
       span.entypo &#9834;
       |  Lyrics
-    dd!= file.lyrics.replace(/\n/g, '<br />')
+    if file.lyrics
+      dd!= file.lyrics.replace(/\n/g, '<br />')
+    else
+      dd No lyrics found
 
   dl.file-card
     dt
