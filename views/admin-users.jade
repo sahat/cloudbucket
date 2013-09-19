@@ -3,7 +3,7 @@ extends layout
 block content
   include _header
   .container
-    table.table
+    table.table.file-table
       thead
         tr
           th.text-center Disk Usage
@@ -13,19 +13,22 @@ block content
       tbody
         for u in userList
           tr
-            td
+            td.text-center
               - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
               .chart(data-percent=percent) 
                 span= percent
                 | %
-            td #{u.displayName}
-            td #{u.email}
-            td
-              .btn-group
-                a.btn.btn-sm.btn-danger(id='delete-btn', data-user='#{u.googleId}')
-                  span.glyphicon.glyphicon-trash
-                a.btn.btn-sm.btn-info(id='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}')
-                  span.glyphicon.glyphicon-dashboard
+            td.text-center #{u.displayName}
+
+
+            td.text-center #{u.email}
+            td.text-center
+              a.button.has-icon(id='delete-btn', data-user='#{u.googleId}')
+                i.icon-cross
+              |&nbsp;
+              a.button.has-icon(id='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}')
+                i.icon-config
+
 
   script.
     // disk usage circle
