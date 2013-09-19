@@ -83,9 +83,14 @@ var File = new mongoose.Schema({
   },
 
   // video
-  aspectRatio: Number,
+  videoDuration: String,
+  videoBitrate: Number,
   videoCodec: String,
-  audioCodec: String
+  videoResolution: String,
+  videoFps: String,
+  videoAudioCodec: String,
+  videoAudioBitrate: Number,
+  videoAudioSampleRate: Number,
 });
 
 File.plugin(mongoosastic);

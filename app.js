@@ -29,6 +29,8 @@ var async = require('async'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
     restler = require('restler'),
+
+    util = require('util'),
     _ = require('underscore');
 
 // Augment underscore.string with underscore library
@@ -542,18 +544,27 @@ app.post('/upload', function(req, res) {
 //              console.log('screenshots were saved');
 //            });
 
-          var metaObject = new Metalib('2013-08-02 09.42.20.mov', function(metadata, err) {
-            var meta = require('util').inspect(metadata, false, null);
+          var metaObject = new Metalib(filePath, function(metadata, err) {
+            var meta = util.inspect(metadata, false, null);
 
-            var videoDuration = meta.durationraw;
-            var videoBitrate = meta.video.bitrate;
-            var videoCodec = meta.video.codec;
-            var videoResolution = meta.video.resolution;
-            var videoFps = meta.video.fps;
-            var videoAudioCodec = meta.audio.codec;
-            var videoAudioBitrate = meta.audio.bitrate;
-            var videoAudioSampleRate = meta.audio.sample_rate;
+            file.videoDuration = meta.durationraw;
+            file.videoCodec = meta.video.codec;
+            file.videoBitrate = meta.video.bitrate;
+            file.videoResolution = meta.video.resolution;
+            file.videoFps = meta.video.fps;
+            file.videoAudioCodec = meta.audio.codec;
+            file.videoAudioBitrate = meta.audio.bitrate;
+            file.videoAudioSampleRate = meta.audio.sample_rate;
 
+            // Save to database
+            file.save(function(err) {
+              if (err) {
+                console.error(err);
+                req.flash('info', 'Unable to save to database (VIDEO)');
+                return res.redirect('/upload');
+              }
+              callback(null);
+            });
 
           });
           break;
