@@ -335,14 +335,15 @@ app.get('/search', function(req, res) {
   if (!searchQuery) {
     return res.send({ 'Error': 'Search query requires a querystring parameter'});
   }
-  
+
+  // Find results even if some parts of search query matches (case-insensitive)
   var regularExpression = new RegExp(searchQuery, 'i');
   
   var searchCriteria = {
     $or: 
       [
         { name: regularExpression },
-        { tags: searchQuery },
+        { tags: { $elemMatch: { text: searchQuery } } },
         { keywords: { $elemMatch: { text: searchQuery } } },
         { concepts: { $elemMatch: { text: searchQuery } } },
         { entities: { $elemMatch: { text: searchQuery } } },
@@ -354,7 +355,16 @@ app.get('/search', function(req, res) {
         { artist: searchQuery },
         { albumArtist: searchQuery },
         { year: searchQuery },
-        { album: regularExpression }
+        { album: regularExpression },
+        { lastFmTags: regularExpression },
+        { bookTitle: regularExpression },
+        { bookAuthor: regularExpression },
+        { bookPublishedDate: searchQuery },
+        { bookCategory: regularExpression },
+        { gender: { $elemMatch: { value: searchQuery } } },
+        { videoCodec: searchQuery },
+        { videoAudioCodec: searchQuery },
+        { videoResolution: searchQuery }
       ]
   };
 
