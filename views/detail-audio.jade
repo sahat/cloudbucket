@@ -15,13 +15,17 @@
         | &nbsp; Open in Browser
 
   dl.file-card
-    dt About Artist
+    dt
+      span.entypo &#59170;
+      |  About Artist
     dd.clearfix
       img.thumbnail.pull-left.shift-right(src="#{file.artistImages[2]['#text']}")
       span!=  file.artistBio
 
   dl.file-card
-    dt= file.name
+    dt
+      span.entypo &#128318;
+      |  #{file.name}
     dd Genre
       .pull-right #{file.genre}
     dd Duration
@@ -32,7 +36,9 @@
       .pull-right #{file.friendlySize}
 
   dl.file-card
-    dt User Tags
+    dt
+      span.entypo &#59148;
+      |  User Tags
     dd
       if file.tags.length > 0
         for tag in file.tags
@@ -42,16 +48,21 @@
         div No tags
 
   dl.file-card
-    dt Lyrics
+    dt
+      span.entypo &#9834;
+      |  Lyrics
     dd!= file.lyrics.replace(/\n/g, '<br />')
 
   dl.file-card
-    dt Similar Artists
+    dt
+      span.entypo &#128101;
+      |  Similar Artists
     for sa in file.similarArtists
       dd.clearfix.similar-artist
         div.pull-left.shift-right(style="width:50px;height:50px;overflow:hidden")
           img(src="#{sa.image[1]['#text']}")
         span= sa.name
-  button.button.is-danger.has-icon
+  button.btn.btn-danger.btn-block
     span.glyphicon.glyphicon-trash
     |  Delete
+  br

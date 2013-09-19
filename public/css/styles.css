@@ -78,7 +78,7 @@ a.button:hover {
   box-shadow: 0 2px 2px -1px rgba(0,0,0,.055);
 }
 .file-card dt {
-  padding: 10px 15px;
+  padding: 10px 10px;
 }
 .file-card dt:first-child {
   font-weight: bold;
