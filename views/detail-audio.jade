@@ -16,7 +16,9 @@
 
   dl.file-card
     dt About Artist
-    dd!=  file.artistBio
+    dd
+      img.thumbnail.pull-left.shift-right(src="#{file.artistImages[2]['#text']}")
+      span!=  file.artistBio
 
   dl.file-card
     dt= file.name
