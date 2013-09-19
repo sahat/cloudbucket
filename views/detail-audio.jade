@@ -4,7 +4,7 @@
       img.album-cover.thumbnail.pull-left(src="#{file.albumCovers[2]['#text']}")
     else
       img.album-cover.pull-left(src='/img/no_cover.png')
-    p 
+    p
       strong #{file.title}
 
     p by #{file.artist}
@@ -45,8 +45,11 @@
 
   dl.file-card
     dt Similar Artists
-    dd Use last.fm api
-
+    for sa in file.similarArtists
+      dd.clearfix.similar-artist
+        div.pull-left.shift-right(style="width:50px;height:50px;overflow:hidden")
+          img(src="#{sa.image[1]['#text']}")
+        span= sa.name
   br
   .button.is-danger.has-icon
     span.glyphicon.glyphicon-trash

@@ -29,6 +29,9 @@
 .album-cover {
   margin-right: 10px;
 }
+.shift-right {
+  margin-right: 10px;
+}
 
 body {
   background: #f8f8f8 url(../img/noise.png);
@@ -84,6 +87,10 @@ a.button:hover {
 }
 .file-card dd {
   padding: 10px 15px;
+}
+
+.file-card dd.similar-artist {
+  padding: 0;
 }
 .file-card dd:not(:last-child) {
   border-bottom: 1px solid #ddd;
