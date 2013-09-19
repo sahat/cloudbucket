@@ -532,18 +532,29 @@ app.post('/upload', function(req, res) {
         case 'mp4':
         case 'mov':
         case 'flv':
-          var proc = new ffmpeg({ source: fileData })
-            .withSize('150x100')
-            .takeScreenshots(5, '/path/to/thumbnail/folder', function(err, filenames) {
-              if(err){
-                throw err;
-              }
-              console.log(filenames);
-              console.log('screenshots were saved');
-            });
+//          var proc = new ffmpeg({ source: fileDataStream })
+//            .withSize('120x90')
+//            .takeScreenshots(5, './', function(err, filenames) {
+//              if(err){
+//                throw err;
+//              }
+//              console.log(filenames);
+//              console.log('screenshots were saved');
+//            });
 
-          var metaObject = new Metalib('/path/to/your_movie.avi', function(metadata, err) {
-            console.log(require('util').inspect(metadata, false, null));
+          var metaObject = new Metalib('2013-08-02 09.42.20.mov', function(metadata, err) {
+            var meta = require('util').inspect(metadata, false, null);
+
+            var videoDuration = meta.durationraw;
+            var videoBitrate = meta.video.bitrate;
+            var videoCodec = meta.video.codec;
+            var videoResolution = meta.video.resolution;
+            var videoFps = meta.video.fps;
+            var videoAudioCodec = meta.audio.codec;
+            var videoAudioBitrate = meta.audio.bitrate;
+            var videoAudioSampleRate = meta.audio.sample_rate;
+
+
           });
           break;
         case 'md':
