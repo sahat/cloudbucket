@@ -29,7 +29,6 @@ var async = require('async'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
     restler = require('restler'),
-
     util = require('util'),
     _ = require('underscore');
 
@@ -49,8 +48,8 @@ var app = express();
 var userCount = 0;
 
 // Connect to MongoDB
-mongoose.connect(config.MONGOLAB, function(err) {
-//mongoose.connect('localhost', function(err) {
+//mongoose.connect(config.MONGOLAB, function(err) {
+mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -109,8 +108,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    //callbackURL: "http://localhost:3000/auth/google/callback"
-    callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
+    //callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -155,7 +154,8 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'topsecretz',
-  store: new MongoStore({ url: config.MONGOLAB })
+  store: new MongoStore({db:'localhost'})
+  //store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -458,22 +458,22 @@ app.post('/upload', function(req, res) {
     },
     
     uploadToS3: function(callback) {
-//      console.info('Uploading to Amazon S3');
-//
-//      var fileObject = {
-//        Key: fileNameS3,
-//        Body: fileData,
-//        ContentType: fileContentType
-//      };
-//
-//      s3.putObject(fileObject, function(err, data) {
-//        if (err) {
-//          console.error(err);
-//          req.flash('info', 'Error uploading file to Amazon S3');
-//          return res.redirect('/upload');
-//        }
-//        callback(null, data.ETag);
-//      });
+      console.info('Uploading to Amazon S3');
+
+      var fileObject = {
+        Key: fileNameS3,
+        Body: fileData,
+        ContentType: fileContentType
+      };
+
+      s3.putObject(fileObject, function(err, data) {
+        if (err) {
+          console.error(err);
+          req.flash('info', 'Error uploading file to Amazon S3');
+          return res.redirect('/upload');
+        }
+        callback(null, data.ETag);
+      });
       callback(null, 'etag');
     },
 
@@ -870,10 +870,7 @@ app.post('/upload', function(req, res) {
                             '&api_secret=' + config.SKYBIOMETRY.api_secret + 
                             '&urls=' + imageUrl +
                             '&attributes=all';
-
-
-          // Returns tags for detected faces in one or more photos, 
-          // with geometric information of the tag, eyes, nose and mouth, 
+          // with geometric information of the tag, eyes, nose and mouth,
           // as well as additional attributes such as gender.
           request.get(skyBiometry, function(error, response, body) {
 
@@ -886,7 +883,7 @@ app.post('/upload', function(req, res) {
             // Sky Biometry doesn't always return "tags" key, especially
             // if you upload some random PNG image that has no info
             // on face, gender, etc.
-            if (body.photos[0].tags[0]) {
+            if (body.photos && body.photos[0].tags && body.photos[0].tags[0]) {
               file.recognizable = body.photos[0].tags[0].recognizable;
               file.yaw = body.photos[0].tags[0].yaw;
               file.roll = body.photos[0].tags[0].roll;

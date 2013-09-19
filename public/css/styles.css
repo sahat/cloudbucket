@@ -33,6 +33,10 @@
 .shift-right {
   margin-right: 10px;
 }
+.image-detail {
+  max-height: 184px;
+  margin-bottom: 10px;
+}
 
 body {
   background: #f8f8f8 url(../img/noise.png);

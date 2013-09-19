@@ -1,1 +1,67 @@
-detail_img.jade
+.container
+  .text-center
+    img.image-detail(src='#{downloadUrl}')
+  .text-center
+    a.button.is-primary.has-icon(href='#{downloadUrl}')
+      span.glyphicon.glyphicon-send
+      span &nbsp; Open in Browser
+
+  dl.file-card
+    dt
+      span.entypo &#128318;
+      |  #{file.name}
+    dd Category
+      .pull-right #{file.category}
+    dd Size
+      .pull-right #{file.friendlySize}
+
+  dl.file-card
+    dt
+      span.entypo &#59148;
+      |  User Tags
+    dd
+      if file.tags.length > 0
+        for tag in file.tags
+          span.label.label-success #{tag}
+          |&nbsp;
+      else
+        div No tags
+
+  if file.entities.length > 0
+    dl.file-card
+      dt
+        span.entypo &#128101;
+        |  Entities
+      dd
+        for entity in file.entities
+          span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+          | &nbsp;
+          script.
+            $('.entity').tooltip();
+
+  if file.concepts.length > 0
+    dl.file-card
+      dt
+        span.entypo &#59172;
+        |  Concepts
+      dd
+        for concept in file.concepts
+          span.label.label-default #{concept.text}
+          | &nbsp;
+
+
+  if file.keywords.length > 0
+    dl.file-card
+      dt
+        span.entypo &#9000;
+        |  Keywords
+      dd
+        for keyword in file.keywords
+          span.label.label-primary #{keyword.text}
+          |&nbsp;
+
+
+  button.btn.btn-danger.btn-block
+    span.glyphicon.glyphicon-trash
+    |  Delete
+  br
