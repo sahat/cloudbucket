@@ -16,7 +16,7 @@
 
   dl.file-card
     dt About Artist
-    dd
+    dd.clearfix
       img.thumbnail.pull-left.shift-right(src="#{file.artistImages[2]['#text']}")
       span!=  file.artistBio
 
@@ -52,7 +52,6 @@
         div.pull-left.shift-right(style="width:50px;height:50px;overflow:hidden")
           img(src="#{sa.image[1]['#text']}")
         span= sa.name
-  br
-  .button.is-danger.has-icon
+  button.button.is-danger.has-icon
     span.glyphicon.glyphicon-trash
     |  Delete
