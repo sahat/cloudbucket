@@ -23,7 +23,7 @@ block content
         h3.text-center You do not have any files yet
       else
         table.file-table.table.table-hover.table-bordered
-          tbody
+          tbody.file-tbody
             for file in files
               tr.file-row
                 td.file-item(id='#{file.id}')
@@ -34,8 +34,19 @@ block content
   script.
     $('#search-btn').click(function() {
       var qs = $('#search-field').val();
+      $('.file-tbody').html('');
       $.get('/search?q=' + qs, function(data) {
-          console.log(data);
+        $.each(data, function(idx, file) {
+          $('.file-tbody').append('<tr class="file-row">
+            <td class="file-item" id="' + file.id + '">
+              <a href="/files/' + file.id' + "><strong>' + file.name + '</strong></a>
+              <span class="file-size text-muted">' + file.friendlySize + '</span>
+            </td>
+          </tr>');
+        });
+
+        //console.log(data); // files
+
         });
     });
           

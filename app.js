@@ -339,7 +339,7 @@ app.get('/search', function(req, res) {
   // Find results even if some parts of search query matches (case-insensitive)
   var regularExpression = new RegExp(searchQuery, 'i');
   
-  var searchCriteria = {
+  var searchConditions = {
     $or: 
       [
         { name: regularExpression },
@@ -368,7 +368,7 @@ app.get('/search', function(req, res) {
       ]
   };
 
-  File.find(searchCriteria, function(err, files) {
+  File.find(searchConditions, function(err, files) {
     if (err) {
       console.error(err);
       req.flash('info', 'Error searching files');
