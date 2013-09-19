@@ -32,21 +32,28 @@ block content
                   span.file-size.text-muted= file.friendlySize
 
   script.
+    $('#search-field').keydown(function(event) {
+      if (event.keyCode == 13) {
+        $('#search-btn').trigger('click');
+      }
+    });
     $('#search-btn').click(function() {
       var qs = $('#search-field').val();
       $('.file-tbody').html('');
+      $('.file-table').hide();
+      humane.log('Loading...');
       $.get('/search?q=' + qs, function(data) {
-        $.each(data, function(idx, file) {
-          $('.file-tbody').append('<tr class="file-row">
-            <td class="file-item" id="' + file.id + '">
-              <a href="/files/' + file.id' + "><strong>' + file.name + '</strong></a>
-              <span class="file-size text-muted">' + file.friendlySize + '</span>
-            </td>
-          </tr>');
+        $('.file-table').show();
+        $.each(data.files, function(idx, file) {
+          $('.file-tbody').append('<tr class="file-row">' +
+            '<td class="file-item" id="' + file.id + '">' +
+            '<a href="/files/' + file._id + '"><strong>' + file.name + '</strong></a>' +
+            '<span class="file-size text-muted">' + file.friendlySize + '</span>' +
+            '</td></tr>');
         });
 
-        //console.log(data); // files
+        console.log(data); // files
 
-        });
+      });
     });
           

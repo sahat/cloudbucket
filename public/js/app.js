@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+
+
+
   $('.upload-popup-link').magnificPopup({
     type: 'inline',
     fixedContentPos: false,
