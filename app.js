@@ -555,16 +555,15 @@ app.post('/upload', function(req, res) {
 //            });
 
           var metaObject = new Metalib(filePath, function(metadata, err) {
-            var meta = util.inspect(metadata, false, null);
-
-            file.videoDuration = meta.durationraw;
-            file.videoCodec = meta.video.codec;
-            file.videoBitrate = meta.video.bitrate;
-            file.videoResolution = meta.video.resolution;
-            file.videoFps = meta.video.fps;
-            file.videoAudioCodec = meta.audio.codec;
-            file.videoAudioBitrate = meta.audio.bitrate;
-            file.videoAudioSampleRate = meta.audio.sample_rate;
+            console.log(metadata);
+            //var meta = util.inspect(metadata, false, null);
+            file.videoCodec = metadata.video.codec;
+            file.videoBitrate = metadata.video.bitrate;
+            file.videoResolution = metadata.video.resolution;
+            file.videoFps = metadata.video.fps;
+            file.videoAudioCodec = metadata.audio.codec;
+            file.videoAudioBitrate = metadata.audio.bitrate;
+            file.videoAudioSampleRate = metadata.audio.sample_rate;
 
             // Save to database
             file.save(function(err) {
