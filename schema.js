@@ -86,11 +86,14 @@ var File = new mongoose.Schema({
   videoDuration: String,
   videoBitrate: Number,
   videoCodec: String,
-  videoResolution: String,
+  videoResolution: {
+    w: String,
+    h: String
+  },
   videoFps: String,
   videoAudioCodec: String,
   videoAudioBitrate: Number,
-  videoAudioSampleRate: Number,
+  videoAudioSampleRate: Number
 });
 
 File.plugin(mongoosastic);

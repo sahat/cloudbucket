@@ -1,1 +1,78 @@
-p test
+.container
+  .text-center
+    .file-open
+      span.entypo.entypo-lg &#127916;
+  .text-center
+    a.button.is-danger.has-icon(href='#{downloadUrl}')
+      span.glyphicon.glyphicon-send
+      span &nbsp; Open in Browser
+
+  dl.file-card
+    dt
+      span.entypo &#128318;
+      |  #{file.name}
+    dd Video Codec
+      .pull-right #{file.videoCodec}
+    dd Audio Codec
+      .pull-right #{file.videoAudioCodec}
+    dd Resolution
+      .pull-right #{file.videoResolution.w}x#{file.videoResolution.h}
+    dd Bitrate
+      .pull-right #{file.videoBitrate}
+    dd FPS
+      .pull-right #{file.videoFps}
+    dd Audio Bitrate
+      .pull-right #{file.videoAudioBitrate}
+    dd Audio Sample Rate
+      .pull-right #{file.videoAudioSampleRate}
+
+  dl.file-card
+    dt
+      span.entypo &#59148;
+      |  User Tags
+    dd
+      if file.tags.length > 0
+        for tag in file.tags
+          span.label.label-success #{tag}
+          |&nbsp;
+      else
+        div No tags
+
+  if file.entities.length > 0
+    dl.file-card
+      dt
+        span.entypo &#128101;
+        |  Entities
+      dd
+        for entity in file.entities
+          span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+          | &nbsp;
+          script.
+            $('.entity').tooltip();
+
+  if file.concepts.length > 0
+    dl.file-card
+      dt
+        span.entypo &#59172;
+        |  Concepts
+      dd
+        for concept in file.concepts
+          span.label.label-default #{concept.text}
+          | &nbsp;
+
+
+  if file.keywords.length > 0
+    dl.file-card
+      dt
+        span.entypo &#9000;
+        |  Keywords
+      dd
+        for keyword in file.keywords
+          span.label.label-primary #{keyword.text}
+          |&nbsp;
+
+
+  br
+  .btn.btn-danger.btn-block
+    span.glyphicon.glyphicon-trash
+    |  Delete
