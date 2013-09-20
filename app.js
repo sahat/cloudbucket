@@ -923,7 +923,9 @@ app.post('/upload', function(req, res) {
     cleanup: function(callback) {
       console.info('Unlinking file');
       fs.unlink(filePath, function(err) {
-        if (err) throw err;
+        if (err) {
+          console.error(err);
+        }
         callback(null);
       });
     }
