@@ -262,7 +262,11 @@ app.get('/', function(req, res) {
     .find({ user: req.user.googleId })
     .sort('name')
     .exec(function(err, files) {
-      if (err) throw err;
+      if (err) {
+        console.error(err);
+        req.flash('info', 'Error retrieving files on Index route');
+        return res.redirect('/');
+      }
       res.render('index', {
         user: req.user,
         files: files
