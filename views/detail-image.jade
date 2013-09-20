@@ -10,8 +10,8 @@
     dt
       span.entypo &#128318;
       |  #{file.name}
-    dd Category
-      .pull-right #{file.category}
+    dd Dimensions
+      .pull-right #{file.width}x#{file.height}
     dd Size
       .pull-right #{file.friendlySize}
 
@@ -26,18 +26,24 @@
           |&nbsp;
       else
         div No tags
-
-  if file.entities.length > 0
+  if file.recognizable
     dl.file-card
-      dt
-        span.entypo &#128101;
-        |  Entities
-      dd
-        for entity in file.entities
-          span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
-          | &nbsp;
-          script.
-            $('.entity').tooltip();
+      dt Photo Details
+      dd Gender
+        .pull-right #{file.gender.value}
+      dd Yaw
+        .pull-right #{file.yaw}
+      dd Roll
+        .pull-right #{file.roll}
+      dd Pitch
+        .pull-right #{file.pitch}
+      dd Face
+        .pull-right #{file.face.value}
+      dd Glasses
+        .pull-right #{file.glasses.value}
+      dd Smiling
+        .pull-right #{file.smiling.value}
+
 
   if file.concepts.length > 0
     dl.file-card
