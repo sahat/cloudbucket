@@ -12,7 +12,7 @@ block content
   else
     include _header
     .container
-      .input-group.search-bar
+      .input-group.search-bar.fadeInRight.animated
         input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
         span.input-group-btn
           button.btn.btn-primary(type='button', id='search-btn')
@@ -22,7 +22,7 @@ block content
       if files.length < 1
         h3.text-center You do not have any files yet
       else
-        table.file-table.table.table-hover.table-bordered
+        table.fadeInRight.animated.file-table.table.table-hover.table-bordered
           tbody.file-tbody
             for file in files
               tr.file-row
@@ -32,6 +32,11 @@ block content
                   span.file-size.text-muted= file.friendlySize
 
   script.
+    $('.file-item a').click(function(e) {
+      //e.preventDefault();
+      $(this).parent().addClass('fadeOutLeft animated');
+    });
+
     $('#search-field').keydown(function(event) {
       if (event.keyCode == 13) {
         $('#search-btn').trigger('click');
