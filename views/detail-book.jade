@@ -1,85 +1,84 @@
-.container
-  .clearfix
-    img.book-cover.thumbnail.pull-left(src='#{file.bookCover}')
-    p
-      strong #{file.bookTitle}
-    p by
-      strong  #{file.bookAuthor}
-    p
-      span#star
-      | &nbsp;
-      span.label.label-warning #{file.bookAverageRating}
-    p #{file.bookPageCount} pages
-    p Published: #{file.bookPublishedDate}
-    p
-      a.button.is-secondary.has-icon(href='#{downloadUrl}')
-        span.glyphicon.glyphicon-send
-        | &nbsp; Open in Browser
+.clearfix
+  img.book-cover.thumbnail.pull-left(src='#{file.bookCover}')
+  p
+    strong #{file.bookTitle}
+  p by
+    strong  #{file.bookAuthor}
+  p
+    span#star
+    | &nbsp;
+    span.label.label-warning #{file.bookAverageRating}
+  p #{file.bookPageCount} pages
+  p Published: #{file.bookPublishedDate}
+  p
+    a.button.is-secondary.has-icon(href='#{downloadUrl}')
+      span.glyphicon.glyphicon-send
+      | &nbsp; Open in Browser
 
-  dl.file-card
-    dt
-      span.entypo &#128213;
-      |  Description
-    dd= file.bookDescription
+dl.file-card
+  dt
+    span.entypo &#128213;
+    |  Description
+  dd= file.bookDescription
 
-  dl.file-card
-    dt
-      span.entypo &#128318;
-      |  file.name
-    dd Category
-      .pull-right #{file.bookCategory}
-    dd Size
-      .pull-right #{file.friendlySize}
+dl.file-card
+  dt
+    span.entypo &#128318;
+    |  file.name
+  dd Category
+    .pull-right #{file.bookCategory}
+  dd Size
+    .pull-right #{file.friendlySize}
 
+dl.file-card
+  dt
+    span.entypo &#59148;
+    |  User Tags
+  dd
+    if file.tags.length > 0
+      for tag in file.tags
+        span.label.label-success #{tag}
+        |&nbsp;
+    else
+      div No tags
+
+if file.entities.length > 0
   dl.file-card
-    dt
-      span.entypo &#59148;
-      |  User Tags
+    dt Entities
     dd
-      if file.tags.length > 0
-        for tag in file.tags
-          span.label.label-success #{tag}
-          |&nbsp;
-      else
-        div No tags
+      for entity in file.entities
+        span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
+        | &nbsp;
+        script.
+          $('.entity').tooltip();
 
-  if file.entities.length > 0
-    dl.file-card
-      dt Entities
-      dd
-        for entity in file.entities
-          span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
-          | &nbsp;
-          script.
-            $('.entity').tooltip();
-
-  if file.concepts.length > 0
-    dl.file-card
-      dt Concepts
-      dd
-        for concept in file.concepts
-          span.label.label-default #{concept.text}
-          | &nbsp;
+if file.concepts.length > 0
+  dl.file-card
+    dt Concepts
+    dd
+      for concept in file.concepts
+        span.label.label-default #{concept.text}
+        | &nbsp;
 
 
-  if file.keywords.length > 0
-    dl.file-card
-      dt Keywords
-      dd
-        for keyword in file.keywords
-          span.label.label-primary #{keyword.text}
-          |&nbsp;
+if file.keywords.length > 0
+  dl.file-card
+    dt Keywords
+    dd
+      for keyword in file.keywords
+        span.label.label-primary #{keyword.text}
+        |&nbsp;
 
 
-  button.btn.btn-danger.btn-block
-    span.glyphicon.glyphicon-trash
-    |  Delete
-  br
+button.btn.btn-danger.btn-block
+  span.glyphicon.glyphicon-trash
+  |  Delete
+br
 
-  script.
-    $('#star').raty({
-      score: #{file.bookAverageRating},
-      readOnly: true,
-      width: false,
-      path: '../img'
-    });
+script.
+  $('#star').raty({
+    score: #{file.bookAverageRating},
+    readOnly: true,
+    width: false,
+    path: '../img'
+  });

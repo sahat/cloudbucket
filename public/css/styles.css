@@ -143,7 +143,13 @@ a.button:hover {
 .file-card dd:not(:last-child) {
   border-bottom: 1px solid #ddd;
 }
-
+.no-transition {
+  -webkit-transition: height 0;
+  -moz-transition: height 0;
+  -ms-transition: height 0;
+  -o-transition: height 0;
+  transition: height 0;
+}
 .intro-page {
   margin-top: 50px;
 }
