@@ -17,18 +17,24 @@
         | &nbsp; Open in Browser
 
   dl.file-card
-    dt Description
+    dt
+      span.entypo &#128213;
+      |  Description
     dd= file.bookDescription
 
   dl.file-card
-    dt= file.name
+    dt
+      span.entypo &#128318;
+      |  file.name
     dd Category
       .pull-right #{file.bookCategory}
     dd Size
       .pull-right #{file.friendlySize}
 
   dl.file-card
-    dt User Tags
+    dt
+      span.entypo &#59148;
+      |  User Tags
     dd
       if file.tags.length > 0
         for tag in file.tags
