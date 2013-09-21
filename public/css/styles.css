@@ -133,7 +133,9 @@ a.button:hover {
   border-bottom: 1px solid #ddd;
 }
 
-
+.intro-page {
+  margin-top: 90px;
+}
 
 /* BOOTSTRAP OVERRIDE */
 .navbar {

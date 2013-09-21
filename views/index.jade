@@ -6,13 +6,19 @@ block content
       .swiper-container
         .swiper-wrapper
           .swiper-slide.text-center
-            h1
-              span.text-muted.entypo.entypo-lg &#9729;
-              span.text-primary.entypo.entypo-lg &#128254;
-              div CloudBucket
-            h4.text-muted Online cloud storage with semantic search capability.
-            br
-            a.btn.btn-primary.btn-lg.btn-block(href='/auth/google') Login with Google
+            .intro-page
+              h1
+                span.text-muted.entypo.entypo-lg &#9729;
+                span.text-primary.entypo.entypo-lg &#128254;
+                div CloudBucket
+              h4.text-muted Online cloud storage with semantic search capability.
+              hr
+              p
+                span.entypo &#128214;
+                em  Swipe left to learn more
+
+              br
+              a.button.is-primary.btn-block(href='/auth/google') Sign in with Google
           .swiper-slide
             | Page 2
           .swiper-slide
@@ -21,12 +27,6 @@ block content
               p
                 | You can put any HTML inside of slide with any layout, not only images, even another Swiper!
       .pagination
-
-
-
-
-
-
   else
     include _header
     .container
