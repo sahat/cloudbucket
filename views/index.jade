@@ -2,6 +2,8 @@ extends layout
 
 block content
   if !user
+    script.
+      $('body').addClass('no-bg');
     .container
       .swiper-container
         .swiper-wrapper
@@ -55,7 +57,7 @@ block content
                   span.file-size.text-muted= file.friendlySize
 
   script.
-    $('body').addClass('no-bg');
+
 
     //Function to Fix Pages Height
     function fixPagesHeight() {

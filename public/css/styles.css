@@ -75,7 +75,7 @@
 }
 
 body {
-  background: #f8f8f8 url(../img/noise.png);
+  background: #f8f8f8 url(../img/background.png);
 }
 a.button:hover {
   text-decoration: none;
