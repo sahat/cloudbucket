@@ -63,8 +63,13 @@
   vertical-align: inherit;
 }
 .album-cover {
-  max-width: 184px;
-  max-height: 184px;
+  min-height: 160px;
+  float: left;
+
+}
+.reflection {
+  position: relative;
+  -webkit-box-reflect: below 0 -webkit-gradient(linear, left bottom, left top, from(rgba(255,255,255,0.5)), color-stop(35%, transparent), to(transparent));
 }
 .shift-right {
   margin-right: 10px;
