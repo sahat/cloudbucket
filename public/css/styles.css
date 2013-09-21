@@ -62,10 +62,12 @@
   line-height: 0.5;
   vertical-align: inherit;
 }
-.album-cover {
-  min-height: 160px;
+.album-cover-wrapper {
+  height: 160px;
   float: left;
-
+}
+.album-cover {
+  height: 126px;
 }
 .reflection {
   position: relative;
@@ -145,7 +147,14 @@ a.button:hover {
 .intro-page {
   margin-top: 90px;
 }
-
+.label-tag {
+  background-color: #ccffcc;
+  border: 1px solid #65b865;
+  color: #226622;
+  border-radius: 0;
+  font-weight: normal;
+  font-size: 100%;
+}
 /* BOOTSTRAP OVERRIDE */
 .navbar {
   margin-bottom: 10px;
