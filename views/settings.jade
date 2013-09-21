@@ -1,37 +1,24 @@
 extends layout
 
 block content
-  header.bar-title
-    a.button(href='/logout', data-transition='slide-out') Logout
-    h1.title Settings
-  include _footer
-  .content
-    .content-padded
-      form
-        .input-group
-          .input-row
-            label Full name
-            input(type='text', value='#{user.displayName}', disabled='disabled')
-          .input-row
-            label Email
-            input(type='email', value='#{user.email}', disabled='disabled')
-          .input-row
-            label Google ID
-            input(type='text', value='#{user.googleId}', disabled='disabled')
-      a.button.button-negative(href='#deleteAccountModal') Delete Account
+  include _header
+  .container
+    form
+      .input-group
+        .input-row
+          label Full name
+          input.form-control(type='text', value='#{user.displayName}', disabled='disabled')
+        .input-row
+          label Email
+          input.form-control(type='email', value='#{user.email}', disabled='disabled')
+        .input-row
+          label Google ID
+          input.form-control(type='text', value='#{user.googleId}', disabled='disabled')
+    br
+    a.button.is-danger(href='#deleteAccountModal') Delete Account
 
-      br
-      br
+    br
+    br
 
-      strong Storage:
-      |  1GB remaining
-
-  #deleteAccountModal.modal
-    header.bar-title
-      h1.title Delete Account
-      a.button(href='#deleteAccountModal') Cancel
-    .content.content-padded
-      p Please confirm that you would like to delete your account, including all your files?
-      br
-      a.button.button-negative(href='/') Confirm Delete
-
+    strong Disk Storage:
+    |  #{user.diskUsage} bytes remaining

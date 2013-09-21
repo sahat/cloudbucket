@@ -4,23 +4,23 @@
       img.reflection.album-cover.shift-right.pull-left(src="#{file.albumCovers[1]['#text']}")
     else
       img.reflection.album-cover.shift-right.pull-left(src='/img/no_cover.png')
-  p
-    strong #{file.title}
-
-  p
-    em by
-    |  #{file.artist}
-  p
-    em on
-    |  #{file.album}
-  p
-    for tag in file.lastFmTags
-      span.label.label-default #{tag}
-      |&nbsp;
-  p
-    a.button.is-tertiary.has-icon(href='#{downloadUrl}')
-      span.glyphicon.glyphicon-send
-      | &nbsp; Open in Browser
+  .description
+    p
+      strong #{file.title}
+    p
+      em by
+      |  #{file.artist}
+    p
+      em on
+      |  #{file.album}
+    p
+      for tag in file.lastFmTags
+        span.label.label-default #{tag}
+        |&nbsp;
+    p
+      a.button.is-tertiary.has-icon(href='#{downloadUrl}')
+        span.glyphicon.glyphicon-send
+        | &nbsp; Open in Browser
 
 dl.file-card
   dt
