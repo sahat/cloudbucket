@@ -75,6 +75,7 @@
 }
 
 body {
+  padding-top: 65px;
   background: #f8f8f8 url(../img/background.png);
 }
 a.button:hover {
@@ -108,7 +109,6 @@ a.button:hover {
   display: block;
 }
 .search-bar {
-  margin-top: 5px;
   margin-bottom: 15px;
 }
 
