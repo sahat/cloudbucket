@@ -11,6 +11,10 @@
   background: #fff;
 }
 
+.swiper-container {
+  height: 100%;
+  width: 100%;
+}
 .content-slide {
   padding: 20px;
   color: #fff;

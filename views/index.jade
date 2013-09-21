@@ -56,6 +56,19 @@ block content
 
   script.
     $('body').addClass('no-bg');
+
+    //Function to Fix Pages Height
+    function fixPagesHeight() {
+      $('.swiper-container').css({
+      height: $(window).height(),
+      width: $('.container').width()
+      })
+    }
+    $(window).on('resize',function(){
+      fixPagesHeight()
+    })
+    fixPagesHeight()
+
     var mySwiper = new Swiper('.swiper-container',{
       pagination: '.pagination',
       loop:true,
