@@ -2,7 +2,7 @@ extends layout
 
 block content
   include _header
-  .container.fadeInRight.animated
+  .container.fadeInLeft.animated
     if file.contentType.match('text') || file.contentType.match('pdf') || file.contentType.match('wordprocessingml')
       include detail-text
     else if file.contentType.match('epub')

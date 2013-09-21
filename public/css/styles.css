@@ -229,6 +229,10 @@ a.button:hover {
 .navbar-brand {
   float: right;
 }
+.navbar-brand:active {
+  background: #4285f4;
+  color: #fff;
+}
 .table tbody>tr>td {
   vertical-align: middle;
 }

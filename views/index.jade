@@ -57,8 +57,6 @@ block content
                   span.file-size.text-muted= file.friendlySize
 
   script.
-
-
     //Function to Fix Pages Height
     function fixPagesHeight() {
       $('.swiper-container').css({
@@ -78,10 +76,6 @@ block content
       paginationClickable: true
     });
 
-    $('.file-item a').click(function(e) {
-      //e.preventDefault();
-      $(this).parent().addClass('fadeOutLeft animated');
-    });
 
     $('#search-field').keydown(function(event) {
       if (event.keyCode == 13) {
