@@ -19,13 +19,16 @@ block content
 
               br
               a.button.is-primary.btn-block(href='/auth/google') Sign in with Google
-          .swiper-slide
-            | Page 2
-          .swiper-slide
-            .content-slide
-              p.title Slide with HTML
-              p
-                | You can put any HTML inside of slide with any layout, not only images, even another Swiper!
+          .swiper-slide.text-center
+            h3 Automatic Tagging
+            p Whenever you upload files to Cloudbucket they be tagged
+              | automatically based on the file contents. For instance, music files
+              | will receive a covert art, lyrics, similar artists and tags that
+              | describe that particular song.
+          .swiper-slide.text-center
+            h3 Semantic Search
+            p All of your uploaded files are searchable not only by file names,
+              | but also by the file contents and automatically generated metadata.
       .pagination
   else
     include _header
