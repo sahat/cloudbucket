@@ -62,6 +62,10 @@
   line-height: 0.5;
   vertical-align: inherit;
 }
+.icon {
+  max-height: 40px;
+
+}
 .album-cover-wrapper {
   height: 165px;
   float: left;
