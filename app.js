@@ -190,7 +190,7 @@ function loginRequired(req, res, next) {
  * GET /admin/users
  * Display a list of users and their disk usage
  */
-app.get('/admin/users', function(req, res) {
+app.get('/admin/users', loginRequired, function(req, res) {
   User.find(function(err, users) {
     res.render('admin-users', { user: req.user, userList: users });
   });
@@ -217,7 +217,7 @@ app.del('/admin/users/:googleId', function(req, res) {
  * @param  {Number} newQuota
  * @return {String} Success message
  */
-app.put('/admin/users/:googleId', function(req, res) {
+app.put('/admin/users/:googleId', loginRequired, function(req, res) {
   var newQuota = req.body.newQuota;
 
   // Update user's quota
@@ -239,17 +239,6 @@ app.put('/admin/users/:googleId', function(req, res) {
     });
   });
 });
-
-
-/**
- * GET /admin/users/<google-id>
- */
-app.get('/admin/users/:googleId', function(req, res) {
-  User.findOne({ 'googleId': req.params.googleId }, function(err, user) {
-    res.render('admin/profile', { user: req.user, profile: user });
-  });
-});
-
 
 
 
@@ -288,6 +277,7 @@ app.get('/settings', loginRequired, function(req, res){
 
 /**
  * @route GET /login
+ * The first page that user sees when visiting for the first time
  */
 app.get('/login', function(req, res) {
   res.render('login', { user: req.user });
@@ -299,7 +289,7 @@ app.get('/login', function(req, res) {
  */
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect('/');
+  res.redirect('/login');
 });
 
 /**
@@ -327,12 +317,13 @@ app.get('/auth/google', passport.authenticate('google', {
  * which, in this example, will redirect the user to the home page.
  */
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login'}), function (req, res) {
+  passport.authenticate('google', { failureRedirect: '/login'}),
+  function (req, res) {
     res.redirect('/');
   });
 
 
-app.get('/search', function(req, res) {
+app.get('/search', loginRequired, function(req, res) {
   var searchQuery = req.query.q;
 
   // Prevent empty search queries
@@ -402,7 +393,7 @@ app.get('/upload', loginRequired, function(req, res) {
  * POST /upload
  * Uploads a file for a given user
  */
-app.post('/upload', function(req, res) {
+app.post('/upload', loginRequired, function(req, res) {
 
   // VALIDATION: No file has been selected
   if (!req.files.userFile.name) {
@@ -939,7 +930,7 @@ app.post('/upload', function(req, res) {
 });
 
 
-app.get('/static/:album', function(req, res) {
+app.get('/static/:album', loginRequired, function(req, res) {
   var album = req.params.album;
   var pattern = new RegExp(album, 'i');
 
@@ -960,58 +951,8 @@ app.get('/static/:album', function(req, res) {
 });
 
 
-app.get('/convert', function(req, res) {
-  var track = '';
-  var artist = '';
-
-
-  async.serial({
-    getTrackId: function(callback) {
-      var trackIdUrl = 'http://api.musixmatch.com/ws/1.1/track.search?' +
-        'q_track=' + track +
-        '&q_artist=' + artist +
-        '&f_has_lyrics=1' +
-        '&apikey=' + config.MUSIXMATCH;
-
-      request.get(trackIdUrl, function(error, response, body) {
-        var json = JSON.parse(body);
-
-        if (json.message.header.status_code === 200) {
-          var trackId = json.message.body.track_list[0].track.track_id;
-          console.log(trackId);
-          callback(null, trackId);
-        } else {
-          callback(null);
-        }
-
-      });
-    },
-    getLyrics: function(trackId, callback) {
-      var lyricsUrl = 'http://api.musixmatch.com/ws/1.1/track.lyrics.get?' +
-        'track_id=' + trackId +
-        '&apikey=' + config.MUSIXMATCH;
-
-      request.get(lyricsUrl, function(error, response, body) {
-        var json = JSON.parse(body);
-
-        if (json.message.header.status_code === 200) {
-          var lyrics = json.message.body.lyrics.lyrics_body;
-          console.log(lyrics);
-          callback(null, lyrics);
-        } else {
-          callback(null);
-        }
-      });
-    }
-  });
-
-
-
-});
-
-
 // Retrieve detailed info about a file
-app.get('/files/:id', function(req, res) {
+app.get('/files/:id', loginRequired, function(req, res) {
   File.findOne({ _id: req.params.id }, function(err, file) {
     if (err) {
       console.error(err);
@@ -1041,7 +982,7 @@ app.put('/files/:id', function(req, res) {
 /**
  * Deletes a file  for a given user
  */
-app.del('/files/:id', function(req, res) {
+app.del('/files/:id', loginRequired, function(req, res) {
   File.delete({ _id: req.params.id }, function(err, file) {
     if (err) {
       console.error(err);
@@ -1058,18 +999,3 @@ app.del('/files/:id', function(req, res) {
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-
-
-
-/**
- * JavaScript Utilities
- */
-
-// function getPath(fullPath) {
-//   if (process.platform.match(/^win/)) {
-//     return fullPath.split("\\").slice(-1).join("\\");
-//   } else {
-//     return fullPath.split("/").slice(-1).join("/");
-//   }
-// }
