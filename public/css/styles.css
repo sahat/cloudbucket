@@ -9,6 +9,7 @@
 
 .no-bg {
   background: #fff;
+  padding-top: 0
 }
 
 .swiper-container {
@@ -50,7 +51,7 @@
   font-style: normal;
   line-height: 0;
   font-size: 2.8em;
-  vertical-align: middle;
+  vertical-align: text-top;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -59,7 +60,7 @@
   user-select: none;
 }
 .entypo-lg {
-  line-height: 0.5;
+  line-height: 1;
   vertical-align: inherit;
 }
 .album-cover {
