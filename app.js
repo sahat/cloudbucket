@@ -273,7 +273,7 @@ app.get('/', function(req, res) {
       });
     });
   } else {
-    res.render('index', { user: req.user });
+    res.redirect('/login');
   }
 });
 
@@ -290,7 +290,7 @@ app.get('/settings', loginRequired, function(req, res){
  * @route GET /login
  */
 app.get('/login', function(req, res) {
-  res.render('index', { user: req.user });
+  res.render('login', { user: req.user });
 });
 
 

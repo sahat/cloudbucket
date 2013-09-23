@@ -1,82 +1,28 @@
 extends layout
 
 block content
-  if user
-    script.
-      $('body').addClass('no-bg');
-    .container
-      .swiper-container
-        .swiper-wrapper
-          .swiper-slide.text-center
-            .intro-page
-              h1
-                span.text-muted.entypo.entypo-lg &#9729;
-                span.text-primary.entypo.entypo-lg &#128254;
-                div Cloud
-                  strong Bucket
-              h4.text-muted Online cloud storage with semantic search capability.
-              hr
-              p
-                span.entypo &#128214;
-                em  Swipe left
-                |  to learn more
+  include _header
+  .container
+    .input-group.search-bar.fadeInRight.animated
+      input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
+      span.input-group-btn
+        button.btn.btn-primary(type='button', id='search-btn')
+          span.glyphicon.glyphicon-search
+          |  Search
 
-              br
-              a.button.is-primary.btn-block(href='/auth/google') Sign in with Google
-          .swiper-slide.text-center
-            h3 Automatic Tagging
-            p Whenever you upload files to Cloudbucket they be tagged
-              | automatically based on the file contents. For instance, music files
-              | will receive a covert art, lyrics, similar artists and tags that
-              | describe that particular song.
-          .swiper-slide.text-center
-            h3 Semantic Search
-            p All of your uploaded files are searchable not only by file names,
-              | but also by the file contents and automatically generated metadata.
-      .pagination
-  else
-    include _header
-    .container
-      .input-group.search-bar.fadeInRight.animated
-        input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
-        span.input-group-btn
-          button.btn.btn-primary(type='button', id='search-btn')
-            span.glyphicon.glyphicon-search
-            |  Search
-
-      if !files
-        h3.text-center.fadeInLeft.animated You do not have any files yet
-      else
-        table.fadeInRight.animated.file-table.table.table-hover.table-bordered
-          tbody.file-tbody
-            for file in files
-              tr.file-row
-                td.file-item(id='#{file.id}')
-                  a(href='/files/#{file.id}')
-                    strong= file.name
-                  span.file-size.text-muted= file.friendlySize
+    if !files
+      h3.text-center.fadeInLeft.animated You do not have any files yet
+    else
+      table.fadeInRight.animated.file-table.table.table-hover.table-bordered
+        tbody.file-tbody
+          for file in files
+            tr.file-row
+              td.file-item(id='#{file.id}')
+                a(href='/files/#{file.id}')
+                  strong= file.name
+                span.file-size.text-muted= file.friendlySize
 
   script.
-    //Function to Fix Pages Height
-    function fixPagesHeight() {
-      $('.swiper-container').css({
-      height: $(window).height(),
-      width: $('.container').width()
-      })
-    }
-    $(window).on('resize',function(){
-      fixPagesHeight()
-    })
-    fixPagesHeight()
-
-    var mySwiper = new Swiper('.swiper-container',{
-      pagination: '.pagination',
-      loop:true,
-      grabCursor: true,
-      paginationClickable: true
-    });
-
-
     $('#search-field').keydown(function(event) {
       if (event.keyCode == 13) {
         $('#search-btn').trigger('click');

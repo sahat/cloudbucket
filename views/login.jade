@@ -1,10 +1,53 @@
 extends layout
 
 block content
-  header.bar-title
-    a.button-prev(href='/', data-transition='slide-out') Back
-    h1.title Title
-  .content
-    .content-padded
-      p.welcome
-        a.button() Login with Google
+  script.
+    $('body').addClass('no-bg');
+  .container
+    .swiper-container
+      .swiper-wrapper
+        .swiper-slide.text-center
+          .intro-page
+            h1
+              span.text-muted.entypo.entypo-lg &#9729;
+              span.text-primary.entypo.entypo-lg &#128254;
+              div Cloud
+                strong Bucket
+            h4.text-muted Online cloud storage with semantic search capability.
+            hr
+            p
+              span.entypo &#128214;
+              em  Swipe left
+              |  to learn more
+
+            br
+            a.button.is-primary.btn-block(href='/auth/google') Sign in with Google
+        .swiper-slide.text-center
+          h3 Automatic Tagging
+          p Whenever you upload files to Cloudbucket they be tagged
+            | automatically based on the file contents. For instance, music files
+            | will receive a covert art, lyrics, similar artists and tags that
+            | describe that particular song.
+        .swiper-slide.text-center
+          h3 Semantic Search
+          p All of your uploaded files are searchable not only by file names,
+            | but also by the file contents and automatically generated metadata.
+    .pagination
+  script.
+    //Function to Fix Pages Height
+    function fixPagesHeight() {
+      $('.swiper-container').css({
+      height: $(window).height(),
+      width: $('.container').width()
+      })
+    }
+    $(window).on('resize',function(){
+      fixPagesHeight()
+    })
+    fixPagesHeight()
+    var mySwiper = new Swiper('.swiper-container',{
+      pagination: '.pagination',
+      loop:true,
+      grabCursor: true,
+      paginationClickable: true
+    });
