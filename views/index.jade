@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  if !user
+  if user
     script.
       $('body').addClass('no-bg');
     .container
@@ -44,7 +44,7 @@ block content
             span.glyphicon.glyphicon-search
             |  Search
 
-      if files.length < 1
+      if !files
         h3.text-center You do not have any files yet
       else
         table.fadeInRight.animated.file-table.table.table-hover.table-bordered
@@ -101,4 +101,3 @@ block content
 
       });
     });
-          
