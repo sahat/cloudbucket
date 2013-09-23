@@ -17,10 +17,11 @@ block content
         tbody.file-tbody
           for file in files
             tr.file-row
-              td.file-item(id='#{file.id}')
-                a(href='/files/#{file.id}')
+              td.file-item.clearfix(id='#{file.id}')
+                img.file-icon.pull-left(src='/icons/#{file.extension}-100.png')
+                a.elipsis(href='/files/#{file.id}')
                   strong= file.name
-                span.file-size.text-muted= file.friendlySize
+                div.file-size.text-muted= file.friendlySize
 
   script.
     $('#search-field').keydown(function(event) {
