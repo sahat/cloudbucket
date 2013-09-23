@@ -478,7 +478,6 @@ app.post('/upload', function(req, res) {
         }
         callback(null, data.ETag);
       });
-      callback(null, 'etag');
     },
 
     saveToDatabase: function(callback, ETag) {
@@ -933,7 +932,8 @@ app.post('/upload', function(req, res) {
         callback(null);
       });
     }
-  }, function(err, cb) {
+  }, function(err, results) {
+      console.log('about to redirect');
       res.redirect('/');
   });
 });
