@@ -357,10 +357,12 @@ app.get('/search', loginRequired, function(req, res) {
         { bookPublishedDate: searchQuery },
         { bookCategory: regularExpression },
         { gender: { $elemMatch: { value: searchQuery } } },
+        { smiling: {  } },
         { videoCodec: searchQuery },
         { videoAudioCodec: searchQuery },
         { videoResolution: searchQuery }
       ]
+    // TODO: How to map smilling search to smiling: true?
   };
 
   File.find(searchConditions, function(err, files) {
