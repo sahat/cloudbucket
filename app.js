@@ -323,8 +323,20 @@ app.get('/auth/google/callback',
   });
 
 
+/**
+ * GET /search
+ * Perform advanced search query and filtering
+ */
 app.get('/search', loginRequired, function(req, res) {
-  var searchQuery = req.query.q;
+  res.render('search')
+});
+
+
+/**
+ * POST /search
+ */
+app.post('/search', loginRequired, function(req, res) {
+  var searchQuery = req.body.q;
 
   // Prevent empty search queries
   if (!searchQuery) {

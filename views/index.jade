@@ -34,7 +34,7 @@ block content
       $('.file-tbody').html('');
       $('.file-table').hide();
       humane.log('Loading...');
-      $.get('/search?q=' + qs, function(data) {
+      $.post('/search, { q: qs }, function(data) {
         $('.file-table').show();
         $.each(data.files, function(idx, file) {
           $('.file-tbody').append('<tr class="file-row">' +
