@@ -37,11 +37,34 @@ Videos and photos are tagged as well using other techniques.
 - Bower
 
 #### Backend
+- Node.js
+- Python 2.7
+- Express.js
+- async
+- AWS SDK
+- connect-flash
+- connect-mongo
+- Case
+- email.js
+- epub-parser
+- filesize
+- fluent-ffmpeg
+- Dropbox
+- musicmetadata
+- Mongoose
+- passport
+- request
+- restler
+- underscore
+- underscore.string
 
-
-
-
-
+#### API Services
+- Google OAuth2
+- Last.fm
+- Musixmatch
+- Google Books API
+- Alchemy API
+- SkyBiometry
 
 Prerequisites
 -------------
