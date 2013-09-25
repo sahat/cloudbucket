@@ -5,6 +5,44 @@ For instance music files will be automatically tagged with lyrics, keywords, sim
 Text documents, on the other hand, will have different tags associated with each file - keywords, entities, concepts.
 Videos and photos are tagged as well using other techniques.
 
+*Insert screenshot here*
+
+### Features
+- 1GB of free storage
+- Cross-platform - works on iOS, Android and Desktop
+- Semantic search
+- Face recognition
+- Text content analysis
+
+### Dependencies
+
+#### Frontend
+- jQuery
+- Bootstrap
+- Magnific Popup
+- Ladda
+- Entypo Icons
+- iDangero.us Swiper
+- animate.css
+- jquery-easy-pie-chart
+- swipe.js
+- jquery.tagsinput
+- humane.js
+- fastclick.js
+- jquery.knob
+- jquery.raty
+- jquery.transit
+- hammer.js
+- Grunt.js
+- Bower
+
+#### Backend
+
+
+
+
+
+
 Prerequisites
 -------------
 1. **pdfminer** - `sudo pip install pdfminer`
