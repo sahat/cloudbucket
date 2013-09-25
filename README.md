@@ -59,14 +59,24 @@ Videos and photos are tagged as well using other techniques.
 - underscore.string
 
 #### API Services
-- Google OAuth2
+- Google OAuth 2.0
 - Last.fm
 - Musixmatch
 - Google Books API
 - Alchemy API
 - SkyBiometry
 
-Prerequisites
--------------
-1. **pdfminer** - `sudo pip install pdfminer`
-2. **python-docx** - `http://github.com/mikemaccana/python-docx`
+### Downloading
+Clone the repository using Git:
+```
+git@github.com:sahat/cloudbucket.git
+```
+
+### Running Locally
+The only requirements are **Node.js** >= 0.10 and **Python** 2.7. Locate the directory that you
+just cloned and then run:
+```
+npm install package.json
+node app.js
+```
+MongoDB and Amazon S3 configuration is already pre-configured to use production servers. 
