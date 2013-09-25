@@ -33,11 +33,12 @@ if file.entities.length > 0
       span.entypo &#128101;
       |  Entities
     dd
-      for entity in file.entities
-        span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
-        | &nbsp;
-        script.
-          $('.entity').tooltip();
+      ul.list-unstyled.tags.green
+        for entity in file.entities
+          li.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text}
+            span
+          script.
+            $('.entity').tooltip();
 
 if file.concepts.length > 0
   dl.file-card
@@ -45,9 +46,10 @@ if file.concepts.length > 0
       span.entypo &#59172;
       |  Concepts
     dd
-      for concept in file.concepts
-        span.label.label-default #{concept.text}
-        | &nbsp;
+      ul.list-unstyled.tags
+        for concept in file.concepts
+          li #{concept.text}
+            span
 
 
 if file.keywords.length > 0
@@ -56,9 +58,10 @@ if file.keywords.length > 0
       span.entypo &#9000;
       |  Keywords
     dd
-      for keyword in file.keywords
-        span.label.label-primary #{keyword.text}
-        |&nbsp;
+      ul.list-unstyled.tags.blue
+        for keyword in file.keywords
+          li #{keyword.text}
+            span
 
 
 button.btn.btn-danger.btn-block
