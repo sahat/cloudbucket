@@ -466,24 +466,24 @@ app.post('/upload', loginRequired, function(req, res) {
       });
     },
     
-    uploadToS3: function(callback) {
-      console.info('Uploading to Amazon S3');
-
-      var fileObject = {
-        Key: fileNameS3,
-        Body: fileData,
-        ContentType: fileContentType
-      };
-
-      s3.putObject(fileObject, function(err, data) {
-        if (err) {
-          console.error(err);
-          req.flash('info', 'Error uploading file to Amazon S3');
-          return res.redirect('/upload');
-        }
-        callback(null, data.ETag);
-      });
-    },
+//    uploadToS3: function(callback) {
+//      console.info('Uploading to Amazon S3');
+//
+//      var fileObject = {
+//        Key: fileNameS3,
+//        Body: fileData,
+//        ContentType: fileContentType
+//      };
+//
+//      s3.putObject(fileObject, function(err, data) {
+//        if (err) {
+//          console.error(err);
+//          req.flash('info', 'Error uploading file to Amazon S3');
+//          return res.redirect('/upload');
+//        }
+//        callback(null, data.ETag);
+//      });
+//    },
 
     saveToDatabase: function(callback, ETag) {
       console.info('Saving to MongoDB');
