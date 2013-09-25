@@ -419,7 +419,9 @@ app.post('/upload', loginRequired, function(req, res) {
   // Grab data from user-submitted file
   var filePath = req.files.userFile.path;
   var fileName = req.files.userFile.name;
-  var fileContentType = req.files.userFile.headers['content-type'];
+  var fileContentType = req.files.userFile.headers ?
+    req.files.userFile.headers['content-type'] :
+    req.files.userFile.type;
   var fileExtension = filePath.split('.').pop().toLowerCase();
   var fileSize = req.files.userFile.size;
   var fileTags = req.body.tags ? req.body.tags.split(',') : [];
