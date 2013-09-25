@@ -48,8 +48,8 @@ var app = express();
 var userCount = 0;
 
 // Connect to MongoDB
-mongoose.connect(config.MONGOLAB, function(err) {
-//mongoose.connect('localhost', function(err) {
+//mongoose.connect(config.MONGOLAB, function(err) {
+mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -610,7 +610,7 @@ app.post('/upload', loginRequired, function(req, res) {
 
           // Use node.js child process to call a python library - pdfminer
           // pdf2txt.py is just a terminal command gets executed from node.js
-          exec('pdf2txt.py ' + filePath, function (err, stdout, stderr) {
+          exec('python pdf2txt.py ' + filePath, function (err, stdout, stderr) {
             if (err || stderr) {
               console.error(err, stderr);
               req.flash('info', 'Error while parsing PDF file');
