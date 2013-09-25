@@ -48,8 +48,8 @@ var app = express();
 var userCount = 0;
 
 // Connect to MongoDB
-//mongoose.connect(config.MONGOLAB, function(err) {
-mongoose.connect('localhost', function(err) {
+mongoose.connect(config.MONGOLAB, function(err) {
+//mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -154,8 +154,8 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'topsecretz',
-  store: new MongoStore({db:'localhost'})
-  //store: new MongoStore({ url: config.MONGOLAB })
+  //store: new MongoStore({db:'localhost'})
+  store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(flash());
  app.use(passport.initialize());
@@ -421,7 +421,7 @@ app.post('/upload', loginRequired, function(req, res) {
   var fileName = req.files.userFile.name;
   var fileContentType = req.files.userFile.headers ?
     req.files.userFile.headers['content-type'] :
-    req.files.userFile.type;
+    req.files.userFile.type ;
   var fileExtension = filePath.split('.').pop().toLowerCase();
   var fileSize = req.files.userFile.size;
   var fileTags = req.body.tags ? req.body.tags.split(',') : [];
@@ -468,24 +468,24 @@ app.post('/upload', loginRequired, function(req, res) {
       });
     },
     
-//    uploadToS3: function(callback) {
-//      console.info('Uploading to Amazon S3');
-//
-//      var fileObject = {
-//        Key: fileNameS3,
-//        Body: fileData,
-//        ContentType: fileContentType
-//      };
-//
-//      s3.putObject(fileObject, function(err, data) {
-//        if (err) {
-//          console.error(err);
-//          req.flash('info', 'Error uploading file to Amazon S3');
-//          return res.redirect('/upload');
-//        }
-//        callback(null, data.ETag);
-//      });
-//    },
+    uploadToS3: function(callback) {
+      console.info('Uploading to Amazon S3');
+
+      var fileObject = {
+        Key: fileNameS3,
+        Body: fileData,
+        ContentType: fileContentType
+      };
+
+      s3.putObject(fileObject, function(err, data) {
+        if (err) {
+          console.error(err);
+          req.flash('info', 'Error uploading file to Amazon S3');
+          return res.redirect('/upload');
+        }
+        callback(null, data.ETag);
+      });
+    },
 
     saveToDatabase: function(callback, ETag) {
       console.info('Saving to MongoDB');
