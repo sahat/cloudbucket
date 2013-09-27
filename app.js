@@ -328,7 +328,7 @@ app.get('/auth/google/callback',
  * Perform advanced search query and filtering
  */
 app.get('/search', loginRequired, function(req, res) {
-  res.render('search')
+  res.render('search', { user: req.user });
 });
 
 
