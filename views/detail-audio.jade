@@ -1,7 +1,7 @@
 .clearfix
   .album-cover
-    if file.albumCovers[2]
-      img.reflection.shift-right.pull-left(src="#{file.albumCovers[1]['#text']}")
+    if file.albumCovers[3]
+      img.reflection.shift-right.pull-left(src="#{file.albumCovers[3]['#text']}")
       span.gloss
     else
       img.reflection.shift-right.pull-left(src='/img/no_cover.png')
@@ -29,7 +29,7 @@ dl.file-card
     span.entypo &#59170;
     |  About Artist
   dd.clearfix
-    img.thumbnail.pull-left.shift-right(src="#{file.artistImages[2]['#text']}")
+    img.artist-image.pull-left.shift-right(src="#{file.artistImages[3]['#text']}")
     span!=  file.artistBio
 
 dl.file-card

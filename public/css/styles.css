@@ -468,6 +468,13 @@
   margin-right: 5px;
 }
 
+.artist-image {
+  max-height: 126px;
+  max-width: 126px;
+  -webkit-box-shadow: 0 3px 6px rgba(0,0,0,.5);
+  -webkit-border-radius: 2px;
+}
+
 .album-cover {
   height: 165px;
   float: left;
