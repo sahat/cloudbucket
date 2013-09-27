@@ -419,10 +419,7 @@
   padding: 20px;
   color: #fff;
 }
-.title {
-  font-size: 25px;
-  margin-bottom: 10px;
-}
+
 .pagination {
   position: absolute;
   left: 0;
@@ -713,6 +710,10 @@ a.button:hover {
   color: #fff;
   font-size: 20px;
   text-align: center;
+}
+
+#header .title {
+
 }
 
 #header .btn {
