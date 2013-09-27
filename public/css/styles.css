@@ -355,7 +355,7 @@
 }
 
 .snap-drawer {
-	background: #323949;
+	background: #212121;
 	color: #eee;
 }
 
@@ -374,12 +374,14 @@
 .snap-drawer ul li.header {
   background-color: #212121;
   color: #737373;
+  font-size: 11px;
   text-transform: uppercase;
-  padding: 5px 20px;
+  padding: 2.5px 10px;
   border-bottom: 1px solid #0e0e0e;
 }
 
 .snap-drawer ul {
+  background-color: #333333;
   padding: 0;
   margin: 0;
   list-style-type: none;
@@ -387,14 +389,15 @@
 
 .snap-drawer li > a {
   display: block;
-  border-bottom: 1px solid rgba(0,0,0, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #444;
   padding: 15px;
-  font-weight: bold;
-  text-shadow: 0 1px 0 #000;
   text-decoration: none;
-  color: #ccc;
-  text-indent: 20px;
+  color: #999;
+}
+
+.snap-drawer li:active,
+.snap-drawer li:hover {
+  background-color: #212121;
 }
 
 .snap-drawer p {
