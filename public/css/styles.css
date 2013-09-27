@@ -217,9 +217,9 @@
 	display: none;
 }
 
-/* Show the "Drag" background in the demo */
 #content {
 	 background: #f8f8f8 url(../img/background.png);
+	 padding-top: 65px;
 }
 
 /* Demo toolbar styles */
@@ -376,7 +376,7 @@
   color: #737373;
   font-size: 11px;
   text-transform: uppercase;
-  padding: 2.5px 10px;
+  padding: 3px 10px;
   border-bottom: 1px solid #0e0e0e;
 }
 
