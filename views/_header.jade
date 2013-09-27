@@ -1,31 +1,13 @@
 nav.navbar.navbar-fixed-top.navbar-default(role='navigation')
   .navbar-header
-    button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+    button#snap-left.navbar-toggle(type='button')
       span.sr-only Toggle navigation
       span.icon-bar
       span.icon-bar
       span.icon-bar
-    button#snap-left.btn.btn-danger Snap
       
     a.navbar-brand(href='/') Cloud
       strong Bucket
   
-  .collapse.navbar-collapse.navbar-ex1-collapse
-    ul.nav.navbar-nav
-      li
-        a(href='/upload') 
-          span.glyphicon.glyphicon-cloud-upload  Upload
-      li
-        a(href='/search')
-          span.glyphicon.glyphicon-search  Search
-      li
-        a(href='/settings') 
-          span.glyphicon.glyphicon-wrench  Settings
-      li
-        a(href='/logout') 
-          span.glyphicon.glyphicon-log-out  Logout
-      if user && user.isAdmin
-        li
-          a(href='/admin/users')
-            span.glyphicon.glyphicon-user  Admin
+  
 

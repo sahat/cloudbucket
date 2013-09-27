@@ -2369,9 +2369,6 @@ input[type="button"].btn-block {
 
 .collapse {
   display: none;
-  opacity: 0;
-   -webkit-transition: all 0.2s ease-out;
-          transition: all 0.2s ease-out;
 }
 
 .collapse.in {
@@ -2382,12 +2379,8 @@ input[type="button"].btn-block {
   position: relative;
   height: 0;
   overflow: hidden;
-}
-
-.collapsing .navbar-nav {
-  opacity: 1;
-   -webkit-transition: all 0.2s ease-out;
-          transition: all 0.2s ease-out;
+  -webkit-transition: height 0.35s ease;
+          transition: height 0.35s ease;
 }
 
 @font-face {

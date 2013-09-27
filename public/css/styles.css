@@ -219,7 +219,7 @@
 
 /* Show the "Drag" background in the demo */
 #content {
-	background: #BFC7D8 url(drag.png) center 75% no-repeat;
+	 background: #f8f8f8 url(../img/background.png);
 }
 
 /* Demo toolbar styles */
@@ -349,10 +349,6 @@
 	color: rgba(0, 0, 0, 0.6);
 }
 
-/* Default demo styles */
-.snap-content {
-  background: #BFC7D8;
-}
 
 .snap-drawers {
   background: #323949;
@@ -490,9 +486,6 @@
   z-index: 100;
 }
 
-body {
-  background: #f8f8f8 url(../img/background.png);
-}
 body > .container {
   padding-top: 65px;
 }
@@ -581,6 +574,14 @@ a.button:hover {
   float: left;
   margin-right: 0;
   margin-left: 15px;
+}
+@media (min-width: 768px) {
+  .navbar-header {
+    float: none;
+  }
+  .navbar-toggle {
+    display: block;
+  }
 }
 .navbar-nav {
   margin: 0 -15px;
