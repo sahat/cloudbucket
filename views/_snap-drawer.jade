@@ -1,0 +1,22 @@
+.snap-drawers
+  .snap-drawer.snap-drawer-left
+    div
+      h3 Snap.js
+      h4 Demos
+      ul
+        li
+          a(href='/upload') 
+            span.glyphicon.glyphicon-cloud-upload  Upload
+        li
+          a(href='/search')
+            span.glyphicon.glyphicon-search  Search
+        li
+          a(href='/settings') 
+            span.glyphicon.glyphicon-wrench  Settings
+        li
+          a(href='/logout') 
+            span.glyphicon.glyphicon-log-out  Logout
+        if user && user.isAdmin
+          li
+            a(href='/admin/users')
+              span.glyphicon.glyphicon-user  Admin
