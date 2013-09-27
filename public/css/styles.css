@@ -713,7 +713,11 @@ a.button:hover {
 }
 
 #header .title {
-
+  color: #fff;
+}
+#header .title:hover {
+  color: #a2bce2;
+  text-decoration: none;
 }
 
 #header .btn {
@@ -721,12 +725,7 @@ a.button:hover {
   color: #a2bce2;
   margin-top: 6px;
   margin-right: 0;
-  margin-left: 15px;
   font-size: 16px;
-}
-
-#header .btn-left {
-  float: left;
 }
 
 #header .btn:hover {
