@@ -46,13 +46,22 @@ html
     script(src='/lib/jquery.hammer.min.js')
     script(src='/lib/animateCSS.js')
     script(src='/lib/jquery.transit.min.js')
-    script(src='/lib/list-items.js')
-    script(src='/lib/list-scroll.js')
+
+    script(src='/js/iscroll-min.js')
+    script.
+      var myScroll;
+      function loaded () {
+        myScroll = new IScroll('#wrapper', { bounceEasing: 'elastic', bounceTime: 1200 });
+      }
+      document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+
     script(src='/js/app.js')
+
   body(onload='loaded()')
     
     include _snap-drawer
-  
+
     #content.snap-content
       block content
       

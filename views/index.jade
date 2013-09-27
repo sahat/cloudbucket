@@ -2,26 +2,25 @@ extends layout
 
 block content
   include _header
-  .container
-    .input-group.search-bar.fadeInRight.animated
-      input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
-      span.input-group-btn
-        button.btn.btn-primary(type='button', id='search-btn')
-          span.glyphicon.glyphicon-search
-          |  Search
+  #wrapper
+    #scroller
+      .input-group.search-bar.fadeInRight.animated
+        input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
+        span.input-group-btn
+          button.btn.btn-primary(type='button', id='search-btn')
+            span.glyphicon.glyphicon-search
+            |  Search
 
-    if !files
-      h3.text-center.fadeInLeft.animated You do not have any files yet
-    else
-      table.fadeInRight.animated.file-table.table.table-hover.table-bordered
-        tbody.file-tbody
+      if !files
+        h3.text-center.fadeInLeft.animated You do not have any files yet
+      else
+        ul.file-tbody
           for file in files
-            tr.file-row
-              td.file-item.clearfix(id='#{file.id}')
-                img.file-icon.pull-left(src='/icons/#{file.extension}-100.png')
-                a.elipsis(href='/files/#{file.id}')
-                  strong= file.name
-                div.file-size.text-muted= file.friendlySize
+            li.file-row.file-item.clearfix(id='#{file.id}')
+              img.file-icon.pull-left(src='/icons/#{file.extension}-100.png')
+              a.elipsis(href='/files/#{file.id}')
+                strong= file.name
+              div.file-size.text-muted= file.friendlySize
 
   script.
     $('#search-field').keydown(function(event) {
