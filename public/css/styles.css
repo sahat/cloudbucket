@@ -819,6 +819,13 @@ a.button:hover {
   box-shadow: inset 0 0 20px rgba(0, 0, 0, .5);
 }
 
+.btn-menu {
+  float: left;
+  margin-top: 5px;
+  margin-right: 0;
+  margin-left: 15px;
+}
+
 /* Icon for tab  */
 .tab-icon {
   display: block;
