@@ -708,14 +708,37 @@ a.button:hover {
   width: 100%;
   height: 45px;
   line-height: 45px;
-  background: #CD235C;
+  background: #1d5e9b;
   padding: 0;
-  color: #eee;
+  color: #fff;
   font-size: 20px;
   text-align: center;
 }
 
+#header .btn {
+  background: transparent;
+  color: #a2bce2;
+  margin-top: 6px;
+  margin-right: 0;
+  margin-left: 15px;
+  font-size: 16px;
+}
 
+#header .btn-left {
+  float: left;
+}
+
+#header .btn:hover {
+  color: #fff;
+}
+
+#header .icon {
+  display: inline-block;
+  margin-top: -3px;
+  height: 18px;
+  -webkit-filter: invert(100%);
+  -webkit-transform: translateZ(0);
+}
 
 #wrapper {
   position: absolute;
@@ -817,13 +840,6 @@ a.button:hover {
 /* Active state for tab */
 .tab-item.active {
   box-shadow: inset 0 0 20px rgba(0, 0, 0, .5);
-}
-
-.btn-menu {
-  float: left;
-  margin-top: 5px;
-  margin-right: 0;
-  margin-left: 15px;
 }
 
 /* Icon for tab  */
