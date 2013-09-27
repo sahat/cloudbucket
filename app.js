@@ -48,8 +48,8 @@ var app = express();
 var userCount = 0;
 
 // Connect to MongoDB
-mongoose.connect(config.MONGOLAB, function(err) {
-//mongoose.connect('localhost', function(err) {
+//mongoose.connect(config.MONGOLAB, function(err) {
+mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -154,8 +154,8 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'topsecretz',
-  //store: new MongoStore({db:'localhost'})
-  store: new MongoStore({ url: config.MONGOLAB })
+  store: new MongoStore({db:'localhost'})
+  //store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(flash());
  app.use(passport.initialize());

@@ -2,6 +2,7 @@ extends layout
 
 block content
   include _header
+
   #wrapper
     #scroller
       .input-group.search-bar.fadeInRight.animated
@@ -21,6 +22,8 @@ block content
               a.elipsis(href='/files/#{file.id}')
                 strong= file.name
               div.file-size.text-muted= file.friendlySize
+
+  include _footer
 
   script.
     $('#search-field').keydown(function(event) {
