@@ -4,7 +4,7 @@ block content
   include _header
 
   #wrapper
-    #scroller
+    #scroller.files
       .input-group.search-bar.fadeInRight.animated
         input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
         span.input-group-btn
@@ -16,12 +16,11 @@ block content
         h3.text-center.fadeInLeft.animated You do not have any files yet
       else
         ul.file-tbody
-          for file in files
-            li.file-row.file-item.clearfix(id='#{file.id}')
-              img.file-icon.pull-left(src='/icons/#{file.extension}-100.png')
-              a.elipsis(href='/files/#{file.id}')
-                strong= file.name
-              div.file-size.text-muted= file.friendlySize
+           for file in files
+            li.file-item.clearfix(id='#{file.id}')
+              .link
+                a.elipsis(href='/files/#{file.id}') #{file.name}
+
 
   include _footer
 

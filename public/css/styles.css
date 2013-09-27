@@ -459,12 +459,6 @@
   line-height: 1;
   vertical-align: inherit;
 }
-.file-icon {
-  max-height: 40px;
-  max-width: 40px;
-  margin-right: 5px;
-}
-
 .artist-image {
   max-height: 126px;
   max-width: 126px;
@@ -523,16 +517,7 @@ a.button:hover {
 .file-open:active {
   color: #2c3138;
 }
-.file-table {
-  background-color: #fff;
-  box-shadow: 0 2px 2px -1px rgba(0,0,0,.055);
-}
-.file-item a {
-  color: #4d4d4d;
-}
-.file-item a:hover {
-  text-decoration: none;
-}
+
 .file-size {
   display: block;
 }
@@ -747,7 +732,7 @@ a.button:hover {
   bottom: 48px;
   left: 0;
   width: 100%;
-  background: #ccc;
+  background: #efeff4;
   overflow: hidden;
 }
 
@@ -775,20 +760,38 @@ a.button:hover {
 
 #scroller ul {
   list-style: none;
-  padding: 0;
   margin: 0;
   width: 100%;
   text-align: left;
+  padding: 0;
+  background: #fff;
 }
 
 #scroller li {
-  padding: 0 10px;
-  height: 40px;
-  line-height: 40px;
-  border-bottom: 1px solid #ccc;
-  border-top: 1px solid #fff;
-  background-color: #fafafa;
-  font-size: 14px;
+  height: 44px;
+  padding: 12px 0;
+  margin-left: 12px;
+}
+
+#scroller li .link {
+  margin-left: 40px;
+  border-bottom: 1px solid #e1e0e3;
+}
+
+#scroller.files li {
+  background: url('../icons/aac-100.png') no-repeat left center;
+  background-size: 28px;
+}
+
+#scroller li a {
+  color: #1a1a1a;
+}
+#scroller li a:hover {
+  text-decoration: none;
+}
+
+.icon {
+  height: 29px;
 }
 
 
