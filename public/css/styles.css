@@ -672,15 +672,15 @@ a.button:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.table-hover>tbody>tr:hover>td {
+.table-hover>tbody>tr:active>td {
   background-color: #4285f4;
 }
-.table-hover>tbody>tr:hover>td a,
-.table-hover>tbody>tr:hover>td .text-muted{
+.table-hover>tbody>tr:active>td a,
+.table-hover>tbody>tr:active>td .text-muted{
   color: #fff;
 }
 
-.table-hover>tbody>tr:hover>td img {
+.table-hover>tbody>tr:active>td img {
    -webkit-filter: invert(100%);
    -webkit-transform: translateZ(0); // retina fuzzy fix
 }
