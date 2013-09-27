@@ -450,7 +450,7 @@
   font-style: normal;
   line-height: 0;
   font-size: 2.8em;
-  vertical-align: text-top;
+  vertical-align: middle;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -676,6 +676,11 @@ a.button:hover {
 .table-hover>tbody>tr:hover>td a,
 .table-hover>tbody>tr:hover>td .text-muted{
   color: #fff;
+}
+
+.table-hover>tbody>tr:hover>td img {
+   -webkit-filter: invert(100%);
+   -webkit-transform: translateZ(0); // retina fuzzy fix
 }
 .label {
   display: inline-block;
