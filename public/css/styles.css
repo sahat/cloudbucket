@@ -820,6 +820,15 @@ button {
   appearance: none;
   border: 0;
 }
+
+#uploadField {
+  background-image: none;
+  -webkit-box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+}
 #search-header .form-control:focus {
   border: 0;
 }
