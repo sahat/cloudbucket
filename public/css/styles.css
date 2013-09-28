@@ -822,14 +822,14 @@ button {
   bottom: 48px;
   left: 0;
   width: 100%;
-  background: #efeff4;
+  background: rgba(239, 239, 244, 0.9);
   overflow: hidden;
 }
 
 #scroller {
-  top: 45px;
+  padding-top: 45px;
   position: absolute;
-  z-index: 1;
+  z-index: -1;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   width: 100%;
   -webkit-transform: translateZ(0);
