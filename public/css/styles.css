@@ -12,7 +12,7 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  font-size: 18px;
+  font-size: 14px;
   word-wrap: break-word;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
@@ -747,7 +747,7 @@ a.button:hover {
   bottom: 48px;
   left: 0;
   width: 100%;
-  background: #fff;
+  background: #efeff4;
   overflow: hidden;
 }
 
@@ -774,6 +774,8 @@ a.button:hover {
 }
 
 #scroller ul {
+  border-top: 1px solid #e1e0e3;
+  border-bottom: 1px solid #e1e0e3;
   list-style: none;
   margin: 0;
   width: 100%;
@@ -804,6 +806,18 @@ a.button:hover {
   border-bottom: 1px solid #e1e0e3;
 }
 
+#scroller li .inner .heavy {
+  font-weight: 500;
+}
+
+#scroller li .inner .light {
+  font-weight: 300;
+  color: rgb(111, 111, 116);
+}
+
+#scroller li .inner:last-child {
+  border-bottom: 0;
+}
 #scroller.has-icon li {
   background-size: 28px;
 }
@@ -814,8 +828,21 @@ a.button:hover {
 .fileicon-png {
   background: url('../icons/png-100.png') no-repeat left center;
 }
-
-
+.fileicon-mp3 {
+  background: url('../icons/mp3-100.png') no-repeat left center;
+}
+.fileicon-pdf {
+  background: url('../icons/pdf-100.png') no-repeat left center;
+}
+.fileicon-epub {
+  background: url('../icons/epub-100.png') no-repeat left center;
+}
+.fileicon-mov {
+  background: url('../icons/mov-100.png') no-repeat left center;
+}
+.fileicon-jpg {
+  background: url('../icons/jpg-100.png') no-repeat left center;
+}
 
 #scroller li .inner .primary {
   font-weight: 500;
@@ -893,8 +920,7 @@ a.button:hover {
   display: block;
   height: 18px;
   margin: 0 auto;
-  -webkit-filter: invert(100%);
-  -webkit-transform: translateZ(0);
+
 }
 
 /* Label for tab */

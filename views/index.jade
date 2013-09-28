@@ -5,12 +5,12 @@ block content
 
   #wrapper
     #scroller.has-icon
-      .input-group.search-bar.fadeInRight.animated
-        input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
-        span.input-group-btn
-          button.btn.btn-primary(type='button', id='search-btn')
-            span.glyphicon.glyphicon-search
-            |  Search
+      // .input-group.search-bar.fadeInRight.animated
+      //   input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
+      //   span.input-group-btn
+      //     button.btn.btn-primary(type='button', id='search-btn')
+      //       span.glyphicon.glyphicon-search
+      //       |  Search
 
       if !files
         h3.text-center.fadeInLeft.animated You do not have any files yet
@@ -19,8 +19,9 @@ block content
            for file in files
             li(id='#{file.id}', class='fileicon-#{file.extension}')
               .inner
-                a.elipsis(href='/files/#{file.id}') #{file.name}
-
+                .heavy
+                  a.elipsis(href='/files/#{file.id}') #{file.name}
+                .light Size: #{file.friendlySize}
   include _footer
 
   script.
