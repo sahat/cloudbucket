@@ -337,6 +337,10 @@ body {
 	color: rgba(0, 0, 0, 0.6);
 }
 
+.snap-icon {
+  color: #ccc;
+  margin-right: 10px;
+}
 
 .snap-drawers {
   background: #323949;
@@ -362,7 +366,6 @@ body {
 .snap-drawer ul li.header {
   background-color: #212121;
   color: #737373;
-  font-size: 11px;
   text-transform: uppercase;
   padding: 3px 10px;
   border-bottom: 1px solid #0e0e0e;
@@ -383,9 +386,12 @@ body {
   color: #999;
 }
 
-.snap-drawer li:active,
-.snap-drawer li:hover {
-  background-color: #212121;
+.snap-drawer li:active {
+  background-color: #cc181e;
+}
+.snap-drawer li:active a,
+.snap-drawer li:active .snap-icon {
+  color: #fff;
 }
 
 .snap-drawer p {
@@ -797,7 +803,7 @@ button {
 
 #scroller {
   padding-top: 45px;
-  padding-bottom: 48px;
+  padding-bottom: 0;
   position: absolute;
   z-index: -1;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
