@@ -350,7 +350,7 @@ app.post('/search', loginRequired, function(req, res) {
     $or: 
       [
         { name: regularExpression },
-        { tags: { $elemMatch: { text: searchQuery } } },
+        { tags: { $in: [ regularExpression] } },
         { keywords: { $elemMatch: { text: searchQuery } } },
         { concepts: { $elemMatch: { text: searchQuery } } },
         { entities: { $elemMatch: { text: searchQuery } } },
