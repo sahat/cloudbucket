@@ -800,6 +800,8 @@ a.button:hover {
 }
 
 #scroller li .inner {
+
+  
   padding-top: 13px;
   margin-left: 40px;
   height: 44px;
@@ -807,6 +809,10 @@ a.button:hover {
 }
 
 #scroller li .inner .heavy {
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 500;
 }
 
