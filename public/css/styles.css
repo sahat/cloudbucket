@@ -865,6 +865,10 @@ button {
   height: 44px;
 }
 
+#scroller li a:active {
+ color: rgb(21, 125, 251);
+}
+
 .arrowed .inner {
   background-image: url(../img/list-arrow.svg);
   background-size: 15px 15px;
