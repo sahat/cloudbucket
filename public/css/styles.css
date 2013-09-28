@@ -662,13 +662,7 @@ a.button:hover {
   background: #4285f4;
   color: #fff;
 }
-.table tbody>tr>td {
-  vertical-align: middle;
-  max-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+
 .table-hover>tbody>tr:active>td {
   background-color: #4285f4;
 }
