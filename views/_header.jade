@@ -4,10 +4,11 @@
       span(style='font-weight:500;') Bucket
     button#search.right Search
 #search-header
-  .input-group
-    input.form-control(type='text', placeholder='Search')
-    .input-group-btn
-      button#cancel Cancel
+  form(action='/search', method='POST')
+    .input-group
+      input.form-control(type='text', placeholder='Search')
+      .input-group-btn
+        button#cancel Cancel
       
 script.
   $('#search').click(function() {
