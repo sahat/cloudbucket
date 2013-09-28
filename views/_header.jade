@@ -8,12 +8,12 @@
     .input-group
       input.form-control(type='text', name='q', placeholder='Search')
       .input-group-btn
-        button#cancel Cancel
+        button(type='reset') Cancel
       
 script.
   $('#search').click(function() {
     $('#search-header').show().find('input').focus();
   });
-  $('#cancel').click(function() {
+  $('.input-group-btn').click(function() {
       $('#search-header').hide();
     });
