@@ -6,7 +6,9 @@
   url('../fonts/entypo.ttf') format('truetype'),
   url('../fonts/entypo.svg#EntypoRegular') format('svg');
 }
-
+html {
+  -ms-touch-action: none;
+}
 body {
 
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -713,7 +715,27 @@ a.button:hover {
 }
 
 #header .title {
+  -webkit-animation-timing-function: cubic-bezier(.1, .7, .1, 1);
+  animation-timing-function: cubic-bezier(.1, .7, .1, 1);
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
   color: #fff;
+  
+  display: block;
+	padding: 0;
+	font-size: 17px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+	overflow: hidden;
+	-webkit-box-flex: 1;
+	   -moz-box-flex: 1;
+	        box-flex: 1;
+	margin: 0 65px;
+	font-weight: 500;
+    -webkit-tap-highlight-color: transparent;
 }
 #header .title:hover {
   color: #a2bce2;
@@ -722,10 +744,62 @@ a.button:hover {
 
 #header .btn {
   background: transparent;
-  color: #a2bce2;
   margin-top: 6px;
   margin-right: 0;
   font-size: 16px;
+}
+button {
+  background: transparent;
+  border: 0;
+}
+#header button {
+	position: absolute;
+	top: 0;
+	display: inline-block;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	font-size: 16px;
+	color: #a2bce2;
+	font-weight: 300;
+	height: 44px;
+	line-height: 44px;
+	text-overflow: ellipsis !important;
+	max-width: 140px;
+}
+#header button:active {
+	opacity: 0.3;
+}
+#header button.bold {
+	font-weight: 500;
+}
+#header button.green {
+	color:rgb(41, 197, 25);
+}
+#header button.disabled {
+	color:rgb(200, 199, 204);
+}
+#header button.arrow {
+	background-size: 24px 44px;
+	background-repeat: no-repeat;
+}
+
+#header button.left {
+	left:0;
+	padding-left: 9px;
+}
+#header button.left.arrow {
+	padding-left: 23px;
+	background-image: url(../img/backBtn.svg);
+	background-position: left bottom;
+}
+#header button.right {
+	right:0;
+	text-align: right;
+	padding-right: 9px;
+}
+#header button.right.arrow {
+	padding-right: 23px;
+	background-image: url(../img/nextBtn.svg);
+	background-position: right bottom;
 }
 
 #header .btn:hover {
