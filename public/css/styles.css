@@ -1002,6 +1002,8 @@ button {
   display: block;
   height: 18px;
   margin: 0 auto;
+  -webkit-filter: invert(100%);
+  -webkit-transform: translateZ(0);
 
 }
 
