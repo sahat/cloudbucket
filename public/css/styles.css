@@ -707,11 +707,12 @@ a.button:hover {
   width: 100%;
   height: 45px;
   line-height: 45px;
-  background: #1d5e9b;
+  background: rgba(29,94,155,0.9);
   padding: 0;
   color: #fff;
   font-size: 20px;
   text-align: center;
+  /*border-bottom: 1px solid #94a1ad;*/
 }
 
 #header .title {
@@ -817,7 +818,7 @@ button {
 #wrapper {
   position: absolute;
   z-index: 1;
-  top: 45px;
+  top: 0;
   bottom: 48px;
   left: 0;
   width: 100%;
@@ -826,6 +827,7 @@ button {
 }
 
 #scroller {
+  top: 45px;
   position: absolute;
   z-index: 1;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
