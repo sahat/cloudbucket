@@ -7,6 +7,21 @@
   url('../fonts/entypo.svg#EntypoRegular') format('svg');
 }
 
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-size: 18px;
+  word-wrap: break-word;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  height: 100%;
+  font-weight: 300;
+  line-height: 1;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
 .tags {
   zoom: 1;
 }
@@ -732,7 +747,7 @@ a.button:hover {
   bottom: 48px;
   left: 0;
   width: 100%;
-  background: #efeff4;
+  background: #fff;
   overflow: hidden;
 }
 
@@ -768,19 +783,39 @@ a.button:hover {
 }
 
 #scroller li {
-  height: 44px;
-  padding: 12px 0;
+  display: block;
   margin-left: 12px;
+  font-weight: 300;
+  height: 44px;
 }
 
-#scroller li .link {
+.arrowed .inner {
+  background-image: url(../img/list-arrow.svg);
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 5%;
+}
+
+#scroller li .inner {
+  padding-top: 13px;
   margin-left: 40px;
+  height: 44px;
   border-bottom: 1px solid #e1e0e3;
 }
 
 #scroller.files li {
   background: url('../icons/aac-100.png') no-repeat left center;
   background-size: 28px;
+}
+
+#scroller li .inner .primary {
+  font-weight: 500;
+}
+
+#scroller li .inner .secondary {
+  color: rgb(111, 111, 116);
+  padding: 10px 0 5px 0;
 }
 
 #scroller li a {

@@ -15,12 +15,11 @@ block content
       if !files
         h3.text-center.fadeInLeft.animated You do not have any files yet
       else
-        ul.file-tbody
+        ul.arrowed
            for file in files
             li.file-item.clearfix(id='#{file.id}')
-              .link
-                a.elipsis(href='/files/#{file.id}') #{file.name}
-
+              .inner
+                  a.elipsis(href='/files/#{file.id}') #{file.name}
 
   include _footer
 
