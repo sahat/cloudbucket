@@ -9,6 +9,12 @@
 html {
   -ms-touch-action: none;
 }
+
+.heavy {
+  font-weight: 500;
+}
+
+
 body {
 
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -235,8 +241,7 @@ body {
 }
 
 #content {
-	 background: #f8f8f8 url(../img/background.png);
-	 padding-top: 65px;
+	 background: #efeff4;
 }
 
 /* Demo toolbar styles */
@@ -790,6 +795,7 @@ button {
 
 
 
+
 #wrapper {
   position: absolute;
   z-index: 1;
@@ -797,9 +803,10 @@ button {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(239, 239, 244, 0.9);
+  background: rgb(239, 239, 244);
   overflow: hidden;
 }
+
 
 #scroller {
   padding-top: 45px;
@@ -823,6 +830,10 @@ button {
   -ms-text-size-adjust: none;
   -o-text-size-adjust: none;
   text-size-adjust: none;
+}
+
+#scroller .container {
+  margin-top: 20px;
 }
 
 #scroller ul {
@@ -860,6 +871,7 @@ button {
   height: 44px;
   border-bottom: 1px solid #e1e0e3;
 }
+
 
 #scroller ul li:last-child .inner {
   border-bottom: 0;
