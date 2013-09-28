@@ -804,10 +804,18 @@ a.button:hover {
   border-bottom: 1px solid #e1e0e3;
 }
 
-#scroller.files li {
-  background: url('../icons/aac-100.png') no-repeat left center;
+#scroller.has-icon li {
   background-size: 28px;
 }
+
+.fileicon-aac {
+  background: url('../icons/aac-100.png') no-repeat left center;
+}
+.fileicon-png {
+  background: url('../icons/png-100.png') no-repeat left center;
+}
+
+
 
 #scroller li .inner .primary {
   font-weight: 500;

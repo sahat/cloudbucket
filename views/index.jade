@@ -4,7 +4,7 @@ block content
   include _header
 
   #wrapper
-    #scroller.files
+    #scroller.has-icon
       .input-group.search-bar.fadeInRight.animated
         input.form-control(type='text', id='search-field', placeholder='Search all items by name or keywords')
         span.input-group-btn
@@ -17,9 +17,9 @@ block content
       else
         ul.arrowed
            for file in files
-            li.file-item.clearfix(id='#{file.id}')
+            li(id='#{file.id}', class='fileicon-#{file.extension}')
               .inner
-                  a.elipsis(href='/files/#{file.id}') #{file.name}
+                a.elipsis(href='/files/#{file.id}') #{file.name}
 
   include _footer
 
