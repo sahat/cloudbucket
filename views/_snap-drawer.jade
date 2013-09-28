@@ -4,19 +4,28 @@
       ul
         li.header Main Menu
         li
+          a(href='/') 
+            span.snap-icon.glyphicon.glyphicon-home
+            | Home
+        li
           a(href='/upload') 
-            span.glyphicon.glyphicon-cloud-upload  Upload
+            span.snap-icon.glyphicon.glyphicon-cloud-upload  
+            | Upload
         li
           a(href='/search')
-            span.glyphicon.glyphicon-search  Search
+            span.snap-icon.glyphicon.glyphicon-search
+            | Search
         li
           a(href='/settings') 
-            span.glyphicon.glyphicon-wrench  Settings
+            span.snap-icon.glyphicon.glyphicon-wrench
+            | Settings
         li
           a(href='/logout') 
-            span.glyphicon.glyphicon-log-out  Logout
+            span.snap-icon.glyphicon.glyphicon-log-out
+            | Logout
         if user && user.isAdmin
           li
             a(href='/admin/users')
-              span.glyphicon.glyphicon-user  Admin
+              span.snap-icon.glyphicon.glyphicon-user
+              | Admin
 

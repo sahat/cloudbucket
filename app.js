@@ -48,8 +48,8 @@ var app = express();
 var userCount = 0;
 
 // Connect to MongoDB
-//mongoose.connect(config.MONGOLAB, function(err) {
-mongoose.connect('localhost', function(err) {
+mongoose.connect(config.MONGOLAB, function(err) {
+//mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -108,8 +108,8 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
-    //callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
+    //callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -154,8 +154,8 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'topsecretz',
-  store: new MongoStore({db:'localhost'})
-  //store: new MongoStore({ url: config.MONGOLAB })
+  //store: new MongoStore({db:'localhost'})
+  store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(flash());
  app.use(passport.initialize());
@@ -340,7 +340,7 @@ app.post('/search', loginRequired, function(req, res) {
 
   // Prevent empty search queries
   if (!searchQuery) {
-    return res.send({ 'Error': 'Search query requires a querystring parameter'});
+    return res.send({ 'Error': 'Search query must not be empty'});
   }
 
   // Find results even if some parts of search query matches (case-insensitive)
@@ -350,7 +350,7 @@ app.post('/search', loginRequired, function(req, res) {
     $or: 
       [
         { name: regularExpression },
-        { tags: { $elemMatch: { text: searchQuery } } },
+        { tags: { $in: [ regularExpression] } },
         { keywords: { $elemMatch: { text: searchQuery } } },
         { concepts: { $elemMatch: { text: searchQuery } } },
         { entities: { $elemMatch: { text: searchQuery } } },
@@ -384,7 +384,10 @@ app.post('/search', loginRequired, function(req, res) {
       return res.redirect('/');
     }
 
-    res.send({ files: files });
+    res.render('index', {
+        user: req.user,
+        files: files
+      });
   });
 
 

@@ -1,19 +1,19 @@
-//nav.navbar.navbar-fixed-top.navbar-default(role='navigation')
-//  .navbar-header
-//    button#snap.navbar-toggle(type='button')
-//      span.sr-only Toggle navigation
-//      span.icon-bar
-//      span.icon-bar
-//      span.icon-bar
-//
-//    a.navbar-brand(href='/') Cloud
-//      strong Bucket
-//
 #header
-  .col-xs-3
-    button#snap.btn.pull-left
-      span.glyphicon.glyphicon-th-list
-      |  &nbsp;Menu
-  .col-xs-6
+    button#snap.left Menu
     a.title(href='/') Cloud
-      strong Bucket
+      span(style='font-weight:500;') Bucket
+    button#search.right Search
+#search-header
+  form(action='/search', method='POST')
+    .input-group
+      input.form-control(type='text', name='q', placeholder='Search')
+      .input-group-btn
+        button(type='reset') Cancel
+      
+script.
+  $('#search').click(function() {
+    $('#search-header').show().find('input').focus();
+  });
+  $('.input-group-btn').click(function() {
+      $('#search-header').hide();
+    });

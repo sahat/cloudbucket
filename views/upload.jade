@@ -1,26 +1,26 @@
 extends layout
 
 block content
-
   include _header
-
-  .container
-    form(role='form', method='post', action='/upload', enctype='multipart/form-data')
-
-      .form-group
-        label(for='userFile') File
-        input#userFile.form-control(type='file', name='userFile' style='display: none;')
-        .input-group
-          input#uploadField.form-control(type='text', disabled='disabled')
-          .input-group-btn
-            a.btn.btn-primary(onclick='$(\'input[id=userFile]\').click();') Browse
-
-      .form-group
-        label(for='exampleInputEmail1') Tags
-        input.form-control(name='tags', id='tags')
-
-      button.ladda-button(data-style='expand-right', data-color='mint', type='submit')
-        span.ladda-label Upload
+  #wrapper
+    #scroller
+      .container
+        form(role='form', method='post', action='/upload', enctype='multipart/form-data')
+    
+          .form-group
+            label.heavy(for='userFile') File
+            input#userFile.form-control(type='file', name='userFile' style='display: none;')
+            .input-group
+              input#uploadField.form-control(type='text', disabled='disabled', placeholder='Read only')
+              .input-group-btn
+                a.btn.btn-default(onclick='$(\'input[id=userFile]\').click();') Browse
+    
+          .form-group
+            label.heavy(for='exampleInputEmail1') Tags
+            input.form-control(name='tags', id='tags')
+    
+          button.ladda-button(data-style='expand-right', data-color='mint', type='submit')
+            span.ladda-label Upload
 
   script.
     $('input[id=userFile]').change(function() {

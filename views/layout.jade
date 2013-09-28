@@ -6,7 +6,7 @@ html
     meta(name='viewport', content='initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
-    meta(name='apple-mobile-web-app-title', content='cloudbucket')
+    meta(name='apple-mobile-web-app-title', content='CloudBucket')
 
     link(rel='stylesheet', href='/css/bootstrap.css')
     link(rel='stylesheet', href='/css/list-scroll.autoprefixed.css')
@@ -33,7 +33,6 @@ html
     script(src='/js/ladda.js')
     script(src='/js/snap.min.js')
 
-
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.knob.js')
     script(src='/js/jquery.ui.widget.js')
@@ -51,7 +50,7 @@ html
     script.
       var myScroll;
       function loaded () {
-        myScroll = new IScroll('#wrapper', { bounceEasing: 'elastic', bounceTime: 1200 });
+        myScroll = new IScroll('#wrapper', { mouseWheel: true, click: true });
       }
       document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
@@ -64,13 +63,20 @@ html
 
     #content.snap-content
       block content
-      
+    
+    
+    
+    
     script.
+      window.addEventListener('load', function() {
+          FastClick.attach(document.body);
+      }, false);
+
       var snapper = new Snap({
         element: document.getElementById('content'),
         disable: 'right',
         tapToClose: true,
-        touchToDrag: false
+        touchToDrag: true
       });
       $('#snap').click(function() {
         if (snapper.state().state === 'left') {
