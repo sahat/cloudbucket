@@ -800,21 +800,38 @@ button {
   left: 0;
   width: 100%;
   height: 45px;
-  line-height: 45px;
-  padding: 0 5px;
+  padding: 8px;
   background: #fff;
 }
 
 #search-header .form-control {
   background-color: #d7dae1;
+  background-image: none;
   border-radius: 7px;
   color: #8e8e93;
+  height: 29px;
   border-color: #d7dae1;
   box-shadow: none;
   -webkit-box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
 }
 #search-header .form-control:focus {
-  border-color: #d7dae1;
+  border: 0;
+}
+#search-header button {
+	display: inline-block;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	font-size: 16px;
+	font-weight: 500;
+	color: rgb(21, 125, 251);
+	text-overflow: ellipsis !important;
+}
+
+#search-header button:active {
+  opacity: 0.3;
 }
 
 
