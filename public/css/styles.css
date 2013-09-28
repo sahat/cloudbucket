@@ -793,7 +793,29 @@ button {
   -webkit-transform: translateZ(0);
 }
 
+#search-header {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 5px;
+  background: #fff;
+}
 
+#search-header .form-control {
+  background-color: #d7dae1;
+  border-radius: 7px;
+  color: #8e8e93;
+  border-color: #d7dae1;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+#search-header .form-control:focus {
+  border-color: #d7dae1;
+}
 
 
 #wrapper {
