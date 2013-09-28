@@ -340,7 +340,7 @@ app.post('/search', loginRequired, function(req, res) {
 
   // Prevent empty search queries
   if (!searchQuery) {
-    return res.send({ 'Error': 'Search query requires a querystring parameter'});
+    return res.send({ 'Error': 'Search query must not be empty'});
   }
 
   // Find results even if some parts of search query matches (case-insensitive)
@@ -384,7 +384,10 @@ app.post('/search', loginRequired, function(req, res) {
       return res.redirect('/');
     }
 
-    res.send({ files: files });
+    res.render('index', {
+        user: req.user,
+        files: files
+      });
   });
 
 
