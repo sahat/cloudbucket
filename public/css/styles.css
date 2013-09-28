@@ -8,6 +8,7 @@
 }
 
 body {
+
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -15,7 +16,6 @@ body {
   word-wrap: break-word;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
-  height: 100%;
   font-weight: 300;
   line-height: 1;
   color: rgb(0, 0, 0);
@@ -845,6 +845,7 @@ a.button:hover {
 /* Bar docked to bottom used for primary app navigation */
 .bar-tab {
   bottom: 0;
+  height: 50px;
   padding: 0;
   background-color: #393939;
   background-image: -webkit-linear-gradient(top, #393939 0, #2b2b2b 100%);
