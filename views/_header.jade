@@ -7,4 +7,12 @@
   .input-group
     input.form-control(type='text', placeholder='Search')
     .input-group-btn
-      button Go
+      button#cancel Cancel
+      
+script.
+  $('#search').click(function() {
+    $('#search-header').show().find('input').focus();
+  });
+  $('#cancel').click(function() {
+      $('#search-header').hide();
+    });

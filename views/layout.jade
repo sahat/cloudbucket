@@ -63,9 +63,15 @@ html
 
     #content.snap-content
       block content
-      
-    script.
     
+    
+    
+    
+    script.
+      window.addEventListener('load', function() {
+          FastClick.attach(document.body);
+      }, false);
+
       var snapper = new Snap({
         element: document.getElementById('content'),
         disable: 'right',
