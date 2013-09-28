@@ -684,6 +684,7 @@ a.button:hover {
   font-size: 20px;
   text-align: center;
   /*border-bottom: 1px solid #94a1ad;*/
+  text-shadow: 0 1px rgba(0, 0, 0, .3);
 }
 
 #header .title {
@@ -714,12 +715,6 @@ a.button:hover {
   text-decoration: none;
 }
 
-#header .btn {
-  background: transparent;
-  margin-top: 6px;
-  margin-right: 0;
-  font-size: 16px;
-}
 button {
   background: transparent;
   border: 0;
@@ -736,6 +731,7 @@ button {
 	line-height: 44px;
 	text-overflow: ellipsis !important;
 	max-width: 140px;
+	text-shadow: 0 1px rgba(0, 0, 0, .3);
 }
 #header button:active {
 	opacity: 0.3;
