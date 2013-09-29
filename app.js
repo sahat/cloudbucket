@@ -627,7 +627,7 @@ app.post('/upload', loginRequired, function(req, res) {
 
           // Use node.js child process to call a python library - pdfminer
           // pdf2txt.py is just a terminal command gets executed from node.js
-          exec('python pdf2txt.py ' + filePath, function (err, stdout, stderr) {
+          exec('python py/pdf2txt.py ' + filePath, function (err, stdout, stderr) {
             if (err || stderr) {
               console.error(err, stderr);
               req.flash('info', 'Error while parsing PDF file');
@@ -666,7 +666,7 @@ app.post('/upload', loginRequired, function(req, res) {
 
           // Use node.js child process to call a local python file
           // docx_extractor.py uses python-docx python library for parsing
-          exec('python docxparser.py ' + filePath, function(err, stdout, stderr) {
+          exec('python py/docxparser.py ' + filePath, function(err, stdout, stderr) {
             if (err || stderr) {
               console.error(err, stderr);
               req.flash('info', 'Error while parsing DOCX file');
