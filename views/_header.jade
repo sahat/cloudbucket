@@ -12,8 +12,8 @@
       
 script.
   $('#search').click(function() {
-    $('#search-header').show().find('input').focus();
+    $('#search-header').fadeIn(125).find('input').focus();
   });
   $('.input-group-btn').click(function() {
-      $('#search-header').hide();
+      $('#search-header').fadeOut(125);
     });

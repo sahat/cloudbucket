@@ -797,7 +797,10 @@ button {
   height: 45px;
   padding: 8px 0 8px 8px;
   background: #fff;
-  transition: all 0.3s;
+  -webkit-animation-timing-function: cubic-bezier(.1, .7, .1, 1);
+  animation-timing-function: cubic-bezier(.1, .7, .1, 1);
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 }
 
 #search-header .form-control {
