@@ -6,6 +6,7 @@ requirejs.config({
     hammer: 'lib/jquery.hammer',
     easypiechart: 'lib/jquery.easypiechart',
     tagsinput: 'lib/jquery.tagsinput',
+    knob: 'lib/jquery.knob',
     magnific: 'lib/jquery.magnific-popup',
     raty: 'lib/jquery.raty',
     fastclick: 'lib/fastclick',
@@ -29,6 +30,9 @@ requirejs.config({
       deps: ['jquery']
     },
     'hammer': {
+      deps: ['jquery']
+    },
+    'knob': {
       deps: ['jquery']
     },
     'magnific': {

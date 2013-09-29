@@ -4,30 +4,29 @@ block content
   include _header
   #wrapper
     #scroller
-    .container
-      table.table.file-table
-        thead
-          tr
-            th.text-center Disk Usage
-            th.text-center Name
-            th.text-center Email
-            th.text-center Actions
-        tbody
-          for u in userList
+      .container.fadeInLeft.animated
+        table.table.file-table
+          thead
             tr
-              td.text-center
-                - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
-                .chart(data-percent=percent)
-                  span= percent
-                  | %
-              td.text-center #{u.displayName}
+              th.text-center Disk Usage
+              th.text-center Name
+              th.text-center Email
+              th.text-center Actions
+          tbody
+            for u in userList
+              tr
+                td.text-center
+                  - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
+                  .chart(data-percent=percent)
+                    span= percent
+                    | %
+                td.text-center #{u.displayName}
 
 
-              td.text-center #{u.email}
-              td.text-center
-                a.button.has-icon(id='delete-btn', data-user='#{u.googleId}')
-                  i.icon-cross
-                |&nbsp;
-                a.button.has-icon(id='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}')
-                  i.icon-config
-
+                td.text-center #{u.email}
+                td.text-center
+                  a.btn.btn-xs.btn-danger(id='delete-btn', data-user='#{u.googleId}')
+                    i.glyphicon.glyphicon-trash
+                  |&nbsp;
+                  a.btn.btn-xs.btn-success(id='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}')
+                    i.glyphicon.glyphicon-dashboard
