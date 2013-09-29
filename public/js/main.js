@@ -6,14 +6,34 @@ requirejs.config({
   },
 
   shim: {
-    'lib/tooltip': ['jquery'],
-    'lib/jquery.hammer': ['jquery'],
-    'lib/jquery.easypiechart': ['jquery'],
-    'lib/jquery.tagsinput': ['jquery'],
-    'lib/jquery.knob': ['jquery'],
-    'lib/jquery.magnific-popup': ['jquery'],
-    'lib/jquery.raty': ['jquery'],
+    /**
+     * jQuery Plugins
+     */
+    'lib/tooltip': {
+      deps: ['jquery']
+    },
+    'lib/jquery.hammer': {
+      deps: ['jquery']
+    },
+    'lib/jquery.easypiechart': {
+      deps: ['jquery']
+    },
+    'lib/jquery.tagsinput': {
+      deps: ['jquery']
+    },
+    'lib/jquery.knob': {
+      deps: ['jquery']
+    },
+    'lib/jquery.magnific-popup': {
+      deps: ['jquery']
+    },
+    'lib/jquery.raty': {
+      deps: ['jquery']
+    },
 
+    /**
+     * Stand-alone Libraries
+     */
     'lib/fastclick': {
       exports: 'FastClick'
     },
