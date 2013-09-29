@@ -3,63 +3,73 @@ requirejs.config({
 
   paths: {
     jquery: 'lib/jquery',
-    spin: 'lib/spin'
+    spin: 'lib/spin',
+    tooltip: 'lib/tooltip',
+    hammer: 'lib/jquery.hammer',
+    easypiechart: 'lib/jquery.easypiechart',
+    tagsinput: 'lib/jquery.tagsinput',
+    knob: 'lib/jquery.knob',
+    magnific: 'lib/jquery.magnific-popup',
+    raty: 'lib/jquery.raty',
+    fastclick: 'lib/fastclick',
+    humane: 'lib/humane',
+    snap: 'lib/snap',
+    swiper: 'lib/idangerous.swiper-2.2',
+    ladda: 'lib/ladda.min',
+    vex: 'lib/vex.combined.min',
+    iscroll: 'lib/iscroll-lite-min'
   },
 
   shim: {
-    /**
-     * jQuery Plugins
-     */
-    'lib/tooltip': {
+    'tooltip': {
       deps: ['jquery']
     },
-    'lib/jquery.hammer': {
+    'hammer': {
       deps: ['jquery']
     },
-    'lib/jquery.easypiechart': {
+    'easypiechart': {
       deps: ['jquery']
     },
-    'lib/jquery.tagsinput': {
+    'tagsinput': {
       deps: ['jquery']
     },
-    'lib/jquery.knob': {
+    'knob': {
       deps: ['jquery']
     },
-    'lib/jquery.magnific-popup': {
+    'magnific': {
       deps: ['jquery']
     },
-    'lib/jquery.raty': {
+    'raty': {
       deps: ['jquery']
     },
-
-    /**
-     * Stand-alone Libraries
-     */
-    'lib/fastclick': {
+    'fastclick': {
       exports: 'FastClick'
     },
-    'lib/humane': {
+    'humane': {
       exports: 'humane'
     },
-    'lib/snap': {
+    'snap': {
       exports: 'Snap'
     },
-    'lib/idangerous.swiper-2.2': {
+    'swiper': {
       exports: 'Swiper'
     },
-    'lib/ladda.min': {
+    'ladda': {
       exports: 'Ladda'
     },
-    'lib/vex.combined.min': {
-      exports: 'vex'
+    'vex': {
+      exports: 'vex',
+      init: function(vex) {
+        vex.defaultOptions.className = 'vex-theme-os';
+      }
     },
-    'lib/iscroll-lite-min': {
+    'iscroll': {
       exports: 'IScroll'
     }
   }
 });
 
 // It will load app/js/app.js
-require(['app'], function(App) {
-  window.bTask = new App();
+require(['app'], function() {
+  console.info('App loaded');
 });

@@ -15,56 +15,5 @@ block content
                   a.elipsis(href='/files/#{file.id}') #{file.name}
                 .light Size: #{file.friendlySize}
 
-  script.
-    $('#search-field').keydown(function(event) {
-      if (event.keyCode == 13) {
-        $('#search-btn').trigger('click');
-      }
-    });
-    $('#search-btn').click(function() {
-      var qs = $('#search-field').val();
-      $('.file-tbody').html('');
-      $('.file-table').hide();
-      humane.log('Loading...');
-      $.post('/search', { q: qs }, function(data) {
-        $('.file-table').show();
-        $.each(data.files, function(idx, file) {
-          $('.file-tbody').append('<tr class="file-row">' +
-            '<td class="file-item" id="' + file.id + '">' +
-            '<a href="/files/' + file._id + '"><strong>' + file.name + '</strong></a>' +
-            '<span class="file-size text-muted">' + file.friendlySize + '</span>' +
-            '</td></tr>');
-        });
-
-        console.log(data); // files
-
-      });
-    });
-
-
-
 
     // IT'S HAMMER TIME!!!
-    var hammertime = $('#scroller li').hammer();
-    hammertime.on('hold', function(ev) {
-      var id = $(ev.currentTarget).data('id');
-      vex.dialog.confirm({
-        message: 'Delete this file?',
-        callback: function(value) {
-          if (value) {
-            $.ajax({
-              type: 'DELETE',
-              url: '/files/' + id,
-              success: function() {
-                console.log('File has been deleted');
-              },
-              error: function(xhr, status, error) {
-                console.log(status, error);
-              }
-            });
-          } else {
-            console.log('Selected false');
-          }
-        }
-      });
-    });
