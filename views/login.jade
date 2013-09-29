@@ -35,22 +35,6 @@ block content
     .pagination
   script.
     require(['login'], function() {
-      //Function to Fix Pages Height
-        function fixPagesHeight() {
-          $('.swiper-container').css({
-          height: $(window).height(),
-          width: $('.container').width()
-          })
-        }
-        $(window).on('resize',function(){
-          fixPagesHeight()
-        })
-        fixPagesHeight()
-        var mySwiper = new Swiper('.swiper-container',{
-          pagination: '.pagination',
-          loop:true,
-          grabCursor: true,
-          paginationClickable: true
-        });
+      console.log('Login page loaded.');
     }):
 
