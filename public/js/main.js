@@ -17,34 +17,20 @@ requirejs.config({
     vex: 'lib/vex',
     vexDialog: 'lib/vex.dialog',
     iscroll: 'lib/iscroll-lite-min',
-    'animateCSS': 'lib/animateCSS'
+    animateCSS: 'lib/animateCSS',
+    domReady: 'lib/ready'
   },
 
   shim: {
-    'animateCSS': {
-      depds: ['jquery']
-    },
-    'tooltip': {
-      deps: ['jquery']
-    },
-    'easypiechart': {
-      deps: ['jquery']
-    },
-    'tagsinput': {
-      deps: ['jquery']
-    },
-    'hammer': {
-      deps: ['jquery']
-    },
-    'knob': {
-      deps: ['jquery']
-    },
-    'magnific': {
-      deps: ['jquery']
-    },
-    'raty': {
-      deps: ['jquery']
-    },
+    'animateCSS': ['jquery'],
+    'tooltip': ['jquery'],
+    'easypiechart': ['jquery'],
+    'tagsinput': ['jquery'],
+    'hammer': ['jquery'],
+    'knob': ['jquery'],
+    'magnific': ['jquery'],
+    'raty': ['jquery'],
+
     'fastclick': {
       exports: 'FastClick'
     },
@@ -66,7 +52,7 @@ requirejs.config({
   }
 });
 
-// It will load app/js/app.js
-require(['layout', 'header'], function() {
-  console.info('Common modules have been loaded.');
+// Main libraries
+require(['jquery', 'domReady'], function() {
+  console.log('Common modules have been loaded.');
 });

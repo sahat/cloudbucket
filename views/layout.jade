@@ -17,6 +17,17 @@ html
       block content
 
     script.
-      require(['layout'], function() {
-        console.log('Layout loaded.');
+      require(['main'], function() {
+        require(['layout'], function() {
+          console.log('Layout loaded.');
+
+          var myScroll = new IScroll('#wrapper', {
+            bounceEasing: 'elastic',
+            bounceTime: 1500,
+            mouseWheel: true,
+            click: true
+          });
+          document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+      });
       });

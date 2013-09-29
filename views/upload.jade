@@ -23,6 +23,8 @@ block content
   #message(data-message='#{message}', hidden)
 
   script.
-    require(['upload'], function() {
-      console.log('Upload has been loaded');
+    require(['main'], function() {
+      require(['upload'], function() {
+        console.log('Upload has been loaded');
+      });
     });

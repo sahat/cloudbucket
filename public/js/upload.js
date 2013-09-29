@@ -1,4 +1,9 @@
 define(['ladda', 'humane', 'tagsinput'], function(Ladda, humane) {
+
+  $('#browse').click(function() {
+    $('input[id=userFile]').click();
+  });
+
   $('input[id=userFile]').change(function() {
     $('#uploadField').val($(this).val());
   });

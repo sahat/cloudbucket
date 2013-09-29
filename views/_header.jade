@@ -11,6 +11,8 @@
         button(type='reset') Cancel
 
 script.
-  require(['header'], function() {
-    console.log('Header loaded.');
+  require(['main'], function() {
+    require(['header'], function() {
+      console.log('Header loaded.');
+    });
   });

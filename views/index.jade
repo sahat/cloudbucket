@@ -16,6 +16,8 @@ block content
                 .light Size: #{file.friendlySize}
 
   script.
-    require(['index'], function() {
-      console.log('Index has been loaded');
+    require(['main'], function() {
+      require(['index'], function() {
+        console.log('Index has been loaded');
+      });
     });

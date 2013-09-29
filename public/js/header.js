@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define([], function() {
   console.log('Loading header');
 
   // click on the search button

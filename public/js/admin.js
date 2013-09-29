@@ -1,4 +1,4 @@
-define(['humane', 'easypiechart'], function(humane) {
+define(['jquery', 'humane', 'easypiechart'], function($, humane) {
   console.log('Loading admin page.');
 
   /**
