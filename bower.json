@@ -1,11 +1,25 @@
 {
-  "name": "AppName",
+  "name": "CloudBucket",
   "version": "1.0.0",
   "dependencies": {
-    "jquery": null,
-    "backbone-amd": null,
-    "underscore-amd": null,
-    "almond": null,
-    "requirejs": null
+    "animate.css": "latest",
+    "bootstrap": "latest",
+    "fastclick": "latest",
+    "filesize": "latest",
+    "hammerjs": "latest",
+    "iscroll": "latest",
+    "jquery": "latest",
+    "jquery.easy-pie-chart": "latest",
+    "jquery.knob": "latest",
+    "jquery.tagsinput": "latest",
+    "jquery.transit": "latest",
+    "humane-js": "latest",
+    "magnific-popup": "latest",
+    "moment": "latest",
+    "raty": "latest",
+    "requirejs": "latest",
+    "snapjs": "latest",
+    "swiper": "latest",
+
   }
 }
