@@ -9,7 +9,7 @@ define(['jquery', 'vex', 'vexDialog', 'hammer'], function($, vex, vexDialog) {
 
     vex.defaultOptions.className = 'vex-theme-os';
     vexDialog.confirm({
-      message: 'Delete this file?',
+      message: 'Are you sure you want to delete this file?',
       callback: function(value) {
         if (value) {
           $.ajax({
