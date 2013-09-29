@@ -2,7 +2,8 @@ requirejs.config({
   baseUrl: 'js',
 
   paths: {
-    jquery: 'lib/jquery'
+    jquery: 'lib/jquery',
+    spin: 'lib/spin'
   },
 
   shim: {
