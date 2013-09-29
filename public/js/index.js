@@ -24,9 +24,6 @@ define(['jquery', 'vex', 'vexDialog', 'hammer', 'animateCSS'], function($, vex, 
             url: '/files/' + id,
             success: function() {
               console.log('File has been deleted');
-
-
-
             },
             error: function(xhr, status, error) {
               console.log(status, error);

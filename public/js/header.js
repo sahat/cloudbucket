@@ -1,12 +1,14 @@
 define(['jquery'], function($) {
   console.log('Loading header');
 
+  // click on the search button
   $('#search').click(function() {
-    $('#search-header').fadeIn(125).find('input').focus();
+    $('#search-header').show().find('input').focus();
   });
 
+  // click on the cancel button
   $('.input-group-btn').click(function() {
-    $('#search-header').fadeOut(125);
+    $('#search-header').hide();
   });
 
 });
