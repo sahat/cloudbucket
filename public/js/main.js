@@ -63,6 +63,6 @@ requirejs.config({
 });
 
 // It will load app/js/app.js
-require(['app', 'layout', 'header'], function() {
+require(['layout', 'header'], function() {
   console.info('Common modules have been loaded.');
 });

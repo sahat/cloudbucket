@@ -6,7 +6,6 @@ block content
     #scroller
       .container
         form(role='form', method='post', action='/upload', enctype='multipart/form-data')
-    
           .form-group
             label.heavy(for='userFile') File
             input#userFile.form-control(type='file', name='userFile' style='display: none;')
@@ -14,41 +13,16 @@ block content
               input#uploadField.form-control(type='text', disabled='disabled', placeholder='Read only')
               .input-group-btn
                 a.btn.btn-default(onclick='$(\'input[id=userFile]\').click();') Browse
-    
+
           .form-group
             label.heavy(for='exampleInputEmail1') Tags
             input.form-control(name='tags', id='tags')
-    
+
           button.ladda-button(data-style='expand-right', data-color='mint', type='submit')
             span.ladda-label Upload
+  #message(data-message='#{message}', hidden)
 
   script.
-    $('input[id=userFile]').change(function() {
-      $('#uploadField').val($(this).val());
+    require(['upload'], function() {
+      console.log('Upload has been loaded');
     });
-
-  script.
-    $(function() {
-      $('#tags').tagsInput({
-        'width': '100%'
-      });
-
-      if ('#{message}') {
-        humane.log('#{message}');
-      }
-    });
-  script.
-    Ladda.bind('button[type=submit]', {
-      callback: function( instance ) {
-        var progress = 0;
-        var interval = setInterval( function() {
-          progress = Math.min( progress + Math.random() * 0.1, 1 );
-          instance.setProgress( progress );
-
-          if( progress === 1 ) {
-            instance.stop();
-            clearInterval( interval );
-          }
-        }, 200 );
-      }
-    } );
