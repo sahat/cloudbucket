@@ -16,7 +16,8 @@ requirejs.config({
     snap: 'lib/snap',
     swiper: 'lib/idangerous.swiper-2.2',
     ladda: 'lib/ladda.min',
-    vex: 'lib/vex.combined.min',
+    vex: 'lib/vex',
+    vexDialog: 'lib/vex.dialog',
     iscroll: 'lib/iscroll-lite-min'
   },
 
@@ -62,5 +63,5 @@ requirejs.config({
 
 // It will load app/js/app.js
 require(['app', 'layout', 'header', 'index'], function() {
-  console.info('App loaded');
+  console.info('Everything has been loaded.');
 });

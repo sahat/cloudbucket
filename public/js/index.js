@@ -1,5 +1,5 @@
-define(['jquery', 'hammer', 'vex'], function($) {
-  console.log('Loading index')
+define(['jquery', 'vex', 'vexDialog', 'hammer'], function($, vex, vexDialog) {
+  console.log('Loading index.')
 
   var hammertime = $('#scroller li').hammer();
 
@@ -8,7 +8,7 @@ define(['jquery', 'hammer', 'vex'], function($) {
     var id = $(ev.currentTarget).data('id');
 
     vex.defaultOptions.className = 'vex-theme-os';
-    vex.dialog.confirm({
+    vexDialog.confirm({
       message: 'Delete this file?',
       callback: function(value) {
         if (value) {

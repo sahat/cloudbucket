@@ -1,4 +1,6 @@
 define(['jquery', 'iscroll', 'snap'], function($, IScroll, Snap) {
+  console.log('Loading layout.');
+
   var myScroll = new IScroll('#wrapper', {
     bounceEasing: 'elastic',
     bounceTime: 1500,
