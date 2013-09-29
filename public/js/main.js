@@ -29,6 +29,9 @@ requirejs.config({
     'tagsinput': {
       deps: ['jquery']
     },
+    'hammer': {
+      deps: ['jquery']
+    },
     'knob': {
       deps: ['jquery']
     },
@@ -60,6 +63,6 @@ requirejs.config({
 });
 
 // It will load app/js/app.js
-require(['app', 'layout', 'header', 'index'], function() {
-  console.info('Everything has been loaded.');
+require(['app', 'layout', 'header'], function() {
+  console.info('Common modules have been loaded.');
 });

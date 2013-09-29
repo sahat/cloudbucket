@@ -5,7 +5,7 @@
   p by
     strong  #{file.bookAuthor}
   p
-    span#star
+    span#star(data-rating='#{file.bookAverageRating}')
     | &nbsp;
     span.label.label-warning #{file.bookAverageRating}
   p #{file.bookPageCount} pages
@@ -76,9 +76,6 @@ button.btn.btn-danger.btn-block
 br
 
 script.
-  $('#star').raty({
-    score: #{file.bookAverageRating},
-    readOnly: true,
-    width: false,
-    path: '../img'
+  require(['detail-book'], function() {
+    console.log('Detail-Book has been loaded');
   });

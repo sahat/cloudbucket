@@ -1,5 +1,5 @@
-define(['jquery', 'vex', 'vexDialog', 'hammer'], function($, vex, vexDialog) {
-  console.log('Loading index.')
+define(['vex', 'vexDialog', 'hammer'], function(vex, vexDialog) {
+  console.log('Loading index.');
 
   var hammertime = $('#scroller li').hammer();
 

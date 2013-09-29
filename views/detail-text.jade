@@ -37,8 +37,6 @@ if file.entities.length > 0
         for entity in file.entities
           li.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text}
             span
-          script.
-            $('.entity').tooltip();
 
 if file.concepts.length > 0
   dl.file-card

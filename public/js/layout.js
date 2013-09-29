@@ -1,4 +1,4 @@
-define(['jquery', 'iscroll', 'snap'], function($, IScroll, Snap) {
+define(['jquery', 'iscroll', 'snap', 'fastclick'], function($, IScroll, Snap, FastClick) {
   console.log('Loading layout.');
 
   var myScroll = new IScroll('#wrapper', {
@@ -18,7 +18,7 @@ define(['jquery', 'iscroll', 'snap'], function($, IScroll, Snap) {
     element: document.getElementById('content'),
     disable: 'right',
     tapToClose: true,
-    touchToDrag: true
+    touchToDrag: false
   });
 
 

@@ -15,5 +15,7 @@ block content
                   a.elipsis(href='/files/#{file.id}') #{file.name}
                 .light Size: #{file.friendlySize}
 
-
-    // IT'S HAMMER TIME!!!
+  script.
+    require(['index'], function() {
+      console.log('Index has been loaded');
+    });
