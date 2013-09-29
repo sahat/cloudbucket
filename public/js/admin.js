@@ -4,18 +4,16 @@ define(['humane', 'easypiechart'], function(humane) {
   /**
    * Disk usage circle
    */
-  $('.chart').easyPieChart({
-    size: 80,
-    animate: 800,
-    onStep: function(value) {
-      this.$el.find('span').text(~~value);
-    }
+  var $chart = $('.chart');
+  $chart.easyPieChart({
+    size: 60,
+    animate: 500
   });
 
   /**
    * Delete user confirmation alert
    */
-  $('#delete-btn').click(function() {
+  $('.delete-btn').click(function() {
     var answer = confirm('Are you sure you want to delete the user?');
     var user = $(this).data('user');
 
@@ -33,7 +31,7 @@ define(['humane', 'easypiechart'], function(humane) {
   /**
    * Manage quota prompt
    */
-  $('#quota-btn').click(function() {
+  $('.quota-btn').click(function() {
     var currentQuota = $(this).data('quota');
     var newQuota = prompt('Manage User Disk Quota (bytes):', currentQuota);
     var user = $(this).data('user');

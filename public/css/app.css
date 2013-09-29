@@ -11551,15 +11551,6 @@ body {
   opacity: 0.7;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
 }
-.easyPieChart {
-  position: relative;
-  text-align: center;
-}
-.easyPieChart canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 div.tagsinput {
   border: 1px solid #CCC;
   background: #FFF;

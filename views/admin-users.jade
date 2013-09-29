@@ -19,14 +19,17 @@ block content
                   - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
                   .chart(data-percent=percent)
                     span= percent
-                    | %
+                      | %
                 td.text-center #{u.displayName}
-
 
                 td.text-center #{u.email}
                 td.text-center
-                  a.btn.btn-xs.btn-danger(id='delete-btn', data-user='#{u.googleId}')
+                  a.btn.btn-xs.btn-danger(class='delete-btn', data-user='#{u.googleId}')
                     i.glyphicon.glyphicon-trash
                   |&nbsp;
-                  a.btn.btn-xs.btn-success(id='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}')
+                  a.btn.btn-xs.btn-success(class='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}')
                     i.glyphicon.glyphicon-dashboard
+  script.
+    require(['admin'], function() {
+      console.log('Admin has been loaded');
+    });
