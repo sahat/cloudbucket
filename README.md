@@ -21,7 +21,7 @@ Videos and photos are tagged as well using other techniques.
 - Bootstrap
 - Magnific Popup
 - Ladda
-- Blur.js
+- Vex.js
 - iScroll
 - Entypo Icons
 - iDangero.us Swiper

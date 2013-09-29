@@ -16,7 +16,7 @@ block content
       else
         ul.arrowed
            for file in files
-            li(id='#{file.id}', class='fileicon-#{file.extension}')
+            li(class='fileicon-#{file.extension}', data-id='#{file.id}')
               .inner
                 .heavy
                   a.elipsis(href='/files/#{file.id}') #{file.name}
@@ -46,4 +46,14 @@ block content
         console.log(data); // files
 
       });
+    });
+
+    vex.defaultOptions.className = 'vex-theme-os';
+
+
+    // IT'S HAMMER TIME!!!
+    var hammertime = $('#scroller li').hammer();
+    hammertime.on('hold', function(ev) {
+      console.log($(ev.currentTarget).data('id'));
+      vex.dialog.alert('Test');
     });
