@@ -18,3 +18,5 @@ Thumbs.db
 .idea
 node_modules
 *.iml
+
+public/vendor

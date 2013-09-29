@@ -11,7 +11,7 @@ html
     link(rel='stylesheet', href='/css/bootstrap.css')
     link(rel='stylesheet', href='/css/list-scroll.autoprefixed.css')
     link(rel='stylesheet', href='/css/list-items.autoprefixed.css')
-    link(rel='stylesheet', href='/css/styles.css')
+    link(rel='stylesheet', href='/css/app.css')
     link(rel='stylesheet', href='/css/animate.min.css')
     link(rel='stylesheet', href='/css/magnific-popup.css')
     link(rel='stylesheet', href='/css/jquery.easy-pie-chart.css')
@@ -24,32 +24,34 @@ html
     link(rel='stylesheet', href='/css/vex-theme-os.css')
 
 
-    script(src='/lib/jquery-2.0.0.min.js')
-    script(src='/js/idangerous.swiper-2.2.min.js')
-    script(src='/js/swipe.js')
-    script(src='/js/jquery.easy-pie-chart.js')
-    script(src='/js/jquery.tagsinput.js')
-    script(src='/js/humane.min.js')
-
-    script(src='/js/spin.js')
-    script(src='/js/ladda.js')
-    script(src='/js/snap.min.js')
-    script(src='/js/vex.combined.min.js')
-
-    script(src='/js/bootstrap.min.js')
-    script(src='/js/jquery.knob.js')
-    script(src='/js/jquery.ui.widget.js')
-    script(src='/js/jquery.fileupload.js')
-    script(src='/js/jquery.raty.min.js')
-
-
-    script(src='/lib/fastclick.js')
-    script(src='/lib/jquery.magnific-popup.min.js')
-    script(src='/lib/jquery.hammer.min.js')
-    script(src='/lib/animateCSS.js')
-    script(src='/lib/jquery.transit.min.js')
-
-    script(src='/js/iscroll-min.js')
+    script(data-main="/js/main" src='/js/lib/require.js')
+    //
+    //script(src='/lib/jquery-2.0.0.min.js')
+    //script(src='/js/idangerous.swiper-2.2.min.js')
+    //script(src='/js/swipe.js')
+    //script(src='/js/jquery.easy-pie-chart.js')
+    //script(src='/js/jquery.tagsinput.js')
+    //script(src='/js/humane.min.js')
+    //
+    //script(src='/js/spin.js')
+    //script(src='/js/ladda.js')
+    //script(src='/js/snap.min.js')
+    //script(src='/js/vex.combined.min.js')
+    //
+    //script(src='/js/bootstrap.min.js')
+    //script(src='/js/jquery.knob.js')
+    //script(src='/js/jquery.ui.widget.js')
+    //script(src='/js/jquery.fileupload.js')
+    //script(src='/js/jquery.raty.min.js')
+    //
+    //
+    //script(src='/lib/fastclick.js')
+    //script(src='/lib/jquery.magnific-popup.min.js')
+    //script(src='/lib/jquery.hammer.min.js')
+    //script(src='/lib/animateCSS.js')
+    //script(src='/lib/jquery.transit.min.js')
+    //
+    //script(src='/js/iscroll-min.js')
     script.
       var myScroll;
       function loaded () {

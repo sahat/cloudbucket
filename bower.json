@@ -10,7 +10,7 @@
     "iscroll": "latest",
     "jquery": "latest",
     "jquery.easy-pie-chart": "latest",
-    "jquery.knob": "latest",
+    "jquery-knob": "latest",
     "jquery.tagsinput": "latest",
     "jquery.transit": "latest",
     "humane-js": "latest",
@@ -19,7 +19,6 @@
     "raty": "latest",
     "requirejs": "latest",
     "snapjs": "latest",
-    "swiper": "latest",
-
+    "swiper": "latest"
   }
 }
