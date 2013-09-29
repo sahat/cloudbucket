@@ -1,23 +1,11 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <title>Mocha Tests</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="libs/mocha.css" />
-  <script src="../lib/jquery.js"></script>
-  <script src="libs/chai.js"></script>
-  <script src="libs/chai-jquery.js"></script>
-  <script src="libs/mocha.js"></script>
-  <script src="libs/r.js"></script>
-  <script>
-    mocha.setup('bdd');
-
-    require(['specs/array-test.js'], function(require) {
-      mocha.run();
-    });
-  </script>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="libs/mocha.css">
+  <script src="../lib/require.js" data-main="SpecRunner.js"></script>
 </head>
 <body>
-  <div id="mocha"></div>
+<div id="mocha"></div>
 </body>
 </html>
