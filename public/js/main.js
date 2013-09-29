@@ -16,10 +16,14 @@ requirejs.config({
     ladda: 'lib/ladda.min',
     vex: 'lib/vex',
     vexDialog: 'lib/vex.dialog',
-    iscroll: 'lib/iscroll-lite-min'
+    iscroll: 'lib/iscroll-lite-min',
+    'animateCSS': 'lib/animateCSS'
   },
 
   shim: {
+    'animateCSS': {
+      depds: ['jquery']
+    },
     'tooltip': {
       deps: ['jquery']
     },
