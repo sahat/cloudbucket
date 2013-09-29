@@ -1,7 +1,13 @@
-define(['jquery', 'hammer'], function($) {
+define(['jquery', 'hammer', 'vex'], function($) {
+  console.log('Loading index')
+
   var hammertime = $('#scroller li').hammer();
+
   hammertime.on('hold', function(ev) {
+
     var id = $(ev.currentTarget).data('id');
+
+    vex.defaultOptions.className = 'vex-theme-os';
     vex.dialog.confirm({
       message: 'Delete this file?',
       callback: function(value) {

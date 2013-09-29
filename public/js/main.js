@@ -24,9 +24,6 @@ requirejs.config({
     'tooltip': {
       deps: ['jquery']
     },
-    'hammer': {
-      deps: ['jquery']
-    },
     'easypiechart': {
       deps: ['jquery']
     },
@@ -57,12 +54,6 @@ requirejs.config({
     'ladda': {
       exports: 'Ladda'
     },
-    'vex': {
-      exports: 'vex',
-      init: function(vex) {
-        vex.defaultOptions.className = 'vex-theme-os';
-      }
-    },
     'iscroll': {
       exports: 'IScroll'
     }
@@ -70,6 +61,6 @@ requirejs.config({
 });
 
 // It will load app/js/app.js
-require(['app'], function() {
+require(['app', 'layout', 'header', 'index'], function() {
   console.info('App loaded');
 });

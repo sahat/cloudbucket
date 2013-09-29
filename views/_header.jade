@@ -9,11 +9,3 @@
       input.form-control(type='text', name='q', placeholder='Search')
       .input-group-btn
         button(type='reset') Cancel
-      
-script.
-  $('#search').click(function() {
-    $('#search-header').fadeIn(125).find('input').focus();
-  });
-  $('.input-group-btn').click(function() {
-      $('#search-header').fadeOut(125);
-    });
