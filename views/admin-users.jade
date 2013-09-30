@@ -12,7 +12,8 @@ block content
               .admin-usage
                 span #{percent}%
               .admin-controls.heavy
-                a(href='#', class='delete-btn', data-user='#{u.googleId}') Delete User |&nbsp;
+                a(href='#', class='delete-btn', data-user='#{u.googleId}') Delete User
+                | &nbsp;|&nbsp;
                 a(href='#', class='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}') Manage Quota
               .inner
                 .heavy #{u.displayName}

@@ -1,6 +1,9 @@
 define(['jquery', 'swiper'], function($, Swiper) {
   console.log('Loading login page');
 
+  // Change background to white
+  $('#content').css('background', '#fff');
+
   //Function to Fix Pages Height
   function fixPagesHeight() {
     $('.swiper-container').css({
@@ -15,7 +18,7 @@ define(['jquery', 'swiper'], function($, Swiper) {
 
   fixPagesHeight();
 
-  var mySwiper = new Swiper('.swiper-container',{
+  var mySwiper = new Swiper('.swiper-container', {
     pagination: '.pagination',
     loop:true,
     grabCursor: true,

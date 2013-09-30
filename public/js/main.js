@@ -4,9 +4,7 @@ requirejs.config({
     spin: 'lib/spin',
     tooltip: 'lib/tooltip',
     hammer: 'lib/jquery.hammer',
-    easypiechart: 'lib/jquery.easypiechart',
     tagsinput: 'lib/jquery.tagsinput',
-    knob: 'lib/jquery.knob',
     magnific: 'lib/jquery.magnific-popup',
     raty: 'lib/jquery.raty',
     fastclick: 'lib/fastclick',
@@ -24,10 +22,8 @@ requirejs.config({
   shim: {
     'animateCSS': ['jquery'],
     'tooltip': ['jquery'],
-    'easypiechart': ['jquery'],
     'tagsinput': ['jquery'],
     'hammer': ['jquery'],
-    'knob': ['jquery'],
     'magnific': ['jquery'],
     'raty': ['jquery'],
 
