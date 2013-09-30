@@ -59,6 +59,8 @@ require([
   'index',
   'upload',
   'admin',
+  'detail',
+  'detail-text',
   'detail-book',
   'login',
   'search'

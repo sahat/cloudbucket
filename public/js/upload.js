@@ -1,14 +1,6 @@
 define(['jquery', 'ladda', 'humane', 'tagsinput'], function($, Ladda, humane) {
   console.log('Loading upload.');
 
-  $('#browse').click(function() {
-    $('input[id=userFile]').click();
-  });
-
-  $('input[id=userFile]').change(function() {
-    $('#uploadField').val($(this).val());
-  });
-
   $('#tags').tagsInput({
     'width': '100%'
   });
