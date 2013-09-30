@@ -1,7 +1,9 @@
 extends layout
 
 block content
-  .container
+  .loader
+    i.icon-spinner.icon-spin.icon-large
+  .container(style='visibility: hidden')
     .swiper-container
       .swiper-wrapper
         .swiper-slide.text-center

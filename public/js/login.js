@@ -1,6 +1,9 @@
 define(['jquery', 'swiper'], function($, Swiper) {
   console.log('Loading login page');
 
+  $('.loader').hide();
+  $('.container').css('visibility', 'visible');
+
   // Change background to white
   $('#content').css('background', '#fff');
 

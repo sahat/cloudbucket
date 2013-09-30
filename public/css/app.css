@@ -13007,6 +13007,11 @@ a .icon-flip-vertical:before {
 html {
   -ms-touch-action: none;
 }
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
 .heavy {
   font-weight: 500;
 }

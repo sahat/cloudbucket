@@ -1,0 +1,17 @@
+delete user / manage quota make it vertical, and set font weight 300
+don't display name, just email, set ellipsis on email
+
+metro icons on search page
+
+.container padding on settings page
+change email and google IDs to be labels instead with 300 weight
+display disk storage in megabytes
+
+last.fm tags are not right aligned
+limit similar artists to 10
+
+fix searching to include keywords, ignore whitespace
+
+fix tags on text detail pages
+
+display metro pdf icon on PDF files instead of file-text fontawesome icon
