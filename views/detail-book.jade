@@ -70,7 +70,7 @@ if file.keywords.length > 0
         |&nbsp;
 
 
-button#delete-file.btn.btn-danger.btn-block(data-id='#{file.id}')
-  span.glyphicon.glyphicon-trash
-  |  Delete
-br
+p
+  button#delete-file.button.is-danger(data-id='#{file.id}')
+    i.icon-warning-sign
+    |  Delete File
