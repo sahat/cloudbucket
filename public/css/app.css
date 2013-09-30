@@ -9167,7 +9167,7 @@ body {
   box-sizing: border-box;
 }
 .tags li {
-  height: 26px;
+  height: 26px !important;
   line-height: 23px;
   padding: 0 9px 0 8px;
   font-size: 12px;
