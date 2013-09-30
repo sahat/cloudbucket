@@ -822,8 +822,12 @@ app.post('/upload', loginRequired, function(req, res) {
                   var similarArtistsRaw = JSON.parse(body).similarartists.artist;
                   
                   var similarArtists = [];
-                  
-                  for (var i = 0; i < similarArtistsRaw.length; i++) {
+
+                  var len = 10;
+                  if (similarArtistsRaw.length < 10) {
+                    len = similarArtistsRaw.length;
+                  }
+                  for (var i = 0; i < len; i++) {
                     similarArtists.push(similarArtistsRaw[i]);
                   }
                     
