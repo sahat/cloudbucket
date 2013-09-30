@@ -1,11 +1,6 @@
 define(['jquery', 'swiper'], function($, Swiper) {
   console.log('Loading login page');
 
-  $('.loader').hide();
-  $('.container').css('visibility', 'visible');
-
-  // Change background to white
-  $('#content').css('background', '#fff');
 
   //Function to Fix Pages Height
   function fixPagesHeight() {
@@ -27,4 +22,17 @@ define(['jquery', 'swiper'], function($, Swiper) {
     grabCursor: true,
     paginationClickable: true
   });
+
+  // Display a loading icon until DOM is ready
+  $('.loader').hide();
+  $('.container').css('visibility', 'visible');
+
+  // Change page background to white
+  $('#content').css('background', '#fff');
+
+  // Display a loading state on sign-in button
+  $('a[data-loading-text]').click(function() {
+    $(this).removeClass('is-primary').addClass('is-success').text('Signing in...');
+  });
+
 });
