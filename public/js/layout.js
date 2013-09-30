@@ -1,6 +1,14 @@
 define(['iscroll', 'snap', 'fastclick'], function(IScroll, Snap, FastClick) {
   console.log('Loading layout.');
 
+  var myScroll = new IScroll('#wrapper', {
+    bounceEasing: 'elastic',
+    bounceTime: 1500,
+    mouseWheel: true
+  });
+
+  document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
   FastClick.attach(document.body);
 
   var snapper = new Snap({
@@ -9,8 +17,6 @@ define(['iscroll', 'snap', 'fastclick'], function(IScroll, Snap, FastClick) {
     tapToClose: true,
     touchToDrag: false
   });
-
-  document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
   document.getElementById('snap').onclick = function() {
     if (snapper.state().state === 'left') {
