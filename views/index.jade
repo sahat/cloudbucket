@@ -9,7 +9,7 @@ block content
       else
         ul.arrowed
           for file in files
-            li(class='fileicon-#{file.extension}', data-id='#{file.id}')
+            li(class='icontype-#{file.extension}', data-id='#{file.id}')
               .inner
                 .heavy
                   a.elipsis(href='/files/#{file.id}') #{file.name}
