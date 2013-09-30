@@ -13028,8 +13028,10 @@ html {
   line-height: 44px;
   float: left;
 }
-.admin-user {
-  line-height: 44px;
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
