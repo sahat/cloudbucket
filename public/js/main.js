@@ -1,4 +1,5 @@
 requirejs.config({
+  baseUrl: 'js',
   paths: {
     jquery: 'lib/jquery',
     spin: 'lib/spin',
@@ -16,7 +17,7 @@ requirejs.config({
     ladda: 'lib/ladda.min',
     vex: 'lib/vex',
     vexDialog: 'lib/vex.dialog',
-    iscroll: 'lib/iscroll-lite-min',
+    iscroll: 'lib/iscroll',
     animateCSS: 'lib/animateCSS',
     domReady: 'lib/ready'
   },
@@ -53,6 +54,15 @@ requirejs.config({
 });
 
 // Main libraries
-require(['jquery', 'domReady'], function() {
-  console.log('Common modules have been loaded.');
+require([
+  'header',
+  'layout',
+  'index',
+  'upload',
+  'admin',
+  'detail-book',
+  'login',
+  'search'
+], function() {
+  console.log('All modules have been loaded.');
 });

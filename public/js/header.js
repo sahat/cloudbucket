@@ -1,5 +1,5 @@
-define([], function() {
-  console.log('Loading header');
+define(['jquery'], function($) {
+  console.log('Loading header.');
 
   // click on the search button
   $('#search').click(function() {

@@ -1,4 +1,5 @@
-define(['ladda', 'humane', 'tagsinput'], function(Ladda, humane) {
+define(['jquery', 'ladda', 'humane', 'tagsinput'], function($, Ladda, humane) {
+  console.log('Loading upload.');
 
   $('#browse').click(function() {
     $('input[id=userFile]').click();
