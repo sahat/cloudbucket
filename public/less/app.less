@@ -9,15 +9,8 @@
 @import 'lib/ladda';
 @import 'lib/humane-jackedup';
 @import 'lib/tagsinput';
+@import 'lib/font-awesome';
 
-@font-face {
-  font-family: 'EntypoRegular';
-  src: url('../fonts/entypo.eot');
-  src: url('../fonts/entypo.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/entypo.woff') format('woff'),
-  url('../fonts/entypo.ttf') format('truetype'),
-  url('../fonts/entypo.svg#EntypoRegular') format('svg');
-}
 html {
   -ms-touch-action: none;
 }
@@ -26,9 +19,7 @@ html {
   font-weight: 500;
 }
 
-
 body {
-
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -957,26 +948,41 @@ button {
   background-size: 28px;
 }
 
-.fileicon-aac {
-  background: url('../icons/aac-100.png') no-repeat left center;
+[class^="icontype-"],
+[class*=" icontype-"] {
+  display: inline-block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  background-image: url(../../images/icon-sprite.png);
+  background-repeat: no-repeat;
+  vertical-align: top;
+  text-indent: 20px;
+  font: 0/0 a;
 }
-.fileicon-png {
-  background: url('../icons/png-100.png') no-repeat left center;
+
+.icontype-aac {
+  background-image: url('../icons/aac-100.png') no-repeat left center;
 }
-.fileicon-mp3 {
-  background: url('../icons/mp3-100.png') no-repeat left center;
+.icontype-png {
+  background-image: url('../icons/png-100.png') no-repeat left center;
 }
-.fileicon-pdf {
-  background: url('../icons/pdf-100.png') no-repeat left center;
+.icontype-mp3 {
+  background-image: url('../icons/mp3-100.png') no-repeat left center;
 }
-.fileicon-epub {
-  background: url('../icons/epub-100.png') no-repeat left center;
+.icontype-pdf {
+  background-image: url('../icons/pdf-100.png') no-repeat left center;
 }
-.fileicon-mov {
-  background: url('../icons/mov-100.png') no-repeat left center;
+.icontype-epub {
+  background-image: url('../icons/epub-100.png') no-repeat left center;
 }
-.fileicon-jpg {
-  background: url('../icons/jpg-100.png') no-repeat left center;
+.icontype-mov {
+  background-image: url('../icons/mov-100.png') no-repeat left center;
+}
+.icontype-jpg {
+  background-image: url('../icons/jpg-100.png') no-repeat left center;
 }
 
 #scroller li .inner .primary {
@@ -998,73 +1004,6 @@ button {
 .icon {
   height: 29px;
 }
-
-
-#footer {
-  background-image: none;
-  position: absolute;
-  z-index: 2;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 0;
-}
-/* Tab bar
--------------------------------------------------- */
-/* Bar docked to bottom used for primary app navigation */
-.bar-tab {
-  bottom: 0;
-  height: 48px;
-  padding: 0;
-  background-color: rgba(29,94,155,0.9);
-  border-bottom-width: 0;
-  box-shadow: inset 0 1px 1px -1px rgba(255, 255, 255, .6);
-}
-
-/* Wrapper for individual tab */
-.tab-inner {
-  display: -webkit-box;
-  display: box;
-  height: 100%;
-  list-style: none;
-  -webkit-box-orient: horizontal;
-  box-orient: horizontal;
-  margin-left: -40px; // TODO: Fix this hack
-}
-
-/* Navigational tab */
-.tab-item {
-  height: 100%;
-  padding-top: 9px;
-  text-align: center;
-  box-sizing: border-box;
-  -webkit-box-flex: 1;
-  box-flex: 1;
-}
-
-/* Active state for tab */
-.tab-item.active {
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, .5);
-}
-/* Icon for tab  */
-.tab-icon {
-  display: block;
-  height: 18px;
-  margin: 0 auto;
-  -webkit-filter: invert(100%);
-  -webkit-transform: translateZ(0);
-
-}
-
-/* Label for tab */
-.tab-label {
-  margin-top: 1px;
-  font-size: 10px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 1px rgba(0, 0, 0, .3);
-}
-
 
 
 
