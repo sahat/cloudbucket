@@ -1,7 +1,6 @@
 requirejs.config({
   paths: {
     jquery: 'lib/jquery',
-    spin: 'lib/spin',
     tooltip: 'lib/tooltip',
     hammer: 'lib/jquery.hammer',
     tagsinput: 'lib/jquery.tagsinput',
