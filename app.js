@@ -344,7 +344,7 @@ app.post('/search', loginRequired, function(req, res) {
   }
 
   // Find results even if some parts of search query matches (case-insensitive)
-  var regularExpression = new RegExp(searchQuery, 'i');
+  var regularExpression = new RegExp('\s' + searchQuery + '\s', 'i');
   
   var searchConditions = {
     $or: 
