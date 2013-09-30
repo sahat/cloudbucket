@@ -3,13 +3,15 @@ define(['iscroll', 'snap', 'fastclick'], function(IScroll, Snap, FastClick) {
 
   var myScroll = new IScroll('#wrapper', {
     bounceEasing: 'elastic',
-    bounceTime: 1500,
+    bounceTime: 1600,
     mouseWheel: true
   });
 
   document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
-  FastClick.attach(document.body);
+  window.addEventListener('load', function() {
+    FastClick.attach(document.body);
+  }, false);
 
   var snapper = new Snap({
     element: document.getElementById('content'),
