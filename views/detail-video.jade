@@ -1,15 +1,13 @@
 .text-center
   .file-open
-    span.entypo.entypo-lg &#127916;
+    i.icon-film
 .text-center
   a.button.is-danger.has-icon(href='#{downloadUrl}')
-    span.glyphicon.glyphicon-send
+    i.icon-location-arrow
     span &nbsp; Open in Browser
 
 dl.file-card
-  dt
-    span.entypo &#128318;
-    |  #{file.name}
+  dt= file.name
   dd Video Codec
     .pull-right #{file.videoCodec}
   dd Audio Codec
@@ -26,9 +24,7 @@ dl.file-card
     .pull-right #{file.videoAudioSampleRate}
 
 dl.file-card
-  dt
-    span.entypo &#59148;
-    |  User Tags
+  dt User Tags
   dd
     if file.tags.length > 0
       for tag in file.tags
@@ -39,9 +35,7 @@ dl.file-card
 
 if file.entities.length > 0
   dl.file-card
-    dt
-      span.entypo &#128101;
-      |  Entities
+    dt Entities
     dd
       for entity in file.entities
         span.btn.btn-default.btn-xs.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text} &nbsp;
@@ -51,9 +45,7 @@ if file.entities.length > 0
 
 if file.concepts.length > 0
   dl.file-card
-    dt
-      span.entypo &#59172;
-      |  Concepts
+    dt Concepts
     dd
       for concept in file.concepts
         span.label.label-default #{concept.text}
@@ -62,9 +54,7 @@ if file.concepts.length > 0
 
 if file.keywords.length > 0
   dl.file-card
-    dt
-      span.entypo &#9000;
-      |  Keywords
+    dt Keywords
     dd
       for keyword in file.keywords
         span.label.label-primary #{keyword.text}

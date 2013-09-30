@@ -12,28 +12,22 @@
   p Published: #{file.bookPublishedDate}
   p
     a.button.is-secondary.has-icon(href='#{downloadUrl}')
-      span.glyphicon.glyphicon-send
+      i.icon-location-arrow
       | &nbsp; Open in Browser
 
 dl.file-card
-  dt
-    span.entypo &#128213;
-    |  Description
+  dt Description
   dd= file.bookDescription
 
 dl.file-card
-  dt
-    span.entypo &#128318;
-    |  file.name
+  dt= file.name
   dd Category
     .pull-right #{file.bookCategory}
   dd Size
     .pull-right #{file.friendlySize}
 
 dl.file-card
-  dt
-    span.entypo &#59148;
-    |  User Tags
+  dt User Tags
   dd
     if file.tags.length > 0
       for tag in file.tags

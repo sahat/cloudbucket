@@ -21,21 +21,17 @@
         |&nbsp;
     p
       a.button.is-tertiary.has-icon(href='#{downloadUrl}')
-        span.glyphicon.glyphicon-send
+        i.icon-location-arrow
         | &nbsp; Open in Browser
 
 dl.file-card
-  dt
-    span.entypo &#59170;
-    |  About Artist
+  dt About Artist
   dd.clearfix
     img.artist-image.pull-left.shift-right(src="#{file.artistImages[3]['#text']}")
     span!=  file.artistBio
 
 dl.file-card
-  dt
-    span.entypo &#128318;
-    |  #{file.name}
+  dt #{file.name}
   dd Genre
     .pull-right #{file.genre}
   dd Duration
@@ -46,18 +42,14 @@ dl.file-card
     .pull-right #{file.friendlySize}
 
 dl.file-card
-  dt
-    span.entypo &#9834;
-    |  Lyrics
+  dt Lyrics
   if file.lyrics
     dd!= file.lyrics.replace(/\n/g, '<br />')
   else
     dd No lyrics found
 
 dl.file-card
-  dt
-    span.entypo &#128101;
-    |  Similar Artists
+  dt Similar Artists
   for sa in file.similarArtists
     dd.clearfix.similar-artist
       div.pull-left.shift-right(style="width:50px;height:50px;overflow:hidden")

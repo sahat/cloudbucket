@@ -1,24 +1,20 @@
 .text-center
   .file-open
-    span.entypo.entypo-lg &#128240;
+    i.icon-file-text
 .text-center
   a.button.is-primary.has-icon(href='#{downloadUrl}')
-    span.glyphicon.glyphicon-send
+    i.icon-location-arrow
     span &nbsp; Open in Browser
 
 dl.file-card
-  dt
-    span.entypo &#128318;
-    |  #{file.name}
+  dt= file.name
   dd Category
     .pull-right #{file.category}
   dd Size
     .pull-right #{file.friendlySize}
 
 dl.file-card
-  dt
-    span.entypo &#59148;
-    |  User Tags
+  dt User Tags
   dd
     if file.tags.length > 0
       for tag in file.tags
@@ -29,9 +25,7 @@ dl.file-card
 
 if file.entities.length > 0
   dl.file-card
-    dt
-      span.entypo &#128101;
-      |  Entities
+    dt Entities
     dd
       ul.list-unstyled.tags.green
         for entity in file.entities
@@ -40,9 +34,7 @@ if file.entities.length > 0
 
 if file.concepts.length > 0
   dl.file-card
-    dt
-      span.entypo &#59172;
-      |  Concepts
+    dt Concepts
     dd
       ul.list-unstyled.tags
         for concept in file.concepts
@@ -52,9 +44,7 @@ if file.concepts.length > 0
 
 if file.keywords.length > 0
   dl.file-card
-    dt
-      span.entypo &#9000;
-      |  Keywords
+    dt Keywords
     dd
       ul.list-unstyled.tags.blue
         for keyword in file.keywords
