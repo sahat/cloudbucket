@@ -11,6 +11,7 @@ requirejs.config({
     snap: 'lib/snap',
     swiper: 'lib/idangerous.swiper-2.2',
     ladda: 'lib/ladda.min',
+    spin: 'lib/spin',
     vex: 'lib/vex',
     vexDialog: 'lib/vex.dialog',
     iscroll: 'lib/iscroll',

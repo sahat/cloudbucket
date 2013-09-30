@@ -1,4 +1,4 @@
-define(['jquery', 'ladda', 'humane', 'tagsinput'], function($, Ladda, humane) {
+define(['jquery', 'ladda', 'spin', 'humane', 'tagsinput'], function($, Ladda, humane) {
   console.log('Loading upload.');
 
   $('#tags').tagsInput({
