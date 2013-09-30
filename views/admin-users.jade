@@ -5,28 +5,18 @@ block content
   #wrapper
     #scroller
       .container.fadeInLeft.animated
-        table.table.file-table
-          thead
-            tr
-              th.text-center Disk Usage
-              th.text-center Name
-              th.text-center Email
-              th.text-center Actions
-          tbody
-            for u in userList
-              tr
-                td.text-center
-                  - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
-                  span= percent
-                    | %
-                  .chart(data-percent=percent)
+        ul
+          for u in userList
+            li
+              - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
+              .admin-usage
+                span #{percent}%
+              .admin-controls.heavy
+                a(href='#', class='delete-btn', data-user='#{u.googleId}') Delete User |&nbsp;
+                a(href='#', class='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}') Manage Quota
+              .inner
+                .heavy #{u.displayName}
+                .light #{u.email}
 
-                td.text-center #{u.displayName}
 
-                td.text-center #{u.email}
-                td.text-center
-                  a.btn.btn-xs.btn-danger(class='delete-btn', data-user='#{u.googleId}')
-                    i.glyphicon.glyphicon-trash
-                  |&nbsp;
-                  a.btn.btn-xs.btn-success(class='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}')
-                    i.glyphicon.glyphicon-dashboard
+
