@@ -28,6 +28,10 @@
     "restler": "*",
     "connect-flash": "*",
     "epub-parser": "*",
-    "fluent-ffmpeg": "*"
+    "fluent-ffmpeg": "*",
+    "grunt": "*",
+    "grunt-contrib-requirejs": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-less": "*"
   }
 }

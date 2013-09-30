@@ -1,53 +1,47 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-//    less: {
-//      development: {
-//        options: {
-//          concat: false
-//        },
-//        files: [
-//          {
-//            expand: true,
-//            concat: false,
-//            cwd: 'src/less',
-//            src: ['*.less'],
-//            dest: 'build/css',
-//            ext: '.css'
-//          }
-//        ]
-//      }
-//    },
+    less: {
+      production: {
+        options: {
+          yuicompress: true
+        },
+        files: {
+          'public/css/app.css': 'public/less/app.less'
+        }
+      }
+    },
 
     requirejs: {
       compile: {
         options: {
           baseUrl: 'public/js',
           name: 'main',
-          dir: 'release',
           mainConfigFile: 'public/js/main.js',
-          fileExclusionRegExp: /^test$/
+          out: "public/js/app.min.js",
+          fileExclusionRegExp: /^test$/,
+          paths: {
+            requireLib: 'lib/require'
+          },
+          include: ["requireLib"],
+          preserveLicenseComments: false
+        }
+      }
+    },
+
+    watch: {
+      styles: {
+        files: ['public/less/*.less'],
+        tasks: ['less'],
+        options: {
+          spawn: false
         }
       }
     }
-//    watch: {
-//      scripts: {
-//        files: ['src/coffee/**/*.coffee'],
-//        tasks: ['coffee'],
-//        options: {
-//          spawn: false
-//        }
-//      },
-//      styles: {
-//        files: ['src/less/**/*.less'],
-//        tasks: ['less'],
-//        options: {
-//          spawn: false
-//        }
-//      }
-//    }
   });
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['requirejs']);
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+
+  grunt.registerTask('default', ['requirejs', 'less']);
 };

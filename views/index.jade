@@ -8,7 +8,7 @@ block content
         h3.text-center.fadeInLeft.animated You do not have any files yet
       else
         ul.arrowed
-           for file in files
+          for file in files
             li(class='fileicon-#{file.extension}', data-id='#{file.id}')
               .inner
                 .heavy
