@@ -31,9 +31,6 @@ requirejs.config({
     'magnific': ['jquery'],
     'raty': ['jquery'],
 
-    'fastclick': {
-      exports: 'FastClick'
-    },
     'humane': {
       exports: 'humane'
     },

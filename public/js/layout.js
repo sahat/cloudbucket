@@ -8,7 +8,7 @@ define(['jquery', 'iscroll', 'snap', 'fastclick'], function($, IScroll, Snap, Fa
 
   document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
-  window.addEventListener('load', function() { FastClick.attach(document.body); }, false);
+  FastClick.attach(document.body);
 
   var snapper = new Snap({
     element: document.getElementById('content'),
