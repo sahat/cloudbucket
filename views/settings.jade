@@ -2,23 +2,24 @@ extends layout
 
 block content
   include _header
-  .container
-    form
-      .input-group
-        .input-row
-          label Full name
-          input.form-control(type='text', value='#{user.displayName}', disabled='disabled')
-        .input-row
-          label Email
-          input.form-control(type='email', value='#{user.email}', disabled='disabled')
-        .input-row
-          label Google ID
-          input.form-control(type='text', value='#{user.googleId}', disabled='disabled')
-    br
-    a.button.is-danger(href='#deleteAccountModal') Delete Account
+  #wrapper
+    #scroller
+      .container
+        form
+          .form-group
+            label Full Name
+            p.form-control-static #{user.displayName}
+          .form-group
+            label Email
+            p.form-control-static #{user.email}
+          .form-group
+            label Google ID
+            p.form-control-static #{user.googleId}
+          .form-group
+            label Disk Storage
+            -var megabytes = Math.floor(user.diskUsage / 1048576);
+            p.form-control-static #{megabytes} MB remaning
 
-    br
-    br
-
-    strong Disk Storage:
-    |  #{user.diskUsage} bytes remaining
+        a.button.is-danger(id='delete-account', data-user='#{user.googleId}')
+          i.icon-warning-sign
+          |  Delete Account

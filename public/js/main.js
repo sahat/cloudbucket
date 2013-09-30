@@ -57,7 +57,8 @@ require([
   'detail-text',
   'detail-book',
   'login',
-  'search'
+  'search',
+  'settings'
 ], function() {
   console.log('All modules have been loaded.');
 });
