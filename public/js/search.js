@@ -1,3 +1,3 @@
-define(['search', 'search'], function() {
+define(['search'], function() {
   console.log('Loading search page');
 });

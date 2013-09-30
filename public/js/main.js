@@ -41,7 +41,8 @@ requirejs.config({
     'iscroll': {
       exports: 'IScroll'
     }
-  }
+  },
+  urlArgs: "bust=" +  (new Date()).getTime()
 });
 
 // Main libraries

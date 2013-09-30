@@ -4,20 +4,17 @@ block content
   include _header
   #wrapper
     #scroller
-      .container.fadeInLeft.animated
+      .fadeInLeft.animated
         ul
           for u in userList
             li
               - var percent = Math.ceil(u.diskUsage / u.diskQuota * 100)
               .admin-usage
                 span #{percent}%
-              .admin-controls.heavy
+              .admin-controls.light
                 a(href='#', class='delete-btn', data-user='#{u.googleId}') Delete User
-                | &nbsp;|&nbsp;
+                br
                 a(href='#', class='quota-btn', data-user='#{u.googleId}', data-quota='#{u.diskQuota}') Manage Quota
               .inner
-                .heavy #{u.displayName}
+                .heavy.ellipsis #{u.displayName}
                 .light #{u.email}
-
-
-

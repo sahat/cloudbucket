@@ -15,3 +15,5 @@ fix searching to include keywords, ignore whitespace
 fix tags on text detail pages
 
 display metro pdf icon on PDF files instead of file-text fontawesome icon
+
+accelerometer iscroll on login page with a nice wallpaper
