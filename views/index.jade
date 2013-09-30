@@ -14,10 +14,3 @@ block content
                 .heavy
                   a.elipsis(href='/files/#{file.id}') #{file.name}
                 .light Size: #{file.friendlySize}
-
-  script.
-    require(['main'], function() {
-      require(['index'], function() {
-        console.log('Index has been loaded');
-      });
-    });

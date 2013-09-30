@@ -21,10 +21,3 @@ block content
           button.ladda-button(data-style='expand-right', data-color='mint', type='submit')
             span.ladda-label Upload
   #message(data-message='#{message}', hidden)
-
-  script.
-    require(['main'], function() {
-      require(['upload'], function() {
-        console.log('Upload has been loaded');
-      });
-    });
