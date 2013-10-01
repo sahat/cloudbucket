@@ -36,6 +36,13 @@ var async = require('async'),
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
+// OpenShift required environment variables
+// Defaults to 127.0.0.1:8080 if running on localhost
+var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP ||
+  process.env.OPENSHIFT_INTERNAL_IP || '127.0.0.1';
+var PORT = process.env.OPENSHIFT_NODEJS_PORT ||
+  process.env.OPENSHIFT_INTERNAL_PORT || 8080;
+
 var config = require('./config.json'),
     User = require('./schema').User,
     FileSchema = require('./schema').File;
@@ -43,6 +50,7 @@ var config = require('./config.json'),
 var alchemyAPI = require('./alchemy');
 
 var app = express();
+
 
 
 var userCount = 0;
@@ -1020,6 +1028,11 @@ app.del('/files/:id', loginRequired, function(req, res) {
 
 
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+// Starts the express application
+app.listen(PORT, IP_ADDRESS, function() {
+  console.log('Express server started listening on %s:%d', IP_ADDRESS, PORT);
+});
+
+process.on('uncaughtException', function(err) {
+  console.error(err);
 });
