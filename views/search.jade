@@ -5,17 +5,10 @@ block content
   // TODO: search
   //| Excel - search spreadsheets xls and xlsx
   //| Word - search filter by docx and doc
-  //| Music - search all music filetypes: m4a, mp3, wav
-  //| My Videos - search by video types: mp4, avi, flv, mov
   //| Powerpoint - pptx and ppt files
   //
-  //| Pictures - search by image types
   //| Contacts Folder - search photos that have face in it
-  //
-  //| OS Android - show files uploaded from Android
-  //| OS Apple - show files uploaded from IOS
-  //| Computer Alt 2 - show files uploaded from Windows/Linux desktop
-  //
+
   //| Coding App - any code: cpp, js, py, rb, etc.
   //| File - any other file
   //| Notepad alt - text files *.txt, markdown
@@ -24,3 +17,30 @@ block content
 
   #wrapper
     #scroller
+      .container
+        p.heavy By Type
+        .row
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/Pictures.png')
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/My Videos.png')
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/Music.png')
+        br
+        p.heavy By Category
+        .row
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/Coding App.png')
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/Adobe Acrobat Reader.png')
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/Contacts Folder.png')
+        br
+        p.heavy By Uploaded Device
+        .row
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/Computer alt 2.png')
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/OS Android.png')
+          .col-xs-4
+            img.img-thumbnail(src='/img/search/OS Apple.png')
