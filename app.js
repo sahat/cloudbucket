@@ -336,7 +336,6 @@ app.get('/search', loginRequired, function(req, res) {
  * POST /search
  */
 app.post('/search', loginRequired, function(req, res) {
-  console.log('hitting it')
   var searchQuery = req.body.q;
 
   // Prevent empty search queries
@@ -345,7 +344,7 @@ app.post('/search', loginRequired, function(req, res) {
   }
 
   // Find results even if some parts of search query matches (case-insensitive)
-  var regularExpression = new RegExp('\s' + searchQuery + '\s', 'i');
+  var regularExpression = new RegExp(searchQuery, 'i');
   
   var searchConditions = {
     $or: 

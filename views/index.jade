@@ -4,10 +4,8 @@ block content
   include _header
   #wrapper
     #scroller.has-icon
-      if !files
-        h4.heavy.text-center.fadeInLeft.animated You do not have any files yet
-      else if (files && files.length == 0)
-        h4.heavy.text-center.fadeInLeft.animated Search results returned nothing
+      if (files && files.length == 0)
+        h4.heavy.text-center.fadeInLeft.animated No Files
       else
         ul.arrowed
           for file in files
