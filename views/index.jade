@@ -5,7 +5,9 @@ block content
   #wrapper
     #scroller.has-icon
       if !files
-        h3.text-center.fadeInLeft.animated You do not have any files yet
+        h4.heavy.text-center.fadeInLeft.animated You do not have any files yet
+      else if (files && files.length == 0)
+        h4.heavy.text-center.fadeInLeft.animated Search results returned nothing
       else
         ul.arrowed
           for file in files

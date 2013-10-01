@@ -336,6 +336,7 @@ app.get('/search', loginRequired, function(req, res) {
  * POST /search
  */
 app.post('/search', loginRequired, function(req, res) {
+  console.log('hitting it')
   var searchQuery = req.body.q;
 
   // Prevent empty search queries
@@ -374,7 +375,6 @@ app.post('/search', loginRequired, function(req, res) {
         { videoAudioCodec: searchQuery },
         { videoResolution: searchQuery }
       ]
-    // TODO: How to map smilling search to smiling: true?
   };
 
   File.find(searchConditions, function(err, files) {
@@ -383,6 +383,8 @@ app.post('/search', loginRequired, function(req, res) {
       req.flash('info', 'Error searching files');
       return res.redirect('/');
     }
+
+    console.log(files);
 
     res.render('index', {
         user: req.user,
