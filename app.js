@@ -554,6 +554,35 @@ app.post('/upload', loginRequired, function(req, res) {
   var fileSize = req.files.userFile.size;
   var fileTags = req.body.tags ? req.body.tags.split(',') : [];
   var user = req.user;
+  var uploadDevice = 'Desktop';
+
+  var isMobile = {
+    Android: function() {
+      return navigator.userAgent.match(/Android/i) ? true : false;
+    },
+    BlackBerry: function() {
+      return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+    },
+    iOS: function() {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+    },
+    Windows: function() {
+      return navigator.userAgent.match(/IEMobile/i) ? true : false;
+    },
+    any: function() {
+      return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+    }
+  };
+
+  if (isMobile.Android()) {
+    uploadDevice = 'Android';
+  } else if (isMobile.BlackBerry()) {
+    uploadDevice = 'BlackBerry';
+  } else if (isMobile.iOS()) {
+    uploadDevice = 'iOS';
+  } else if (isMobile.Windows()) {
+    uploadDevice = 'Windows Phone';
+  }
 
   // Load file contents into memory
   var fileData = fs.readFileSync(filePath);
@@ -626,7 +655,8 @@ app.post('/upload', loginRequired, function(req, res) {
         friendlySize: filesize(fileSize, 2, false),
         path: fileNameS3,
         ETag: ETag,
-        user: req.user.googleId
+        user: req.user.googleId,
+        uploadDevice: uploadDevice
       });
 
 
