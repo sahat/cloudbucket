@@ -11252,8 +11252,6 @@ button {
   background-position: right center;
 }
 #scroller li .inner {
-  padding-right: 5px;
-  padding-left: 5px;
   margin-left: 40px;
   height: 44px;
   border-bottom: 1px solid #e1e0e3;
