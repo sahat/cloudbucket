@@ -20,8 +20,14 @@ define(['jquery', 'vex', 'vexDialog', 'hammer', 'animateCSS'], function($, vex, 
 
   var hammertime = $(".inner").hammer();
 
+
+  hammertime.on('touch', function(ev) {
+    $(this).addClass('selected');
+  });
+
   hammertime.on('release', function(ev) {
     console.log($(this).find('a'))
-   $(this).find('a')[0].click();
+    $(this).removeClass('selected');
+   //$(this).find('a')[0].click();
   });
 });

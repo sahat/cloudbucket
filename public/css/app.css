@@ -11003,6 +11003,13 @@ a.button:hover {
   background: #4285f4;
   color: #fff;
 }
+.selected {
+  background: #4285f4;
+}
+.selected a,
+.selected .light {
+  color: #fff !important;
+}
 .table-hover > tbody > tr:active > td {
   background-color: #4285f4;
 }
