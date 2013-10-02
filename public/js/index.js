@@ -16,6 +16,12 @@ define(['jquery', 'vex', 'vexDialog', 'hammer', 'animateCSS'], function($, vex, 
     } else {
       $('#uploadField').val(path);
     }
+  });
 
+  var hammertime = $(".inner").hammer();
+
+  hammertime.on('release', function(ev) {
+    console.log($(this).find('a'))
+   $(this).find('a')[0].click();
   });
 });
