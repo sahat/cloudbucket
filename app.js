@@ -542,7 +542,6 @@ app.post('/upload', loginRequired, function(req, res) {
     req.flash('info', 'No file selected');
     return res.redirect('/upload');
   }
-  console.log(req.files);
 
   // Grab data from user-submitted file
   var filePath = req.files.userFile.path;
@@ -554,36 +553,9 @@ app.post('/upload', loginRequired, function(req, res) {
   var fileSize = req.files.userFile.size;
   var fileTags = req.body.tags ? req.body.tags.split(',') : [];
   var user = req.user;
-  var uploadDevice = 'Desktop';
+  var uploadDevice = req.body.uploadDevice;
 
-  var isMobile = {
-    Android: function() {
-      return navigator.userAgent.match(/Android/i) ? true : false;
-    },
-    BlackBerry: function() {
-      return navigator.userAgent.match(/BlackBerry/i) ? true : false;
-    },
-    iOS: function() {
-      return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
-    },
-    Windows: function() {
-      return navigator.userAgent.match(/IEMobile/i) ? true : false;
-    },
-    any: function() {
-      return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
-    }
-  };
-
-  if (isMobile.Android()) {
-    uploadDevice = 'Android';
-  } else if (isMobile.BlackBerry()) {
-    uploadDevice = 'BlackBerry';
-  } else if (isMobile.iOS()) {
-    uploadDevice = 'iOS';
-  } else if (isMobile.Windows()) {
-    uploadDevice = 'Windows Phone';
-  }
-
+  console.log(uploadDevice);
   // Load file contents into memory
   var fileData = fs.readFileSync(filePath);
 

@@ -5,7 +5,7 @@ block content
   #wrapper
     #scroller
       .container
-        form(role='form', method='post', action='/upload', enctype='multipart/form-data')
+        form#uploadForm(role='form', method='post', action='/upload', enctype='multipart/form-data')
           .form-group
             label.heavy(for='userFile') File
             input#userFile.form-control(type='file', name='userFile' style='display: none;')
@@ -13,11 +13,10 @@ block content
               input#uploadField.form-control(type='text', disabled='disabled')
               .input-group-btn
                 a#browse.btn.btn-primary Browse
-
-
           .form-group
             label.heavy(for='exampleInputEmail1') Tags
             input.form-control(name='tags', id='tags')
+            input#uploadDevice(type='text', style='display: none;')
 
           button.ladda-button(data-style='expand-right', data-color='mint', type='submit')
             span.ladda-label Upload
