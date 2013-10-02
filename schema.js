@@ -17,6 +17,7 @@ var File = new mongoose.Schema({
   path: String,
   ETag: String,
   tags: Array,
+  uploadDevice: String,
 
   // document
   keywords: Array,

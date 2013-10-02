@@ -402,6 +402,122 @@ app.post('/search', loginRequired, function(req, res) {
 
 });
 
+/**
+ * POST /search/category
+ */
+app.post('/search/category', loginRequired, function(req, res) {
+  var categoryType = req.body.categoryType;
+  var query;
+
+  if (categoryType === 'pictures') {
+    query = {
+      $or: [
+        { extension: 'jpg' },
+        { extension: 'jpeg' },
+        { extension: 'tif' },
+        { extension: 'tiff' },
+        { extension: 'gif' },
+        { extension: 'raw' },
+        { extension: 'bmp' },
+        { extension: 'png' },
+        { extension: 'fpx' },
+        { extension: 'pcd' },
+        { extension: 'psd' },
+        { extension: 'ai' },
+        { extension: 'eps' },
+        { extension: 'svg' },
+        { extension: 'ps' }
+      ]
+    }
+  } else if (categoryType === 'videos') {
+    query = {
+      $or: [
+        { extension: '3g2' },
+        { extension: '3gp' },
+        { extension: 'asf' },
+        { extension: 'asx' },
+        { extension: 'avi' },
+        { extension: 'flv' },
+        { extension: 'divx' },
+        { extension: 'mov' },
+        { extension: 'mp4' },
+        { extension: 'mpg' },
+        { extension: 'rm' },
+        { extension: 'swf' },
+        { extension: 'wmv' }
+      ]
+    }
+  } else if (categoryType === 'music') {
+    query = {
+      $or: [
+        { extension: 'mp3' },
+        { extension: 'm4a' },
+        { extension: 'wma' },
+        { extension: 'wav' },
+        { extension: 'ra' },
+        { extension: 'aif' },
+        { extension: 'ogg' },
+        { extension: 'aac' },
+        { extension: 'flac' }
+      ]
+    };
+  } else if (categoryType === 'code') {
+    query = {
+      $or: [
+        { extension: 'asp' },
+        { extension: 'aspx' },
+        { extension: 'html' },
+        { extension: 'css' },
+        { extension: 'js' },
+        { extension: 'jsp' },
+        { extension: 'php' },
+        { extension: 'c' },
+        { extension: 'cpp' },
+        { extension: 'java' },
+        { extension: 'py' },
+        { extension: 'clas' },
+        { extension: 'lua' },
+        { extension: 'm' },
+        { extension: 'h' },
+        { extension: 'sh' },
+        { extension: 'vcxproj' },
+        { extension: 'xcodeproj' },
+        { extension: 'rb' },
+        { extension: 'vb' }
+      ]
+    };
+  } else if (categoryType === 'pdf') {
+    query = { extension: 'pdf' };
+  } else if (categoryType === 'people') {
+    query = { recognizable: true };
+  } else if (categoryType === 'desktop') {
+
+  } else if (categoryType === 'android') {
+
+  } else if (categoryType === 'ios') {
+
+  } else {
+    return res.redirect('/');
+  }
+
+
+  File.find(query, function(err, files) {
+    if (err) {
+      console.error(err);
+      req.flash('info', 'Error searching files');
+      return res.redirect('/');
+    }
+
+    console.log(files);
+
+    res.render('index', {
+      user: req.user,
+      files: files
+    });
+  });
+
+
+});
 
 /**
  * GET /upload

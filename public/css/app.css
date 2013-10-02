@@ -11010,6 +11010,13 @@ a.button:hover {
 .selected .light {
   color: #fff !important;
 }
+.thumb {
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
 .table-hover > tbody > tr:active > td {
   background-color: #4285f4;
 }

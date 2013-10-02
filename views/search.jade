@@ -2,45 +2,32 @@ extends layout
 
 block content
   include _header
-  // TODO: search
-  //| Excel - search spreadsheets xls and xlsx
-  //| Word - search filter by docx and doc
-  //| Powerpoint - pptx and ppt files
-  //
-  //| Contacts Folder - search photos that have face in it
-
-  //| Coding App - any code: cpp, js, py, rb, etc.
-  //| File - any other file
-  //| Notepad alt - text files *.txt, markdown
-  //| Adobe - pdf files
-  //| Speccy - epub files
-
   #wrapper
     #scroller
       .container
         p.heavy By Type
         .row
           .col-xs-4
-            img.img-thumbnail(src='/img/search/Pictures.png')
+            img.thumb(data-type='pictures', src='/img/search/Pictures.png')
           .col-xs-4
-            img.img-thumbnail(src='/img/search/My Videos.png')
+            img.thumb(data-type='videos', src='/img/search/My Videos.png')
           .col-xs-4
-            img.img-thumbnail(src='/img/search/Music.png')
+            img.thumb(data-type='music', src='/img/search/Music.png')
         br
         p.heavy By Category
         .row
           .col-xs-4
-            img.img-thumbnail(src='/img/search/Coding App.png')
+            img.thumb(data-type='code', src='/img/search/Coding App.png')
           .col-xs-4
-            img.img-thumbnail(src='/img/search/Adobe Acrobat Reader.png')
+            img.thumb(data-type='pdf', src='/img/search/Adobe Acrobat Reader.png')
           .col-xs-4
-            img.img-thumbnail(src='/img/search/Contacts Folder.png')
+            img.thumb(data-type='people', src='/img/search/Contacts Folder.png')
         br
         p.heavy By Uploaded Device
         .row
           .col-xs-4
-            img.img-thumbnail(src='/img/search/Computer alt 2.png')
+            img.thumb(data-type='desktop', src='/img/search/Computer alt 2.png')
           .col-xs-4
-            img.img-thumbnail(src='/img/search/OS Android.png')
+            img.thumb(data-type='android', src='/img/search/OS Android.png')
           .col-xs-4
-            img.img-thumbnail(src='/img/search/OS Apple.png')
+            img.thumb(data-type='ios', src='/img/search/OS Apple.png')
