@@ -14,8 +14,8 @@ define(['jquery', 'vex', 'vexDialog', 'hammer', 'animateCSS'], function($, vex, 
     $(this).removeClass('selected');
   });
 
-//  hammertime.on('release', function(ev) {
-//    $(this).removeClass('selected');
-//    $(this).find('a')[0].click();
-//  });
+  hammertime.on('release', function(ev) {
+    $(this).removeClass('selected');
+    $(this).find('a')[0].click();
+  });
 });
