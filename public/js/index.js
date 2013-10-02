@@ -2,6 +2,7 @@ define(['jquery', 'vex', 'vexDialog', 'hammer', 'animateCSS'], function($, vex, 
   console.log('loading index.');
 
   $('.inner').click(function() {
+    $(this).find('.file-loader').show();
     $(this).removeClass('selected');
     $(this).find('a')[0].click();
   });

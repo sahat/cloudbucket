@@ -11,6 +11,7 @@ block content
           for file in files
             li(class='icontype-#{file.extension}', data-id='#{file.id}')
               .inner
+                i.file-loader.icon-spinner.icon-spin
                 .heavy
                   a.elipsis(href='/files/#{file.id}') #{file.name}
                 .light Size: #{file.friendlySize}
