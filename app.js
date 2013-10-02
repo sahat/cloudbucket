@@ -491,15 +491,14 @@ app.post('/search/category', loginRequired, function(req, res) {
   } else if (categoryType === 'people') {
     query = { recognizable: true };
   } else if (categoryType === 'desktop') {
-
+    query = { uploadDevice: 'PC' }
   } else if (categoryType === 'android') {
-
+    query = { uploadDevice: 'Android' }
   } else if (categoryType === 'ios') {
-
+    query = { uploadDevice: 'iOS' }
   } else {
     return res.redirect('/');
   }
-
 
   File.find(query, function(err, files) {
     if (err) {
