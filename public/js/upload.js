@@ -1,6 +1,21 @@
 define(['jquery', 'ladda', 'spin', 'humane', 'tagsinput'], function($, Ladda, humane) {
   console.log('Loading upload.');
 
+  $('#browse').click(function() {
+    console.log('click');
+    $('input[id=userFile]').click();
+  });
+
+  $('input[id=userFile]').change(function() {
+    var path = $(this).val();
+    var fileName = path.split('\\') || path.split('/');
+    if (fileName.length > 0) {
+      $('#uploadField').val(fileName.slice(-1)[0]);
+    } else {
+      $('#uploadField').val(path);
+    }
+  });
+
   var uploadDevice = 'PC';
 
   var isMobile = {

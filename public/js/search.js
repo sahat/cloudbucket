@@ -11,8 +11,4 @@ define(['search'], function() {
       searchResults.close();
     });
   });
-
-
-
-
 });
