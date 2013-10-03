@@ -555,7 +555,7 @@ app.post('/upload', loginRequired, function(req, res) {
   var user = req.user;
   var uploadDevice = req.body.uploadDevice;
 
-  console.log(uploadDevice);
+  
   // Load file contents into memory
   var fileData = fs.readFileSync(filePath);
 
@@ -788,6 +788,7 @@ app.post('/upload', loginRequired, function(req, res) {
           break;
 
         case 'docx':
+        case 'doc':
           console.info('Parsing:', fileExtension);
 
 
