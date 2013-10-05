@@ -5,7 +5,7 @@ block content
   #wrapper
     #scroller
       .container.fadeInLeft.animated
-        if file.contentType.match('text') || file.contentType.match('pdf') || file.contentType.match('wordprocessingml')
+        if file.contentType.match('text') || file.contentType.match('pdf') || file.contentType.match('wordprocessingml') || file.extension.match('doc')
           include detail-text
         else if file.extension.match('epub')
           include detail-book
