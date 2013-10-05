@@ -4,8 +4,7 @@ define(['jquery', 'iscroll', 'snap', 'fastclick'], function($, IScroll, Snap, Fa
   // Login page is not using IScroll #wrapper element
   try {
       var myScroll = new IScroll('#wrapper', {
-      mouseWheel: true,
-      click: true
+      mouseWheel: true
     });
   }
   catch(e) {
