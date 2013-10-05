@@ -788,6 +788,7 @@ app.post('/upload', loginRequired, function(req, res) {
           break;
 
         case 'docx':
+        case 'doc':
           console.info('Parsing:', fileExtension);
 
 
@@ -1133,13 +1134,18 @@ app.put('/files/:id', function(req, res) {
  * Deletes a file  for a given user
  */
 app.del('/files/:id', loginRequired, function(req, res) {
-  File.delete({ _id: req.params.id }, function(err, file) {
+  File.remove({ _id: req.params.id }, function(err, file) {
     if (err) {
       console.error(err);
       req.flash('info', 'Could not process delete request');
       return res.redirect('files/' + req.params.id);
     }
-    if (file) return res.send(404, 'File not found');
+    if (!file) {
+      res.send(404, 'File not found');
+    } else {
+      req.flash('info', 'File has been deleted');
+      res.redirect('/');
+    }
     s3.deleteObject({ Bucket: 'semanticweb', Key: file.path});
   });
 });
