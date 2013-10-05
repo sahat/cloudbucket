@@ -27,31 +27,26 @@ if file.entities.length > 0
   dl.file-card
     dt Entities
     dd
-      ul.list-unstyled.tags.green
-        for entity in file.entities
-          li.entity(data-toggle='tooltip', title='#{entity.type}') #{entity.text}
-            span
+      for entity in file.entities
+        span.entity.label.label-success #{entity.text}
+        |&nbsp;
 
 if file.concepts.length > 0
   dl.file-card
     dt Concepts
     dd
-      ul.list-unstyled.tags
-        for concept in file.concepts
-          li #{concept.text}
-            span
+      for concept in file.concepts
+        span.entity.label.label-warning #{concept.text}
+        |&nbsp;
 
 
 if file.keywords.length > 0
   dl.file-card
     dt Keywords
     dd
-      ul.list-unstyled.tags.blue
         for keyword in file.keywords
-          li #{keyword.text}
-            span
-
-
+          span.entity.label.label-primary #{keyword.text}
+          |&nbsp;
 p
   button#delete-file.button.is-danger(data-id='#{file.id}')
     i.icon-warning-sign
