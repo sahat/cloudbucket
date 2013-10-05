@@ -267,6 +267,7 @@ app.get('/', function(req, res) {
       }
       res.render('index', {
         user: req.user,
+        message: req.flash('info'),
         files: files
       });
     });
@@ -1134,18 +1135,16 @@ app.put('/files/:id', function(req, res) {
  * Deletes a file  for a given user
  */
 app.del('/files/:id', loginRequired, function(req, res) {
-  File.remove({ _id: req.params.id }, function(err, file) {
+  File.findById(req.params.id, function(err, file) {
     if (err) {
       console.error(err);
       req.flash('info', 'Could not process delete request');
       return res.redirect('files/' + req.params.id);
     }
-    if (!file) {
-      res.send(404, 'File not found');
-    } else {
+    file.remove(function(err) {
       req.flash('info', 'File has been deleted');
-      res.redirect('/');
-    }
+      res.send(200, 'OK');
+    });
     s3.deleteObject({ Bucket: 'semanticweb', Key: file.path});
   });
 });

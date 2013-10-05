@@ -1,5 +1,10 @@
-define(['jquery', 'vex', 'vexDialog', 'hammer', 'animateCSS'], function($, vex, vexDialog) {
+define(['jquery', 'vex', 'vexDialog', 'humane', 'hammer', 'animateCSS'], function($, vex, vexDialog, humane) {
   console.log('loading index.');
+
+  var $message = $('#message').data('message');
+  if ($message) {
+    humane.log($message);
+  }
 
   $('.inner').click(function() {
     $(this).find('.file-loader').show();
