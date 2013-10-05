@@ -789,9 +789,7 @@ app.post('/upload', loginRequired, function(req, res) {
           break;
 
         case 'docx':
-        case 'doc':
           console.info('Parsing:', fileExtension);
-
 
           // Use node.js child process to call a local python file
           // docx_extractor.py uses python-docx python library for parsing
