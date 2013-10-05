@@ -44,6 +44,16 @@ dl.file-card
     .pull-right #{file.friendlySize}
 
 dl.file-card
+  dt User Tags
+  dd
+    if file.tags.length > 0
+      for tag in file.tags
+        span.label.label-tag #{tag}
+        |&nbsp;
+    else
+      div No tags
+
+dl.file-card
   dt Lyrics
   if file.lyrics
     dd!= file.lyrics.replace(/\n/g, '<br />')
