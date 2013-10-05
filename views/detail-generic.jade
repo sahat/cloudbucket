@@ -1,0 +1,28 @@
+.text-center
+  .file-open
+    i.icon-file
+
+.text-center
+  a.button.is-primary.has-icon(href='#{downloadUrl}')
+    i.icon-location-arrow
+    span &nbsp; Open in Browser
+
+dl.file-card
+  dt= file.name
+  dd Size
+    .pull-right #{file.friendlySize}
+
+dl.file-card
+  dt User Tags
+  dd
+    if file.tags.length > 0
+      for tag in file.tags
+        span.label.label-tag #{tag}
+        | &nbsp;
+    else
+      div No tags
+
+p
+  button#delete-file.button.is-danger(data-id='#{file.id}')
+    i.icon-warning-sign
+    | Delete File
