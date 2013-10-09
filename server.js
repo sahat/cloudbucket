@@ -205,16 +205,25 @@ function loginRequired(req, res, next) {
  */
 app.get('/admin/users', loginRequired, function(req, res) {
   User.find(function(err, users) {
-    res.render('admin-users', { user: req.user, userList: users });
+    res.render('admin-users', {
+      user: req.user,
+      userList: users
+    });
   });
 });
 
 
+/**
+ * DEL /admin/users/:googleId
+ * @param googleId
+ * Deletes a user from the admin dashboard
+ */
 app.del('/admin/users/:googleId', function(req, res) {
   // Delete user
   User.findOne({ googleId: req.params.googleId }).remove();
   
-  // Delete files from MongoDB and S3 that belong to the deleted user
+  // Delete corresponding files from MongoDB and S3
+  // that belong to the deleted user
   File.find({ user: req.params.googleId }, function(err, files) {
     for (var i=0; i<files.length; i++) {
       files[i].remove();
@@ -227,8 +236,7 @@ app.del('/admin/users/:googleId', function(req, res) {
 /**
  * PUT /admin/users
  * Update user's disk quota
- * @param  {Number} newQuota
- * @return {String} Success message
+ * @param  googleId, newQuota
  */
 app.put('/admin/users/:googleId', loginRequired, function(req, res) {
   var newQuota = req.body.newQuota;
@@ -239,7 +247,6 @@ app.put('/admin/users/:googleId', loginRequired, function(req, res) {
       console.error(err);
       return res.send(500, 'Error finding the user');
     }
-    console.log(newQuota);
     user.diskQuota = newQuota;
 
     user.save(function(err) {
@@ -256,9 +263,11 @@ app.put('/admin/users/:googleId', loginRequired, function(req, res) {
 
 
 /**
- * @route GET /index
+ * GET /index
+ * The main interface that displays a list of files
  */
 app.get('/', function(req, res) {
+  // Display a list of files only if a user is logged in
   if (req.user) {
     File
     .find({ user: req.user.googleId })
@@ -276,40 +285,49 @@ app.get('/', function(req, res) {
       });
     });
   } else {
+    // Otherwise send a user to the login page
     res.redirect('/login');
   }
 });
 
 
 /**
- * @route GET /settings
+ * GET /settings
+ * Display user settings with an option to delete their account
  */
 app.get('/settings', loginRequired, function(req, res){
-  res.render('settings', { user: req.user, active: 'active' });
+  res.render('settings', {
+    user: req.user,
+    active: 'active'
+  });
 });
 
 
 /**
- * @route GET /login
+ * GET /login
  * The first page that user sees when visiting for the first time
  */
 app.get('/login', function(req, res) {
-  res.render('login', { user: req.user });
+  res.render('login', {
+    user: req.user
+  });
 });
 
 
 /**
- * @route GET /logout
+ * GET /logout
+ * Log user out from the application
  */
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/login');
 });
 
+
 /**
- * @route GET /auth/google
+ * GET /auth/google
  * Use passport.authenticate() as route middleware to authenticate the
- * request.  The first step in Google authentication will involve
+ * request. The first step in Google authentication will involve
  * redirecting the user to google.com.  After authorization, Google
  * will redirect the user back to this application at /auth/google/callback
  */
@@ -323,18 +341,19 @@ app.get('/auth/google', passport.authenticate('google', {
   // function will not be called.
 });
 
+
 /**
  * GET /auth/google/callback
  * Use passport.authenticate() as route middleware to authenticate the
- * request.  If authentication fails, the user will be redirected back to the
- * login page.  Otherwise, the primary route function function will be called,
+ * request. If authentication fails, the user will be redirected back to the
+ * login page. Otherwise, the primary route function function will be called,
  * which, in this example, will redirect the user to the home page.
  */
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login'}),
-  function (req, res) {
-    res.redirect('/');
-  });
+app.get('/auth/google/callback', passport.authenticate('google', {
+  failureRedirect: '/login'
+}), function (req, res) {
+  res.redirect('/');
+});
 
 
 /**
