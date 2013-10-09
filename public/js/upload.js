@@ -53,11 +53,6 @@ define(['jquery', 'ladda', 'spin', 'humane', 'tagsinput'], function($, Ladda, hu
     'width': '100%'
   });
 
-  var $message = $('#message').data('message');
-  if ($message) {
-    humane.log($message);
-  }
-
   Ladda.bind('button[type=submit]', {
     callback: function(instance) {
       var progress = 0;

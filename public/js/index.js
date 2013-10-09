@@ -2,7 +2,7 @@ define(['jquery', 'vex', 'vexDialog', 'humane', 'hammer', 'animateCSS'], functio
   console.log('loading index.');
 
   var $message = $('#message').data('message');
-  if ($message) {
+  if ($message && $message !== 'undefined') {
     humane.log($message);
   }
 
