@@ -567,6 +567,10 @@ app.post('/upload', loginRequired, function(req, res) {
   // Check if no file has been selected
   if (!req.files.userFile.name) {
     req.flash('info', 'No file selected');
+    // Delete garbage file that gets sent from the client
+    fs.unlink(req.files.userFile.path, function(err) {
+      if (err) console.error(err);
+    });
     return res.redirect('/upload');
   }
 
