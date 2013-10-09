@@ -1,11 +1,9 @@
 /**
  * @name CCNY Senior Project
  * @authors: Emily Bodden, Sahat Yalkabov
- * @contributors: Emilie Chen, Hannah PyCon
  * @date May 5, 2013
  */
 var async = require('async'),
-
     AWS = require('aws-sdk'),
     flash = require('connect-flash');
     crypto = require('crypto'),
@@ -32,9 +30,11 @@ var async = require('async'),
     util = require('util'),
     _ = require('underscore');
 
+
 // Augment underscore.string with underscore library
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
+
 
 // OpenShift required environment variables
 // Defaults to 127.0.0.1:8080 if running on localhost
@@ -43,21 +43,29 @@ var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP ||
 var PORT = process.env.OPENSHIFT_NODEJS_PORT ||
   process.env.OPENSHIFT_INTERNAL_PORT || 3000;
 
+
+// Import configuration data and database schema
+// The config object contains API_KEYS and API_SECRETS
 var config = require('./config.json'),
     User = require('./schema').User,
     FileSchema = require('./schema').File;
 
+
+// Custom utility helper for doing NLP on text
 var alchemyAPI = require('./alchemy');
 
+
+// Initialize the web application
 var app = express();
 
 
-
+// To display the total number of users in the system
 var userCount = 0;
 
+
 // Connect to MongoDB
-mongoose.connect(config.MONGOLAB, function(err) {
-//mongoose.connect('localhost', function(err) {
+//mongoose.connect(config.MONGOLAB, function(err) {
+mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -70,13 +78,9 @@ mongoose.connect(config.MONGOLAB, function(err) {
 });
 
 
-
+// Creates a MongoDB model from File schema
 var File = mongoose.model('File', FileSchema);
 
-FileSchema.pre('save', function (next) {
-  // TODO: Use for error-validation
-  next();
-});
 
 // Load Amazon AWS credentials
 AWS.config.update({
@@ -85,21 +89,20 @@ AWS.config.update({
   region: config.AWS.region
 });
 
-// Load an S3 bucket
+
+// Load an Amazon S3 bucket so we could upload files there
 var s3 = new AWS.S3({ params: { Bucket: config.AWS.bucket } });
 
 
-/**
- * In this example, only the Google ID is serialized to the session,
- * keeping the amount of data stored within the session small.
- * When subsequent requests are received, this ID is used to find the user,
- * which will be restored to req.user.
- */
+// In this example, only the Google ID is serialized to the session,
+// keeping the amount of data stored within the session small.
 passport.serializeUser(function(user, done) {
   done(null, user.googleId);
 });
 
 
+// When subsequent requests are received, this ID is used to find the user,
+// which will be restored to req.user.
 passport.deserializeUser(function(googleId, done) {
   User.findOne({ 'googleId': googleId }, function(err, user) {
     done(err, user);
@@ -107,12 +110,10 @@ passport.deserializeUser(function(googleId, done) {
 });
 
 
-/**
- * Use the GoogleStrategy within Passport.
- * Strategies in Passport require a `verification` function, which accept
- * credentials (in this case, an accessToken, refreshToken, and Google
- * profile), and invoke a callback 'done' with a user object.
- */
+// Use the GoogleStrategy within Passport.
+// Strategies in Passport require a `verification` function, which accept
+// credentials (in this case, an accessToken, refreshToken, and Google
+// profile), and invoke a callback 'done' with a user object.
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
@@ -139,7 +140,9 @@ passport.use(new GoogleStrategy({
             isAdmin: userCount < 1
           });
           user.save(function(err) {
-            if (err) throw err;
+            if (err) {
+              console.error(err);
+            }
             done(null, user);
           });
         }
@@ -162,20 +165,17 @@ app.use(express.bodyParser({
 }));
 app.use(express.cookieParser());
 app.use(express.session({
-  secret: 'topsecretz',
-  //store: new MongoStore({db:'localhost'})
-  store: new MongoStore({ url: config.MONGOLAB })
+  secret: 'mysecret',
+  store: new MongoStore({db:'localhost'})
+  //store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(flash());
- app.use(passport.initialize());
+app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(function(err, req, res, next) {
-//   console.error(err.stack);
-//   res.send(500, 'Something broke.');
-// });
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -183,17 +183,21 @@ if ('development' == app.get('env')) {
 }
 
 
-/**
- * Simple route middleware to ensure user is authenticated.
- * Use this route middleware on any resource that needs to be protected.  If
- * the request is authenticated (typically via a persistent login session),
- * the request will proceed.  Otherwise, the user will be redirected to the
- * login page.
- */
+// Simple route middleware to ensure user is authenticated.
+// Use this route middleware on any resource that needs to be protected.  If
+// the request is authenticated (typically via a persistent login session),
+// the request will proceed.  Otherwise, the user will be redirected to the
+// login page.
 function loginRequired(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
+  if (req.isAuthenticated()) {
+    return next();
+  }
   res.redirect('/login');
 }
+
+///////////////////////
+// ROUTES START HERE //
+///////////////////////
 
 /**
  * GET /admin/users
