@@ -356,9 +356,10 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 });
 
 
+
 /**
  * GET /search
- * Perform advanced search query and filtering
+ * Display a page for custom content-based filtering
  */
 app.get('/search', loginRequired, function(req, res) {
   res.render('search', { user: req.user });
@@ -367,6 +368,7 @@ app.get('/search', loginRequired, function(req, res) {
 
 /**
  * POST /search
+ * Basic search query from the page header
  */
 app.post('/search', loginRequired, function(req, res) {
   var searchQuery = req.body.q;
@@ -427,8 +429,11 @@ app.post('/search', loginRequired, function(req, res) {
 
 });
 
+
 /**
  * POST /search/category
+ * Part of the custom searching that finds files
+ * based on their generic filetype, e.g. image, video, music
  */
 app.post('/search/category', loginRequired, function(req, res) {
   var categoryType = req.body.categoryType;
@@ -532,8 +537,6 @@ app.post('/search/category', loginRequired, function(req, res) {
       return res.redirect('/');
     }
 
-    console.log(files);
-
     res.render('index', {
       user: req.user,
       files: files
@@ -543,9 +546,10 @@ app.post('/search/category', loginRequired, function(req, res) {
 
 });
 
+
 /**
  * GET /upload
- * Upload form
+ * Display an upload form
  */
 app.get('/upload', loginRequired, function(req, res) {
   res.render('upload', { 
@@ -560,8 +564,7 @@ app.get('/upload', loginRequired, function(req, res) {
  * Uploads a file for a given user
  */
 app.post('/upload', loginRequired, function(req, res) {
-
-  // VALIDATION: No file has been selected
+  // Check if no file has been selected
   if (!req.files.userFile.name) {
     req.flash('info', 'No file selected');
     return res.redirect('/upload');
@@ -570,6 +573,7 @@ app.post('/upload', loginRequired, function(req, res) {
   // Grab data from user-submitted file
   var filePath = req.files.userFile.path;
   var fileName = req.files.userFile.name;
+  // Different systems have different ways of accessing content-type
   var fileContentType = req.files.userFile.headers ?
     req.files.userFile.headers['content-type'] :
     req.files.userFile.type ;
@@ -579,28 +583,22 @@ app.post('/upload', loginRequired, function(req, res) {
   var user = req.user;
   var uploadDevice = req.body.uploadDevice;
 
-  
   // Load file contents into memory
   var fileData = fs.readFileSync(filePath);
-
 
   // Similar to above, except the data will be loaded in chunks 
   // from a readable stream when it is requested. Used by the 
   // music-metadata library.
   var fileDataStream = fs.createReadStream(filePath)
-    
 
   // Create a cryptographic hash of a filename
   var sha1 = crypto.createHash('sha1').update(fileData + user).digest('hex');
-  
 
   // Construct a unique filename for Amazon S3
   var fileNameS3 = sha1 + '.' + fileExtension;
 
-
   // Perform multiple tasks in series
   async.series({
-    
     checkDiskUsage: function(callback) {
       User.findOne({ 'googleId': req.user.googleId }, function(err, user) {
         user.diskUsage = user.diskUsage + fileSize;
@@ -659,7 +657,7 @@ app.post('/upload', loginRequired, function(req, res) {
       // Add custom tags to the above object
       _.each(fileTags, function(tag) {
         file.tags.push(tag);
-      })
+      });
 
       // Perform data extraction based on the filetype
       switch(fileExtension) {
@@ -708,16 +706,6 @@ app.post('/upload', loginRequired, function(req, res) {
         case 'mp4':
         case 'mov':
         case 'flv':
-//          var proc = new ffmpeg({ source: fileDataStream })
-//            .withSize('120x90')
-//            .takeScreenshots(5, './', function(err, filenames) {
-//              if(err){
-//                throw err;
-//              }
-//              console.log(filenames);
-//              console.log('screenshots were saved');
-//            });
-
           var metaObject = new Metalib(filePath, function(metadata, err) {
             console.log(metadata);
             //var meta = util.inspect(metadata, false, null);
@@ -775,7 +763,6 @@ app.post('/upload', loginRequired, function(req, res) {
         case 'pdf':
           console.info('Parsing:', fileExtension);
 
-
           // Use node.js child process to call a python library - pdfminer
           // pdf2txt.py is just a terminal command gets executed from node.js
           exec('python py/pdf2txt.py ' + filePath, function (err, stdout, stderr) {
@@ -785,10 +772,8 @@ app.post('/upload', loginRequired, function(req, res) {
               return res.redirect('/upload');
             }
 
-
             // Grab stdout text and convert it to a string
             var text = stdout.toString();
-
 
             // Perform NLP analysis on text
             alchemyAPI(text, function(results) {
@@ -796,7 +781,6 @@ app.post('/upload', loginRequired, function(req, res) {
               file.category = results.category;
               file.concepts = results.concepts;
               file.entities = results.entities;
-
 
               // Save to database
               file.save(function(err) {
@@ -823,18 +807,15 @@ app.post('/upload', loginRequired, function(req, res) {
               return res.redirect('/upload');
             }
 
-
             // Grab stdout text and convert it to a string
             var text = stdout.toString();
             
-
             // Perform NLP analysis on text
             alchemyAPI(text, function(results) {
               file.keywords = results.keywords;
               file.category = results.category;
               file.concepts = results.concepts;
               file.entities = results.entities;
-
 
               // Save to database
               file.save(function(err) {
@@ -991,7 +972,8 @@ app.post('/upload', loginRequired, function(req, res) {
               var lyrics = data.musixMatch;
 
               console.log(parsedAudio)
-              // Local extraction
+
+              // Local metadata extraction
               file.genre = parsedAudio.genre ? parsedAudio.genre : 'Unknown';
               file.title = parsedAudio.title;
               file.artist = parsedAudio.artist;
@@ -1000,7 +982,7 @@ app.post('/upload', loginRequired, function(req, res) {
               file.album = parsedAudio.album ? parsedAudio.album : 'Unknown';
               file.albumCover = parsedAudio.picture; // buffer
               
-              // Last.fm API
+              // Get metadata from Last.fm API
               file.albumCovers = trackInfo.albumCovers; // links
               file.trackDuration = trackInfo.trackDuration;
               file.lastFmTags = trackInfo.lastFmTags;
@@ -1088,7 +1070,7 @@ app.post('/upload', loginRequired, function(req, res) {
     },
 
     cleanup: function(callback) {
-      console.info('Unlinking file');
+      console.info('Deleting temporary saved file');
       fs.unlink(filePath, function(err) {
         if (err) {
           console.error(err);
@@ -1103,6 +1085,12 @@ app.post('/upload', loginRequired, function(req, res) {
 });
 
 
+/**
+ * GET /static/:album
+ * Locally extracted music files will have their album art
+ * stored in binary. This route will properly set binary
+ * data to image type and display it in the browser
+ */
 app.get('/static/:album', loginRequired, function(req, res) {
   var album = req.params.album;
   var pattern = new RegExp(album, 'i');
@@ -1124,7 +1112,10 @@ app.get('/static/:album', loginRequired, function(req, res) {
 });
 
 
-// Retrieve detailed info about a file
+/**
+ * GET /files/:id
+ * Detailed information about a file
+ */
 app.get('/files/:id', loginRequired, function(req, res) {
   File.findOne({ _id: req.params.id }, function(err, file) {
     if (err) {
@@ -1146,14 +1137,9 @@ app.get('/files/:id', loginRequired, function(req, res) {
 });
 
 
-// Update a given file for specified user
-app.put('/files/:id', function(req, res) {
-  var user = req.params.user;
-  var fileId = req.params.id;
-});
-
 /**
- * Deletes a file  for a given user
+ * DEL /files/:id
+ * Deletes a file for a given user from the detail page
  */
 app.del('/files/:id', loginRequired, function(req, res) {
   File.findById(req.params.id, function(err, file) {
@@ -1171,12 +1157,13 @@ app.del('/files/:id', loginRequired, function(req, res) {
 });
 
 
-
 // Starts the express application
 app.listen(PORT, IP_ADDRESS, function() {
   console.log('Express server started listening on %s:%d', IP_ADDRESS, PORT);
 });
 
+
+// Ignore unhandled errors
 process.on('uncaughtException', function(err) {
   console.error(err);
 });
