@@ -394,6 +394,7 @@ app.post('/search', loginRequired, function(req, res) {
   }
 
   var searchConditions = {
+    user: req.user.googleId,
     $or: 
       [
         { name: regularExpression },
@@ -542,19 +543,21 @@ app.post('/search/category', loginRequired, function(req, res) {
     return res.redirect('/');
   }
 
-  File.find(query, function(err, files) {
-    if (err) {
-      console.error(err);
-      req.flash('info', 'Error searching files');
-      return res.redirect('/');
-    }
+  File
+    .find(query)
+    .where('user').equals(req.user.googleId)
+    .exec(function(err, files) {
+      if (err) {
+        console.error(err);
+        req.flash('info', 'Error searching files');
+        return res.redirect('/');
+      }
 
-    res.render('index', {
-      user: req.user,
-      files: files
+      res.render('index', {
+        user: req.user,
+        files: files
+      });
     });
-  });
-
 
 });
 
