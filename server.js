@@ -64,8 +64,8 @@ var userCount = 0;
 
 
 // Connect to MongoDB
-//mongoose.connect(config.MONGOLAB, function(err) {
-mongoose.connect('localhost', function(err) {
+mongoose.connect(config.MONGOLAB, function(err) {
+//mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -166,8 +166,8 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'mysecret',
-  store: new MongoStore({db:'localhost'})
-  //store: new MongoStore({ url: config.MONGOLAB })
+  //store: new MongoStore({db:'localhost'})
+  store: new MongoStore({ url: config.MONGOLAB })
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -380,7 +380,19 @@ app.post('/search', loginRequired, function(req, res) {
 
   // Find results even if some parts of search query matches (case-insensitive)
   var regularExpression = new RegExp(searchQuery, 'i');
-  
+
+  var smiling;
+
+  if (searchQuery.toLowerCase() === 'smiling' ||
+    searchQuery.toLowerCase() === 'is smiling' ||
+    searchQuery.toLowerCase() === 'has smile') {
+    smiling = true;
+  } else if (searchQuery.toLowerCase() === 'not smiling' ||
+    searchQuery.toLowerCase() === 'is not smiling' ||
+    searchQuery.toLowerCase() === 'does not have smile') {
+    smiling = false;
+  }
+
   var searchConditions = {
     $or: 
       [
@@ -403,8 +415,8 @@ app.post('/search', loginRequired, function(req, res) {
         { bookAuthor: regularExpression },
         { bookPublishedDate: searchQuery },
         { bookCategory: regularExpression },
-        { gender: { $elemMatch: { value: searchQuery } } },
-        { smiling: {  } },
+        { 'gender.value': regularExpression },
+        { 'smiling.value': smiling },
         { videoCodec: searchQuery },
         { videoAudioCodec: searchQuery },
         { videoResolution: searchQuery }
