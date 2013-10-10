@@ -4,11 +4,6 @@ define(['search'], function() {
   $('.thumb').click(function() {
     $(this).addClass('tada animated');
     var categoryType = $(this).data('type');
-
-    $.post('/search/category', { categoryType: categoryType }, function(data) {
-      var searchResults = document.open('text/html', 'replace');
-      searchResults.write(data);
-      searchResults.close();
-    });
+    window.location = '/search/category/' + categoryType;
   });
 });

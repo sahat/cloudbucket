@@ -434,9 +434,9 @@ app.post('/search', loginRequired, function(req, res) {
     console.log(files);
 
     res.render('index', {
-        user: req.user,
-        files: files
-      });
+      user: req.user,
+      files: files
+    });
   });
 
 
@@ -448,8 +448,8 @@ app.post('/search', loginRequired, function(req, res) {
  * Part of the custom searching that finds files
  * based on their generic filetype, e.g. image, video, music
  */
-app.post('/search/category', loginRequired, function(req, res) {
-  var categoryType = req.body.categoryType;
+app.get('/search/category/:type', loginRequired, function(req, res) {
+  var categoryType = req.params.type;
   var query;
 
   if (categoryType === 'pictures') {
