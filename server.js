@@ -394,9 +394,9 @@ app.post('/search', loginRequired, function(req, res) {
   }
 
   var searchConditions = {
-    user: req.user.googleId,
-    $or: 
-      [
+    $and: [
+      { user: req.user.googleId },
+      { $or: [
         { name: regularExpression },
         { tags: { $in: [ regularExpression] } },
         { keywords: { $elemMatch: { text: searchQuery } } },
@@ -416,12 +416,12 @@ app.post('/search', loginRequired, function(req, res) {
         { bookAuthor: regularExpression },
         { bookPublishedDate: searchQuery },
         { bookCategory: regularExpression },
-        { 'gender.value': regularExpression },
-        { 'smiling.value': smiling },
+        { 'gender.value': searchQuery },
         { videoCodec: searchQuery },
         { videoAudioCodec: searchQuery },
         { videoResolution: searchQuery }
-      ]
+      ]}
+    ]
   };
 
   File.find(searchConditions, function(err, files) {
