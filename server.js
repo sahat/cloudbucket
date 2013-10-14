@@ -450,7 +450,7 @@ app.post('/search', loginRequired, function(req, res) {
  */
 app.get('/search/category/:type', loginRequired, function(req, res) {
   var categoryType = req.params.type;
-  var query;
+  var query = '';
 
   if (categoryType === 'pictures') {
     query = {
@@ -579,9 +579,11 @@ app.get('/upload', loginRequired, function(req, res) {
  * Uploads a file for a given user
  */
 app.post('/upload', loginRequired, function(req, res) {
+  
   // Check if no file has been selected
   if (!req.files.userFile.name) {
     req.flash('info', 'No file selected');
+    
     // Delete garbage file that gets sent from the client
     fs.unlink(req.files.userFile.path, function(err) {
       if (err) console.error(err);
@@ -989,8 +991,6 @@ app.post('/upload', loginRequired, function(req, res) {
               var artistInfo = data.artistInfo;
               var similarArtists = data.similarArtists;
               var lyrics = data.musixMatch;
-
-              console.log(parsedAudio)
 
               // Local metadata extraction
               file.genre = parsedAudio.genre ? parsedAudio.genre : 'Unknown';
