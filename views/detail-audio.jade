@@ -23,8 +23,11 @@
       a.button.is-tertiary.has-icon(href='#{downloadUrl}')
         i.icon-location-arrow
         | &nbsp; Open in Browser
-    p
-      audio(src='#{downloadUrl}', controls)
+
+dl.file-card
+  dt Audio Preview
+  dd
+    audio(src='#{downloadUrl}', controls)
 
 dl.file-card
   dt About Artist
