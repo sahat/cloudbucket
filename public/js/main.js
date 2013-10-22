@@ -26,7 +26,6 @@ requirejs.config({
     'hammer': ['jquery'],
     'magnific': ['jquery'],
     'raty': ['jquery'],
-
     'humane': {
       exports: 'humane'
     },

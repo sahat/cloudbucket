@@ -6,7 +6,10 @@
     i.icon-location-arrow
     span &nbsp; Open in Browser
 
-video(src='#{downloadUrl}', controls=controls, autobuffer=autobuffer)
+dl.file-card
+  dt Video Preview
+  dd
+    video(src='#{downloadUrl}', width='100%', controls, preload=auto)
 
 dl.file-card
   dt= file.name
