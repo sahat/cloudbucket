@@ -16,7 +16,8 @@ requirejs.config({
     vexDialog: 'lib/vex.dialog',
     iscroll: 'lib/iscroll',
     animateCSS: 'lib/animateCSS',
-    domReady: 'lib/ready'
+    domReady: 'lib/ready',
+    audiojs: 'lib/audiojs/audio.min'
   },
 
   shim: {
@@ -40,6 +41,9 @@ requirejs.config({
     },
     'iscroll': {
       exports: 'IScroll'
+    },
+    'audiojs': {
+      exports: 'audiojs'
     }
   },
   urlArgs: "bust=" +  (new Date()).getTime()
@@ -53,6 +57,7 @@ require([
   'upload',
   'admin',
   'detail',
+  'detail-audio',
   'detail-text',
   'detail-book',
   'login',
