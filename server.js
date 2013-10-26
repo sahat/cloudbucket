@@ -639,7 +639,7 @@ app.post('/upload', loginRequired, function(req, res) {
         });
       });
     },
-    
+
     uploadToS3: function(callback) {
       console.info('Uploading to Amazon S3');
 
@@ -869,16 +869,16 @@ app.post('/upload', loginRequired, function(req, res) {
             '&artist=' + artist +
             '&track=' + track + 
             '&format=json';
-            
-          var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&' +
-            'api_key=' + config.LASTFM.api_key +
-            '&artist=' + artist +
-            '&format=json';
-  
-          var artistInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&' +
-            'api_key=' + config.LASTFM.api_key +
-            '&artist=' + artist +
-            '&format=json';
+
+            var similarArtistsUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&' +
+              'api_key=' + config.LASTFM.api_key +
+              '&artist=' + artist +
+              '&format=json';
+
+            var artistInfoUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&' +
+              'api_key=' + config.LASTFM.api_key +
+              '&artist=' + artist +
+              '&format=json';
 
             // Get additional information from Last.fm and Musixmatch lyrics service
             async.parallel({
@@ -898,9 +898,11 @@ app.post('/upload', loginRequired, function(req, res) {
                       var json = JSON.parse(body);
                       console.log(artist);
                       console.log(track);
-
-                      var trackId = json.message.body.track_list[0].track.track_id;
-                      console.log('TrackID:', trackId);
+                      try {
+                        var trackId = json.message.body.track_list[0].track.track_id;
+                      } catch(e) {
+                        return innerCallback(e);
+                      }
                       innerCallback(null, trackId);
                     });
                   },
@@ -920,12 +922,20 @@ app.post('/upload', loginRequired, function(req, res) {
                       extCallback(null, lyrics);
                     });
                   }
-                ]);
+                ], function(err, result) {
+                  if (err) console.error('Halting musixmatch lyrics request', err);
+                  extCallback(null);
+                });
               },
               trackInfo: function(callback) {
                 request.get(trackInfoUrl, function(error, response, body) {
-                  var track = JSON.parse(body).track;
-                  var trackDuration = track.duration; // number in milliseconds
+                  try {
+                    var track = JSON.parse(body).track;
+                    var trackDuration = track.duration; // number in milliseconds
+                  } catch(e) {
+                    console.log('error in try catch');
+                    callback(e);
+                  }
                   var lastFmTags = [];
                   var albumCovers = [];
 
