@@ -381,48 +381,62 @@ app.post('/search', loginRequired, function(req, res) {
   // Find results even if some parts of search query matches (case-insensitive)
   var regularExpression = new RegExp(searchQuery, 'i');
 
-  var smiling;
+  var searchConditions;
 
-  if (searchQuery.toLowerCase() === 'smiling' ||
-    searchQuery.toLowerCase() === 'is smiling' ||
-    searchQuery.toLowerCase() === 'has smile') {
-    smiling = true;
-  } else if (searchQuery.toLowerCase() === 'not smiling' ||
-    searchQuery.toLowerCase() === 'is not smiling' ||
-    searchQuery.toLowerCase() === 'does not have smile') {
-    smiling = false;
+  if (searchQuery.match('smile') || searchQuery.match('smiling')) {
+
+    var smiling;
+
+    if (searchQuery.toLowerCase() === 'smiling' ||
+      searchQuery.toLowerCase() === 'is smiling' ||
+      searchQuery.toLowerCase() === 'has smile') {
+      smiling = 'true';
+    } else if (searchQuery.toLowerCase() === 'not smiling' ||
+      searchQuery.toLowerCase() === 'is not smiling' ||
+      searchQuery.toLowerCase() === 'does not have smile') {
+      smiling = 'false';
+    }
+
+    searchConditions = {
+      $and: [
+        { user: req.user.googleId },
+        { 'smiling.value': smiling }
+      ]
+    };
+
+  } else {
+    searchConditions = {
+      $and: [
+        { user: req.user.googleId },
+        { $or: [
+          { name: regularExpression },
+          { tags: { $in: [regularExpression] } },
+          { keywords: { $elemMatch: { text: searchQuery } } },
+          { concepts: { $elemMatch: { text: searchQuery } } },
+          { entities: { $elemMatch: { text: searchQuery } } },
+          { keywords: { $elemMatch: { text: searchQuery } } },
+          { extension: searchQuery },
+          { category: regularExpression },
+          { genre: regularExpression },
+          { title: regularExpression },
+          { artist: searchQuery },
+          { albumArtist: searchQuery },
+          { year: searchQuery },
+          { album: regularExpression },
+          { lastFmTags: regularExpression },
+          { bookTitle: regularExpression },
+          { bookAuthor: regularExpression },
+          { bookPublishedDate: searchQuery },
+          { bookCategory: regularExpression },
+          { 'gender.value': searchQuery },
+          { videoCodec: searchQuery },
+          { videoAudioCodec: searchQuery },
+          { videoResolution: searchQuery }
+        ]}
+      ]
+    };
   }
 
-  var searchConditions = {
-    $and: [
-      { user: req.user.googleId },
-      { $or: [
-        { name: regularExpression },
-        { tags: { $in: [ regularExpression] } },
-        { keywords: { $elemMatch: { text: searchQuery } } },
-        { concepts: { $elemMatch: { text: searchQuery } } },
-        { entities: { $elemMatch: { text: searchQuery } } },
-        { keywords: { $elemMatch: { text: searchQuery } } },
-        { extension: searchQuery },
-        { category: regularExpression },
-        { genre: regularExpression },
-        { title: regularExpression },
-        { artist: searchQuery },
-        { albumArtist: searchQuery },
-        { year: searchQuery },
-        { album: regularExpression },
-        { lastFmTags: regularExpression },
-        { bookTitle: regularExpression },
-        { bookAuthor: regularExpression },
-        { bookPublishedDate: searchQuery },
-        { bookCategory: regularExpression },
-        { 'gender.value': searchQuery },
-        { videoCodec: searchQuery },
-        { videoAudioCodec: searchQuery },
-        { videoResolution: searchQuery }
-      ]}
-    ]
-  };
 
   File.find(searchConditions, function(err, files) {
     if (err) {
