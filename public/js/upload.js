@@ -1,17 +1,12 @@
 define(['jquery', 'ladda', 'spin', 'humane', 'tagsinput', 'hammer'], function($, Ladda, humane) {
   console.log('Loading upload.');
 
-  $('#browse').click(function() {
-    console.log('clickidy click');
-    $('input[id=userFile]').click();
-  });
-
   var hammertime = $("#browse").hammer();
-
 
   hammertime.on('touch', function(ev) {
     console.log('tappidy tap');
-    $('input[id=userFile]').click();  });
+    $('input[id=userFile]').click();
+  });
 
   $('#browse').click(function() {
     console.log('click');
