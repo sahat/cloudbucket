@@ -1,26 +1,9 @@
 define(['jquery', 'ladda', 'spin', 'humane', 'tagsinput', 'hammer'], function($, Ladda, humane) {
-  console.log('Loading upload.');
 
   var hammertime = $("#browse").hammer();
 
   hammertime.on('touch', function(ev) {
-    console.log('tappidy tap');
     $('input[id=userFile]').click();
-  });
-
-  $('#browse').click(function() {
-    console.log('click');
-    $('input[id=userFile]').click();
-  });
-
-  $('input[id=userFile]').change(function() {
-    var path = $(this).val();
-    var fileName = path.split('\\') || path.split('/');
-    if (fileName.length > 0) {
-      $('#uploadField').val(fileName.slice(-1)[0]);
-    } else {
-      $('#uploadField').val(path);
-    }
   });
 
   var uploadDevice = 'PC';
