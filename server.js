@@ -64,9 +64,7 @@ var userCount = 0;
 
 
 // Connect to MongoDB
-var options = {};
-options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
-mongoose.connect(config.MONGOLAB, options, function(err) {
+mongoose.connect(config.MONGOLAB, function(err) {
 //mongoose.connect('localhost', function(err) {
   if (err) {
     console.error(err);
