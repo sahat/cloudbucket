@@ -6,11 +6,11 @@ define(['jquery', 'vex', 'vexDialog', 'humane', 'hammer', 'animateCSS'], functio
     humane.log($message);
   }
 
-  $('.inner').click(function() {
-    $(this).find('.file-loader').show();
-    $(this).removeClass('selected');
-    $(this).find('a')[0].click();
-  });
+//  $('.inner').click(function() {
+//    $(this).find('.file-loader').show();
+//    $(this).removeClass('selected');
+//    $(this).find('a')[0].click();
+//  });
 
   var hammertime = $(".inner").hammer();
 
