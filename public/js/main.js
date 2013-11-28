@@ -52,6 +52,7 @@ requirejs.config({
 // Main libraries
 require([
   'header',
+  'footer',
   'layout',
   'index',
   'upload',
