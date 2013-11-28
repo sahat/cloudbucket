@@ -11,7 +11,7 @@ define(['jquery'], function($) {
       $('#upload').addClass('active');
       break;
     case '/search':
-      $('#search').addClass('active');
+      $('#search-footer').addClass('active');
       break;
     case '/settings':
       $('#settings').addClass('active');
