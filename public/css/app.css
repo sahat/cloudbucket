@@ -10931,6 +10931,7 @@ a.button:hover {
   justify-content: center;
 }
 #footer a {
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
   color: #fff;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -10946,14 +10947,16 @@ a.button:hover {
   text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-weight: 400;
-  font-size: 14px;
-  font-family: "Helvetica Neue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  opacity: 0.7;
+}
+#footer a.active {
+  opacity: 1;
 }
 #footer .fa {
   display: block;
-  margin: 0 auto;
-  font-size: 32px;
+  font-size: 28px;
+  line-height: 45px;
 }
 #header .title {
   -webkit-animation-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1);
