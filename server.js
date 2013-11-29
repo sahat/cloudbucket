@@ -117,10 +117,7 @@ passport.deserializeUser(function(googleId, done) {
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    // TODO: change to relative path
-    callbackURL: "http://localhost:3000/auth/google/callback"
-    //callbackURL: "http://cloudbucket-sahat.rhcloud.com/auth/google/callback"
-    //callbackURL: "http://cloudbucket.sahat.c9.io/auth/google/callback"
+    callbackURL: '/auth/google/callback'
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {

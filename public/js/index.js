@@ -8,6 +8,7 @@ define(['jquery', 'vex', 'vexDialog', 'humane', 'hammer', 'animateCSS'], functio
 
   var hammertime = $(".inner").hammer();
 
+
   hammertime.on('release', function(ev) {
     console.log('touch released');
     $(this).find('.file-loader').show();
