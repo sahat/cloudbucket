@@ -634,7 +634,7 @@ app.post('/upload', ensureAuthenticated, function(req, res) {
   var sha512 = crypto.createHash('sha512').update(fileData + user).digest('hex');
 
   // Construct a unique filename for Amazon S3
-  var fileNameS3 = sha1 + '.' + fileExtension;
+  var fileNameS3 = sha512 + '.' + fileExtension;
 
   // Perform multiple tasks in series
   async.series({

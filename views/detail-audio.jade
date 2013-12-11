@@ -21,13 +21,8 @@
         |&nbsp;
     p
       a.button.is-tertiary.has-icon(href='#{downloadUrl}')
-        i.icon-location-arrow
+        i.fa.fa-location-arrow
         | &nbsp; Open in Browser
-
-dl.file-card
-  dt Audio Preview
-  dd
-    audio(src='#{downloadUrl}', preload='auto')
 
 dl.file-card
   dt About Artist
@@ -68,9 +63,8 @@ dl.file-card
   for sa in file.similarArtists
     dd.clearfix.similar-artist
       img.shift-right(src="#{sa.image[2]['#text']}")
-      span= sa.name
-
+      a(href='http://#{sa.url}')= sa.name
 p
   button#delete-file.button.is-danger(data-id='#{file.id}')
-    i.icon-warning-sign
+    i.fa.fa-trash-o
     |  Delete File
