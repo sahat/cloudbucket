@@ -10671,8 +10671,7 @@ body {
   vertical-align: inherit;
 }
 .artist-image {
-  max-height: 126px;
-  max-width: 126px;
+  height: 126px;
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
   -webkit-border-radius: 2px;
 }
@@ -11108,7 +11107,7 @@ button {
   overflow: hidden;
 }
 #scroller {
-  padding-top: 45px;
+  padding-top: 40px;
   padding-bottom: 0;
   position: absolute;
   z-index: -1;

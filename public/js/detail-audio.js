@@ -1,7 +1,4 @@
-define(['audiojs'], function(audiojs) {
+define(['domReady', 'iscroll'], function(domReady, myScroll) {
   console.log('Loading detail audio.');
 
-  audiojs.events.ready(function() {
-    var as = audiojs.createAll();
-  });
 });

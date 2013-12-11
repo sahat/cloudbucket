@@ -1,15 +1,18 @@
-define(['jquery', 'iscroll', 'snap', 'fastclick'], function($, IScroll, Snap, FastClick) {
+define(['jquery', 'iscroll', 'snap', 'fastclick', 'domReady'], function($, IScroll, Snap, FastClick, domReady) {
   console.log('Loading layout.');
 
   // Login page is not using IScroll #wrapper element
   try {
-      var myScroll = new IScroll('#wrapper', {
+      window.myScroll = new IScroll('#wrapper', {
       mouseWheel: true
     });
+  } catch(e) {
+    console.log('Error instantiating IScroll');
   }
-  catch(e) {
-    // Do nothing
-  }
+
+  $('img').load(function() {
+    myScroll.refresh();
+  });
 
   document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
