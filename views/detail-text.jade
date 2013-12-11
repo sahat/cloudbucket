@@ -1,10 +1,7 @@
-.text-center
-  .file-open
-    i.icon-file-text
-.text-center
-  a.button.is-primary.has-icon(href='#{downloadUrl}')
-    i.icon-location-arrow
-    span &nbsp; Open in Browser
+p
+  a(href='#{downloadUrl}')
+    i.fa.fa-download
+    span &nbsp; Download
 
 dl.file-card
   dt= file.name
@@ -49,5 +46,5 @@ if file.keywords.length > 0
           |&nbsp;
 p
   button#delete-file.button.is-danger(data-id='#{file.id}')
-    i.icon-warning-sign
+    i.fa.fa-trash-o
     |  Delete File
