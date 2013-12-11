@@ -356,6 +356,7 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 /**
  * GET /search
  * Display a page for custom content-based filtering
+ * Another Navbar search is located in _header.jade
  */
 app.get('/search', ensureAuthenticated, function(req, res) {
   res.render('search', { user: req.user });
@@ -370,12 +371,13 @@ app.post('/search', ensureAuthenticated, function(req, res) {
   var searchQuery = req.body.q;
 
   // Prevent empty search queries
+  // TODO: flash message
   if (!searchQuery) {
     return res.send({ 'Error': 'Search query must not be empty'});
   }
 
   // Find results even if some parts of search query matches (case-insensitive)
-  var regularExpression = new RegExp(searchQuery, 'i');
+  var regex = new RegExp(searchQuery, 'i');
 
   var searchConditions;
 
@@ -401,32 +403,37 @@ app.post('/search', ensureAuthenticated, function(req, res) {
     };
 
   } else {
+
+    // TODO: x.match(/example/i)
+             //["Example"]
+
+    // TODO: ensure ^^ on tags:
     searchConditions = {
       $and: [
         { user: req.user.googleId },
         { $or: [
-          { name: regularExpression },
-          { tags: { $in: [regularExpression] } },
-          { keywords: { $elemMatch: { text: searchQuery } } },
-          { concepts: { $elemMatch: { text: searchQuery } } },
-          { entities: { $elemMatch: { text: searchQuery } } },
-          { keywords: { $elemMatch: { text: searchQuery } } },
-          { extension: searchQuery },
-          { category: regularExpression },
-          { genre: regularExpression },
-          { title: regularExpression },
-          { artist: searchQuery },
-          { albumArtist: searchQuery },
+          { name: regex },
+          { tags: { $in: [regex] } },
+          { keywords: { $elemMatch: { text: regex } } },
+          { concepts: { $elemMatch: { text: regex } } },
+          { entities: { $elemMatch: { text: regex } } },
+          { keywords: { $elemMatch: { text: regex } } },
+          { extension: regex },
+          { category: regex },
+          { genre: regex },
+          { title: regex },
+          { artist: regex },
+          { albumArtist: regex },
           { year: searchQuery },
-          { album: regularExpression },
-          { lastFmTags: regularExpression },
-          { bookTitle: regularExpression },
-          { bookAuthor: regularExpression },
+          { album: regex },
+          { lastFmTags: regex },
+          { bookTitle: regex },
+          { bookAuthor: regex },
           { bookPublishedDate: searchQuery },
-          { bookCategory: regularExpression },
-          { 'gender.value': searchQuery },
-          { videoCodec: searchQuery },
-          { videoAudioCodec: searchQuery },
+          { bookCategory: regex },
+          { 'gender.value': regex },
+          { videoCodec: regex },
+          { videoAudioCodec: regex },
           { videoResolution: searchQuery }
         ]}
       ]
