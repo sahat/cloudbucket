@@ -631,7 +631,7 @@ app.post('/upload', ensureAuthenticated, function(req, res) {
   var fileDataStream = fs.createReadStream(filePath)
 
   // Create a cryptographic hash of a filename
-  var sha1 = crypto.createHash('sha1').update(fileData + user).digest('hex');
+  var sha512 = crypto.createHash('sha512').update(fileData + user).digest('hex');
 
   // Construct a unique filename for Amazon S3
   var fileNameS3 = sha1 + '.' + fileExtension;
