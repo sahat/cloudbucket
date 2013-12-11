@@ -1,9 +1,8 @@
 img.image-detail(src='#{downloadUrl}')
-
 p
  a.has-icon(href='#{downloadUrl}')
-  i.icon-location-arrow
-  span Download
+  i.fa.fa-download
+  | Download
 
 dl.file-card
   dt= file.name
@@ -60,5 +59,5 @@ if file.keywords.length > 0
 
 p
   button#delete-file.button.is-danger(data-id='#{file.id}')
-    i.icon-warning-sign
+    i.fa.fa-warning
     |  Delete File
