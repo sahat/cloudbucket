@@ -1,8 +1,9 @@
-.clearfix
-  img.pull-left.image-detail(src='#{downloadUrl}')
-  a.button.is-primary.has-icon(href='#{downloadUrl}')
-    i.icon-location-arrow
-    span &nbsp; Open in Browser
+img.image-detail(src='#{downloadUrl}')
+
+p
+ a.has-icon(href='#{downloadUrl}')
+  i.icon-location-arrow
+  span Download
 
 dl.file-card
   dt= file.name
