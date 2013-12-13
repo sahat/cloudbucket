@@ -35,6 +35,13 @@ module.exports = function(grunt) {
         options: {
           spawn: false
         }
+      },
+      scripts: {
+        files: ['public/js/*.js'],
+        tasks: ['requirejs'],
+        options: {
+          spawn: false
+        }
       }
     }
   });
