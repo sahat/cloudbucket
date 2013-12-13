@@ -17,7 +17,7 @@
     "emailjs": "*",
     "dropbox": "*",
     "passport": "*",
-    "passport-local"
+    "passport-local": "*",
     "passport-google-oauth": "*",
     "underscore": "*",
     "underscore.string": "*",

@@ -1,7 +1,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
+var User = require('./schema').User;
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -27,30 +27,18 @@ passport.use(new LocalStrategy(function(username, password, done) {
   });
 }));
 
-
 passport.use(new GoogleStrategy(config.google, function(req, accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      User.findOne({ 'googleId': profile.id }, function(err, existingUser) {
-        if (existingUser) return done(null, existingUser);
-        var user = new User({
-          googleId: profile.id,
-          accessToken: accessToken,
-          displayName: profile.displayName,
-          link: profile._json.link,
-          picture: profile._json.picture,
-          gender: profile._json.gender,
-          email: profile._json.email,
-          locale: profile._json.locale,
-          verified: profile._json.verified_email,
-          isAdmin: userCount < 1
-        });
-        user.save(function(err) {
-          if (err) {
-            console.error(err);
-          }
-          done(null, user);
-        });
-      });
+  User.findOne({ 'googleId': profile.id }, function(err, existingUser) {
+    if (existingUser) return done(null, existingUser);
+    var user = new User();
+    user.googleId = profile.id;
+    user.accessToken = accessToken;
+    user.displayName = profile.displayName;
+    user.link = profile._json.link;
+    user.picture = profile._json.picture;
+    user.email = profile._json.email;
+    user.save(function(err) {
+      done(err, user);
     });
-  }
-));
+  });
+}));

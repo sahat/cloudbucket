@@ -56,10 +56,6 @@ var alchemyAPI = require('./alchemy');
 var app = express();
 
 
-// To display the total number of users in the system
-var userCount = 0;
-
-
 // Connect to MongoDB
 //mongoose.connect(config.MONGOLAB, function(err) {
 mongoose.connect('localhost', function(err) {
@@ -67,11 +63,6 @@ mongoose.connect('localhost', function(err) {
     console.error(err);
     process.exit(1);
   }
-  console.info('Database connection established...OK');
-  User.count({}, function(err, count) {
-    userCount = count;
-    console.log("Number of users:", count);
-  });
 });
 
 
