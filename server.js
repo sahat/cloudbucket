@@ -22,8 +22,6 @@ var async = require('async'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
     path = require('path'),
-    passport = require('passport'),
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
     restler = require('restler'),
     util = require('util'),
@@ -93,60 +91,6 @@ AWS.config.update({
 var s3 = new AWS.S3({ params: { Bucket: config.AWS.bucket } });
 
 
-// In this example, only the Google ID is serialized to the session,
-// keeping the amount of data stored within the session small.
-passport.serializeUser(function(user, done) {
-  done(null, user.googleId);
-});
-
-
-// When subsequent requests are received, this ID is used to find the user,
-// which will be restored to req.user.
-passport.deserializeUser(function(googleId, done) {
-  User.findOne({ 'googleId': googleId }, function(err, user) {
-    done(err, user);
-  });
-});
-
-
-// Use the GoogleStrategy within Passport.
-// Strategies in Passport require a `verification` function, which accept
-// credentials (in this case, an accessToken, refreshToken, and Google
-// profile), and invoke a callback 'done' with a user object.
-passport.use(new GoogleStrategy({
-    clientID: config.GOOGLE_CLIENT_ID,
-    clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback'
-  },
-  function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      User.findOne({ 'googleId': profile.id }, function(err, existingUser) {
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          var user = new User({
-            googleId: profile.id,
-            accessToken: accessToken,
-            displayName: profile.displayName,
-            link: profile._json.link,
-            picture: profile._json.picture,
-            gender: profile._json.gender,
-            email: profile._json.email,
-            locale: profile._json.locale,
-            verified: profile._json.verified_email,
-            isAdmin: userCount < 1
-          });
-          user.save(function(err) {
-            if (err) {
-              console.error(err);
-            }
-            done(null, user);
-          });
-        }
-      });
-    });
-  }
-));
 
 
 // Express Configuration
