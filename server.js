@@ -1,31 +1,31 @@
 /**
- * @name CCNY Senior Project
+ * @name CCNY Senior Project (Capstone II)
  * @authors: Emily Bodden, Sahat Yalkabov
- * @date May 5, 2013
+ * @date December 12, 2013
  */
-var async = require('async'),
-    AWS = require('aws-sdk'),
-    flash = require('connect-flash');
-    crypto = require('crypto'),
-    Case = require('case'),
-    exec = require('child_process').exec,
-    email = require('emailjs'),
-    epubParser = require('epub-parser'),
-    express = require('express'),
-    filesize = require('filesize'),
-    ffmpeg = require('fluent-ffmpeg'),
-    Metalib = require('fluent-ffmpeg').Metadata,
-    http = require('http'),
-    fs = require('fs'),
-    mm = require('musicmetadata'),
-    moment = require('moment'),
-    mongoose = require('mongoose'),
-    MongoStore = require('connect-mongo')(express),
-    path = require('path'),
-    request = require('request'),
-    restler = require('restler'),
-    util = require('util'),
-    _ = require('underscore');
+var async = require('async');
+var AWS = require('aws-sdk');
+var flash = require('connect-flash');
+var crypto = require('crypto');
+var Case = require('case');
+var exec = require('child_process').exec;
+var email = require('emailjs');
+var epubParser = require('epub-parser');
+var express = require('express');
+var filesize = require('filesize');
+var ffmpeg = require('fluent-ffmpeg');
+var Metalib = require('fluent-ffmpeg').Metadata;
+var http = require('http');
+var fs = require('fs');
+var mm = require('musicmetadata');
+var moment = require('moment');
+var mongoose = require('mongoose');
+var MongoStore = require('connect-mongo')(express);
+var path = require('path');
+var request = require('request');
+var restler = require('restler');
+var util = require('util');
+var _ = require('underscore');
 
 
 // Augment underscore.string with underscore library
@@ -35,10 +35,8 @@ _.mixin(_.str.exports());
 
 // OpenShift required environment variables
 // Defaults to 127.0.0.1:8080 if running on localhost
-var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP ||
-  process.env.OPENSHIFT_INTERNAL_IP || '127.0.0.1';
-var PORT = process.env.OPENSHIFT_NODEJS_PORT ||
-  process.env.OPENSHIFT_INTERNAL_PORT || 3000;
+var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP ||  '127.0.0.1';
+var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 
 // Import configuration data and database schema

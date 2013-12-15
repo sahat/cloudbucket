@@ -1,13 +1,12 @@
 /**
  * Mongoose Schema for MongoDB
  */
-var mongoosastic = require('mongoosastic'),
-    mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 // File schema
 // 
 // 1-to-1 onto function between user and files
-var File = new mongoose.Schema({
+exports.File = new mongoose.Schema({
   // general
   name: String,
   extension: String,
@@ -97,10 +96,6 @@ var File = new mongoose.Schema({
   videoAudioSampleRate: Number
 });
 
-File.plugin(mongoosastic);
-
-exports.File = File;
-
 // User schema
 exports.User = mongoose.model('User', new mongoose.Schema({
   googleId: { type: String, index: { unique: true } },
@@ -114,7 +109,6 @@ exports.User = mongoose.model('User', new mongoose.Schema({
   verified: Boolean,
   isAdmin: Boolean,
 
-
-  diskUsage: { type: Number, default: 0 }, // 0 bytes
-  diskQuota: { type: Number, default: 1073741824 } // 1GB in bytes
+  diskUsage: { type: Number, default: 0 },
+  diskQuota: { type: Number, default: 2147483648 }
 }));
