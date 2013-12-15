@@ -110,18 +110,6 @@ if ('development' == app.get('env')) {
 }
 
 
-// Simple route middleware to ensure user is authenticated.
-// Use this route middleware on any resource that needs to be protected.  If
-// the request is authenticated (typically via a persistent login session),
-// the request will proceed.  Otherwise, the user will be redirected to the
-// login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-}
-
 ///////////////////////
 // ROUTES START HERE //
 ///////////////////////
@@ -165,7 +153,7 @@ app.del('/admin/users/:googleId', function(req, res) {
  * Update user's disk quota
  * @param  googleId, newQuota
  */
-app.put('/admin/users/:googleId', ensureAuthenticated, function(req, res) {
+app.put('/admin/users/:googleId', auth.isAuthenticated, function(req, res) {
   var newQuota = req.body.newQuota;
 
   // Update user's quota
@@ -222,7 +210,7 @@ app.get('/', function(req, res) {
  * GET /settings
  * Display user settings with an option to delete their account
  */
-app.get('/settings', ensureAuthenticated, function(req, res){
+app.get('/settings', auth.isAuthenticated, function(req, res){
   res.render('settings', {
     user: req.user,
     active: 'active'
@@ -289,7 +277,7 @@ app.get('/auth/google/callback', passport.authenticate('google', {
  * Display a page for custom content-based filtering
  * Another Navbar search is located in _header.jade
  */
-app.get('/search', ensureAuthenticated, function(req, res) {
+app.get('/search', auth.isAuthenticated, function(req, res) {
   res.render('search', { user: req.user });
 });
 
@@ -298,7 +286,7 @@ app.get('/search', ensureAuthenticated, function(req, res) {
  * POST /search
  * Basic search query from the page header
  */
-app.post('/search', ensureAuthenticated, function(req, res) {
+app.post('/search', auth.isAuthenticated, function(req, res) {
   var searchQuery = req.body.q;
 
   // Prevent empty search queries
@@ -396,7 +384,7 @@ app.post('/search', ensureAuthenticated, function(req, res) {
  * Part of the custom searching that finds files
  * based on their generic filetype, e.g. image, video, music
  */
-app.get('/search/category/:type', ensureAuthenticated, function(req, res) {
+app.get('/search/category/:type', auth.isAuthenticated, function(req, res) {
   var categoryType = req.params.type;
   var query = '';
 
@@ -514,7 +502,7 @@ app.get('/search/category/:type', ensureAuthenticated, function(req, res) {
  * GET /upload
  * Display an upload form
  */
-app.get('/upload', ensureAuthenticated, function(req, res) {
+app.get('/upload', auth.isAuthenticated, function(req, res) {
   res.render('upload', { 
     user: req.user,
     message: req.flash('info')
@@ -526,7 +514,7 @@ app.get('/upload', ensureAuthenticated, function(req, res) {
  * POST /upload
  * Uploads a file for a given user
  */
-app.post('/upload', ensureAuthenticated, function(req, res) {
+app.post('/upload', auth.isAuthenticated, function(req, res) {
   
   // Check if no file has been selected
   if (!req.files.userFile.name) {
@@ -1068,7 +1056,7 @@ app.post('/upload', ensureAuthenticated, function(req, res) {
  * stored in binary. This route will properly set binary
  * data to image type and display it in the browser
  */
-app.get('/static/:album', ensureAuthenticated, function(req, res) {
+app.get('/static/:album', auth.isAuthenticated, function(req, res) {
   var album = req.params.album;
   var pattern = new RegExp(album, 'i');
 
@@ -1093,7 +1081,7 @@ app.get('/static/:album', ensureAuthenticated, function(req, res) {
  * GET /files/:id
  * Detailed information about a file
  */
-app.get('/files/:id', ensureAuthenticated, function(req, res) {
+app.get('/files/:id', auth.isAuthenticated, function(req, res) {
   File.findOne({ _id: req.params.id }, function(err, file) {
     if (err) {
       console.error(err);
@@ -1118,7 +1106,7 @@ app.get('/files/:id', ensureAuthenticated, function(req, res) {
  * DEL /files/:id
  * Deletes a file for a given user from the detail page
  */
-app.del('/files/:id', ensureAuthenticated, function(req, res) {
+app.del('/files/:id', auth.isAuthenticated, function(req, res) {
   File.findById(req.params.id, function(err, file) {
     if (err) {
       console.error(err);
