@@ -1,15 +1,6 @@
-/**
- * Mongoose Schema for MongoDB
- */
 var mongoose = require('mongoose');
 
-// File schema
-// 
-// 1-to-1 onto function between user and files
-
-
-// User schema
-exports.User = mongoose.model('User', new mongoose.Schema({
+var userSchema = new mongoose.Schema({
   googleId: { type: String, index: { unique: true } },
   accessToken: String,
   displayName: String,
@@ -23,4 +14,6 @@ exports.User = mongoose.model('User', new mongoose.Schema({
 
   diskUsage: { type: Number, default: 0 },
   diskQuota: { type: Number, default: 2147483648 }
-}));
+});
+
+module.exports = mongoose.model('User', userSchema);
