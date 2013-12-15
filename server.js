@@ -42,7 +42,7 @@ var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 // Import configuration data and database schema
 // The config object contains API_KEYS and API_SECRETS
-var config = require('./config.json');
+var config = require('./config');
 var auth = require('./auth');
 var User = require('./models/User');
 var File = require('./models/File');
