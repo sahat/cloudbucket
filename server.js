@@ -22,6 +22,7 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(express);
 var path = require('path');
+var passport = require('passport');
 var request = require('request');
 var restler = require('restler');
 var util = require('util');
@@ -41,9 +42,10 @@ var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 // Import configuration data and database schema
 // The config object contains API_KEYS and API_SECRETS
-var config = require('./config.json'),
-    User = require('./schema').User,
-    FileSchema = require('./schema').File;
+var config = require('./config.json');
+var auth = require('./auth');
+var User = require('./schema').User;
+var FileSchema = require('./schema').File;
 
 
 // Custom utility helper for doing NLP on text
@@ -55,8 +57,7 @@ var app = express();
 
 
 // Connect to MongoDB
-//mongoose.connect(config.MONGOLAB, function(err) {
-mongoose.connect('localhost', function(err) {
+mongoose.connect(config.db, function(err) {
   if (err) {
     console.error(err);
     process.exit(1);
