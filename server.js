@@ -66,15 +66,11 @@ mongoose.connect(config.db, function(err) {
 
 
 // Load Amazon AWS credentials
-AWS.config.update({
-  accessKeyId: config.AWS.accessKeyId,
-  secretAccessKey: config.AWS.secretAccessKey,
-  region: config.AWS.region
-});
+AWS.config.update(config.aws);
 
 
 // Load an Amazon S3 bucket so we could upload files there
-var s3 = new AWS.S3({ params: { Bucket: config.AWS.bucket } });
+var s3 = new AWS.S3({ params: { Bucket: config.aws.bucket } });
 
 
 
@@ -118,7 +114,7 @@ if ('development' == app.get('env')) {
  * GET /admin/users
  * Display a list of users and their disk usage
  */
-app.get('/admin/users', ensureAuthenticated, function(req, res) {
+app.get('/admin/users', auth.isAuthenticated, function(req, res) {
   User.find(function(err, users) {
     res.render('admin-users', {
       user: req.user,
@@ -976,7 +972,7 @@ app.post('/upload', auth.isAuthenticated, function(req, res) {
 
           // Get image file that has been uploaded to Amazon S3
           var imageUrl = 'https://s3.amazonaws.com/' +
-                          config.AWS.bucket + '/' + fileNameS3;
+                          config.aws.bucket + '/' + fileNameS3;
 
           // This URL will simply return a JSON response that we are going to parse
           var skyBiometry = 'http://api.skybiometry.com/fc/faces/detect' +
@@ -1088,7 +1084,7 @@ app.get('/files/:id', auth.isAuthenticated, function(req, res) {
       return res.send(500, 'Error retrieving a file');
     }
     if (file) {
-      var downloadUrl = 'https://s3.amazonaws.com/' + config.AWS.bucket +
+      var downloadUrl = 'https://s3.amazonaws.com/' + config.aws.bucket +
         '/' + file.path;
       res.render('detail', {
         user: req.user,
