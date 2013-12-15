@@ -44,8 +44,8 @@ var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 // The config object contains API_KEYS and API_SECRETS
 var config = require('./config.json');
 var auth = require('./auth');
-var User = require('./schema').User;
-var FileSchema = require('./schema').File;
+var User = require('./models/User');
+var File = require('./models/File');
 
 
 // Custom utility helper for doing NLP on text
@@ -63,10 +63,6 @@ mongoose.connect(config.db, function(err) {
     process.exit(1);
   }
 });
-
-
-// Creates a MongoDB model from File schema
-var File = mongoose.model('File', FileSchema);
 
 
 // Load Amazon AWS credentials
