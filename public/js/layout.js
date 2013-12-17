@@ -1,4 +1,4 @@
-define(['jquery', 'iscroll', 'snap', 'fastclick', 'domReady', 'headroom'], function($, IScroll, Snap, FastClick, domReady, headroom) {
+define(['jquery', 'iscroll', 'snap', 'fastclick', 'domReady'], function($, IScroll, Snap, FastClick, domReady) {
   console.log('Loading layout.');
 
   // Login page is not using IScroll #wrapper element

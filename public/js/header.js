@@ -1,5 +1,7 @@
-define(['jquery'], function($) {
+define(['jquery', 'headroom'], function($) {
   console.log('Loading header.');
+
+  $('#header').headroom();
 
   // click on the search button
   $('#search').click(function() {

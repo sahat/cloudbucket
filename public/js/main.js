@@ -45,7 +45,8 @@ requirejs.config({
     },
     'audiojs': {
       exports: 'audiojs'
-    }
+    },
+    'headroom': ['jquery']
   },
   urlArgs: "bust=" +  (new Date()).getTime()
 });
