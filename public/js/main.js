@@ -17,7 +17,8 @@ requirejs.config({
     iscroll: 'lib/iscroll',
     animateCSS: 'lib/animateCSS',
     domReady: 'lib/ready',
-    audiojs: 'lib/audiojs/audio.min'
+    audiojs: 'lib/audiojs/audio.min',
+    headroom: 'lib/headroom'
   },
 
   shim: {
