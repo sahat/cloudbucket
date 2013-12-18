@@ -363,8 +363,6 @@ app.post('/search', auth.isAuthenticated, function(req, res) {
       files: files
     });
   });
-
-
 });
 
 

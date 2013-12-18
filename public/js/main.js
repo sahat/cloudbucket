@@ -22,6 +22,7 @@ requirejs.config({
   },
 
   shim: {
+
     'animateCSS': ['jquery'],
     'tooltip': ['jquery'],
     'tagsinput': ['jquery'],
@@ -46,7 +47,9 @@ requirejs.config({
     'audiojs': {
       exports: 'audiojs'
     },
-    'headroom': ['jquery']
+    'headroom': {
+      exports: 'Headroom'
+    }
   },
   urlArgs: "bust=" +  (new Date()).getTime()
 });
