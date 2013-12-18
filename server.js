@@ -267,7 +267,10 @@ app.get('/auth/google/callback', passport.authenticate('google', { successRedire
  * Another Navbar search is located in _header.jade
  */
 app.get('/search', auth.isAuthenticated, function(req, res) {
-  res.render('search', { user: req.user });
+  res.render('search', {
+    user: req.user,
+    message: req.flash('message')
+  });
 });
 
 
@@ -276,30 +279,29 @@ app.get('/search', auth.isAuthenticated, function(req, res) {
  * Basic search query from the page header
  */
 app.post('/search', auth.isAuthenticated, function(req, res) {
-  var searchQuery = req.body.q;
+  var query = req.body.q;
 
-  // Prevent empty search queries
-  // TODO: flash message
-  if (!searchQuery) {
-    return res.send({ 'Error': 'Search query must not be empty'});
+  if (!query) {
+    req.flash('message', 'Search query cannot be empty');
+    return res.redirect('/search');
   }
 
   // Find results even if some parts of search query matches (case-insensitive)
-  var regex = new RegExp(searchQuery, 'i');
+  var regex = new RegExp(query, 'i');
 
   var searchConditions;
 
-  if (searchQuery.match('smile') || searchQuery.match('smiling')) {
+  if (query.match('smile') || query.match('smiling')) {
 
     var smiling;
 
-    if (searchQuery.toLowerCase() === 'smiling' ||
-      searchQuery.toLowerCase() === 'is smiling' ||
-      searchQuery.toLowerCase() === 'has smile') {
+    if (query.toLowerCase() === 'smiling' ||
+      query.toLowerCase() === 'is smiling' ||
+      query.toLowerCase() === 'has smile') {
       smiling = 'true';
-    } else if (searchQuery.toLowerCase() === 'not smiling' ||
-      searchQuery.toLowerCase() === 'is not smiling' ||
-      searchQuery.toLowerCase() === 'does not have smile') {
+    } else if (query.toLowerCase() === 'not smiling' ||
+      query.toLowerCase() === 'is not smiling' ||
+      query.toLowerCase() === 'does not have smile') {
       smiling = 'false';
     }
 
@@ -332,17 +334,17 @@ app.post('/search', auth.isAuthenticated, function(req, res) {
           { title: regex },
           { artist: regex },
           { albumArtist: regex },
-          { year: searchQuery },
+          { year: query },
           { album: regex },
           { lastFmTags: regex },
           { bookTitle: regex },
           { bookAuthor: regex },
-          { bookPublishedDate: searchQuery },
+          { bookPublishedDate: query },
           { bookCategory: regex },
           { 'gender.value': regex },
           { videoCodec: regex },
           { videoAudioCodec: regex },
-          { videoResolution: searchQuery }
+          { videoResolution: query }
         ]}
       ]
     };
