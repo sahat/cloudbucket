@@ -377,6 +377,14 @@ app.get('/search/category/:type', auth.isAuthenticated, function(req, res) {
   var categoryType = req.params.type;
   var query = '';
 
+  // TODO: iterate in $or
+  var filetypes = {
+    image: ['jpg', 'jpeg', 'tif', 'tiff', 'gif', 'raw', 'bmp', 'png', 'fpx', 'pcd', 'psd', 'ai', 'eps', 'svg', 'ps'],
+    video: ['3g2', '3gp', 'asf', 'asx', 'avi', 'flv', 'divx', 'mov', 'mp4', 'mpg', 'rm', 'swf', 'wmv'],
+    audio: ['mp3', 'm4a', 'wma', 'wav', 'ra', 'aif', 'ogg', 'aac', 'flac'],
+    code: ['asp', 'aspx', 'html', 'css', 'js', 'jsp', 'php', 'c', 'cpp', 'java', 'py', 'lua', 'm', 'h', 'sh', 'rb', 'vb']
+  }
+
   if (categoryType === 'pictures') {
     query = {
       $or: [
@@ -430,6 +438,7 @@ app.get('/search/category/:type', auth.isAuthenticated, function(req, res) {
       ]
     };
   } else if (categoryType === 'code') {
+
     query = {
       $or: [
         { extension: 'asp' },
