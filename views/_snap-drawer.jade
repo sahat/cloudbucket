@@ -5,27 +5,27 @@
         li.header Main Menu
         li
           a(href='/') 
-            span.snap-icon.icon-home
+            span.snap-icon.fa.fa-home
             | Home
         li
           a(href='/upload') 
-            span.snap-icon.icon-cloud-upload
+            span.snap-icon.fa.fa-cloud-upload
             | Upload
         li
           a(href='/search')
-            span.snap-icon.icon-search
+            span.snap-icon.fa.fa-search
             | Search
         li
           a(href='/settings') 
-            span.snap-icon.icon-gear
+            span.snap-icon.fa.fa-gear
             | Settings
         li
           a(href='/logout') 
-            span.snap-icon.icon-power-off
+            span.snap-icon.fa.fa-power-off
             | Logout
         if user && user.isAdmin
           li
             a(href='/admin/users')
-              span.snap-icon.icon-user
+              span.snap-icon.fa.fa-user
               | Admin
 
