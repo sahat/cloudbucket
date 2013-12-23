@@ -13,6 +13,7 @@
     "connect-mongo": "*",
     "mongoose": "*",
     "mongoosastic": "*",
+    "newrelic": "*",
     "request": "*",
     "emailjs": "*",
     "dropbox": "*",

@@ -3,6 +3,8 @@
  * @authors: Emily Bodden, Sahat Yalkabov
  * @date December 12, 2013
  */
+require('newrelic');
+
 var async = require('async');
 var AWS = require('aws-sdk');
 var flash = require('connect-flash');
