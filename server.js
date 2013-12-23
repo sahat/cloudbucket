@@ -91,8 +91,7 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'mysecret',
-  store: new MongoStore({db:'localhost'})
-  //store: new MongoStore({ url: config.MONGOLAB })
+  store: new MongoStore({ url: config.db })
 }));
 app.use(flash());
 app.use(passport.initialize());
