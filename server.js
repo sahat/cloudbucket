@@ -22,7 +22,6 @@ var fs = require('fs');
 var mm = require('musicmetadata');
 var moment = require('moment');
 var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(express);
 var path = require('path');
 var passport = require('passport');
 var request = require('request');
@@ -91,7 +90,6 @@ app.use(express.bodyParser({
 app.use(express.cookieParser());
 app.use(express.session({
   secret: 'mysecret',
-  store: new MongoStore({ url: config.db })
 }));
 app.use(flash());
 app.use(passport.initialize());
