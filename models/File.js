@@ -8,7 +8,6 @@ var fileSchema = new mongoose.Schema({
   size: Number,
   friendlySize: String,
   path: String,
-  ETag: String,
   tags: Array,
   uploadDevice: String,
 

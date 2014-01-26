@@ -6,7 +6,6 @@
 require('newrelic');
 
 var async = require('async');
-var AWS = require('aws-sdk');
 var flash = require('connect-flash');
 var crypto = require('crypto');
 var Case = require('case');
@@ -40,7 +39,6 @@ _.mixin(_.str.exports());
 var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP ||  '127.0.0.1';
 var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
-
 // Import configuration data and database schema
 // The config object contains API_KEYS and API_SECRETS
 var config = require('./config');
@@ -58,38 +56,23 @@ var app = express();
 
 
 // Connect to MongoDB
-mongoose.connect(config.db, function(err) {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
+mongoose.connect(config.db);
+mongoose.connection.on('error', function() {
+  console.log('← MongoDB Connection Error →');
 });
 
-
-// Load Amazon AWS credentials
-AWS.config.update(config.aws);
-
-
-// Load an Amazon S3 bucket so we could upload files there
-var s3 = new AWS.S3({ params: { Bucket: config.aws.bucket } });
-
-
-
-
 // Express Configuration
-app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.locals.pretty = true;
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser({
-  uploadDir: __dirname,
+  uploadDir: __dirname + '/public',
   keepExtensions: true
 }));
 app.use(express.cookieParser());
 app.use(express.session({
-  secret: 'mysecret',
+  secret: 'caa32bec3617f9fbd8ec618b34f031b83ab614fe'
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -97,7 +80,6 @@ app.use(passport.session());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // development only
 if ('development' == app.get('env')) {
@@ -132,12 +114,10 @@ app.del('/admin/users/:googleId', function(req, res) {
   // Delete user
   User.findOne({ googleId: req.params.googleId }).remove();
   
-  // Delete corresponding files from MongoDB and S3
-  // that belong to the deleted user
+  // Delete corresponding files from MongoDB
   File.find({ user: req.params.googleId }, function(err, files) {
     for (var i=0; i<files.length; i++) {
       files[i].remove();
-      s3.deleteObject({ Bucket: 'semanticweb', Key: files[i].path});
     }
   });
 });
@@ -573,26 +553,7 @@ app.post('/upload', auth.isAuthenticated, function(req, res) {
       });
     },
 
-    uploadToS3: function(callback) {
-      console.info('Uploading to Amazon S3');
-
-      var fileObject = {
-        Key: fileNameS3,
-        Body: fileData,
-        ContentType: fileContentType
-      };
-
-      s3.putObject(fileObject, function(err, data) {
-        if (err) {
-          console.error(err);
-          req.flash('info', 'Error uploading file to Amazon S3');
-          return res.redirect('/upload');
-        }
-        callback(null, data.ETag);
-      });
-    },
-
-    saveToDatabase: function(callback, ETag) {
+    saveToDatabase: function(callback) {
       console.info('Saving to MongoDB');
       // Create a base file object
       var file = new File({
@@ -602,7 +563,6 @@ app.post('/upload', auth.isAuthenticated, function(req, res) {
         size: fileSize,
         friendlySize: filesize(fileSize, 2, false),
         path: fileNameS3,
-        ETag: ETag,
         user: req.user.googleId,
         uploadDevice: uploadDevice
       });
@@ -972,8 +932,7 @@ app.post('/upload', auth.isAuthenticated, function(req, res) {
           console.info('Parsing:', fileExtension);
 
           // Get image file that has been uploaded to Amazon S3
-          var imageUrl = 'https://s3.amazonaws.com/' +
-                          config.aws.bucket + '/' + fileNameS3;
+          var imageUrl = '/' + fileNameS3;
 
           // This URL will simply return a JSON response that we are going to parse
           var skyBiometry = 'http://api.skybiometry.com/fc/faces/detect' +
@@ -1085,8 +1044,7 @@ app.get('/files/:id', auth.isAuthenticated, function(req, res) {
       return res.send(500, 'Error retrieving a file');
     }
     if (file) {
-      var downloadUrl = 'https://s3.amazonaws.com/' + config.aws.bucket +
-        '/' + file.path;
+      var downloadUrl = '/' + file.path;
       res.render('detail', {
         user: req.user,
         file: file,
@@ -1114,7 +1072,6 @@ app.del('/files/:id', auth.isAuthenticated, function(req, res) {
       req.flash('info', 'File has been deleted');
       res.send(200, 'OK');
     });
-    s3.deleteObject({ Bucket: 'semanticweb', Key: file.path});
   });
 });
 
